@@ -11,8 +11,8 @@ sonar.jdbc.password=sonar
 sonar.projectKey=cohort-builder
 sonar.projectName=cohort-builder
 sonar.projectVersion=1.0
-sonar.login=admin
-sonar.password=admin
+#sonar.login=admin
+#sonar.password=admin
 #sonar.exclusions=vendor/**
 
 #Path to source directory
