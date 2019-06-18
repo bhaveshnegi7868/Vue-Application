@@ -1,0 +1,64 @@
+[
+  {
+    "Label": "Name",
+    "Type": "text"
+  },
+  {
+    "Label":"List Of Drugs",
+    "Type":"multiple-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Limit To First Occurences Of Treatement",
+    "Type":"checkbox"
+  },
+  {
+    "Label":"Treatement Occurence Date",
+    "Type":"date-between"
+  },
+  {
+    "Label":"Refill",
+    "Type":"count-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Quality",
+    "Type":"count-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Days Supply",
+    "Type":"count-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Age at treatement Occurence",
+    "Type":"count-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Gender",
+    "Type":"single-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Treatement Type",
+    "Type":"single-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Provider Speciality",
+    "Type":"single-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Visit Type",
+    "Type":"single-select",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Route Of Administration",
+    "Type":"single-select",
+    "value":[1,2,3]
+  }
+]

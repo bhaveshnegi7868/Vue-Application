@@ -1,17 +1,72 @@
 <template>
-  <div>
+  <div class="height-700">
     <div class="EventList_header">
       Event Attributes - {{event}}
     </div>
-    <div class="row q-ma-lg" v-for="obj in apiData" v-bind:key="obj.Label">
-      <q-input filled outlined :placeholder="obj.Label" class="full-width" v-if="obj.Type == 'text'"/>
-      <q-select filled outlined :label="obj.Label" class="full-width"  v-if="obj.Type == 'multiple'"/>
+    <div class="row q-ma-lg" v-for="obj in apiData[event]" v-bind:key="obj.Label">
+      <div class="row full-width" v-if="obj.Type == 'text'">
+        <q-input filled outlined :placeholder="obj.Label" class="full-width" />
+      </div>
+      <div class="row full-width" v-if="obj.Type == 'multiple-select'">
+        <div class="col-6" >
+          <q-select filled outlined :label="obj.Label" class="full-width"/>
+        </div>
+        <div class="col">
+          <q-radio v-model="shape" val="line" label="include" />
+        </div>
+        <div class="col">
+          <q-radio v-model="shape" val="rectangle" label="exclude" />
+        </div>
+      </div>
+      <div class="row full-width" v-if="obj.Type == 'single-select'">
+        <div class="col-6" >
+          <q-select filled outlined :label="obj.Label" class="full-width"/>
+        </div>
+      </div>
       <div class="row full-width" v-if="obj.Type == 'count'">
         <div class="col-9" >
           <q-select filled outlined :label="obj.Label" class="full-width" />
         </div>
         <div class="col-3">
           <q-input filled outlined class="full-width" />
+        </div>
+      </div>
+      <div class="row full-width" v-if="obj.Type == 'count-select'">
+        <div class="col-6" >
+          <q-select filled outlined :label="obj.Label" class="full-width" />
+        </div>
+        <div class="col">
+          <q-input filled outlined class="full-width" />
+        </div>
+        <div class="col">
+          <q-input filled outlined class="full-width" />
+        </div>
+      </div>
+      <div class="row full-width" v-if="obj.Type == 'date-between'">
+        <div class="col-6" >
+          <q-select filled outlined :label="obj.Label" class="full-width" />
+        </div>
+        <div class="col">
+          <q-input filled v-model="date" mask="date" :rules="['date']">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="date" @input="() => $refs.qDateProxy.hide()" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+        </div>
+        <div class="col">
+          <q-input filled v-model="date" mask="date" :rules="['date']">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="date" @input="() => $refs.qDateProxy.hide()" />
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
         </div>
       </div>
       <q-checkbox :label="obj.Label" left-label  v-if="obj.Type == 'checkbox'"/>
@@ -41,22 +96,36 @@
   </div>
 </template>
 <script>
-import jsonData from '../json/attributes.json'
+import diagnosisData from '../json/diagnosis.json'
+import procedureData from '../json/procedure.json'
+import treatementData from '../json/treatement.json'
 import {
   QInput,
   QSelect,
-  QCheckbox
+  QCheckbox,
+  QRadio,
+  QDate,
+  QIcon,
+  QPopupProxy
 } from 'quasar'
 export default {
   name: 'eventAttributes',
   components: {
     QInput,
+    QDate,
+    QIcon,
+    QRadio,
+    QPopupProxy,
     'q-select': QSelect,
     QCheckbox
   },
   data () {
     return {
-      apiData: jsonData
+      apiData: {
+        'Procedure': procedureData,
+        'Diagnosis': diagnosisData,
+        'Treatement': treatementData
+      }
     }
   },
   methods: {

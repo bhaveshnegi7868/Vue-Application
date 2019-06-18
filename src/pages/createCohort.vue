@@ -54,7 +54,7 @@
             <input class="input-box full-width" v-model="cname" placeholder="Cohort Name" />
           </div>
           <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="cname" placeholder="Cohort Name" />
+            <input class="input-box full-width" v-model="cdesc" placeholder="Cohort Description" />
           </div>
         </q-card>
         <div class="row q-mt-lg">
@@ -64,48 +64,63 @@
                     Events
                 </div>
                 <div class="header_Bor1"></div>
-                <draggable :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
-                  <div
+                <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
+                  <drag
                     class="Events"
                     v-for="(element) in eventArray1"
                     :key="element"
+                    :transfer-data="{ element }"
                   >{{ element.name }}
-                  </div>
-                </draggable>
+                  </drag>
+                </div>
               </div>
             </q-card>
             <q-card class="col-5  q-pa-sm q-mr-lg Rectangle-208">
-              <q-card class="q-pa-sm">
+              <q-card class="q-pa-lg custom-card">
                 <select class="select-box" v-model="selectedCriteria" :disabled="readonlyCriteriaSelect">
                   <option disabled>Select</option>
                     <option v-for="opt in criteriaArray" v-bind:key="opt.value" :value="opt">
                       {{opt}}
                     </option>
                 </select> of the criteria
-                <draggable class="list-group" :list="eventArray" group="people" v-if="selectedCriteria != 'Select'">
+                <drop @drop="handleDrop" class="list-group" :list="eventArray" group="people" v-if="selectedCriteria != 'Select'">
                   <div
                     class="list-group-item"
                     v-for="(elementObj,index) in eventArray"
                     :key="index"
                   >
-                    <div v-if="NewGroup(elementObj.id)">
-                      <q-card :class="elementObj.currentSelected" align="left">
-                        <div class="col-1">
+                    <div v-if="elementObj.events">
+                      <q-card class="row sub-grp">
+                        <div class="col-10">
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
-                        <div class="col-7">
-                          <label class="text-h6 q-pa-lg">{{elementObj.event}}</label>
+                        <div class="col-1">
+                          <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
-                        <div class="col-2">
-                          <q-btn  class="" icon="cancel" color="negative" @click="cancelEvent(elementObj.id)"/>
-                        </div>
-                        <div class="col-2">
-                          <q-btn  class="" icon="play_arrow" color="positive" @click="showAttributes(elementObj)"/>
+                        <div class="row full-width">
+                        <q-card
+                          v-for="(elementObj1,index) in elementObj.events"
+                          :key="index"
+                          :class="elementObj1.currentSelected"
+                          class="custom-card-1 "
+                          align="left">
+                            <div class="col-1">
+                              <q-badge color="positive" class="q-ma-sm">{{elementObj1.id}}</q-badge>
+                            </div>
+                            <div class="col-7">
+                              <label class="text-h6 q-pa-lg">{{elementObj1.event}}</label>
+                            </div>
+                            <div class="col-2">
+                              <q-btn  class="" icon="play_arrow" color="positive" @click="showAttributes(elementObj1)"/>
+                            </div>
+                            <div class="col-2">
+                              <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj1.id)"/>
+                            </div>
+                          </q-card>
                         </div>
                       </q-card>
                     </div>
-                    <div v-if="!NewGroup(elementObj.id)">
-                      <q-card :class="elementObj.currentSelected" align="left">
+                    <q-card class="custom-card" v-if="!elementObj.events" :class="elementObj.currentSelected" align="left">
                         <div class="col-1">
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
@@ -119,9 +134,8 @@
                           <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                       </q-card>
-                    </div>
                   </div>
-                </draggable>
+                </drop>
                 <div class="row">
                   <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
                       <option disabled>Select Event</option>
@@ -134,8 +148,41 @@
                   <q-btn no-caps class="add_group_bt q-ma-sm col-md-3 offset-md-9" label="Close Group" @click="closeGroup" v-if="openGroup"/>
                 </div>
               </q-card>
+              <q-card class="q-pa-lg q-mt-lg custom-card">
+                <div class="row">
+                  <div class="col">
+                    Limit initial events to
+                    <select class="select-box" v-model="cdtsrc">
+                      <option selected disabled>Datasource</option>
+                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
+                        {{opt.label}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    Contineous enrollment w.r.t initial events index start date
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    Between <select class="select-box" v-model="cdtsrc">
+                      <option selected disabled>Datasource</option>
+                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
+                        {{opt.label}}
+                      </option>
+                    </select> days before and <select class="select-box" v-model="cdtsrc">
+                      <option selected disabled>Datasource</option>
+                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
+                        {{opt.label}}
+                      </option>
+                    </select> days after
+                  </div>
+                </div>
+              </q-card>
             </q-card>
-            <q-card class="col-4  q-pa-sm" v-if="currentEvent">
+            <q-card class="col-4 q-pa-lg" v-if="currentEvent">
               <event-attributes :event="currentEvent"></event-attributes>
             </q-card>
         </div>
@@ -148,7 +195,7 @@
 </style>
 
 <script>
-import draggable from 'vuedraggable'
+import { Drag, Drop } from 'vue-drag-drop'
 import eventAttributes from 'pages/eventAttributes'
 import {
   QCard,
@@ -158,8 +205,9 @@ export default {
   name: 'createCohort',
   components: {
     QCard,
-    draggable,
     QBadge,
+    Drag,
+    Drop,
     'event-attributes': eventAttributes
   },
   data () {
@@ -196,7 +244,8 @@ export default {
       ],
       currentEvent: '',
       currentNumber: 0,
-      openGroup: false
+      openGroup: false,
+      currentGroup: 0
     }
   },
   methods: {
@@ -207,6 +256,13 @@ export default {
     },
     addGroup () {
       var that = this
+      that.currentNumber = that.getNextDigit()
+      that.eventArray.push({
+        'id': that.currentNumber,
+        'events': [],
+        'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-3 row'
+      })
+      that.currentGroup = that.currentNumber
       that.readonlyCriteriaSelect = false
       that.openGroup = true
     },
@@ -214,17 +270,27 @@ export default {
       var that = this
       that.readonlyCriteriaSelect = true
       that.openGroup = false
+      that.currentGroup = 0
     },
     addEvent () {
       var that = this
       that.currentNumber = that.getNextDigit()
       if (that.selectedCriteria !== 'Select Event') {
-        that.eventArray.push({
-          'id': that.currentNumber,
-          'event': that.selectedEvent,
-          'criteria': that.selectedCriteria,
-          'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-3 row'
-        })
+        if (that.currentGroup !== 0) {
+          that.eventArray[that.eventArray.length - 1].events.push({
+            'id': that.currentNumber,
+            'event': that.selectedEvent,
+            'criteria': that.selectedCriteria,
+            'currentSelected': 'q-pa-sm q-ma-sm shadow-3 row'
+          })
+        } else {
+          that.eventArray.push({
+            'id': that.currentNumber,
+            'event': that.selectedEvent,
+            'criteria': that.selectedCriteria,
+            'currentSelected': 'q-pa-sm q-ma-sm shadow-3 row'
+          })
+        }
       }
       if (that.eventArray.length > 0) {
         that.readonlyCriteriaSelect = true
@@ -240,7 +306,7 @@ export default {
         if (newArray[1]) {
           return newArray[0].toString() + that.getNextCharacter(newArray[1])
         } else {
-          return (parseInt(that.currentNumber) + 1).toString() + 'A'
+          return (parseInt(that.currentNumber)).toString() + 'A'
         }
       } else {
         return parseInt(newArray[0]) + 1
@@ -286,6 +352,11 @@ export default {
           that.eventArray[index].currentSelected = 'full-width q-pa-sm q-ma-sm shadow-3 row'
         }
       })
+    },
+    handleDrop (data, event) {
+      var that = this
+      that.selectedEvent = data.element.name
+      that.addEvent()
     }
   }
 }

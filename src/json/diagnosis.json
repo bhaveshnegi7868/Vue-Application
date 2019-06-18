@@ -5,7 +5,7 @@
   },
   {
     "Label":"Diagnosis Code Group",
-    "Type":"multiple",
+    "Type":"multiple-select",
     "value":[1,2,3]
   },
   {
@@ -17,18 +17,23 @@
     "Type":"date-between"
   },
   {
-    "Label":"Age Of Occurences",
+    "Label":"Number Of Occurences",
     "Type":"count",
     "value":[1,2,3]
   },
   {
+    "Label":"Age Of Diagnosis Occurences",
+    "Type":"count-select",
+    "value":[1,2,3]
+  },
+  {
     "Label":"Gender",
-    "Type":"multiple",
+    "Type":"single-select",
     "value":[1,2,3]
   },
   {
     "Label":"Visit Type",
-    "Type":"multiple",
+    "Type":"single-select",
     "value":[1,2,3]
   }
 ]
