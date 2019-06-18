@@ -1,0 +1,35 @@
+[
+  {
+    "Label": "Name",
+    "Type": "text"
+  },
+  {
+    "Label":"Diagnosis Code Group",
+    "Type":"multiple",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Number Of Occurences",
+    "Type":"count",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Age Of Occurences",
+    "Type":"count",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Gender",
+    "Type":"multiple",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Visit Type",
+    "Type":"multiple",
+    "value":[1,2,3]
+  },
+  {
+    "Label":"Limit Only To First Occurences",
+    "Type":"checkbox"
+  }
+]
