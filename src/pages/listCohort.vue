@@ -89,11 +89,6 @@ export default {
     QItemLabel,
     QTd
   },
-  removeFromList: function (id) {
-    console.log('removeFromList… id:')
-    console.log(id)
-    this.data.splice(id, 1)
-  },
   data () {
     return {
       model: 'one',
@@ -163,6 +158,13 @@ export default {
           Actions: '8%'
         }
       ]
+    }
+  },
+  methods: {
+    removeFromList: function (id) {
+      console.log('removeFromList… id:')
+      console.log(id)
+      this.data.splice(id, 1)
     }
   }
 }
