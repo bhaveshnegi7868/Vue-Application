@@ -3,13 +3,13 @@
     <div class="row q-pa-sm">
         <q-card class="row col-9 q-mr-lg">
             <div class="col-3 q-pa-sm">
-                <input class="input-box full-width" v-model="cname" placeholder="Cohort Name" />
+                <input class="input-box full-width" v-model="currentCohart.name" placeholder="Cohort Name" />
             </div>
             <div class="col-5 q-pa-sm">
-                <input class="input-box full-width" v-model="cdesc" placeholder="Cohort Description" />
+                <input class="input-box full-width" v-model="currentCohart.description" placeholder="Cohort Description" />
             </div>
             <div class="col-2 q-pa-sm">
-                <select class="select-box full-width" v-model="cgrp"  placeholder="Cohort Group">
+                <select class="select-box full-width" v-model="currentCohart.group"  placeholder="Cohort Group">
                   <option disabled>Cohort Group</option>
                   <option v-for="opt in cGrpOpts" v-bind:key="opt.value" :value="opt.value">
                     {{opt.label}}
@@ -17,7 +17,7 @@
                 </select>
             </div>
             <div class="col-2 q-pa-sm">
-                <select class="select-box full-width" v-model="cdtsrc">
+                <select class="select-box full-width" v-model="currentCohart.datasource">
                   <option selected disabled>Datasource</option>
                   <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
                     {{opt.label}}
@@ -25,10 +25,16 @@
                 </select>
             </div>
         </q-card>
-        <q-card class="col-2 q-pa-xs">
-            <q-btn outlined icon="delete_forever" class="action-btns q-pa-xs" text-color="negative"/>
-            <q-btn outlined icon="save" label="Save" class="action-btns q-pa-xs" text-color="primary"/>
-            <q-btn outlined icon="play_circle_filled" label="Run" class="action-btns q-pa-xs" text-color="positive"/>
+        <q-card class="col q-pa-xs row">
+          <div class="col q-ml-sm q-mr-sm">
+            <q-btn outlined icon="delete_forever" class="action-btns full-width q-pa-xs" text-color="negative"/>
+          </div>
+          <div class="col q-ml-sm q-mr-sm">
+            <q-btn outlined icon="save" label="Save" class="action-btns full-width q-pa-xs" text-color="primary"/>
+          </div>
+          <div class="col q-ml-sm q-mr-sm">
+            <q-btn outlined icon="play_circle_filled" label="Run" class="action-btns full-width q-pa-xs" text-color="positive"/>
+          </div>
         </q-card>
     </div>
     <q-card class="row q-pl-sm q-pr-sm q-ma-sm" >
@@ -220,6 +226,12 @@ export default {
   },
   data () {
     return {
+      currentCohart: {
+        'name': 'New Cohart',
+        'description': 'Cohart Description',
+        'group': 'GRP2',
+        'datasource': 'dt1'
+      },
       cname: '',
       cdesc: '',
       cgrp: '',
