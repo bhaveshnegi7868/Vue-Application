@@ -73,7 +73,7 @@ body{
 
 .Rectangle-199 {
   padding: 5px;
-  color: #a8a8a8 !important; 
+  color: #a8a8a8 !important;
 }
 .selected{
   padding: 10px 20px 10px 20px;
@@ -215,37 +215,66 @@ margin-left: .5rem;
     background-color: #6b9840 !important;
     border-color: #6b9840 !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button:active{
-  background-color: #6b9840 !important;
-  border-color: #6b9840 !important;
+.q-table__container{
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.q-table {
+border-collapse: separate !important;
+border-spacing: 0px 8px !important;
+}
+.q-table tbody tr{
+ border-radius: 6px !important;
+ border: solid 1px #707070;
+ box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
+ background-color: #ffffff !important;
+}
+.q-table{
+ color:#606060 !important;
+}
+.q-table a {
+    text-decoration: none !important;
+    color:#606060 !important;
+}
+.q-table th{
+ opacity: 1 !important;
 }
 .Group-510 {
   width: 20px;
   height: 20px;
   object-fit: contain;
 }
-table.dataTable.no-footer {
+q-table tbody .no-footer {
   border-bottom: 0px !important;
 }
-table.dataTable thead th{
+q-table tbody th{
     border-bottom: solid 1px #707070 !important;
     border-top: solid 1px #707070 !important;
 }
-table.dataTable thead th:first-child {
+
+.q-table th:first-child {
   border-left: 1px solid #606060;
   border-radius: 5px 0px 0px 5px;
 }
-table.dataTable thead th:last-child {
+.q-table th:last-child {
   border-right: 1px solid #606060;
   border-radius: 0px 5px 5px 0px;
 }
-table.dataTable tbody td:first-child {
+.q-table th {
+  border-top: 1px solid #606060;
+  border-bottom : 1px solid #606060;
+}
+.q-table tbody td:first-child {
+  border-left: 1px solid #60606040 !important;
   border-radius: 5px 0px 0px 5px;
 }
-table.dataTable tbody td:last-child {
+.q-table tbody td:last-child {
+  border-right: 1px solid #60606040 !important;
   border-radius: 0px 5px 5px 0px;
 }
-#myTable{
+q-table {
    border-spacing: 0 5px !important;
   font-size:13px;
   font-family: HelveticaNeue;
@@ -256,13 +285,13 @@ table.dataTable tbody td:last-child {
   float: right;
   margin: 0px 20px;
 }
-thead tr{
+q-table  tr{
   border-radius: 6px !important;
   border-left: solid 1px #707070 !important;
   border-right: solid 1px #707070 !important;
   background-color: #fafafa !important;
 }
- tbody tr{
+ q-table  tr{
   border-radius: 6px !important;
   border: solid 1px #707070;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
@@ -387,18 +416,18 @@ font-size:12px !important;
 }
 .eventBox {
   max-height: 100%;
-  width: 20%; 
+  width: 20%;
   border: solid 1px #a5a5a5 !important;
 }
 .selectedEventBox {
   max-height: 100%;
-  width: 60%; 
+  width: 60%;
   border: solid 1px #a5a5a5 !important;
 }
 .attributeBox {
   border: solid 1px #a5a5a5 !important;
   max-height: 100%;
-  width: 40%; 
+  width: 40%;
 }
 .leftForm{
   width: 13%;
@@ -481,7 +510,7 @@ font-size:12px !important;
   /*border-style: solid;*/
   border-color: #fbfffa !important;
   background: #fff;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important; 
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important;
   /*transform: scaleZ(1.1);*/
 }
 .table-row td {

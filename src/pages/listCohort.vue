@@ -1,16 +1,42 @@
 <template>
-    <div class="mar10T row cohort_body">
+    <div class="mar10T cohort_body">
+    <div class="row">
+        <div class="col-2">
+          <q-btn-toggle
+              v-model="model" spread no-caps toggle-color="green"
+              color="white"
+                text-color="black"
+                :options="[
+                  {label: 'My Cohort', value: 'one'},
+                  {label: 'All Cohorts', value: 'two'}
+                ]"
+              ></q-btn-toggle>
+          </div>
+        <div class="col">
+        <router-link to="/create"><q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohot" ></q-btn></router-link>
+        <q-btn-dropdown class="float-right pull-left" color="grey-1" text-color="black" label="Cohort Group">
+           <q-list>
+             <q-item clickable v-close-popup>
+               <q-item-section>
+                 <q-item-label>Group-1</q-item-label>
+               </q-item-section>
+             </q-item>
 
-      <div class="col-2">
-      <q-btn-toggle
-          v-model="model" spread no-caps toggle-color="green"
-          color="white"
-            text-color="black"
-            :options="[
-              {label: 'My Cohort', value: 'one'},
-              {label: 'All Cohorts', value: 'two'}
-            ]"
-          ></q-btn-toggle>
+             <q-item clickable v-close-popup>
+               <q-item-section>
+                 <q-item-label>Group-2</q-item-label>
+               </q-item-section>
+             </q-item>
+
+             <q-item clickable v-close-popup>
+               <q-item-section>
+                 <q-item-label>Group-3</q-item-label>
+               </q-item-section>
+             </q-item>
+           </q-list>
+         </q-btn-dropdown>
+
+        </div>
         </div>
       <div class="cohort_list-Table  ">
         <div class="q-pa-md">
@@ -18,7 +44,22 @@
             :data="data"
             :columns="columns"
             row-key="name"
-          ></q-table>
+          >
+          <template v-slot:top-right>
+            <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+          <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">
+          <router-link to="/create/">{{row.row.Cohortname1}}</router-link>
+            </q-td>
+          <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
+              <q-btn round color="green" size="0.5rem" icon="file_copy" ></q-btn>
+              <q-btn round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.id);"></q-btn>
+            </q-td>
+          </q-table>
         </div>
       </div>
     </div>
@@ -26,19 +67,39 @@
 <script>
 import {
   QBtnToggle,
-  QTable
+  QTable,
+  QBtnDropdown,
+  QList,
+  QItem,
+  QItemSection,
+  QItemLabel,
+  QInput,
+  QTd
 } from 'quasar'
 export default {
   name: 'listCohort',
   components: {
+    QInput,
     QBtnToggle,
-    QTable
+    QTable,
+    QBtnDropdown,
+    QList,
+    QItem,
+    QItemSection,
+    QItemLabel,
+    QTd
+  },
+  removeFromList: function (id) {
+    console.log('removeFromList… id:')
+    console.log(id)
+    this.data.splice(id, 1)
   },
   data () {
     return {
       model: 'one',
+      searchModel: '',
       columns: [
-        { name: 'Cohortname', field: 'Cohortname', label: 'Cohort name', align: 'left', sortable: true },
+        { name: 'Cohortname', field: 'Cohortname1', label: 'Cohort name', align: 'left', sortable: true },
         { name: 'Cohortdescription', label: 'Cohort description', field: 'Cohortdescription', align: 'left', sortable: true },
         { name: 'Createdby', label: 'Created by', field: 'Createdby', sortable: true, align: 'left' },
         { name: 'Createddate', label: 'Created date', field: 'Createddate', sortable: true },
@@ -48,7 +109,7 @@ export default {
       ],
       data: [
         {
-          Cohortname: 'RA patients with specific drugs',
+          Cohortname1: 'RA patients with specific drugs',
           Cohortdescription: 'RA patients taking market basket drugs',
           Createdby: 'Swetank Gupta',
           Createddate: '21-Mar-19',
@@ -57,7 +118,7 @@ export default {
           Actions: '14%'
         },
         {
-          Cohortname: 'Severe Asthma and Urticaria Cohort',
+          Cohortname1: 'Severe Asthma and Urticaria Cohort',
           Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
           Createdby: 'Swetank Gupta',
           Createddate: '04-Nov-18',
@@ -66,7 +127,7 @@ export default {
           Actions: '8%'
         },
         {
-          Cohortname: 'Out Patient Cohort',
+          Cohortname1: 'Out Patient Cohort',
           Cohortdescription: 'Analyse OP patients drug share by Source of Business',
           Createdby: 'Varsha',
           Createddate: '09-Jun-18',
@@ -75,7 +136,7 @@ export default {
           Actions: '6%'
         },
         {
-          Cohortname: 'Severe Urticaria Cohort',
+          Cohortname1: 'Severe Urticaria Cohort',
           Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
           Createdby: 'Swetank Gupta',
           Createddate: '04-Aug-18',
@@ -84,7 +145,7 @@ export default {
           Actions: '8%'
         },
         {
-          Cohortname: 'Severe Asthma  Cohort',
+          Cohortname1: 'Severe Asthma  Cohort',
           Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
           Createdby: 'Rubesh Gupta',
           Createddate: '16-Oct-18',
@@ -93,7 +154,7 @@ export default {
           Actions: '8%'
         },
         {
-          Cohortname: 'Severe  Cohort',
+          Cohortname1: 'Severe  Cohort',
           Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
           Createdby: 'Saranya Gupta',
           Createddate: '04-Nov-18',
