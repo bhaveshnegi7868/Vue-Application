@@ -1,9 +1,5 @@
 [
   {
-    "Label": "Name",
-    "Type": "text"
-  },
-  {
     "Label":"List Of Procedures",
     "Type":"multiple-select",
     "value":[1,2,3]

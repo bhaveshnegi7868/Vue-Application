@@ -1,6 +1,7 @@
 <template>
-  <q-page class="app-layout">
-    <div class="row q-pa-sm">
+  <q-page class="app-layout ">
+    <secondary-header :selectedPage="selectedPage" :cohart_name="currentCohart.name"></secondary-header>
+    <div class="row q-px-md q-py-sm">
         <q-card class="row col-9 q-mr-lg">
             <div class="col-3 q-pa-sm">
                 <input class="input-box full-width" v-model="currentCohart.name" placeholder="Cohort Name" />
@@ -26,7 +27,7 @@
             </div>
         </q-card>
         <q-card class="col q-pa-xs row">
-          <div class="col q-ml-sm q-mr-sm">
+          <div class="col-2 q-ml-sm q-mr-sm">
             <q-btn outlined icon="delete_forever" class="action-btns full-width q-pa-xs" text-color="negative"/>
           </div>
           <div class="col q-ml-sm q-mr-sm">
@@ -37,8 +38,8 @@
           </div>
         </q-card>
     </div>
-    <q-card class="row q-pl-sm q-pr-sm q-ma-sm" >
-      <div class="leftForm">
+    <q-card class="row q-my-sm q-mx-sm q-ma-sm" >
+      <div class="leftForm q-pa-sm">
         <div class="categories_header">
             Criteria Set
         </div>
@@ -47,21 +48,21 @@
             {{criteria.name}}
             <i class="fa fa-times-circle pull-right mar1"></i>
         </q-btn>
-        <q-btn class="categories_addNew full-width">
+        <q-btn class="categories_addNew full-width" @click="addNewCriteria">
             Add Criteria Set
         </q-btn>
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
         <q-card class="row shadow-7">
-          <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="cname" placeholder="Criteria Name" />
+          <div class="col-4 q-ma-sm">
+            <input class="input-box full-width" v-model="currentCriteria.name" placeholder="Criteria Name" />
           </div>
           <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="cdesc" placeholder="Criteria Description" />
+            <input class="input-box full-width" v-model="currentCriteria.description" placeholder="Criteria Description" />
           </div>
         </q-card>
-        <div class="elements-block q-mt-sm">
-            <q-card class="eventBox q-ma-xs height-700">
+        <div class="elements-block  q-mt-sm">
+            <q-card class="eventBox q-ma-xs shadow-7 height-700">
               <div class="col-2 eventList">
                 <div class="EventList_header">
                     Events
@@ -78,33 +79,39 @@
                 </div>
               </div>
             </q-card>
-            <q-card class="selectedEventBox q-ma-xs Rectangle-208 height-700">
+            <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-7 Rectangle-208 height-700">
               <q-card class="q-pa-lg custom-card">
-                <select class="select-box" v-model="selectedCriteria">
+                <select class="criteria-box" v-model="selectedCriteria">
                   <option disabled>Select</option>
                   <option>All</option>
                   <option>Some</option>
                 </select> of the criteria
-                <div class="list-group" id="list-group" group="people">
+                <div class="list-group" id="list-group"  ref="test" group="people">
                   <div
                     class="list-group-item"
                     v-for="(elementObj,index) in eventArray[currentCriteria]"
                     :key="index"
                   >
                     <div v-if="elementObj.events">
-                      <q-card class="row sub-grp">
-                        <div class="col-10 q-ml-sm q-pa-sm">
+                      <q-card class="row sub-grp q-mt-sm q-mb-sm">
+                        <div class="col-9 q-ml-sm q-pa-sm">
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
+                          or
+                          <select class="criteria-box" v-model="elementObj.option">
+                            <option disabled>Select</option>
+                            <option>All</option>
+                            <option>Some</option>
+                          </select> of the criteria
                         </div>
                         <div class="col q-ml-lg q-mt-sm">
-                          <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
+                          <q-btn class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                         <div class="row full-width">
                         <q-card
                           v-for="(elementObj1,index1) in elementObj.events"
                           :key="elementObj1.id"
                           :class="elementObj1.currentSelected"
-                          class="custom-card-1 "
+                          class="custom-card-1 event-card"
                           @click.native="showAttributes(elementObj1,index,index1)"
                           align="left">
                             <div class="col-1">
@@ -113,9 +120,9 @@
                             <div class="col-7">
                               <label class="text-h6 q-pa-lg">{{elementObj1.event}} - {{elementObj1.name}}</label>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                             </div>
-                            <div class="col-1 ">
+                            <div class="col-2 ">
                               <q-btn icon="cancel" flat rounded @click="cancelEvent(elementObj1.id)"/>
                             </div>
                           </q-card>
@@ -132,19 +139,21 @@
                         </div>
                       </q-card>
                     </div>
-                    <q-card class="custom-card" v-if="!elementObj.events" :class="elementObj.currentSelected" align="left" @click.native="showAttributes(elementObj,index)">
+                    <div v-if="!elementObj.events">
+                      <q-card class="custom-card event-card"  :class="elementObj.currentSelected" align="left" @click.native="showAttributes(elementObj,index)">
                         <div class="col-1">
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
                         <div class="col-7">
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} - {{elementObj.name}}</label>
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                         </div>
-                        <div class="col-1">
-                          <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
+                        <div class="col-2">
+                          <q-btn class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                       </q-card>
+                    </div>
                   </div>
                 </div>
                 <div class="row full-width">
@@ -166,7 +175,7 @@
                 <div class="row">
                   <div class="col">
                     Limit initial events to
-                    <select class="select-box" v-model="cdtsrc">
+                    <select class="criteria-box" v-model="cdtsrc">
                       <option selected disabled>Datasource</option>
                       <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
@@ -174,19 +183,19 @@
                     </select>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row q-mt-md">
                   <div class="col">
                     Contineous enrollment w.r.t initial events index start date
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
-                    Between <select class="select-box" v-model="cdtsrc">
+                    Between <select class="criteria-box" v-model="cdtsrc">
                       <option selected disabled>Datasource</option>
                       <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
-                    </select> days before and <select class="select-box" v-model="cdtsrc">
+                    </select> days before and <select class="criteria-box" v-model="cdtsrc">
                       <option selected disabled>Datasource</option>
                       <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
@@ -196,7 +205,7 @@
                 </div>
               </q-card>
             </q-card>
-            <q-card class="attributeBox q-ma-xs" v-if="currentEvent">
+            <q-card class="attributeBox shadow-7 q-ma-xs" v-if="currentEvent">
               <event-attributes :event="currentEvent.event" v-on:inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
@@ -211,6 +220,7 @@
 <script>
 import { Drag, Drop } from 'vue-drag-drop'
 import eventAttributes from 'pages/eventAttributes'
+import secondaryHeader from 'components/secondaryHeader'
 import {
   QCard,
   QBadge
@@ -222,7 +232,8 @@ export default {
     QBadge,
     Drag,
     Drop,
-    'event-attributes': eventAttributes
+    'event-attributes': eventAttributes,
+    'secondary-header': secondaryHeader
   },
   data () {
     return {
@@ -232,6 +243,7 @@ export default {
         'group': 'GRP2',
         'datasource': 'dt1'
       },
+      selectedPage: 'Cohort Definition',
       cname: '',
       cdesc: '',
       cgrp: '',
@@ -285,7 +297,7 @@ export default {
       that.currentEvent = event
       that.currentEvent['mainIndex'] = mainIndex
       that.currentEvent['subIndex'] = subIndex
-      that.setQCardColor(event.id)
+      that.setQCardColor(that.currentEvent)
     },
     addGroup () {
       var that = this
@@ -296,6 +308,7 @@ export default {
         'events': [],
         'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-3 row'
       })
+      that.$refs.test.click()
     },
     closeGroup () {
       var that = this
@@ -421,13 +434,23 @@ export default {
         that.readonlyCriteriaSelect = false
       }
     },
-    setQCardColor (id) {
+    setQCardColor (event) {
       var that = this
       that.eventArray[that.currentCriteria].forEach(function (row, index) {
-        if (row.id.toString() === id.toString()) {
-          that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row bg-positive'
+        if (row.events) {
+          row.events.forEach(function (row1, index1) {
+            if (row1.id.toString() === event.id.toString()) {
+              that.eventArray[that.currentCriteria][index].events[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row selected-criteria'
+            } else {
+              that.eventArray[that.currentCriteria][index].events[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row'
+            }
+          })
         } else {
-          that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row'
+          if (row.id.toString() === event.id.toString()) {
+            that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row selected-criteria'
+          } else {
+            that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row'
+          }
         }
       })
     },
@@ -443,12 +466,19 @@ export default {
     },
     markCriteriaAsSelected (criteria) {
       var that = this
-      that.currentCriteria = criteria.name
+      that.currentCriteria = criteria
       if (!(that.currentCriteria in that.eventArray)) {
         that.eventArray[that.currentCriteria] = []
         that.eventArray[that.currentCriteria].currentGroup = 0
         that.eventArray[that.currentCriteria].currentNumber = 0
       }
+      that.criteriaArray.forEach(function (row, index) {
+        if (row.name === criteria.name) {
+          row.currentSelected = 1
+        } else {
+          row.currentSelected = 0
+        }
+      })
     },
     handleChange (event) {
       var that = this
@@ -459,6 +489,14 @@ export default {
           that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].name = event
         }
       }
+    },
+    addNewCriteria () {
+      var that = this
+      that.criteriaArray.push({
+        'name': 'New Criteria',
+        'description': '',
+        'currentSelected': 0
+      })
     }
   }
 }
