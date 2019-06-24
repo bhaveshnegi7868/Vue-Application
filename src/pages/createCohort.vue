@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout">
-    <div class="row q-pa-lg">
+    <div class="row q-pa-sm">
         <q-card class="row col-9 q-mr-lg">
             <div class="col-3 q-pa-sm">
                 <input class="input-box full-width" v-model="cname" placeholder="Cohort Name" />
@@ -31,34 +31,31 @@
             <q-btn outlined icon="play_circle_filled" label="Run" class="action-btns q-pa-xs" text-color="positive"/>
         </q-card>
     </div>
-    <q-card class="row q-pa-lg" >
-      <div class="col-2 leftForm">
+    <q-card class="row q-pl-sm q-pr-sm q-ma-sm" >
+      <div class="leftForm">
         <div class="categories_header">
             Criteria Set
         </div>
         <div class="header_Bor1"></div>
-        <div class="categories_list">
-            Initial Criteria
-        </div>
-        <div class="categories_Selected">
-            Criteria Set 1
+        <q-btn v-for="criteria in criteriaArray"  :key="criteria.name"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
+            {{criteria.name}}
             <i class="fa fa-times-circle pull-right mar1"></i>
-        </div>
+        </q-btn>
         <q-btn class="categories_addNew full-width">
-            Add New Criteria Set
+            Add Criteria Set
         </q-btn>
       </div>
-      <div class="col-10 q-pa-sm" >
-        <q-card class="q-pa-sm row">
+      <div class="rightForm q-pa-sm" v-if="currentCriteria">
+        <q-card class="row shadow-7">
           <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="cname" placeholder="Cohort Name" />
+            <input class="input-box full-width" v-model="cname" placeholder="Criteria Name" />
           </div>
           <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="cdesc" placeholder="Cohort Description" />
+            <input class="input-box full-width" v-model="cdesc" placeholder="Criteria Description" />
           </div>
         </q-card>
-        <div class="row q-mt-lg">
-            <q-card class="col-2  q-pa-sm q-mr-lg">
+        <div class="elements-block q-mt-sm">
+            <q-card class="eventBox q-ma-xs height-700">
               <div class="col-2 eventList">
                 <div class="EventList_header">
                     Events
@@ -68,84 +65,95 @@
                   <drag
                     class="Events"
                     v-for="(element) in eventArray1"
-                    :key="element"
+                    :key="element.id"
                     :transfer-data="{ element }"
                   >{{ element.name }}
                   </drag>
                 </div>
               </div>
             </q-card>
-            <q-card class="col-5  q-pa-sm q-mr-lg Rectangle-208">
+            <q-card class="selectedEventBox q-ma-xs Rectangle-208 height-700">
               <q-card class="q-pa-lg custom-card">
-                <select class="select-box" v-model="selectedCriteria" :disabled="readonlyCriteriaSelect">
+                <select class="select-box" v-model="selectedCriteria">
                   <option disabled>Select</option>
-                    <option v-for="opt in criteriaArray" v-bind:key="opt.value" :value="opt">
-                      {{opt}}
-                    </option>
+                  <option>All</option>
+                  <option>Some</option>
                 </select> of the criteria
-                <drop @drop="handleDrop" class="list-group" :list="eventArray" group="people" v-if="selectedCriteria != 'Select'">
+                <div class="list-group" id="list-group" group="people">
                   <div
                     class="list-group-item"
-                    v-for="(elementObj,index) in eventArray"
+                    v-for="(elementObj,index) in eventArray[currentCriteria]"
                     :key="index"
                   >
                     <div v-if="elementObj.events">
                       <q-card class="row sub-grp">
-                        <div class="col-10">
+                        <div class="col-10 q-ml-sm q-pa-sm">
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
-                        <div class="col-1">
+                        <div class="col q-ml-lg q-mt-sm">
                           <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                         <div class="row full-width">
                         <q-card
-                          v-for="(elementObj1,index) in elementObj.events"
-                          :key="index"
+                          v-for="(elementObj1,index1) in elementObj.events"
+                          :key="elementObj1.id"
                           :class="elementObj1.currentSelected"
                           class="custom-card-1 "
+                          @click.native="showAttributes(elementObj1,index,index1)"
                           align="left">
                             <div class="col-1">
                               <q-badge color="positive" class="q-ma-sm">{{elementObj1.id}}</q-badge>
                             </div>
                             <div class="col-7">
-                              <label class="text-h6 q-pa-lg">{{elementObj1.event}}</label>
+                              <label class="text-h6 q-pa-lg">{{elementObj1.event}} - {{elementObj1.name}}</label>
                             </div>
-                            <div class="col-2">
-                              <q-btn  class="" icon="play_arrow" color="positive" @click="showAttributes(elementObj1)"/>
+                            <div class="col-3">
                             </div>
-                            <div class="col-2">
-                              <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj1.id)"/>
+                            <div class="col-1 ">
+                              <q-btn icon="cancel" flat rounded @click="cancelEvent(elementObj1.id)"/>
                             </div>
                           </q-card>
                         </div>
+                        <div class="row full-width q-pa-lg">
+                          <drop @drop="handleDrop" class="full-width" :id="'drop-zone-'+elementObj.id" >
+                            <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent(elementObj.id)">
+                                <option disabled>Select Event</option>
+                                <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
+                                  {{opt.name}}
+                                </option>
+                            </select>
+                          </drop>
+                        </div>
                       </q-card>
                     </div>
-                    <q-card class="custom-card" v-if="!elementObj.events" :class="elementObj.currentSelected" align="left">
+                    <q-card class="custom-card" v-if="!elementObj.events" :class="elementObj.currentSelected" align="left" @click.native="showAttributes(elementObj,index)">
                         <div class="col-1">
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
                         <div class="col-7">
-                          <label class="text-h6 q-pa-lg">{{elementObj.event}}</label>
+                          <label class="text-h6 q-pa-xs">{{elementObj.event}} - {{elementObj.name}}</label>
                         </div>
-                        <div class="col-2">
-                          <q-btn  class="" icon="play_arrow" color="positive" @click="showAttributes(elementObj)"/>
+                        <div class="col-3">
                         </div>
-                        <div class="col-2">
+                        <div class="col-1">
                           <q-btn  class="" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                       </q-card>
                   </div>
-                </drop>
+                </div>
+                <div class="row full-width">
+                  <drop @drop="handleDrop" class="full-width" >
+                    <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
+                        <option disabled>Select Event</option>
+                        <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
+                          {{opt.name}}
+                        </option>
+                    </select>
+                  </drop>
+                </div>
                 <div class="row">
-                  <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
-                      <option disabled>Select Event</option>
-                      <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                        {{opt.name}}
-                      </option>
-                  </select>
                   <!-- <q-btn no-caps class="add_group_bt q-ma-sm col-md-3" label="Add Criteria" @click="addCriteria"/> -->
-                  <q-btn no-caps class="add_group_bt q-ma-sm col-md-3 offset-md-9" label="Add Group" @click="addGroup" v-if="!openGroup"/>
-                  <q-btn no-caps class="add_group_bt q-ma-sm col-md-3 offset-md-9" label="Close Group" @click="closeGroup" v-if="openGroup"/>
+                  <q-btn no-caps class="add_group_bt q-ma-sm col-md-3 offset-md-9" label="Add Group" @click="addGroup"/>
                 </div>
               </q-card>
               <q-card class="q-pa-lg q-mt-lg custom-card">
@@ -182,8 +190,8 @@
                 </div>
               </q-card>
             </q-card>
-            <q-card class="col-4 q-pa-lg" v-if="currentEvent">
-              <event-attributes :event="currentEvent"></event-attributes>
+            <q-card class="attributeBox q-ma-xs" v-if="currentEvent">
+              <event-attributes :event="currentEvent.event" v-on:inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -221,11 +229,19 @@ export default {
       selectedEvent: 'Select Event',
       selectedCriteria: 'Select',
       readonlyCriteriaSelect: false,
-      eventArray: [
-      ],
+      eventArray: {},
+      currentCriteria: '',
       criteriaArray: [
-        'Initial Criteria',
-        'Criteria Set 1'
+        {
+          'name': 'Initial Criteria',
+          'currentSelected': 1,
+          'description': 'This Is The Initial Cohart'
+        },
+        {
+          'name': 'Criteria Set 1',
+          'currentSelected': 0,
+          'description': 'This Is Criteria Set 1'
+        }
       ],
       eventArray1: [
         { 'id': 1, 'name': 'Diagnosis' },
@@ -242,29 +258,32 @@ export default {
         { 'label': 'dt2', 'value': 'dt2' },
         { 'label': 'dt3', 'value': 'dt3' }
       ],
+
       currentEvent: '',
-      currentNumber: 0,
       openGroup: false,
-      currentGroup: 0
+      criteriaClass: [
+        'categories_list',
+        'categories_Selected'
+      ]
     }
   },
   methods: {
-    showAttributes (event) {
+    showAttributes (event, mainIndex, subIndex = null) {
       var that = this
-      that.currentEvent = event.event
+      that.currentEvent = event
+      that.currentEvent['mainIndex'] = mainIndex
+      that.currentEvent['subIndex'] = subIndex
       that.setQCardColor(event.id)
     },
     addGroup () {
       var that = this
-      that.currentNumber = that.getNextDigit()
-      that.eventArray.push({
-        'id': that.currentNumber,
+      that.eventArray[that.currentCriteria].currentNumber = that.getNextDigit()
+      that.currentGroup = that.eventArray[that.currentCriteria].currentNumber
+      that.eventArray[that.currentCriteria].push({
+        'id': that.currentGroup,
         'events': [],
         'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-3 row'
       })
-      that.currentGroup = that.currentNumber
-      that.readonlyCriteriaSelect = false
-      that.openGroup = true
     },
     closeGroup () {
       var that = this
@@ -272,43 +291,79 @@ export default {
       that.openGroup = false
       that.currentGroup = 0
     },
-    addEvent () {
+    getIndexWithId (groupId) {
       var that = this
-      that.currentNumber = that.getNextDigit()
+      var indexToReturn = null
+      groupId = parseInt(groupId)
+      that.eventArray[that.currentCriteria].forEach(function (data, index) {
+        if (data.id === groupId) {
+          indexToReturn = index
+        }
+      })
+      var lastChar = 0
+      that.eventArray[that.currentCriteria][indexToReturn].events.forEach(function (data) {
+        lastChar = data.id.toString()
+      })
+      if (indexToReturn != null && lastChar === 0) {
+        lastChar = groupId
+      }
+      return {
+        'index': indexToReturn,
+        'lastChar': lastChar
+      }
+    },
+    addEvent (groupId = null) {
+      var that = this
       if (that.selectedCriteria !== 'Select Event') {
-        if (that.currentGroup !== 0) {
-          that.eventArray[that.eventArray.length - 1].events.push({
-            'id': that.currentNumber,
-            'event': that.selectedEvent,
-            'criteria': that.selectedCriteria,
-            'currentSelected': 'q-pa-sm q-ma-sm shadow-3 row'
-          })
+        if (groupId) {
+          if (groupId.constructor.name !== 'Event' && groupId !== 0) {
+            var inde = that.getIndexWithId(groupId)
+            that.eventArray[that.currentCriteria][inde.index].events.push({
+              'id': that.getNextDigit(inde.lastChar),
+              'event': that.selectedEvent,
+              'criteria': that.selectedCriteria,
+              'currentSelected': 'q-pa-sm q-ma-sm shadow-3 row'
+            })
+          } else {
+            that.eventArray[that.currentCriteria].currentNumber = that.getNextDigit()
+            that.eventArray[that.currentCriteria].push({
+              'id': that.eventArray[that.currentCriteria].currentNumber,
+              'event': that.selectedEvent,
+              'criteria': that.selectedCriteria,
+              'currentSelected': 'q-pa-sm q-ma-sm shadow-3 row'
+            })
+          }
         } else {
-          that.eventArray.push({
-            'id': that.currentNumber,
+          that.eventArray[that.currentCriteria].currentNumber = that.getNextDigit()
+          that.eventArray[that.currentCriteria].push({
+            'id': that.eventArray[that.currentCriteria].currentNumber,
             'event': that.selectedEvent,
             'criteria': that.selectedCriteria,
             'currentSelected': 'q-pa-sm q-ma-sm shadow-3 row'
           })
         }
       }
-      if (that.eventArray.length > 0) {
+      var container = this.$el.querySelector('#list-group')
+      container.scrollTop = container.scrollHeight
+      if (that.eventArray[that.currentCriteria].length > 0) {
         that.readonlyCriteriaSelect = true
       } else {
         that.readonlyCriteriaSelect = false
       }
       that.selectedEvent = 'Select Event'
     },
-    getNextDigit () {
+    getNextDigit (key = null) {
       var that = this
-      var newArray = that.currentNumber.toString().match(/[a-z]+|[^a-z]+/gi)
-      if (that.openGroup) {
+      var newArray = []
+      if (key) {
+        newArray = key.toString().match(/[a-z]+|[^a-z]+/gi)
         if (newArray[1]) {
           return newArray[0].toString() + that.getNextCharacter(newArray[1])
         } else {
-          return (parseInt(that.currentNumber)).toString() + 'A'
+          return (parseInt(key)).toString() + 'A'
         }
       } else {
+        newArray = that.eventArray[that.currentCriteria].currentNumber.toString().match(/[a-z]+|[^a-z]+/gi)
         return parseInt(newArray[0]) + 1
       }
     },
@@ -332,12 +387,23 @@ export default {
     },
     cancelEvent (id) {
       var that = this
-      that.eventArray.forEach(function (row, index) {
-        if (row.id === id) {
-          that.eventArray.splice(index, 1)
-        }
-      })
-      if (that.eventArray.length > 0) {
+      var idArr = id.toString().match(/[a-z]+|[^a-z]+/gi)
+      if (id.length > 1) {
+        let retDict = that.getIndexWithId(idArr[0])
+        that.eventArray[that.currentCriteria][retDict.index].events.forEach(function (row, index) {
+          if (row.id === id) {
+            that.eventArray[that.currentCriteria][retDict.index].events.splice(index, 1)
+          }
+        })
+      } else {
+        that.eventArray[that.currentCriteria].forEach(function (row, index) {
+          if (row.id === id) {
+            that.eventArray[that.currentCriteria].splice(index, 1)
+          }
+        })
+      }
+      that.currentEvent = ''
+      if (that.eventArray[that.currentCriteria].length > 0) {
         that.readonlyCriteriaSelect = true
       } else {
         that.readonlyCriteriaSelect = false
@@ -345,18 +411,42 @@ export default {
     },
     setQCardColor (id) {
       var that = this
-      that.eventArray.forEach(function (row, index) {
+      that.eventArray[that.currentCriteria].forEach(function (row, index) {
         if (row.id.toString() === id.toString()) {
-          that.eventArray[index].currentSelected = 'full-width q-pa-sm q-ma-sm shadow-3 row bg-positive'
+          that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row bg-positive'
         } else {
-          that.eventArray[index].currentSelected = 'full-width q-pa-sm q-ma-sm shadow-3 row'
+          that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-3 row'
         }
       })
     },
     handleDrop (data, event) {
       var that = this
       that.selectedEvent = data.element.name
-      that.addEvent()
+      if (event.currentTarget.getAttribute('id')) {
+        var groupID = parseInt(event.currentTarget.getAttribute('id').split('-').pop())
+        that.addEvent(groupID)
+      } else {
+        that.addEvent()
+      }
+    },
+    markCriteriaAsSelected (criteria) {
+      var that = this
+      that.currentCriteria = criteria.name
+      if (!(that.currentCriteria in that.eventArray)) {
+        that.eventArray[that.currentCriteria] = []
+        that.eventArray[that.currentCriteria].currentGroup = 0
+        that.eventArray[that.currentCriteria].currentNumber = 0
+      }
+    },
+    handleChange (event) {
+      var that = this
+      if (that.currentEvent.mainIndex != null) {
+        if (that.currentEvent.subIndex != null) {
+          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].events[that.currentEvent.subIndex].name = event
+        } else {
+          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].name = event
+        }
+      }
     }
   }
 }

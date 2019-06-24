@@ -96,6 +96,7 @@ body{
   margin: 0px !important;
   width: 100%;
   padding: .5rem  10px !important;
+  background-color: #fbfffa;
 }
 .cohort_body .row{
   margin: 0px;
@@ -370,6 +371,9 @@ font-size:12px !important;
   object-fit: contain;
   margin: 5px;
 }
+.elements-block {
+  display: flex;
+}
 .Form_Body {
   width: 1893px;
   padding: 5px 10px;
@@ -378,10 +382,29 @@ font-size:12px !important;
   border: solid 1px #e5e5e5;
   background-color: #ffffff;
 }
+.rightForm {
+  width: 87%;
+}
+.eventBox {
+  max-height: 100%;
+  width: 20%; 
+  border: solid 1px #a5a5a5 !important;
+}
+.selectedEventBox {
+  max-height: 100%;
+  width: 60%; 
+  border: solid 1px #a5a5a5 !important;
+}
+.attributeBox {
+  border: solid 1px #a5a5a5 !important;
+  max-height: 100%;
+  width: 40%; 
+}
 .leftForm{
+  width: 13%;
   margin-top: 5px;
   padding-right: 15px;
-  border-right: 1px solid #629e2a;
+  border-right: 1px solid #629e2a !important;
 }
 .mar10T{
   margin-top: 5px !important;
@@ -444,11 +467,28 @@ font-size:12px !important;
   height: 700px !important;
   overflow: auto;
 }
+.date-select{
+  font-size: 32px;
+}
 .custom-card {
+  cursor: pointer;
   margin: 7px 7px 7px 7px;
   border-radius: 8px !important;
 }
+.table-row {
+  border-radius: 6px !important;
+  /*border-width: 20px;*/
+  /*border-style: solid;*/
+  border-color: #fbfffa !important;
+  background: #fff;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16) !important; 
+  /*transform: scaleZ(1.1);*/
+}
+.table-row td {
+  padding: 3px;
+}
 .custom-card-1 {
+  cursor: pointer;
   margin: 7px 7px 7px 7px;
   border-radius: 8px;
   width: 100% !important;
@@ -769,7 +809,7 @@ text-align: center;
   margin: 1px;
 }
 .list-group {
-  height: 300px;
+  max-height: 300px;
   overflow: auto;
 }
 .categories_details_Selected .badge-secondary{

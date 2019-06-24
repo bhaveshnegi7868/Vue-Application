@@ -1,37 +1,40 @@
 [
   {
-    "Label": "Name",
-    "Type": "text"
-  },
-  {
+    "id":2,
     "Label":"Diagnosis Code Group",
     "Type":"multiple-select",
     "value":[1,2,3]
   },
   {
+    "id":3,
     "Label":"Limit Only To First Occurences",
     "Type":"checkbox"
   },
   {
+    "id":4,
     "Label":"Diagnosis Occurence Date",
     "Type":"date-between"
   },
   {
+    "id":5,
     "Label":"Number Of Occurences",
     "Type":"count",
     "value":[1,2,3]
   },
   {
+    "id":6,
     "Label":"Age Of Diagnosis Occurences",
     "Type":"count-select",
     "value":[1,2,3]
   },
   {
+    "id":7,
     "Label":"Gender",
     "Type":"single-select",
     "value":[1,2,3]
   },
   {
+    "id":8,
     "Label":"Visit Type",
     "Type":"single-select",
     "value":[1,2,3]
