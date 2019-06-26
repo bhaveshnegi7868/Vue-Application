@@ -1,8 +1,13 @@
 <template>
-    <div class="mar10T cohort_body">
-    <div class="row">
-        <div class="col-2">
-          <q-btn-toggle
+    <div class="q-pa-xl">
+        <div class="">
+          <q-table
+            :data="data"
+            :columns="columns"
+            row-key="name"
+          >
+          <template v-slot:top-left>
+            <q-btn-toggle
               v-model="model" spread no-caps toggle-color="green"
               color="white"
                 text-color="black"
@@ -10,47 +15,39 @@
                   {label: 'My Cohort', value: 'one'},
                   {label: 'All Cohorts', value: 'two'}
                 ]"
-              ></q-btn-toggle>
-          </div>
-        <div class="col">
-        <router-link to="/create"><q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohot" ></q-btn></router-link>
-        <q-btn-dropdown class="float-right pull-left" color="grey-1" text-color="black" label="Cohort Group">
-           <q-list>
-             <q-item clickable v-close-popup>
-               <q-item-section>
-                 <q-item-label>Group-1</q-item-label>
-               </q-item-section>
-             </q-item>
-
-             <q-item clickable v-close-popup>
-               <q-item-section>
-                 <q-item-label>Group-2</q-item-label>
-               </q-item-section>
-             </q-item>
-
-             <q-item clickable v-close-popup>
-               <q-item-section>
-                 <q-item-label>Group-3</q-item-label>
-               </q-item-section>
-             </q-item>
-           </q-list>
-         </q-btn-dropdown>
-
-        </div>
-        </div>
-      <div class="cohort_list-Table  ">
-        <div class="q-pa-md">
-          <q-table
-            :data="data"
-            :columns="columns"
-            row-key="name"
-          >
+              >
+            </q-btn-toggle>
+          </template>
           <template v-slot:top-right>
-            <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
+              <router-link to="/create">
+                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohot" />
+              </router-link>
+              <q-btn-dropdown class="float-right pull-left" color="grey-1" text-color="black" label="Cohort Group">
+                 <q-list>
+                   <q-item clickable v-close-popup>
+                     <q-item-section>
+                       <q-item-label>Group-1</q-item-label>
+                     </q-item-section>
+                   </q-item>
+
+                   <q-item clickable v-close-popup>
+                     <q-item-section>
+                       <q-item-label>Group-2</q-item-label>
+                     </q-item-section>
+                   </q-item>
+
+                   <q-item clickable v-close-popup>
+                     <q-item-section>
+                       <q-item-label>Group-3</q-item-label>
+                     </q-item-section>
+                   </q-item>
+                 </q-list>
+              </q-btn-dropdown>
+              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+                <template v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
           </template>
           <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">
           <router-link to="/create/">{{row.row.Cohortname1}}</router-link>
@@ -61,7 +58,6 @@
             </q-td>
           </q-table>
         </div>
-      </div>
     </div>
   </template>
 <script>
