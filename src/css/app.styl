@@ -12,7 +12,7 @@ body{
 
 .secondary-header {
 	background: #606060;
-	height: 50px;
+	height: 55px;
 }
 .pad10LR{
   padding: 0px 10px;
@@ -50,8 +50,8 @@ body{
   float: left;
 }
 .action-btns {
-  padding: 5px;
-  margin-left: 5px;
+  padding: 0px !important;
+  /*margin-left: 5px;*/
   margin-top: 7px;
   border-radius: 8px;
 }
@@ -72,11 +72,10 @@ body{
 }
 
 .Rectangle-199 {
-  padding: 5px;
+  padding: 10px 20px 10px 20px;
   color: #a8a8a8 !important;
 }
 .selected{
-  padding: 10px 20px 10px 20px;
 	border-radius: 50px;
 	border: solid 3px #ffffff;
 }
@@ -414,9 +413,13 @@ font-size:12px !important;
 .rightForm {
   width: 87%;
 }
+.attributeDiv {
+  max-height: 100%;
+  overflow: auto;
+}
 .eventBox {
   max-height: 100%;
-  width: 20%;
+  width: 18%;
   border: solid 1px #a5a5a5 !important;
 }
 .selectedEventBox {
@@ -427,7 +430,7 @@ font-size:12px !important;
 .attributeBox {
   border: solid 1px #a5a5a5 !important;
   max-height: 100%;
-  width: 40%;
+  width: 50%;
 }
 .leftForm{
   width: 13%;
@@ -460,7 +463,7 @@ font-size:12px !important;
   }
 .eventList {
   padding: 10px;
-  min-height: 669.9px;
+  min-height: 100%;
   border-radius: 8px;
   border: solid 1px #a5a5a5;
   background-color: #ffffff;
@@ -484,10 +487,10 @@ font-size:12px !important;
 .EventList_header {
   width: 80%;
   margin: auto;
-  padding: 5px;
+  padding: 0px;
   font-family: HelveticaNeue;
   /*height: 18px;*/
-  font-size: 15px;
+  font-size: 12px;
   text-align: center;
   border-radius: 4px;
   background-color: #e2efb9;
@@ -510,8 +513,8 @@ font-size:12px !important;
   cursor: pointer;
   margin: 7px 7px 7px 7px;
   border: 2px 2px 2px 2px solid #6b9840 !important;
-  box-shadow: 2px !important;
-  border-radius: 8px !important;
+  box-shadow: 2px 2px 2px 2px solid #6b9840 !important;
+  border-radius: 4px !important;
 }
 .table-row {
   border-radius: 6px !important;
@@ -562,7 +565,7 @@ font-size:12px !important;
   font-size: 12px;
   text-align: center;
   vertical-align: middle;
-  padding: 5px;
+  padding: 2px;
   margin-top: 10px;
   /*height: 28px;*/
   border-radius: 14px;
@@ -576,9 +579,9 @@ font-size:12px !important;
 }
 .categories_header {
   margin: auto;
-  padding: 5px;
+  padding: 0px;
   font-family: HelveticaNeue;
-  font-size: 15px;
+  font-size: 12px;
   text-align: center;
   /*height: 18px;*/
   border-radius: 4px;
@@ -622,14 +625,14 @@ text-align: left;
   background-color: #6b9840;
 }
 .input-box {
-  height: 40px;
+  height: 33px;
   padding: 10px;
   border-radius: 8px;
   border: solid 1px #707070;
   background-color: #f5f5f5;
 }
 .select-box {
-  height: 40px;
+  height: 33px;
   padding: 10px;
   border-radius: 8px;
   border: solid 1px #707070;
@@ -657,8 +660,8 @@ text-align: left;
   color: #606060;
   margin-top: 10px;
   font-family: HelveticaNeue;
-font-size: 12px;
-text-align: center;
+  font-size: 12px;
+  text-align: center;
   height: 40px;
   border-radius: 8px;
   border: dashed 1px #aaa;
@@ -880,7 +883,7 @@ text-align: center;
 }
 .Rectangle-208 {
   width: 599.3px;
-  height: 669.9px;
+  
   border-radius: 8px;
   border: solid 1px #6b9840;
   background: url('/statics/imgs/grid.svg');

@@ -3,13 +3,15 @@
     <div class="col q-pa-md Cohort-Name">
       {{cohart_name}}
     </div>
-    <div class="col-2" v-for="path in paths" :key="path">
-      <q-btn no-caps class="Rectangle-199 selected q-ml-lg" v-if="path == selectedPage">
-        <label class="sub-level-menus-labels">{{path}}</label>
-      </q-btn>
-      <q-btn no-caps class="Rectangle-199 q-ml-lg" v-if="path != selectedPage">
-        <label no-caps class="sub-level-menus-labels">{{path}}</label>
-      </q-btn>
+    <div v-for="path in paths" :key="path">
+      <div class="col-4 text-center">
+        <q-item no-caps class="Rectangle-199 selected q-ml-lg" v-if="path == selectedPage">
+          <label class="sub-level-menus-labels">{{path}}</label>
+        </q-item>
+        <q-item no-caps class="Rectangle-199 q-ml-lg" v-if="path != selectedPage">
+          <label no-caps class="sub-level-menus-labels">{{path}}</label>
+        </q-item>
+      </div>
     </div>
     <div class="col">
     </div>

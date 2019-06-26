@@ -1,7 +1,7 @@
 <template>
   <q-page class="app-layout ">
     <secondary-header :selectedPage="selectedPage" :cohart_name="currentCohart.name"></secondary-header>
-    <div class="row q-px-md q-py-sm">
+    <div class="row q-px-sm q-py-sm">
         <q-card class="row col-9 q-mr-lg">
             <div class="col-3 q-pa-sm">
                 <input class="input-box full-width" v-model="currentCohart.name" placeholder="Cohort Name" />
@@ -26,19 +26,19 @@
                 </select>
             </div>
         </q-card>
-        <q-card class="col q-pa-xs row">
+        <q-card class="col row">
           <div class="col-2 q-ml-sm q-mr-sm">
-            <q-btn outlined icon="delete_forever" class="action-btns full-width q-pa-xs" text-color="negative"/>
+            <q-btn outlined icon="delete_forever" class="action-btns full-width" text-color="negative"/>
           </div>
           <div class="col q-ml-sm q-mr-sm">
-            <q-btn outlined icon="save" label="Save" class="action-btns full-width q-pa-xs" text-color="primary"/>
+            <q-btn outlined icon="save" label="Save" class="action-btns full-width" text-color="primary"/>
           </div>
           <div class="col q-ml-sm q-mr-sm">
-            <q-btn outlined icon="play_circle_filled" label="Run" class="action-btns full-width q-pa-xs" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" label="Run" class="action-btns full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
-    <q-card class="row q-my-sm q-mx-sm q-ma-sm" >
+    <q-card class="row  q-mx-sm" >
       <div class="leftForm q-pa-sm">
         <div class="categories_header">
             Criteria Set
@@ -53,7 +53,7 @@
         </q-btn>
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
-        <q-card class="row shadow-7">
+        <q-card class="row q-mx-sm shadow-7">
           <div class="col-4 q-ma-sm">
             <input class="input-box full-width" v-model="currentCriteria.name" placeholder="Criteria Name" />
           </div>
@@ -62,8 +62,8 @@
           </div>
         </q-card>
         <div class="elements-block  q-mt-sm">
-            <q-card class="eventBox q-ma-xs shadow-7 height-700">
-              <div class="col-2 eventList">
+            <q-card class="eventBox q-ma-sm shadow-3">
+              <div class="eventList">
                 <div class="EventList_header">
                     Events
                 </div>
@@ -79,13 +79,20 @@
                 </div>
               </div>
             </q-card>
-            <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-7 Rectangle-208 height-700">
-              <q-card class="q-pa-lg custom-card">
-                <select class="criteria-box" v-model="selectedCriteria">
-                  <option disabled>Select</option>
-                  <option>All</option>
-                  <option>Some</option>
-                </select> of the criteria
+            <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-3 Rectangle-208">
+              <q-card class="q-pa-sm custom-card">
+                <div class="row">
+                  <div class="col">
+                    <select class="criteria-box" v-model="selectedCriteria">
+                      <option disabled>Select</option>
+                      <option>All</option>
+                      <option>Some</option>
+                    </select> of the criteria
+                  </div>
+                  <div class="col-md-3">
+                    <q-btn no-caps class="add_group_bt" label="Add Group" @click="addGroup"/>
+                  </div>
+                </div>
                 <div class="list-group" id="list-group"  ref="test" group="people">
                   <div
                     class="list-group-item"
@@ -118,7 +125,7 @@
                               <q-badge color="positive" class="q-ma-sm">{{elementObj1.id}}</q-badge>
                             </div>
                             <div class="col-7">
-                              <label class="text-h6 q-pa-lg">{{elementObj1.event}} - {{elementObj1.name}}</label>
+                              <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
                             </div>
                             <div class="col-2">
                             </div>
@@ -127,7 +134,7 @@
                             </div>
                           </q-card>
                         </div>
-                        <div class="row full-width q-pa-lg">
+                        <div class="row full-width q-px-lg q-pb-sm">
                           <drop @drop="handleDrop" class="full-width" :id="'drop-zone-'+elementObj.id" >
                             <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent(elementObj.id)">
                                 <option disabled>Select Event</option>
@@ -145,7 +152,7 @@
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
                         <div class="col-7">
-                          <label class="text-h6 q-pa-xs">{{elementObj.event}} - {{elementObj.name}}</label>
+                          <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="col-2">
                         </div>
@@ -165,10 +172,6 @@
                         </option>
                     </select>
                   </drop>
-                </div>
-                <div class="row">
-                  <!-- <q-btn no-caps class="add_group_bt q-ma-sm col-md-3" label="Add Criteria" @click="addCriteria"/> -->
-                  <q-btn no-caps class="add_group_bt q-ma-sm col-md-3 offset-md-9" label="Add Group" @click="addGroup"/>
                 </div>
               </q-card>
               <q-card class="q-pa-lg q-mt-lg custom-card">
@@ -205,8 +208,8 @@
                 </div>
               </q-card>
             </q-card>
-            <q-card class="attributeBox shadow-7 q-ma-xs" v-if="currentEvent">
-              <event-attributes :event="currentEvent.event" v-on:inputChange="handleChange"></event-attributes>
+            <q-card class="attributeBox shadow-7 q-ma-xs">
+              <event-attributes :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -290,6 +293,9 @@ export default {
         'categories_Selected'
       ]
     }
+  },
+  created () {
+    this.markCriteriaAsSelected(this.criteriaArray[0])
   },
   methods: {
     showAttributes (event, mainIndex, subIndex = null) {
@@ -428,6 +434,7 @@ export default {
         })
       }
       that.currentEvent = ''
+      that.showAttributes('', null, null)
       if (that.eventArray[that.currentCriteria].length > 0) {
         that.readonlyCriteriaSelect = true
       } else {
@@ -484,9 +491,9 @@ export default {
       var that = this
       if (that.currentEvent.mainIndex != null) {
         if (that.currentEvent.subIndex != null) {
-          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].events[that.currentEvent.subIndex].name = event
+          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].events[that.currentEvent.subIndex] = event
         } else {
-          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].name = event
+          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex] = event
         }
       }
     },
