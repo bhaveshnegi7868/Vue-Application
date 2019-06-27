@@ -1,16 +1,16 @@
 <template>
   <q-page class="app-layout ">
-    <secondary-header :selectedPage="selectedPage" :cohart_name="currentCohart.name"></secondary-header>
+    <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
     <div class="row q-px-sm q-py-sm">
         <q-card class="row col-9 q-mr-lg">
             <div class="col-3 q-pa-sm">
-                <input class="input-box full-width" v-model="currentCohart.name" placeholder="Cohort Name" />
+                <input class="input-box full-width" v-model="currentcohort.name" placeholder="Cohort Name" />
             </div>
             <div class="col-5 q-pa-sm">
-                <input class="input-box full-width" v-model="currentCohart.description" placeholder="Cohort Description" />
+                <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
             </div>
             <div class="col-2 q-pa-sm">
-                <select class="select-box full-width" v-model="currentCohart.group"  placeholder="Cohort Group">
+                <select class="select-box full-width" v-model="currentcohort.group"  placeholder="Cohort Group">
                   <option disabled>Cohort Group</option>
                   <option v-for="opt in cGrpOpts" v-bind:key="opt.value" :value="opt.value">
                     {{opt.label}}
@@ -18,7 +18,7 @@
                 </select>
             </div>
             <div class="col-2 q-pa-sm">
-                <select class="select-box full-width" v-model="currentCohart.datasource">
+                <select class="select-box full-width" v-model="currentcohort.datasource">
                   <option selected disabled>Datasource</option>
                   <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
                     {{opt.label}}
@@ -240,9 +240,9 @@ export default {
   },
   data () {
     return {
-      currentCohart: {
-        'name': 'New Cohart',
-        'description': 'Cohart Description',
+      currentcohort: {
+        'name': 'New cohort',
+        'description': 'cohort Description',
         'group': 'GRP2',
         'datasource': 'dt1'
       },
@@ -262,7 +262,7 @@ export default {
         {
           'name': 'Initial Criteria',
           'currentSelected': 1,
-          'description': 'This Is The Initial Cohart'
+          'description': 'This Is The Initial cohort'
         },
         {
           'name': 'Criteria Set 1',

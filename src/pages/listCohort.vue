@@ -19,9 +19,11 @@
             </q-btn-toggle>
           </template>
           <template v-slot:top-right>
-              <router-link to="/create">
-                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohot" />
-              </router-link>
+              <q-input class="float-right" borderless dense debounce="300" v-model="filter" placeholder="">
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
               <q-btn-dropdown class="float-right pull-left" color="grey-1" text-color="black" label="Cohort Group">
                  <q-list>
                    <q-item clickable v-close-popup>
@@ -43,11 +45,9 @@
                    </q-item>
                  </q-list>
               </q-btn-dropdown>
-              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                <template v-slot:append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
+              <router-link to="/create">
+                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohot" />
+              </router-link>
           </template>
           <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">
           <router-link to="/create/">{{row.row.Cohortname1}}</router-link>

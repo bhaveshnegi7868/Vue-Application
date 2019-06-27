@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout ">
-    <secondary-header :selectedPage="selectedPage" :cohart_name="currentCohart.name"></secondary-header>
+    <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
     <q-card class="row q-my-sm q-mx-sm q-ma-sm" >
       <div class="leftForm q-pa-sm">
       </div>
@@ -24,9 +24,9 @@ export default {
   },
   data () {
     return {
-      currentCohart: {
-        'name': 'New Cohart',
-        'description': 'Cohart Description',
+      currentcohort: {
+        'name': 'New cohort',
+        'description': 'cohort Description',
         'group': 'GRP2',
         'datasource': 'dt1'
       },
@@ -46,7 +46,7 @@ export default {
         {
           'name': 'Initial Criteria',
           'currentSelected': 1,
-          'description': 'This Is The Initial Cohart'
+          'description': 'This Is The Initial cohort'
         },
         {
           'name': 'Criteria Set 1',

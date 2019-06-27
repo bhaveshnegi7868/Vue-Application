@@ -1,7 +1,7 @@
 <template>
   <q-toolbar class="secondary-header row justify-between">
     <div class="col q-pa-md Cohort-Name">
-      {{cohart_name}}
+      {{cohort_name}}
     </div>
     <div v-for="path in paths" :key="path">
       <div class="col-4 text-center">
@@ -32,7 +32,7 @@ export default {
   },
   props: {
     'selectedPage': String,
-    'cohart_name': String
+    'cohort_name': String
   },
   created () {
     console.log(this.selectedPage)
