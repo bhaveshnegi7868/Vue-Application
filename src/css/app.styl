@@ -2,14 +2,15 @@
 
 @font-face {
   font-family: "HelveticaNeue";
-  src: '../static/fonts/HelveticaNeueMed.ttf';
+  src: url('..\statics\fonts\helveticaNeueMed.ttf');
 }
 body{
   font-family: HelveticaNeue !important;
-
 }
 
-
+.q-table tbody td {
+ font-size: 12px !important;
+}
 .secondary-header {
 	background: #606060;
 	height: 55px;
@@ -248,9 +249,9 @@ border-spacing: 0px 8px !important;
 q-table tbody .no-footer {
   border-bottom: 0px !important;
 }
-q-table tbody th{
-    border-bottom: solid 1px #707070 !important;
-    border-top: solid 1px #707070 !important;
+.q-table th{
+    font-weight: bold !important;
+    font-size: 14px !important;
 }
 .q-table__top .q-field__native{
   border: 1px solid #606060 !important;
@@ -262,8 +263,8 @@ q-table tbody th{
 .q-table__top .q-field__inner .q-icon{
   color: black;
 }
-.q-table__top q-btn-dropdown{
-  margin-right: 10px;
+.q-table__top .q-btn-dropdown{
+  margin-right: 10px !important;
 }
 .q-table__top{
  padding:10px 0px !important;
@@ -651,7 +652,7 @@ text-align: left;
 }
 .select-box {
   height: 33px;
-  padding: 10px;
+  padding: 5px;
   border-radius: 8px;
   border: solid 1px #707070;
   background-color: #f5f5f5;

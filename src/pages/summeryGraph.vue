@@ -3,12 +3,10 @@
     <div class="row green">
       Patient Demographics Summarys
     </div>
-    <template>
       <div class="small">
         <bar :chart-data="datacollection"></bar>
         <button @click="fillData()">Randomize</button>
       </div>
-    </template>
     </div>
   </template>
 <script>
@@ -19,7 +17,6 @@ import {
 export default {
   components: { Bar },
   extends: Bar,
-  props: ['data'],
   mounted: function () {
     this.renderChart(this.datacollection, this.options)
   },
@@ -42,5 +39,4 @@ export default {
     }
   }
 }
-
 </script>
