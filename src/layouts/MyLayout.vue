@@ -10,7 +10,7 @@
             <div class="headerRight">
                 <div class="TopMenu">
                   <span class="Cohorts q-ml-sm">Cohort</span>
-                  <span class="Code-Group q-ml-lg">Code-Group</span>
+                  <span class="Code-Group q-ml-lg">Code-set</span>
                 </div>
                 <q-btn
                 icon="img:statics/imgs/userIcon.png"

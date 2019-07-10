@@ -1,10 +1,261 @@
 <template>
   <q-page class="app-layout ">
     <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
-    <q-card class="row q-my-sm q-mx-sm q-ma-sm" >
-      <div class="leftForm q-pa-sm">
+    <q-card class="row  q-mx-sm" >
+      <div class="col-2 q-mt-sm pad0">
+        <div class="categories_header ">
+            Criteria Set
+        </div>
+        <div class="header_Bor1"></div>
+        <div class="f12 q-mt-sm bor1grey">
+          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0 " :class="{'bgCgreen': arrtitionNdemoGraph}"  @click="otherEvnt=0;arrtitionNdemoGraph=1;">
+              Attrition and Demographics
+          </q-btn>
+          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0" :class="{'bgCgreen': otherEvnt}"  @click="otherEvnt=1;arrtitionNdemoGraph=0;">
+            Diagnosis
+          </q-btn>
+          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0 " @click="otherEvnt=1;arrtitionNdemoGraph=0;">
+            Treatment
+          </q-btn>
+          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0"  @click="otherEvnt=1;arrtitionNdemoGraph=0;">
+            Procedure
+          </q-btn>
+        </div>
       </div>
-      <div class="rightForm q-pa-sm" v-if="currentCriteria">
+      <div class="col q-pa-sm" >
+        <q-card class="row q-mx-sm shadow-2">
+          <div class="col-4 q-ma-sm">
+            <input class="input-box full-width"  placeholder="Cohort / Sub Cohort Name" />
+          </div>
+          <div class="col q-ma-sm">
+            <input class="input-box full-width"  placeholder="Cohort / Sub Cohort Description" />
+          </div>
+        </q-card>
+        <div class="elements-block row q-px-sm  q-mx-sm q-mt-sm shadow-2">
+          <div class="col-12 q-mt-sm   shadow-2 cohortSummaryText col5">
+            <div class="row BGC16 col5 text-center">
+              <div class="q-mx-sm q-py-xs col">
+                Source Data
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                Executed By
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                Executed Date
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                Duration
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                Status
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                <q-icon name="av_timer" ></q-icon>
+              </div>
+            </div>
+            <div class="row H30 col5 text-center">
+              <div class="q-mx-sm q-py-xs col">
+                Market Scan
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                Swethank
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                10 Jul 19
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                02:50 Min
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+                Completed
+              </div>
+              <div class="q-mx-sm q-py-xs col">
+              </div>
+            </div>
+          </div>
+          <div  v-if="arrtitionNdemoGraph" class="col-12 q-mt-sm   shadow-2 cohortSummaryText col5">
+            <div class="row f12">
+              <div class="q-ma-sm col-7">
+                <div class="bgCgreen q-px-xs q-py-xs ">
+                  Patient Attrition Flow Summary
+                </div>
+                <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
+                  <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                      Initial Events - Patients diagnosed with diabetes
+                      <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                      <div class="float-right q-mx-xl W200 ">
+                        <div class="col10 bgStatC1 q-mx-auto catColorLbl text-center ">
+                          1,405,345
+                        </div>
+                      </div>
+                  </div>
+                  <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                      Criteria Set 1 - Patients with hypertension
+                      <q-icon class="float-right q-mx-xs q-my-xs" @click="openFstChild=!openFstChild;openScdChild=0;" name="img:statics/imgs/greenRightArrow.png" />
+                      <div class="float-right q-mx-xl W200 ">
+                        <div class="col10 bgStatC2 W170 q-mx-auto catColorLbl text-center ">
+                          790,403
+                        </div>
+                      </div>
+                  </div>
+                  <div v-if="openFstChild" class="bor1Lightgrey q-mx-sm q-px-sm q-py-sm">
+                    <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                        Initial Events - Group 01
+                        <q-icon class="float-right q-mx-xs q-my-xs" @click="openScdChild=!openScdChild;" name="img:statics/imgs/greenRightArrow.png" />
+                        <div class="float-right q-mx-lg W200 ">
+                          <div class="col10 bgStatC2 W170 q-mx-sm catColorLbl text-center ">
+                            90,403
+                          </div>
+                        </div>
+                    </div>
+                    <div v-if="openScdChild" class="bor1Lightgrey q-mx-sm q-px-sm q-py-sm">
+                      <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                          Another Criteria
+                          <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                          <div class="float-right q-mx-md W200 ">
+                            <div class="col10 bgStatC2 W170 q-mx-md catColorLbl text-center ">
+                              60,403
+                            </div>
+                          </div>
+                      </div>
+                      <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                          Another Criteria
+                          <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                          <div class="float-right q-mx-md W200 ">
+                            <div class="col10 bgStatC2 W170 q-mx-md catColorLbl text-center ">
+                              30,000
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                        Another Criteria
+                        <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                        <div class="float-right q-mx-lg W200 ">
+                          <div class="col10 bgStatC2 W170 q-mx-sm  catColorLbl text-center ">
+                            700,000
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                      Criteria Set 2 - Patients uses statins
+                      <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                      <div class="float-right q-mx-xl W200 ">
+                        <div class="col10 bgStatC3 W150 q-mx-auto catColorLbl text-center ">
+                          457,888
+                        </div>
+                      </div>
+                  </div>
+                  <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                      Criteria Set 3 - Patients with heart failure
+                      <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                      <div class="float-right q-mx-xl W200 ">
+                        <div class="col10 bgStatC4 W100 q-mx-auto catColorLbl text-center ">
+                          211,950
+                        </div>
+                      </div>
+                  </div>
+                  <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
+                      Criteria Set 4 - Patients with myocardial infraction
+                      <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                      <div class="float-right q-mx-xl W200 ">
+                        <div class="col10 bgStatC5 q-mx-auto W50  catColorLbl text-center ">
+                          89,342
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class=" q-ma-sm   col  ">
+                <div class="bgCgreen q-px-xs q-py-xs ">
+                  Patient Demographics Summary
+                </div>
+                <div class="bor1grey q-px-xs q-my-sm ">
+                  <summery-graph></summery-graph>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div  v-if="otherEvnt" class="col-12 q-mt-sm   shadow-2 cohortSummaryText col5">
+            <div class="row f12 bor1Lightgrey">
+              <div class="col-12 q-pa-sm">
+                <div class="lightGreen q-px-xs q-py-xs ">
+                  Top  Diagonasis
+                </div>
+                <div class="q-my-sm q-px-xs q-py-sm bor1Lightgrey H450">
+                  <div class="bgClightGrey row q-px-xs q-py-xs ">
+                    <div class="col">Condition</div>
+                    <div class="col W200 q-mx-xl">Patient Count</div>
+                    <div class="col q-mx-xl">Concept Id</div>
+                    <div class="col">Prevalence %</div>
+                    <div class="col">Length of Era</div>
+                  </div>
+                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
+                      <div class="col">Diagnosis 01</div>
+                      <div class="col q-mx-xl W200 ">
+                      <div id="container" class="bgStatC1 W200">
+                          <div class="clearfix q-pa-sm text-center">1,234,121</div>
+                          <div class="arrow-right bgStatCBor1"></div>
+                      </div>
+                      </div>
+                      <div class="col q-mx-xl">12345678</div>
+                      <div class="col">89%</div>
+                      <div class="col">124.78</div>
+                  </div>
+                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
+                      <div class="col">Diagnosis 02</div>
+                      <div class="col q-mx-xl W200 ">
+                        <div id="container" class="bgStatC2 W170">
+                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
+                            <div class="arrow-right bgStatCBor2"></div>
+                        </div>
+                      </div>
+                      <div class="col q-mx-xl">12345678</div>
+                      <div class="col">89%</div>
+                      <div class="col">124.78</div>
+                  </div>
+                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
+                      <div class="col">Diagnosis 03</div>
+                      <div class="col q-mx-xl W200 ">
+                        <div id="container" class="bgStatC3 W150">
+                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
+                            <div class="arrow-right bgStatCBor3"></div>
+                        </div>
+                      </div>
+                      <div class="col q-mx-xl">12345678</div>
+                      <div class="col">89%</div>
+                      <div class="col">124.78</div>
+                  </div>
+                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
+                      <div class="col">Diagnosis 04</div>
+                      <div class="col q-mx-xl W200 ">
+                        <div id="container" class="bgStatC4 W120">
+                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
+                            <div class="arrow-right bgStatCBor4"></div>
+                        </div>
+                      </div>
+                      <div class="col q-mx-xl">12345678</div>
+                      <div class="col">89%</div>
+                      <div class="col">124.78</div>
+                  </div>
+                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
+                      <div class="col">Diagnosis 05</div>
+                      <div class="col q-mx-xl W200 ">
+                        <div id="container" class="bgStatC5 W100">
+                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
+                            <div class="arrow-right bgStatCBor5"></div>
+                        </div>
+                      </div>
+                      <div class="col q-mx-xl">12345678</div>
+                      <div class="col">89%</div>
+                      <div class="col">124.78</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </q-card>
    </q-page>
@@ -14,13 +265,16 @@
 </style>
 
 <script>
+import {} from 'vue-drag-drop'
 import secondaryHeader from 'components/secondaryHeader'
+import summeryGraph from 'components/summeryGraph'
 import {
 } from 'quasar'
 export default {
   name: 'createCohort',
   components: {
-    'secondary-header': secondaryHeader
+    'secondary-header': secondaryHeader,
+    'summery-graph': summeryGraph
   },
   data () {
     return {
@@ -30,7 +284,11 @@ export default {
         'group': 'GRP2',
         'datasource': 'dt1'
       },
-      selectedPage: 'Summary',
+      openFstChild: 0,
+      openScdChild: 0,
+      arrtitionNdemoGraph: 1,
+      otherEvnt: 0,
+      selectedPage: 'Cohort Definition',
       cname: '',
       cdesc: '',
       cgrp: '',
@@ -78,7 +336,13 @@ export default {
       ]
     }
   },
+  created () {
+    this.markCriteriaAsSelected(this.criteriaArray[0])
+  },
   methods: {
+    openChild (openFstChild) {
+      openFstChild = !openFstChild
+    },
     showAttributes (event, mainIndex, subIndex = null) {
       var that = this
       that.currentEvent = event
@@ -215,6 +479,7 @@ export default {
         })
       }
       that.currentEvent = ''
+      that.showAttributes('', null, null)
       if (that.eventArray[that.currentCriteria].length > 0) {
         that.readonlyCriteriaSelect = true
       } else {
@@ -271,9 +536,9 @@ export default {
       var that = this
       if (that.currentEvent.mainIndex != null) {
         if (that.currentEvent.subIndex != null) {
-          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].events[that.currentEvent.subIndex].name = event
+          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].events[that.currentEvent.subIndex] = event
         } else {
-          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].name = event
+          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex] = event
         }
       }
     },

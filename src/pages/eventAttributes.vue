@@ -1,9 +1,9 @@
 <template>
   <div class="q-ma-sm">
     <div class="EventList_header">
-      Event Attributes - {{event.event}}
+      Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
-    <div class="row q-ma-lg">
+    <div v-if="event != ''" class="row q-ma-lg">
       Name:
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>

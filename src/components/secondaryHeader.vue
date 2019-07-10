@@ -5,11 +5,11 @@
     </div>
     <div v-for="path in paths" :key="path">
       <div class="col-4 text-center">
-        <q-item no-caps class="Rectangle-199 selected q-ml-lg" v-if="path == selectedPage">
+        <q-item no-caps class="Rectangle-199 h40 selected q-ml-lg" v-if="path == selectedPage">
           <label class="sub-level-menus-labels">{{path}}</label>
         </q-item>
-        <q-item no-caps class="Rectangle-199 q-ml-lg" v-if="path != selectedPage">
-          <label no-caps class="sub-level-menus-labels">{{path}}</label>
+        <q-item no-caps class="Rectangle-199 h40 q-ml-lg" v-if="path != selectedPage">
+          <router-link to="/summary"><label no-caps class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>
       </div>
     </div>
@@ -18,6 +18,8 @@
   </q-toolbar>
 </template>
 <script type="text/javascript">
+import {
+} from 'quasar'
 export default {
   name: 'secondaryHeader',
   components: {
