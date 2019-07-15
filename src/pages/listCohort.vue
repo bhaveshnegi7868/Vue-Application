@@ -46,7 +46,7 @@
                  </q-list>
               </q-btn-dropdown>
               <router-link to="/create">
-                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohot" />
+                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohort" />
               </router-link>
           </template>
           <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">

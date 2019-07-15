@@ -174,6 +174,16 @@
                 <div class="bor1grey q-px-xs q-my-sm ">
                   <summery-graph></summery-graph>
                 </div>
+                <div class="bor1grey row q-px-xs q-my-sm ">
+                    <div class="col-6">
+                      <div >
+                        <q-icon class="q-mx-xs q-my-xs" name="img:statics/imgs/genderStats.png" />
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <summery-piegraph></summery-piegraph>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
@@ -268,13 +278,15 @@
 import {} from 'vue-drag-drop'
 import secondaryHeader from 'components/secondaryHeader'
 import summeryGraph from 'components/summeryGraph'
+import summeryPiegraph from 'components/summeryPieGraph'
 import {
 } from 'quasar'
 export default {
   name: 'createCohort',
   components: {
     'secondary-header': secondaryHeader,
-    'summery-graph': summeryGraph
+    'summery-graph': summeryGraph,
+    'summery-piegraph': summeryPiegraph
   },
   data () {
     return {

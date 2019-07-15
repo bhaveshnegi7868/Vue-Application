@@ -4,13 +4,13 @@
       <q-toolbar class="Top---Menu-Bar pad10LR q-pa-xs">
         <q-toolbar-title>
             <div class="headerLeft">
-                <img src="../statics/imgs/logo.png" class="logo">
+                <router-link class="textDecorNone" to="/list"><img src="../statics/imgs/logo.png" class="logo"></router-link>
             </div>
 
             <div class="headerRight">
                 <div class="TopMenu">
-                  <span class="Cohorts q-ml-sm">Cohort</span>
-                  <span class="Code-Group q-ml-lg">Code-set</span>
+                  <router-link class="textDecorNone" to="/list"><span class="Cohorts q-ml-sm">Cohort</span></router-link>
+                  <router-link class="textDecorNone" to="/codeset"><span class="Code-Group q-ml-lg">Code-set</span></router-link>
                 </div>
                 <q-btn
                 icon="img:statics/imgs/userIcon.png"
@@ -18,7 +18,7 @@
                 outline
                 no-caps
                 class="userName headerRight"
-                label="John Doe"
+                label="Muthu R."
                 />
             </div>
         </q-toolbar-title>
