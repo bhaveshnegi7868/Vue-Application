@@ -302,7 +302,6 @@ export default {
       console.log(mainIndex)
       if (mainIndex >= 0) {
         var that = this
-        subIndex = null
         that.currentEvent = event
         that.currentEvent['mainIndex'] = mainIndex
         that.currentEvent['subIndex'] = subIndex
@@ -477,7 +476,7 @@ export default {
     },
     markCriteriaAsSelected (criteria) {
       var that = this
-      that.currentCriteria = criteria
+      that.currentCriteria = criteria.name
       if (!(that.currentCriteria in that.eventArray)) {
         that.eventArray[that.currentCriteria] = []
         that.eventArray[that.currentCriteria].currentGroup = 0

@@ -73,8 +73,8 @@
           </q-th>
         </q-tr>
         <q-tr slot="body" slot-scope="data" :props="data">
-          <q-th key="podUpload1">{{data.row.code}}</q-th>
-          <q-th key="podUpload2">{{data.row.description}}</q-th>
+          <q-th key="podUpload1">{{data.row.source_code}}</q-th>
+          <q-th key="podUpload2">{{data.row.target_concept_name}}</q-th>
           <q-th key="podUpload3"><q-checkbox v-model="data.row.exclude"/></q-th>
           <q-th key="podUpload4">
             <q-checkbox v-model="data.row.dependents"/>
@@ -83,7 +83,7 @@
             </q-btn>
           </q-th>
           <q-th key="podUpload5">
-            <q-btn outline no-caps class="userName" @click="removeCodeFromList(data.row.code)">
+            <q-btn outline no-caps class="userName" @click="removeCodeFromList(data.row.source_code)">
               <q-icon name="delete_forever" size="23px"/>
             </q-btn>
           </q-th>
@@ -92,47 +92,24 @@
         </div>
         <q-dialog
           v-model="codesPopup"
-          persistent
-          :maximized="maximizedToggle"
+          full-width
           transition-show="slide-up"
           transition-hide="slide-down"
         >
-        <q-card>
-            <q-bar class="text-right">
-              <q-space />
-              <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-                <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">Minimize</q-tooltip>
-              </q-btn>
-              <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
-                <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">Maximize</q-tooltip>
-              </q-btn>
-              <q-btn dense flat icon="close" v-close-popup>
-                <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
-              </q-btn>
-            </q-bar>
+          <q-card>
+            <q-btn dense flat icon="close" v-close-popup class="float-right">
+              <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
             <search-codes v-on:selectedChange="handleChange"></search-codes>
           </q-card>
         </q-dialog>
         <q-dialog
           v-model="dependentsPopup"
-          persistent
-          :maximized="maximizedToggle"
+          full-width
           transition-show="slide-up"
           transition-hide="slide-down"
         >
-        <q-card>
-            <q-bar class="text-right">
-              <q-space />
-              <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-                <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">Minimize</q-tooltip>
-              </q-btn>
-              <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
-                <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">Maximize</q-tooltip>
-              </q-btn>
-              <q-btn dense flat icon="close" v-close-popup>
-                <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
-              </q-btn>
-            </q-bar>
+          <q-card>
             <dependent-codes v-on:selectedChange="handleChange"></dependent-codes>
           </q-card>
         </q-dialog>
@@ -146,25 +123,21 @@ import {
   QTh,
   QTr,
   QCard,
-  QBar,
   QCheckbox,
   QDialog,
   QTooltip,
-  ClosePopup,
-  QSpace
+  ClosePopup
 } from 'quasar'
 export default {
   name: 'listCohort',
   components: {
     QTable,
-    QBar,
     QTh,
     QTr,
     QCard,
     QCheckbox,
     QDialog,
     QTooltip,
-    QSpace,
     'search-codes': searchCodes,
     'dependent-codes': dependentsCodes
   },
@@ -181,7 +154,7 @@ export default {
       dependents: false,
       columns: [
         {
-          name: 'code',
+          name: 'source_code',
           required: true,
           label: 'Standard Code',
           align: 'left',
@@ -189,7 +162,7 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        { name: 'description', align: 'center', label: 'Standard Code Description', field: 'description', sortable: true },
+        { name: 'target_concept_name', align: 'center', label: 'Standard Code Description', field: 'description', sortable: true },
         {
           name: 'exclude',
           required: true,
@@ -210,26 +183,7 @@ export default {
         },
         { name: 'Action', label: 'Action', align: 'right', field: 'action', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-      data: [
-        {
-          code: '1456729887',
-          description: 'Standard Code Description from SNOMED',
-          exclude: false,
-          dependents: true
-        },
-        {
-          code: '1456729847',
-          description: 'Standard Code Description from SNOMED',
-          exclude: false,
-          dependents: true
-        },
-        {
-          code: '1456729837',
-          description: 'Standard Code Description from SNOMED',
-          exclude: false,
-          dependents: true
-        }
-      ]
+      data: []
     }
   },
   methods: {
@@ -245,7 +199,25 @@ export default {
       var that = this
       value.forEach(function (row) {
         if (that.checkIfCodeInList(row)) {
+          row.exclude = false
+          row.dependents = false
           that.data.push(row)
+
+          that.$q.notify({
+            color: 'black',
+            textColor: 'white',
+            message: row.source_code + ' has been added successfully.',
+            position: 'bottom-right',
+            timeout: 3000
+          })
+        } else {
+          that.$q.notify({
+            color: 'red',
+            textColor: 'white',
+            message: row.source_code + ' is already available.',
+            position: 'bottom-right',
+            timeout: 3000
+          })
         }
       })
     },
@@ -253,7 +225,7 @@ export default {
       var that = this
       // var returnVal = false
 
-      if (that.data.filter(row1 => row1.code === row.code).length) {
+      if (that.data.filter(row1 => row1.source_code === row.source_code).length) {
         return false
       } else {
         return true
@@ -267,7 +239,7 @@ export default {
     },
     removeCodeFromList (code) {
       var that = this
-      var data = that.data.filter(row1 => row1.code === code)
+      var data = that.data.filter(row1 => row1.source_code === code)
       if (data.length > 0) {
         that.data.splice(data[0].__index, 1)
       }

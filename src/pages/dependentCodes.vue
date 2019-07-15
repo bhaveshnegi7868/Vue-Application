@@ -147,8 +147,8 @@ export default {
     }
   },
   mounted () {
-    debugger
-    this.$q.iconSet.tree.icon = 'fiber_manual_record'
+    // debugger
+    // this.$q.iconSet.tree.icon = 'fiber_manual_record'
   },
   methods: {
     sendName (event) {
