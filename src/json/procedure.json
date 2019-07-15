@@ -1,40 +1,71 @@
 [
   {
     "Label":"List Of Procedures",
+    "name":"listProcedures",
+    "data":"",
     "Type":"multiple-select",
-    "value":[1,2,3]
+    "value":["Import", "Myocardial Infarction", "Unstable Angina", "Statins", "Familial Hypercholesterolemia"]
   },
   {
-    "Label":"Limit To First Occurences Of Treatement",
+    "Label":"Limit To First Occurences Of Procedures",
+    "name":"OccurenceLimit",
+    "data":"",
     "Type":"checkbox"
   },
   {
+    "Label":"Number of Occurences",
+    "name":"OccurenceNumber",
+    "data":{"type":"","number":""},
+    "Type":"number",
+    "value":["Atleast", "Exactly"]
+  },
+  {
     "Label":"Procedure Occurence Start Date",
-    "Type":"date-between"
+    "name":"OccurenceStartDate",
+    "data":{"type":"","sdate":"","edate":""},
+    "Type":"date-between",
+    "value":["Before", "On or Before", "On", "After", "On or After", "Between", "Not Between"]
+  },
+  {
+    "Label":"Procedure Occurence Start Date w.r.t initial events index start date",
+    "name":"OccurenceDate",
+    "data":{"date":[],"day":[]},
+    "Type":"day-between",
+    "value":["Before", "After"]
   },
   {
     "Label":"Age at Procedure Occurence",
     "Type":"count-select",
-    "value":[1,2,3]
+    "name":"occurencesAge",
+    "data":{"Option":"", "value":[]},
+    "value":["Less than", "Less or Equal to", "Equal to", "Greater than", "Greater or Equal to", "Between", "Not Between"]
   },
   {
     "Label":"Gender",
     "Type":"single-select",
-    "value":[1,2,3]
-  },
+    "name":"gender",
+    "data":"",
+    "value":["MALE", "FEMALE", "UNKNOWN"]
+    },
   {
     "Label":"Procedure Type",
     "Type":"single-select",
-    "value":[1,2,3]
+    "name":"procedureType",
+    "data":"",
+    "value":["Condition Procedure", "EHR order list entry", "Facility header", "Hospitalization Cost Record", "Inferred from claim", "Inpatient detail - primary position", "Inpatient header - primary position", "NLP derived", "Outpatient detail - primary position", "Outpatient header - primary position", "Physician administered drug (identified as procedure)", "Primary Procedure", "Procedure recorded as diagnostic code", "Procedure recorded as lab test", "Procedure Recorded from a Survey", "Referral record", "Secondary Procedure"]
   },
   {
     "Label":"Provider Speciality",
     "Type":"single-select",
-    "value":[1,2,3]
+    "name":"providerSpeciality",
+    "data":"",
+    "value":["Allergy/Immunology", "Anesthesiology", "Cardiology", "Colorectal Surgery", "Dermatology", "Emergency Medicine", "Endocrinology", "Family Practice", "Gastroenterology", "General Practice", "General Surgery", "Hematology", "Infectious Disease", "Internal Medicine", "Interventional Pain Management (IPM)", "Nephrology", "Neurology", "Neurosurgery", "Nurse Practitioner", "Obstetrics/Gynecology", "Ophthalmology", "Oral Surgery", "Orthopedic Surgery", "Osteopathic Manipulative Therapy", "Otolaryngology", "Pathology", "Physical Medicine And Rehabilitation", "Plastic And Reconstructive Surgery", "Psychiatry", "Pulmonary Disease", "Rheumatology", "Thoracic Surgery", "Urology"]
   },
   {
     "Label":"Visit Type",
     "Type":"single-select",
-    "value":[1,2,3]
+    "name":"visitType",
+    "data":"",
+    "value":["Emergency Room and Inpatient Visit", "Long Term Care Visit", "Emergency Room Visit", "Outpatient Visit", "Inpatient Visit", "Pharmacy visit", "Home Visit", "Office Visit", "Ambulance Visit", "Rehabilitation Visit", "Laboratory Visit", "Intensive Care"]
   }
 ]

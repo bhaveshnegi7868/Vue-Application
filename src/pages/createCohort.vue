@@ -1,219 +1,215 @@
 <template>
   <q-page class="app-layout ">
     <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
-    <div class="row q-px-sm q-py-sm">
-        <q-card class="row col-10 q-mr-xs">
-            <div class="col-3 q-pa-sm">
-                <input class="input-box full-width" v-model="currentcohort.name" placeholder="Cohort Name" />
-            </div>
-            <div class="col-5 q-pa-sm">
-                <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
-            </div>
-            <div class="col-2 q-pa-sm">
-                <select class="select-box full-width" v-model="currentcohort.group"  placeholder="Cohort Group">
-                  <option disabled>Cohort Group</option>
-                  <option v-for="opt in cGrpOpts" v-bind:key="opt.value" :value="opt.value">
-                    {{opt.label}}
-                  </option>
-                </select>
-            </div>
-            <div class="col-2 q-pa-sm">
-                <select class="select-box full-width" v-model="currentcohort.datasource">
-                  <option selected disabled>Datasource</option>
-                  <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
-                    {{opt.label}}
-                  </option>
-                </select>
-            </div>
-        </q-card>
-        <q-card class="col row">
-          <div class="col-2 q-mx-xs">
-            <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative"/>
-          </div>
-          <div class="col q-mx-xs">
-            <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary"/>
-          </div>
-          <div class="col q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" label="Run" class="f12 action-btns borC3 full-width" text-color="positive"/>
-          </div>
-        </q-card>
-    </div>
-    <q-card class="row  q-mx-sm" >
-      <div class="leftForm q-pa-sm">
-        <div class="categories_header">
-            Criteria Set
-        </div>
-        <div class="header_Bor1"></div>
-        <q-btn v-for="criteria in criteriaArray"  :key="criteria.name"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
-            {{criteria.name}}
-            <i class="fa fa-times-circle pull-right mar1"></i>
-        </q-btn>
-        <q-btn class="categories_addNew full-width" @click="addNewCriteria">
-            Add Criteria Set
-        </q-btn>
-      </div>
-      <div class="rightForm q-pa-sm" v-if="currentCriteria">
-        <q-card class="row q-mx-sm shadow-2">
-          <div class="col-4 q-ma-sm">
-            <input class="input-box full-width" v-model="currentCriteria.name" placeholder="Criteria Name" />
-          </div>
-          <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="currentCriteria.description" placeholder="Criteria Description" />
-          </div>
-        </q-card>
-        <div class="elements-block  q-mt-sm">
-            <q-card class="eventBox q-ma-sm shadow-2">
-              <div class="eventList">
-                <div class="EventList_header">
-                    Events
+      <div v-if="!loading">
+        <div class="row q-px-sm q-py-sm">
+            <q-card class="row col-10 q-mr-xs">
+                <div class="col-3 q-pa-sm">
+                    <input class="input-box full-width" v-model="currentcohort.name" placeholder="Cohort Name" />
                 </div>
-                <div class="header_Bor1"></div>
-                <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
-                  <drag
-                    class="Events"
-                    v-for="(element) in eventArray1"
-                    :key="element.id"
-                    :transfer-data="{ element }"
-                  >{{ element.name }}
-                  </drag>
+                <div class="col-5 q-pa-sm">
+                    <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
                 </div>
+                <div class="col-2 q-pa-sm">
+                    <input class="input-box full-width" v-model="currentcohort.group"   placeholder="Cohort Group" />
+                </div>
+                <div class="col-2 q-pa-sm">
+                    <select class="select-box full-width" v-model="currentcohort.datasource" placeholder="Datasource">
+                      <option selected value="Datasource">Datasource</option>
+                      <option v-for="opt in dataSourceOpts" v-bind:key="opt.value" :value="opt.value">
+                        {{opt.label}}
+                      </option>
+                    </select>
+                </div>
+            </q-card>
+            <q-card class="col row">
+              <div class="col-2 q-mx-xs">
+                <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative"/>
+              </div>
+              <div class="col q-mx-xs">
+                <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary"/>
+              </div>
+              <div class="col q-mx-xs">
+                <q-btn outlined icon="play_circle_filled" @click="showLoading()" label="Run" class="f12 action-btns borC3 full-width" text-color="positive"/>
               </div>
             </q-card>
-            <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
-              <q-card class="q-pa-sm custom-card">
-                <div class="row">
-                  <div class="col">
-                    <select class="criteria-box" v-model="selectedCriteria">
-                      <option disabled>Select</option>
-                      <option>All</option>
-                      <option>Some</option>
-                    </select> of the criteria
+        </div>
+        <q-card class="row  q-mx-sm H75Vh" >
+          <div class="leftForm q-pa-sm">
+            <div class="categories_header">
+                Criteria Set
+            </div>
+            <div class="header_Bor1"></div>
+            <q-btn v-for="(criteria, k) in criteriaArray"  :key="criteria.name"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(k,criteria.name)">
+                {{criteria.name}}
+                <i class="fa fa-times-circle pull-right mar1"></i>
+            </q-btn>
+            <q-btn class="categories_addNew full-width" @click="addNewCriteria">
+                Add Criteria Set
+            </q-btn>
+          </div>
+          <div class="rightForm q-pa-sm" v-if="currentCriteria">
+            <q-card class="row  q-mx-sm shadow-2">
+              <div class="col-4  q-ma-sm">
+                <input class="input-box full-width" v-model="currentCriteria.name" placeholder="Criteria Name" />
+              </div>
+              <div class="col  q-ma-sm">
+                <input class="input-box full-width" v-model="currentCriteria.description" placeholder="Criteria Description" />
+              </div>
+            </q-card>
+            <div class="elements-block  q-mt-sm">
+                <q-card class="eventBox H60Vh q-ma-sm shadow-2">
+                  <div class="eventList">
+                    <div class="EventList_header">
+                        Events
+                    </div>
+                    <div class="header_Bor1"></div>
+                    <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
+                      <drag
+                        class="Events"
+                        v-for="(element) in eventArray1"
+                        :key="element.id"
+                        :transfer-data="{ element }"
+                      >{{ element.name }}
+                      </drag>
+                    </div>
                   </div>
-                  <div class="col-md-3">
-                    <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
-                  </div>
-                </div>
-                <div class="list-group" id="list-group"  ref="test" group="people">
-                  <div
-                    class="list-group-item"
-                    v-for="(elementObj,index) in eventArray[currentCriteria]"
-                    :key="index"
-                  >
-                    <div v-if="elementObj.events">
-                      <q-card class="row sub-grp q-mt-sm q-mb-sm">
-                        <div class="col-9 q-pa-sm">
-                          <q-badge color="positive" class="q-my-sm">{{elementObj.id}}</q-badge>
-                          or
-                          <select class="criteria-box" v-model="elementObj.option">
-                            <option disabled>Select</option>
-                            <option>All</option>
-                            <option>Some</option>
-                          </select> of the criteria
-                        </div>
-                        <div class="col q-ml-lg q-px-xs q-mt-sm">
-                          <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
-                        </div>
-                        <div class="row full-width">
-                        <q-card
-                          v-for="(elementObj1,index1) in elementObj.events"
-                          :key="elementObj1.id"
-                          :class="elementObj1.currentSelected"
-                          class="custom-card-1 event-card"
-                          @click.native="showAttributes(elementObj1,index,index1)"
-                          align="left">
-                            <div class="col-1">
-                              <q-badge color="positive" class="q-ma-sm">{{elementObj1.id}}</q-badge>
+                </q-card>
+                <q-card class="selectedEventBox H60Vh q-ma-xs q-pa-md shadow-2 Rectangle-208">
+                  <q-card class="q-pa-sm custom-card">
+                    <div class="row">
+                      <div class="col">
+                        <select class="criteria-box" v-model="selectedCriteria">
+                          <option disabled>Select</option>
+                          <option>All</option>
+                          <option>Any</option>
+                        </select> of the criteria
+                      </div>
+                      <div class="col-md-3">
+                        <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
+                      </div>
+                    </div>
+                    <div class="list-group" id="list-group"  ref="test" group="people">
+                      <div
+                        class="list-group-item"
+                        v-for="(elementObj,index) in eventArray[currentCriteria]"
+                        :key="index"
+                      >
+                        <div v-if="elementObj.events">
+                          <q-card class="row sub-grp q-mt-sm q-mb-sm">
+                            <div class="col-9 q-pa-sm">
+                              <q-badge color="positive" class="q-my-sm">{{elementObj.id}}</q-badge>
+                              or
+                              <select class="criteria-box" v-model="elementObj.option">
+                                <option disabled>Select</option>
+                                <option>All</option>
+                                <option>Any</option>
+                              </select> of the criteria
                             </div>
-                            <div class="col-7">
-                              <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
+                            <div class="col q-ml-lg q-px-xs q-mt-sm">
+                              <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                             </div>
-                            <div class="col-2">
+                            <div class="row full-width">
+                            <q-card
+                              v-for="(elementObj1,index1) in elementObj.events"
+                              :key="elementObj1.id"
+                              :class="elementObj1.currentSelected"
+                              class="custom-card-1 event-card"
+                              @click.native="showAttributes(elementObj1,index,index1)"
+                              align="left">
+                                <div class="col-1">
+                                  <q-badge color="positive" class="q-ma-sm">{{elementObj1.id}}</q-badge>
+                                </div>
+                                <div class="col-7">
+                                  <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
+                                </div>
+                                <div class="col-2">
+                                </div>
+                                <div class="col-2 ">
+                                  <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent(elementObj1.id)"/>
+                                </div>
+                              </q-card>
                             </div>
-                            <div class="col-2 ">
-                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent(elementObj1.id)"/>
+                            <div class="row full-width q-px-sm q-pb-sm">
+                              <drop @drop="handleDrop" class="full-width" :id="'drop-zone-'+elementObj.id" >
+                                <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent(elementObj.id)">
+                                    <option disabled>Select Event</option>
+                                    <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
+                                      {{opt.name}}
+                                    </option>
+                                </select>
+                              </drop>
                             </div>
                           </q-card>
                         </div>
-                        <div class="row full-width q-px-sm q-pb-sm">
-                          <drop @drop="handleDrop" class="full-width" :id="'drop-zone-'+elementObj.id" >
-                            <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent(elementObj.id)">
-                                <option disabled>Select Event</option>
-                                <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                                  {{opt.name}}
-                                </option>
-                            </select>
-                          </drop>
+                        <div v-if="!elementObj.events">
+                          <q-card class="custom-card event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
+                            <div class="col-1">
+                              <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
+                            </div>
+                            <div class="col-7">
+                              <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
+                            </div>
+                            <div class="col-2">
+                            </div>
+                            <div class="col-2">
+                              <q-btn class="fCgreen q-px-sm f12  float-right" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
+                            </div>
+                          </q-card>
                         </div>
-                      </q-card>
+                      </div>
                     </div>
-                    <div v-if="!elementObj.events">
-                      <q-card class="custom-card event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
-                        <div class="col-1">
-                          <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
-                        </div>
-                        <div class="col-7">
-                          <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                        <div class="col-2">
-                          <q-btn class="fCgreen q-px-sm f12  float-right" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
-                        </div>
-                      </q-card>
+                    <div class="row full-width">
+                      <drop @drop="handleDrop" class="full-width" >
+                        <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
+                            <option disabled>Select Event</option>
+                            <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
+                              {{opt.name}}
+                            </option>
+                        </select>
+                      </drop>
                     </div>
-                  </div>
-                </div>
-                <div class="row full-width">
-                  <drop @drop="handleDrop" class="full-width" >
-                    <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
-                        <option disabled>Select Event</option>
-                        <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                          {{opt.name}}
-                        </option>
-                    </select>
-                  </drop>
-                </div>
-              </q-card>
-              <q-card class="q-pa-lg q-mt-lg custom-card">
-                <div class="row">
-                  <div class="col">
-                    Limit initial events to
-                    <select class="criteria-box customCard-SelectBox" v-model="cdtsrc">
-                      <option selected disabled>Datasource</option>
-                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
-                        {{opt.label}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row q-mt-sm">
-                  <div class="col">
-                    Contineous enrollment w.r.t initial events index start date
-                  </div>
-                </div>
-                <div class="row q-mt-xs">
-                  <div class="col">
-                    Between <select class="criteria-box customCard-SelectBox" v-model="cdtsrc">
-                      <option selected disabled>Datasource</option>
-                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
-                        {{opt.label}}
-                      </option>
-                    </select> days before and <select class="criteria-box customCard-SelectBox" v-model="cdtsrc">
-                      <option selected disabled>Datasource</option>
-                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
-                        {{opt.label}}
-                      </option>
-                    </select> days after
-                  </div>
-                </div>
-              </q-card>
-            </q-card>
-            <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
-            </q-card>
+                  </q-card>
+                  <q-card class="q-px-lg q-py-sm q-mt-lg custom-card">
+                    <div class="row">
+                      <div class="col">
+                        Limit initial events to
+                        <select class="criteria-box customCard-SelectBox" v-model="cdtsrc">
+                          <option selected disabled>Datasource</option>
+                          <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
+                            {{opt.label}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row q-mt-lg">
+                      <div class="col">
+                        Contineous enrollment w.r.t initial events index start date
+                      </div>
+                    </div>
+                    <div class="row q-mt-xs">
+                      <div class="col">
+                        Between <input  class="input-box H25 w4R" />
+                         days before and <input  class="input-box H25 w4R" /> days after
+                      </div>
+                    </div>
+                  </q-card>
+                </q-card>
+                <q-card class="attributeBox H60Vh shadow-2 q-ma-xs">
+                  <event-attributes :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
+                </q-card>
+            </div>
+          </div>
+        </q-card>
+      </div>
+      <div class="row" v-if="loading">
+        <div class="col-1 q-mx-auto q-my-lg q-px-lg">
+          <q-spinner-ios
+            color="green"
+            size="5em"
+          ></q-spinner-ios>
         </div>
       </div>
-    </q-card>
    </q-page>
 </template>
 
@@ -226,13 +222,25 @@ import eventAttributes from 'pages/eventAttributes'
 import secondaryHeader from 'components/secondaryHeader'
 import {
   QCard,
-  QBadge
+  Loading,
+  QBadge,
+  QSpinnerIos
 } from 'quasar'
+Loading.show({
+  spinner: QSpinnerIos,
+  message: 'Running',
+  messageColor: 'white',
+  spinnerSize: 150, // in pixels
+  spinnerColor: 'green',
+  customClass: 'bg-light'
+})
+Loading.hide()
 export default {
   name: 'createCohort',
   components: {
     QCard,
     QBadge,
+    QSpinnerIos,
     Drag,
     Drop,
     'event-attributes': eventAttributes,
@@ -241,11 +249,13 @@ export default {
   data () {
     return {
       currentcohort: {
-        'name': 'New cohort',
-        'description': 'cohort Description',
-        'group': 'GRP2',
-        'datasource': 'dt1'
+        'name': '',
+        'description': '',
+        'group': '',
+        'datasource': ''
       },
+      loading: 0,
+      open: false,
       selectedPage: 'Cohort Definition',
       cname: '',
       cdesc: '',
@@ -260,14 +270,10 @@ export default {
       currentCriteria: '',
       criteriaArray: [
         {
+          'id': 'Initial Criteria',
           'name': 'Initial Criteria',
           'currentSelected': 1,
-          'description': 'This Is The Initial cohort'
-        },
-        {
-          'name': 'Criteria Set 1',
-          'currentSelected': 0,
-          'description': 'This Is Criteria Set 1'
+          'description': ''
         }
       ],
       eventArray1: [
@@ -276,16 +282,31 @@ export default {
         { 'id': 3, 'name': 'Procedure' }
       ],
       cGrpOpts: [
-        { 'label': 'GRP1', 'value': 'GRP1' },
-        { 'label': 'GRP2', 'value': 'GRP2' },
-        { 'label': 'GRP3', 'value': 'GRP3' }
       ],
       dtSourceOpts: [
-        { 'label': 'dt1', 'value': 'dt1' },
-        { 'label': 'dt2', 'value': 'dt2' },
-        { 'label': 'dt3', 'value': 'dt3' }
+        {
+          value: 'Latest',
+          label: 'Latest'
+        },
+        {
+          value: 'Earliest',
+          label: 'Earliest'
+        }
       ],
-
+      dataSourceOpts: [
+        {
+          value: 'DRG',
+          label: 'DRG'
+        },
+        {
+          value: 'MarketScan',
+          label: 'MarketScan'
+        },
+        {
+          value: 'Optum',
+          label: 'Optum'
+        }
+      ],
       currentEvent: '',
       openGroup: false,
       criteriaClass: [
@@ -325,6 +346,12 @@ export default {
       that.readonlyCriteriaSelect = true
       that.openGroup = false
       that.currentGroup = 0
+    },
+    setLoading () {
+      this.timer = setTimeout(() => {
+        this.$router.push({ path: '/summary' })
+        this.timer = void 0
+      }, 3000)
     },
     getIndexWithId (groupId) {
       var that = this
@@ -475,7 +502,7 @@ export default {
         that.addEvent()
       }
     },
-    markCriteriaAsSelected (criteria) {
+    markCriteriaAsSelected (indx, criteria) {
       var that = this
       that.currentCriteria = criteria
       if (!(that.currentCriteria in that.eventArray)) {
@@ -484,12 +511,18 @@ export default {
         that.eventArray[that.currentCriteria].currentNumber = 0
       }
       that.criteriaArray.forEach(function (row, index) {
-        if (row.name === criteria.name) {
+        if (index === indx) {
           row.currentSelected = 1
         } else {
           row.currentSelected = 0
         }
       })
+    },
+    beforeDestroy () {
+      if (this.timer !== void 0) {
+        clearTimeout(this.timer)
+        this.$q.loading.hide()
+      }
     },
     handleChange (event) {
       var that = this
@@ -500,6 +533,23 @@ export default {
           that.eventArray[that.currentCriteria][that.currentEvent.mainIndex] = event
         }
       }
+    },
+    showLoading () {
+      Loading.show({
+        spinner: QSpinnerIos,
+        message: 'Running',
+        messageColor: 'white',
+        spinnerSize: 150, // in pixels
+        spinnerColor: 'green',
+        customClass: 'bg-light'
+      })
+
+      // hiding in 2s
+      this.timer = setTimeout(() => {
+        Loading.hide()
+        this.$router.push({ path: '/summary' })
+        this.timer = void 0
+      }, 4000)
     },
     addNewCriteria () {
       var that = this

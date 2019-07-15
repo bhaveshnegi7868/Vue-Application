@@ -1,42 +1,81 @@
 [
   {
     "id":2,
-    "Label":"Diagnosis Code Group",
+    "Label":"List of Diagnosis",
+    "name":"listDiagnosis",
+    "data":"",
     "Type":"multiple-select",
-    "value":[1,2,3]
+    "value":["Import", "Myocardial Infarction", "Unstable Angina", "Statins", "Familial Hypercholesterolemia"]
   },
   {
     "id":3,
     "Label":"Limit Only To First Occurences",
+    "name":"OccurenceLimit",
+    "data":"",
     "Type":"checkbox"
   },
   {
     "id":4,
-    "Label":"Diagnosis Occurence Date",
-    "Type":"date-between"
+    "Label":"Number of Occurences",
+    "name":"OccurenceNumber",
+    "data":{"type":"","number":""},
+    "Type":"number",
+    "value":["Atleast", "Exactly"]
   },
   {
     "id":5,
-    "Label":"Number Of Occurences",
-    "Type":"count",
-    "value":[1,2,3]
+    "Label":"Diagnosis Occurence Start Date",
+    "name":"OccurenceStartDate",
+    "data":{"type":"","sdate":"","edate":""},
+    "Type":"date-between",
+    "value":["Before", "On or Before", "On", "After", "On or After", "Between", "Not Between"]
   },
   {
     "id":6,
-    "Label":"Age Of Diagnosis Occurences",
-    "Type":"count-select",
-    "value":[1,2,3]
+    "Label":"Diagnosis Occurence Start Date w.r.t initial events index start date",
+    "name":"OccurenceDate",
+    "data":{"daytypeOpt1":"","daytypeOpt2":"","dayOpt1":"","dayOpt2":""},
+    "Type":"day-between",
+    "value":["Before", "After"]
   },
   {
     "id":7,
-    "Label":"Gender",
-    "Type":"single-select",
-    "value":[1,2,3]
+    "Label":"Age Of Diagnosis Occurences",
+    "Type":"count-select",
+    "name":"occurencesAge",
+    "data":{"Option":"", "value":[]},
+    "value":["Less than", "Less or Equal to", "Equal to", "Greater than", "Greater or Equal to", "Between", "Not Between"]
   },
   {
     "id":8,
+    "Label":"Gender",
+    "Type":"single-select",
+    "name":"gender",
+    "data":"",
+    "value":["MALE", "FEMALE", "UNKNOWN"]
+  },
+  {
+    "id":9,
+    "Label":"Diagnosis Type",
+    "Type":"single-select",
+    "name":"diagnosisType",
+    "data":"",
+    "value":["Condition era - 0 days persistence window", "Condition era - 30 days persistence window", "Condition tested for by diagnostic procedure", "Death Certificate contributory cause", "Death Certificate immediate cause", "Death Certificate underlying cause", "EHR billing diagnosis", "EHR Chief Complaint", "EHR discharge status 'Expired'", "EHR encounter diagnosis", "EHR problem list entry", "EHR Record immediate cause of death", "EHR record patient status 'Deceased'", "First Position Condition", "Inpatient detail - primary", "Inpatient header - primary", "Medical claim diagnostic code indicating death", "Medical claim discharge status 'Died'", "Medical claim DRG code indicating death", "Observation recorded from EHR", "Outpatient detail", "Outpatient header", "Payer enrollment status 'Deceased'", "Primary Condition", "Referral record", "Secondary Condition"]
+  },
+  {
+    "id":10,
+    "Label":"Provider Speciality",
+    "Type":"single-select",
+    "name":"providerSpeciality",
+    "data":"",
+    "value":["Allergy/Immunology", "Anesthesiology", "Cardiology", "Colorectal Surgery", "Dermatology", "Emergency Medicine", "Endocrinology", "Family Practice", "Gastroenterology", "General Practice", "General Surgery", "Hematology", "Infectious Disease", "Internal Medicine", "Interventional Pain Management (IPM)", "Nephrology", "Neurology", "Neurosurgery", "Nurse Practitioner", "Obstetrics/Gynecology", "Ophthalmology", "Oral Surgery", "Orthopedic Surgery", "Osteopathic Manipulative Therapy", "Otolaryngology", "Pathology", "Physical Medicine And Rehabilitation", "Plastic And Reconstructive Surgery", "Psychiatry", "Pulmonary Disease", "Rheumatology", "Thoracic Surgery", "Urology"]
+  },
+  {
+    "id":11,
     "Label":"Visit Type",
     "Type":"single-select",
-    "value":[1,2,3]
+    "name":"visitType",
+    "data":"",
+    "value":["Emergency Room and Inpatient Visit", "Long Term Care Visit", "Emergency Room Visit", "Outpatient Visit", "Inpatient Visit", "Pharmacy visit", "Home Visit", "Office Visit", "Ambulance Visit", "Rehabilitation Visit", "Laboratory Visit", "Intensive Care"]
   }
 ]
