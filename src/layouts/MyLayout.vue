@@ -10,7 +10,7 @@
             <div class="headerRight">
                 <div class="TopMenu">
                   <router-link class="textDecorNone" to="/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
-                  <router-link class="textDecorNone" to="/listcodeset"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
+                  <router-link class="textDecorNone" to="/listcodeset" target="_blank"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
                 </div>
                 <q-btn
                 icon="img:statics/imgs/userIcon.png"
@@ -18,7 +18,7 @@
                 outline
                 no-caps
                 class="userName headerRight"
-                label="Muthu R."
+                label="Muthu R"
                 />
             </div>
         </q-toolbar-title>
@@ -44,7 +44,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.path === '/codeset') {
+    if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
       this.mainLogo = '/statics/imgs/group-212@3x.jpg'
@@ -55,7 +55,7 @@ export default {
     }
   },
   created () {
-    if (this.$route.path === '/codeset') {
+    if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
       this.mainLogo = '/statics/imgs/group-212@3x.jpg'

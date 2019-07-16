@@ -9,11 +9,11 @@
     </div>
     <div class="attributeDiv" v-if="event != ''">
       <div class="row q-mx-lg q-my-sm" v-for="obj in apiData[event.event]" v-bind:key="obj.Label">
-        <div class="row full-width q-my-xs" v-if="obj.Type == 'text'">
+        <div class="row full-width q-my-sm" v-if="obj.Type == 'text'">
           {{obj.Label}}
           <input class="input-box full-width" v-model="returnData[obj.Label]"/>
         </div>
-        <div class="full-width q-my-xs" v-if="obj.Type == 'multiple-select'">
+        <div class="full-width q-my-sm" v-if="obj.Type == 'multiple-select'">
           <div class="row">
             {{obj.Label}}
           </div>
@@ -25,26 +25,20 @@
                  </option>
                </select>
             </div>
-            <div class="col q-mx-xs  q-mx-sm">
-              <q-radio dense v-model="event.exclude" v-on:change="sendName" val="exclude" label="exclude" ></q-radio>
-            </div>
-            <div class="col q-mx-xs  q-mx-xs">
-              <q-radio dense v-model="event.exclude" v-on:change="sendName" val="include" label="include" ></q-radio>
-            </div>
           </div>
         </div>
-        <div class="full-width q-my-xs" v-if="obj.Type == 'single-select'">
+        <div class="full-width q-my-sm" v-if="obj.Type == 'single-select'">
           <div class="row">
             {{obj.Label}}
           </div>
           <div class="row q-mt-xs">
             <div class="col-10 q-mr-xs ">
-              <q-select class="w25R" filled v-model="event[obj.name]" multiple :options="obj.value" counter hint="With counter" style="width: 250px"
-        ></q-select>
-        </div>
+              <q-select class="w25R" filled v-model="event[obj.name]" v-on:change="sendName" multiple :options="obj.value" counter hint="With counter" style="width: 250px"
+              ></q-select>
+            </div>
           </div>
         </div>
-        <div class=" full-width q-my-xs" v-if="obj.Type == 'count'">
+        <div class=" full-width q-my-sm" v-if="obj.Type == 'count'">
           <div class="row">
             {{obj.Label}}
           </div>
@@ -61,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="full-width q-my-xs" v-if="obj.Type == 'count-select'">
+        <div class="full-width q-my-sm" v-if="obj.Type == 'count-select'">
           <div class="row">
             {{obj.Label}}
           </div>
@@ -82,7 +76,7 @@
             </div>
           </div>
         </div>
-        <div class="full-width q-my-xs" v-if="obj.Type == 'day-between'">
+        <div class="full-width q-my-sm" v-if="obj.Type == 'day-between'">
           <div class="row">
             {{obj.Label}}
           </div>
@@ -113,7 +107,7 @@
             </div>
           </div>
         </div>
-        <div class="full-width q-my-xs" v-if="obj.Type == 'date-between'">
+        <div class="full-width q-my-sm" v-if="obj.Type == 'date-between'">
           <div class="row">
             {{obj.Label}}
           </div>
@@ -175,7 +169,6 @@ import procedureData from '../json/procedure.json'
 import treatementData from '../json/treatement.json'
 import {
   QCheckbox,
-  QRadio,
   QDate,
   QInput,
   QIcon,
@@ -189,7 +182,6 @@ export default {
     QIcon,
     QInput,
     QSelect,
-    QRadio,
     QPopupProxy,
     QCheckbox
   },
