@@ -2,19 +2,11 @@
     <div class="q-px-xl q-py-sm">
         <div class="row q-py-sm">
         <q-card class="row col-9 q-mr-lg">
-            <div class="col-3 q-pa-sm">
-                <input class="input-box full-width"  placeholder="Cohort Name" />
+            <div class="col-4 q-pa-sm">
+                <input class="input-box full-width"  placeholder="Codeset Name" />
             </div>
-            <div class="col-6 q-pa-sm">
-                <input class="input-box full-width"  placeholder="Cohort Description" />
-            </div>
-            <div class="col q-pa-sm">
-                <select class="select-box full-width"   placeholder="Cohort Group">
-                  <option disabled>Cohort Group</option>
-                  <option v-for="opt in cGrpOpts" v-bind:key="opt.value" :value="opt.value">
-                    {{opt.label}}
-                  </option>
-                </select>
+            <div class="col-8 q-pa-sm">
+                <input class="input-box full-width"  placeholder="Codeset Description" />
             </div>
         </q-card>
         <q-card class="col row">
@@ -57,8 +49,7 @@
             <span class="sub-header">Source Code</span>
           </q-th>
           <q-th key="podUpload2">
-            <label>Standard Code Description</label><br>
-            <span class="sub-header">Source Code Description</span>
+            <label>Standard Code Description</label>
           </q-th>
           <q-th key="podUpload3">
             <q-checkbox v-model="exclude" label="Exclude" />
@@ -73,12 +64,12 @@
           </q-th>
         </q-tr>
         <q-tr slot="body" slot-scope="data" :props="data">
-          <q-th key="podUpload1">{{data.row.source_code}}</q-th>
+          <q-th key="podUpload1">{{data.row.target_concept_id}}</q-th>
           <q-th key="podUpload2">{{data.row.target_concept_name}}</q-th>
           <q-th key="podUpload3"><q-checkbox v-model="data.row.exclude"/></q-th>
           <q-th key="podUpload4">
             <q-checkbox v-model="data.row.dependents"/>
-            <q-btn outline no-caps class="userName" @click="dependentsPopup = true" >
+            <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row.target_concept_id)" >
               <q-icon name="img:/statics/imgs/group-519.png" size="20px"/>
             </q-btn>
           </q-th>
@@ -110,7 +101,7 @@
           transition-hide="slide-down"
         >
           <q-card>
-            <dependent-codes v-on:selectedChange="handleChange"></dependent-codes>
+            <dependent-codes :desendents="currentDependents" v-on:selectedChange="handleChange"></dependent-codes>
           </q-card>
         </q-dialog>
     </div>
@@ -118,6 +109,7 @@
 <script>
 import searchCodes from 'pages/searchCodes'
 import dependentsCodes from 'pages/dependentCodes'
+import dependentJson from '../json/sourcecodewith_descendant_v2.json'
 import {
   QTable,
   QTh,
@@ -152,13 +144,14 @@ export default {
       dependentsPopup: false,
       exclude: false,
       dependents: false,
+      dependentsJson: dependentJson,
       columns: [
         {
-          name: 'source_code',
+          name: 'target_concept_id',
           required: true,
           label: 'Standard Code',
           align: 'left',
-          field: row => row.code,
+          field: row => row.target_concept_id,
           format: val => `${val}`,
           sortable: true
         },
@@ -206,7 +199,7 @@ export default {
           that.$q.notify({
             color: 'black',
             textColor: 'white',
-            message: row.source_code + ' has been added successfully.',
+            message: row.target_concept_id + ' has been added successfully.',
             position: 'bottom-right',
             timeout: 3000
           })
@@ -214,7 +207,7 @@ export default {
           that.$q.notify({
             color: 'red',
             textColor: 'white',
-            message: row.source_code + ' is already available.',
+            message: row.target_concept_id + ' is already available.',
             position: 'bottom-right',
             timeout: 3000
           })
@@ -225,7 +218,7 @@ export default {
       var that = this
       // var returnVal = false
 
-      if (that.data.filter(row1 => row1.source_code === row.source_code).length) {
+      if (that.data.filter(row1 => row1.target_concept_id === row.target_concept_id).length) {
         return false
       } else {
         return true
@@ -239,9 +232,28 @@ export default {
     },
     removeCodeFromList (code) {
       var that = this
-      var data = that.data.filter(row1 => row1.source_code === code)
+      var data = that.data.filter(row1 => row1.target_concept_id === code)
       if (data.length > 0) {
         that.data.splice(data[0].__index, 1)
+      }
+    },
+    openDependentpopup (conceptId) {
+      var that = this
+      that.currentDependents = []
+      that.dependentsJson.forEach(function (row) {
+        if (row.target_concept_id === conceptId) {
+          that.currentDependents = row.descendant
+          that.dependentsPopup = true
+        }
+      })
+      if (that.currentDependents.length === 0) {
+        that.$q.notify({
+          color: 'red',
+          textColor: 'white',
+          message: 'No Dependents Available For ' + conceptId + '.',
+          position: 'bottom-right',
+          timeout: 3000
+        })
       }
     }
   }

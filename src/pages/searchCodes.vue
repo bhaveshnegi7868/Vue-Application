@@ -4,15 +4,20 @@
       <h6>Search Codes Using Key Words</h6>
       <div class="row">
         <div class="col-7">
-          <!-- <div style="margin-bottom: 10px">
+          <div>
             <el-row>
-              <el-col :span="6">
-                <el-checkbox-group v-model="filters[0].value">
-                  <el-checkbox v-for=""></el-checkbox>
-                </el-checkbox-group>
+              <el-col :span="24">
+                <el-input v-model="filters[2].value" placeholder="Search">
+                  <template v-slot:prepend>
+                    <q-icon name="search" />
+                  </template>
+                  <template v-slot:append>
+                    <el-button type="Info" @click="addAll()">Add All</el-button>
+                  </template>
+                </el-input>
               </el-col>
             </el-row>
-          </div> -->
+          </div>
           <div class="row table-box">
             <!-- <div class="col-3">
               <div class="q-pa-sm q-ma-sm filter-box">
@@ -35,7 +40,7 @@
                 :data="data"
                 :filters="filters"
                 @selection-change="handleSelectionChange"
-                :pagination-props="{ background: true, pageSizes: [5 , 10, 20, -1] }"
+                :pagination-props="{ background: true, pageSizes: [20, 10 , 5] }"
                 >
                 <el-table-column type="selection" width="55">
                 </el-table-column>
@@ -85,9 +90,9 @@
                 Selected Codes
               </div>
               <q-card v-for="row in selected" :key="row.code" class="q-ma-md q-pa-sm" shadow-3>
-                {{row.source_code}}-{{row.target_concept_name}}<br>
+                {{row.target_concept_id}}-{{row.target_concept_name}}<br>
                 <div class="text-right">
-                  {{row.domain_id}}-{{row.source_vocabulary_id}}
+                  {{row.domain_id}}-{{row.target_concept_vocab_id}}
                 </div>
               </q-card>
             </div>
@@ -102,7 +107,7 @@
 </template>
 
 <script>
-import sourceData from '../json/source_code.json'
+import sourceData from '../json/sourceCodes.json'
 import {
   QCard
   // QList,
@@ -129,10 +134,14 @@ export default {
           prop: 'source_vocabulary_id',
           value: [],
           available: ['Vocabulary 01', 'Vocabulary 02', 'Vocabulary 03']
+        },
+        {
+          prop: ['domain_id', 'target_concept_id', 'target_concept_name', 'target_concept_vocab_id'],
+          value: ''
         }
       ],
       titles: [{
-        prop: 'source_code',
+        prop: 'target_concept_id',
         label: 'Code'
       }, {
         prop: 'target_concept_name',
@@ -141,7 +150,7 @@ export default {
         prop: 'domain_id',
         label: 'Domain'
       }, {
-        prop: 'source_vocabulary_id',
+        prop: 'target_concept_vocab_id',
         label: 'Vocabulary'
       }
       ],
@@ -194,6 +203,11 @@ export default {
   methods: {
     getSelectedString () {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
+    },
+    addAll () {
+      this.selected = this.data
+      this.sendName()
+      this.selected = []
     },
     handleSelectionChange (val) {
       this.selected = val

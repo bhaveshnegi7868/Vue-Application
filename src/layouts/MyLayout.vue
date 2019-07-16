@@ -4,7 +4,7 @@
       <q-toolbar class="Top---Menu-Bar pad10LR q-pa-xs">
         <q-toolbar-title>
             <div class="headerLeft">
-                <router-link class="textDecorNone" to="/list"><img src="../statics/imgs/logo.png" class="logo"></router-link>
+                <router-link class="textDecorNone" to="/list"><img :src="mainLogo" class="logo"></router-link>
             </div>
 
             <div class="headerRight">
@@ -37,7 +37,45 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      Cohorts: 'Cohorts',
+      CodeGroup: 'Code-Group',
+      mainLogo: '/statics/imgs/logo.png'
+    }
+  },
+  mounted () {
+    if (this.$route.path === '/codeset') {
+      this.Cohorts = 'Code-Group'
+      this.CodeGroup = 'Cohorts'
+      this.mainLogo = '/statics/imgs/group-212@3x.jpg'
+    } else {
+      this.Cohorts = 'Cohorts'
+      this.CodeGroup = 'Code-Group'
+      this.mainLogo = '/statics/imgs/logo.png'
+    }
+  },
+  created () {
+    if (this.$route.path === '/codeset') {
+      this.Cohorts = 'Code-Group'
+      this.CodeGroup = 'Cohorts'
+      this.mainLogo = '/statics/imgs/group-212@3x.jpg'
+    } else {
+      this.Cohorts = 'Cohorts'
+      this.CodeGroup = 'Code-Group'
+      this.mainLogo = '/statics/imgs/logo.png'
+    }
+  },
+  watch: {
+    $route (to, from) {
+      if (to.path === '/codeset') {
+        this.Cohorts = 'Code-Group'
+        this.CodeGroup = 'Cohorts'
+        this.mainLogo = '/statics/imgs/group-212@3x.jpg'
+      } else {
+        this.Cohorts = 'Cohorts'
+        this.CodeGroup = 'Code-Group'
+        this.mainLogo = '/statics/imgs/logo.png'
+      }
     }
   },
   methods: {
