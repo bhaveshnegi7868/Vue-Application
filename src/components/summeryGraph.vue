@@ -5,12 +5,12 @@ export default {
   extends: Bar,
   data: () => ({
     chartdata: {
-      labels: ['20-40', '41-50', '51-60', '61-70', '70+'],
+      labels: ['0-20', '21-30', '31-40', '41-50', '51-60', '60+', '70+'],
       datasets: [
         {
           label: 'Patient count',
           backgroundColor: '#6b9840',
-          data: [19341, 62342, 104185, 184513, 50047, 5]
+          data: [14503, 48343, 58011, 91852, 159532, 111189, 5]
         }
       ]
     },

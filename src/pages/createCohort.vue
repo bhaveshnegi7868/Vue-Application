@@ -34,7 +34,7 @@
             <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary"/>
           </div>
           <div class="col q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" label="Run" class="f12 action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
@@ -226,8 +226,19 @@ import eventAttributes from 'pages/eventAttributes'
 import secondaryHeader from 'components/secondaryHeader'
 import {
   QCard,
+  Loading,
+  QSpinnerIos,
   QBadge
 } from 'quasar'
+Loading.show({
+  spinner: QSpinnerIos,
+  message: 'Running',
+  messageColor: 'white',
+  spinnerSize: 150, // in pixels
+  spinnerColor: 'green',
+  customClass: 'bg-light'
+})
+Loading.hide()
 export default {
   name: 'createCohort',
   components: {
@@ -318,6 +329,23 @@ export default {
         'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-2 row'
       })
       that.$refs.test.click()
+    },
+    showLoading () {
+      Loading.show({
+        spinner: QSpinnerIos,
+        message: 'Running',
+        messageColor: 'white',
+        spinnerSize: 150, // in pixels
+        spinnerColor: 'green',
+        customClass: 'bg-light'
+      })
+
+      // hiding in 2s
+      this.timer = setTimeout(() => {
+        Loading.hide()
+        this.$router.push({ path: '/summary' })
+        this.timer = void 0
+      }, 4000)
     },
     closeGroup () {
       var that = this
