@@ -12,8 +12,8 @@
               color="white"
                 text-color="black"
                 :options="[
-                  {label: 'My Cohort', value: 'one'},
-                  {label: 'All Cohorts', value: 'two'}
+                  {label: 'My Codeset', value: 'one'},
+                  {label: 'All Codesets', value: 'two'}
                 ]"
               >
             </q-btn-toggle>
@@ -24,12 +24,12 @@
                   <q-icon name="search" />
                 </template>
               </q-input>
-              <router-link to="/create">
-                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohort" />
+              <router-link to="/codeset">
+                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
           </template>
-          <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">
-          <router-link to="/create/">{{row.row.Cohortname1}}</router-link>
+          <q-td slot="body-cell-Codesetname" slot-scope="row" :props="row">
+          <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
             </q-td>
           <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
               <q-btn round color="green" size="0.5rem" icon="file_copy" ></q-btn>
@@ -47,7 +47,7 @@ import {
   QTd
 } from 'quasar'
 export default {
-  name: 'listCohort',
+  name: 'listCodeset',
   components: {
     QInput,
     QBtnToggle,
@@ -59,23 +59,40 @@ export default {
       model: 'one',
       searchModel: '',
       columns: [
-        { name: 'Cohortname', field: 'Cohortname1', label: 'Cohort name', align: 'left', sortable: true },
-        { name: 'Cohortdescription', label: 'Cohort description', field: 'Cohortdescription', align: 'left', sortable: true },
+        { name: 'Codesetname', field: 'Codesetname1', label: 'Codeset name', align: 'left', sortable: true },
+        { name: 'Codesetdescription', label: 'Codeset description', field: 'Codesetdescription', align: 'left', sortable: true },
         { name: 'Createdby', label: 'Created by', field: 'Createdby', sortable: true, align: 'left' },
         { name: 'Createddate', label: 'Created date', field: 'Createddate', sortable: true },
-        { name: 'Executeddate', label: 'Executed date', field: 'Executeddate', sortable: true },
-        { name: 'Status', label: 'Status', field: 'Status', sortable: true },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
       data: [
         {
-          Cohortname1: 'CHD with CV events',
-          Cohortdescription: 'Diagnosed with unstable angina or Myocardial Infarction (MI)',
+          Codesetname1: 'Myocardial Infarction',
+          Codesetdescription: 'Myocardial Infarction',
           Createdby: 'Muthu R',
           Createddate: '01-Jul-19',
-          Executeddate: '16-Jul-19',
-          Status: 'Completed',
           Actions: '14%'
+        },
+        {
+          Codesetname1: 'Unstable Angina',
+          Codesetdescription: 'Unstable Angina',
+          Createdby: 'Muthu R',
+          Createddate: '01-Jul-19',
+          Actions: '8%'
+        },
+        {
+          Codesetname1: 'Statins',
+          Codesetdescription: 'Statins',
+          Createdby: 'Muthu R',
+          Createddate: '01-Jul-19',
+          Actions: '6%'
+        },
+        {
+          Codesetname1: 'Familal hypercholestrolemia',
+          Codesetdescription: 'Familal hypercholestrolemia',
+          Createdby: 'Muthu R',
+          Createddate: '01-Jul-19',
+          Actions: '8%'
         }
       ]
     }

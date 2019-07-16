@@ -19,17 +19,17 @@
           </div>
           <div class="row q-mt-xs">
             <div class="col-5 q-mr-xs ">
-               <select class="criteria-box w9R " v-model="obj.name">
+               <select class="criteria-box w9R " v-model="event[obj.name]" v-on:change="sendName">
                  <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                    {{opt}}
                  </option>
                </select>
             </div>
             <div class="col q-mx-xs  q-mx-sm">
-              <q-radio dense v-model="shape" val="exclude" label="exclude" ></q-radio>
+              <q-radio dense v-model="event.exclude" v-on:change="sendName" val="exclude" label="exclude" ></q-radio>
             </div>
             <div class="col q-mx-xs  q-mx-xs">
-              <q-radio dense v-model="shape" val="include" label="include" ></q-radio>
+              <q-radio dense v-model="event.exclude" v-on:change="sendName" val="include" label="include" ></q-radio>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
           </div>
           <div class="row q-mt-xs">
             <div class="col-5 q-mr-xs ">
-               <select class="criteria-box w9R " v-model="obj.name">
+               <select class="criteria-box w9R " v-model="event[obj.name]" v-on:change="sendName">
                  <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                    {{opt}}
                  </option>
@@ -53,14 +53,14 @@
           </div>
           <div class="row q-mt-xs">
             <div class="col-5 q-mr-xs ">
-              <select class="criteria-box w9R " v-model="obj.name">
+              <select class="criteria-box w9R " v-model="event[obj.name]" v-on:change="sendName">
                 <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                   {{opt}}
                 </option>
               </select>
             </div>
             <div class="col q-mx-xs  q-ml-md">
-              <input class="input-box full-width" />
+              <input class="input-box full-width" v-model="event.count[obj.name]" v-on:keyup="sendName" />
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
           </div>
           <div class="row q-mt-xs">
             <div class="col-5 q-mr-xs  ">
-              <select class="criteria-box w9R " v-model="obj.name">
+              <select class="criteria-box w9R "  v-model="event[obj.name]" v-on:change="sendName">
                 <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                   {{opt}}
                 </option>
@@ -96,7 +96,7 @@
             </div>
             <div class="q-mr-xs ">
               <span class="q-mr-xs"> day</span>
-              <select class="criteria-box  " v-model="obj.data.daytypeOpt1">
+              <select class="criteria-box  " v-model="event.daytypeOpt1" v-on:change="sendName">
                 <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                   {{opt}}
                 </option>
@@ -108,7 +108,7 @@
             </div>
             <div class="q-mr-xs ">
               <span class="q-mr-xs"> day</span>
-              <select class="criteria-box  " v-model="obj.data.daytypeOpt2">
+              <select class="criteria-box  " v-model="event.daytypeOpt2" v-on:change="sendName">
                 <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                   {{opt}}
                 </option>
@@ -122,7 +122,7 @@
           </div>
           <div class="row q-mt-xs">
             <div class=" q-mr-xs ">
-            <select class="criteria-box  w9R" v-model="obj.data.type" >
+            <select class="criteria-box  w9R"  v-model="event[obj.name]" v-on:change="sendName" >
               <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                 {{opt}}
               </option>
@@ -152,15 +152,15 @@
             </div>
           </div>
         </div>
-        <q-checkbox :label="obj.Label" v-model="limit" left-label q-my-xs  v-if="obj.Type == 'checkbox'"/>
+        <q-checkbox :label="obj.Label"  v-model="event[obj.name]" v-on:change="sendName" left-label q-my-xs  v-if="obj.Type == 'checkbox'"/>
         <div class=" full-width q-my-xs" v-if="obj.Type == 'number'">
           <div class="row">
             {{obj.Label}}
             <div class=" q-mx-md">
-              <input class="input-box w4R" />
+              <input class="input-box w4R"  v-model="event.countNumberType" v-on:keyup="sendName"/>
             </div>
             <div class=" q-mx-xs ">
-              <select class="criteria-box w9R " v-model="obj.name">
+              <select class="criteria-box w9R "  v-model="event[obj.name]" v-on:change="sendName">
                 <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                   {{opt}}
                 </option>

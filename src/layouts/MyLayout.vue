@@ -10,7 +10,7 @@
             <div class="headerRight">
                 <div class="TopMenu">
                   <router-link class="textDecorNone" to="/list"><span class="Cohorts q-ml-sm">Cohort</span></router-link>
-                  <router-link class="textDecorNone" to="/codeset"><span class="Code-Group q-ml-lg">Code-set</span></router-link>
+                  <router-link class="textDecorNone" to="/listcodeset"><span class="Code-Group q-ml-lg">Code-set</span></router-link>
                 </div>
                 <q-btn
                 icon="img:statics/imgs/userIcon.png"
