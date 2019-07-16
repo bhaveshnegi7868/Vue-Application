@@ -11,13 +11,13 @@
           <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0 " :class="{'bgCgreen': arrtitionNdemoGraph}"  @click="otherEvnt=0;arrtitionNdemoGraph=1;">
               Attrition and Demographics
           </q-btn>
-          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0" :class="{'bgCgreen': otherEvnt}"  @click="otherEvnt=1;arrtitionNdemoGraph=0;">
+          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0" :class="{'bgCgreen': otherEvnt}">
             Diagnosis
           </q-btn>
-          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0 " @click="otherEvnt=1;arrtitionNdemoGraph=0;">
+          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0 " >
             Treatment
           </q-btn>
-          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0"  @click="otherEvnt=1;arrtitionNdemoGraph=0;">
+          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0" >
             Procedure
           </q-btn>
         </div>
@@ -58,13 +58,13 @@
                 Market Scan
               </div>
               <div class="q-mx-sm q-py-xs col">
-                Swethank
+                Muthu R
               </div>
               <div class="q-mx-sm q-py-xs col">
                 10 Jul 19
               </div>
               <div class="q-mx-sm q-py-xs col">
-                02:50 Min
+                10 Sec
               </div>
               <div class="q-mx-sm q-py-xs col">
                 Completed
@@ -92,7 +92,7 @@
                   <div v-if="openFstChild" class="bor1Lightgrey q-mx-sm q-px-sm q-py-sm">
                     <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
                         MI
-                        <q-icon class="float-right q-mx-xs q-my-xs q-ml-md "  name="img:statics/imgs/greenRightArrow.png" />
+                        <q-icon class="float-right q-mx-xs q-my-xs q-ml-md "  name="img:statghtArrow.png" />
                         <div class="float-right q-mx-lg W200 ">
                           <div class="col10 bgStatC1 W200 q-mx-sm catColorLbl text-center ">
                             649,743
@@ -111,7 +111,7 @@
                     <div v-if="openScdChild" class="bor1Lightgrey q-mx-sm q-px-sm q-py-sm">
                       <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
                           UA
-                          <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                          <q-icon class="float-right q-mx-xs q-my-xs" name="img:statightArrow.png" />
                           <div class="float-right q-mx-md W200 ">
                             <div class="col10 bgStatC1 W200 q-mx-xs catColorLbl text-center ">
                               52,810
@@ -120,7 +120,7 @@
                       </div>
                       <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
                           No MI
-                          <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                          <q-icon class="float-right q-mx-xs q-my-xs" name="img:staticsghtArrow.png" />
                           <div class="float-right q-mx-md W200 ">
                             <div class="col10 bgStatC1 W200 q-mx-xs catColorLbl text-center ">
                               12,678,320
@@ -133,7 +133,7 @@
                       Statins or FH
                       <q-icon class="float-right q-mx-xs q-my-xs" @click="openFstChild2=!openFstChild2;openScdChild2=0;" name="img:statics/imgs/greenRightArrow.png" />
                       <div class="float-right q-mx-xl W200 ">
-                        <div class="col10 bgStatC2 W170 q-mx-sm catColorLbl text-center ">
+                        <div class="col10 bgStatC2 W150 q-mx-auto catColorLbl text-center ">
                           483,429
                         </div>
                       </div>
@@ -141,18 +141,18 @@
                   <div v-if="openFstChild2" class="bor1Lightgrey q-mx-sm q-px-sm q-py-sm">
                     <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
                         Statins
-                        <q-icon class="float-right q-mx-xs q-my-xs"  name="img:statics/imgs/greenRightArrow.png" />
+                        <q-icon class="float-right q-mx-xs q-my-xs"  name="img:staticsightArrow.png" />
                         <div class="float-right q-mx-lg W200 ">
-                          <div class="col10 bgStatC2 W170 q-mx-xs catColorLbl text-center ">
+                          <div class="col10 bgStatC2 W150 q-ml-md catColorLbl text-center ">
                             448,219
                           </div>
                         </div>
                     </div>
                     <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
                         FH
-                        <q-icon class="float-right q-mx-xs q-my-xs" name="img:statics/imgs/greenRightArrow.png" />
+                        <q-icon class="float-right q-mx-xs q-my-xs" name="img:RightArrow.png" />
                         <div class="float-right q-mx-lg W200 ">
-                          <div class="col10 bgStatC2 W170 q-mx-xs  catColorLbl text-center ">
+                          <div class="col10 bgStatC2 W150 q-ml-md  catColorLbl text-center ">
                             68,507
                           </div>
                         </div>

@@ -60,8 +60,8 @@
             {{obj.Label}}
           </div>
           <div class="row q-mt-xs">
-            <div class="col-5 q-mr-xs  ">
-              <select class="criteria-box w9R "  v-model="event[obj.name]" v-on:change="sendName">
+            <div class="col-4 q-mr-xs  ">
+              <select class="criteria-box full-width "  v-model="event[obj.name]" v-on:change="sendName">
                 <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                   {{opt}}
                 </option>

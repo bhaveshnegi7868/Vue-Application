@@ -10,7 +10,8 @@
                 <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
             </div>
             <div class="col q-pa-sm">
-                <select class="select-box full-width" v-model="currentcohort.datasource" placeholder="datasource">
+                <select required class="select-box full-width" v-model="currentcohort.datasource" placeholder="datasource">
+                  <option value="Datasource" hidden selected >Datasource</option>
                   <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
                     {{opt.label}}
                   </option>
@@ -93,16 +94,19 @@
                     <div v-if="elementObj.events">
                       <q-card class="row sub-grp q-mt-sm q-mb-sm">
                         <div class="col-9 q-pa-sm">
-                          <q-badge color="positive" class="q-my-sm">{{elementObj.id}}</q-badge>
-                          or
                           <select class="criteria-box" v-model="elementObj.option">
                             <option disabled>Select</option>
                             <option>All</option>
                             <option>Any</option>
                           </select> of the criteria
                         </div>
+
                         <div class="col q-ml-lg q-px-xs q-mt-sm">
                           <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
+                        </div>
+                        <div class="col-12 row  q-pa-sm">
+                            <q-badge color="positive" class="q-my-sm">{{elementObj.id}}</q-badge>
+                            <input class="input-box col-11 q-mx-xs" v-model="elementObj.name" placeholder="Group Name" />
                         </div>
                         <div class="row full-width">
                         <q-card
@@ -249,7 +253,8 @@ export default {
       selectedCriteria: 'Select',
       readonlyCriteriaSelect: false,
       eventArray: {},
-      currentCriteria: '',
+      currentCriteria: {
+      },
       criteriaArray: [
         {
           'name': 'Initial Criteria',
@@ -345,7 +350,7 @@ export default {
         Loading.hide()
         this.$router.push({ path: '/summary' })
         this.timer = void 0
-      }, 4000)
+      }, 10000)
     },
     closeGroup () {
       var that = this
