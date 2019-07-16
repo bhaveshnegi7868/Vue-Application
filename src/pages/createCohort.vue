@@ -3,21 +3,13 @@
     <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
     <div class="row q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
-            <div class="col-3 q-pa-sm">
+            <div class="col-4 q-pa-sm">
                 <input class="input-box full-width" v-model="currentcohort.name" placeholder="Cohort Name" />
             </div>
-            <div class="col-5 q-pa-sm">
+            <div class="col-6 q-pa-sm">
                 <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
             </div>
-            <div class="col-2 q-pa-sm">
-                <select class="select-box full-width" v-model="currentcohort.group"  placeholder="Cohort Group">
-                  <option disabled>Cohort Group</option>
-                  <option v-for="opt in cGrpOpts" v-bind:key="opt.value" :value="opt.value">
-                    {{opt.label}}
-                  </option>
-                </select>
-            </div>
-            <div class="col-2 q-pa-sm">
+            <div class="col q-pa-sm">
                 <select class="select-box full-width" v-model="currentcohort.datasource">
                   <option selected disabled>Datasource</option>
                   <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
@@ -86,7 +78,7 @@
                     <select class="criteria-box" v-model="selectedCriteria">
                       <option disabled>Select</option>
                       <option>All</option>
-                      <option>Some</option>
+                      <option>Any</option>
                     </select> of the criteria
                   </div>
                   <div class="col-md-3">
@@ -107,7 +99,7 @@
                           <select class="criteria-box" v-model="elementObj.option">
                             <option disabled>Select</option>
                             <option>All</option>
-                            <option>Some</option>
+                            <option>Any</option>
                           </select> of the criteria
                         </div>
                         <div class="col q-ml-lg q-px-xs q-mt-sm">
@@ -185,25 +177,16 @@
                       </option>
                     </select>
                   </div>
-                </div>
-                <div class="row q-mt-sm">
-                  <div class="col">
-                    Contineous enrollment w.r.t initial events index start date
                   </div>
-                </div>
-                <div class="row q-mt-xs">
+                  <div class="row q-mt-lg">
+                    <div class="col">
+                      Contineous enrollment w.r.t initial events index start date
+                    </div>
+                  </div>
+                  <div class="row q-mt-xs">
                   <div class="col">
-                    Between <select class="criteria-box customCard-SelectBox" v-model="cdtsrc">
-                      <option selected disabled>Datasource</option>
-                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
-                        {{opt.label}}
-                      </option>
-                    </select> days before and <select class="criteria-box customCard-SelectBox" v-model="cdtsrc">
-                      <option selected disabled>Datasource</option>
-                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
-                        {{opt.label}}
-                      </option>
-                    </select> days after
+                    Between <input  class="input-box H25 w4R" />
+                     days before and <input  class="input-box H25 w4R" /> days after
                   </div>
                 </div>
               </q-card>
@@ -292,9 +275,14 @@ export default {
         { 'label': 'GRP3', 'value': 'GRP3' }
       ],
       dtSourceOpts: [
-        { 'label': 'dt1', 'value': 'dt1' },
-        { 'label': 'dt2', 'value': 'dt2' },
-        { 'label': 'dt3', 'value': 'dt3' }
+        {
+          value: 'Latest',
+          label: 'Latest'
+        },
+        {
+          value: 'Earliest',
+          label: 'Earliest'
+        }
       ],
 
       currentEvent: '',

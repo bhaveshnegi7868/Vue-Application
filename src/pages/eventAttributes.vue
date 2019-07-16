@@ -38,13 +38,10 @@
             {{obj.Label}}
           </div>
           <div class="row q-mt-xs">
-            <div class="col-5 q-mr-xs ">
-               <select class="criteria-box w9R " v-model="event[obj.name]" v-on:change="sendName">
-                 <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
-                   {{opt}}
-                 </option>
-               </select>
-            </div>
+            <div class="col-10 q-mr-xs ">
+              <q-select class="w25R" filled v-model="event[obj.name]" multiple :options="obj.value" counter hint="With counter" style="width: 250px"
+        ></q-select>
+        </div>
           </div>
         </div>
         <div class=" full-width q-my-xs" v-if="obj.Type == 'count'">
@@ -79,7 +76,7 @@
             <div class="q-mx-xs  q-ml-md">
               <input class="input-box w4R" />
             </div>
-            <div class="q-mx-xs  " v-if="obj.name == 'Between' || obj.name == 'Not Between'" >
+            <div class="q-mx-xs  " v-if="event[obj.name] == 'Between' || event[obj.name] == 'Not Between'" >
               <span class="q-mx-xs">and </span>
               <input class="input-box w4R" />
             </div>
@@ -139,7 +136,7 @@
                 </template>
               </q-input>
             </div>
-            <div class=" datepckr q-ml-sm" v-if="obj.data.type == 'Between' || obj.data.type == 'Not Between'">
+            <div class=" datepckr q-ml-sm" v-if="event[obj.name] == 'Between' || event[obj.name] == 'Not Between'">
               <q-input class="w7R" filled v-model="edate" mask="date" :rules="['date']">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
@@ -182,6 +179,7 @@ import {
   QDate,
   QInput,
   QIcon,
+  QSelect,
   QPopupProxy
 } from 'quasar'
 export default {
@@ -190,6 +188,7 @@ export default {
     QDate,
     QIcon,
     QInput,
+    QSelect,
     QRadio,
     QPopupProxy,
     QCheckbox
