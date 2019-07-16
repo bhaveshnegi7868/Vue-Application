@@ -10,14 +10,11 @@
             </div>
         </q-card>
         <q-card class="col row">
-          <div class="col-2 q-ml-sm q-mr-sm">
+          <div class="col q-ml-sm q-mr-sm">
             <q-btn outlined icon="delete_forever" class="action-btns full-width" text-color="negative"/>
           </div>
           <div class="col q-ml-sm q-mr-sm">
-            <q-btn outlined icon="save" label="Save" class="action-btns full-width" text-color="primary"/>
-          </div>
-          <div class="col q-ml-sm q-mr-sm">
-            <q-btn outlined icon="play_circle_filled" label="Run" class="action-btns full-width" text-color="positive"/>
+            <q-btn outlined icon="save" label="Save" class="action-btns full-width" text-color="primary" @click="savedSuccessfully"/>
           </div>
         </q-card>
         </div>
@@ -66,12 +63,26 @@
         <q-tr slot="body" slot-scope="data" :props="data">
           <q-th key="podUpload1">{{data.row.target_concept_id}}</q-th>
           <q-th key="podUpload2">{{data.row.target_concept_name}}</q-th>
-          <q-th key="podUpload3"><q-checkbox v-model="data.row.exclude"/></q-th>
+          <q-th key="podUpload3">
+            <label class="checkbox-container">
+              <input type="checkbox" v-model="data.row.exclude"/>
+              <span class="checkmark"></span>
+            </label>
+          </q-th>
           <q-th key="podUpload4">
-            <q-checkbox v-model="data.row.dependents"/>
-            <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row.target_concept_id)" >
-              <q-icon name="img:/statics/imgs/group-519.png" size="20px"/>
-            </q-btn>
+            <div class="row">
+              <div class="col" style="margin-top: 12px;">
+                <label class="checkbox-container">
+                  <input type="checkbox" v-model="data.row.dependents"/>
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="col">
+                <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row.target_concept_id)" >
+                  <q-icon name="img:/statics/imgs/group-519.png" size="20px"/>
+                </q-btn>
+              </div>
+            </div>
           </q-th>
           <q-th key="podUpload5">
             <q-btn outline no-caps class="userName" @click="removeCodeFromList(data.row.source_code)">
@@ -138,6 +149,7 @@ export default {
   },
   data () {
     return {
+      currentDependents: [],
       maximizedToggle: true,
       selected: [],
       codesPopup: false,
@@ -161,7 +173,7 @@ export default {
           required: true,
           label: 'Exclude',
           align: 'left',
-          field: row => row.name,
+          field: row => row.exclude,
           format: val => `${val}`,
           sortable: true
         },
@@ -170,7 +182,7 @@ export default {
           required: true,
           label: 'Dependents',
           align: 'left',
-          field: row => row.name,
+          field: row => row.dependents,
           format: val => `${val}`,
           sortable: true
         },
@@ -255,6 +267,16 @@ export default {
           timeout: 3000
         })
       }
+    },
+    savedSuccessfully () {
+      var that = this
+      that.$q.notify({
+        color: 'green',
+        textColor: 'white',
+        message: 'Code Set Saved Successfully',
+        position: 'bottom-right',
+        timeout: 3000
+      })
     }
   }
 }

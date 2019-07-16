@@ -2,8 +2,8 @@
   <div>
     <q-card class="q-pa-md">
       <h6>Search Codes Using Key Words</h6>
-      <div class="row">
-        <div class="col-7">
+      <div class="row" >
+        <div class="col-7 selected_events">
           <div>
             <el-row>
               <el-col :span="24">
@@ -41,6 +41,7 @@
                 :filters="filters"
                 @selection-change="handleSelectionChange"
                 :pagination-props="{ background: true, pageSizes: [20, 10 , 5] }"
+                class="selected_events"
                 >
                 <el-table-column type="selection" width="55">
                 </el-table-column>
@@ -89,12 +90,14 @@
               <div class="categories_header">
                 Selected Codes
               </div>
-              <q-card v-for="row in selected" :key="row.code" class="q-ma-md q-pa-sm" shadow-3>
-                {{row.target_concept_id}}-{{row.target_concept_name}}<br>
-                <div class="text-right">
-                  {{row.domain_id}}-{{row.target_concept_vocab_id}}
-                </div>
-              </q-card>
+              <div class="selected_events">
+                <q-card v-for="row in selected" :key="row.code" class="q-ma-md q-pa-sm" shadow-3>
+                  {{row.target_concept_id}}-{{row.target_concept_name}}<br>
+                  <div class="text-right">
+                    {{row.domain_id}}-{{row.target_concept_vocab_id}}
+                  </div>
+                </q-card>
+              </div>
             </div>
             <footer class="footer">
               <q-btn no-caps class="addtolist-btn" label="Add to list" @click="sendName"/>
@@ -207,7 +210,6 @@ export default {
     addAll () {
       this.selected = this.data
       this.sendName()
-      this.selected = []
     },
     handleSelectionChange (val) {
       this.selected = val
