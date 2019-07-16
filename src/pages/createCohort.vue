@@ -10,8 +10,7 @@
                 <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
             </div>
             <div class="col q-pa-sm">
-                <select class="select-box full-width" v-model="currentcohort.datasource">
-                  <option selected disabled>Datasource</option>
+                <select class="select-box full-width" v-model="currentcohort.datasource" placeholder="datasource">
                   <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
                     {{opt.label}}
                   </option>
@@ -170,9 +169,8 @@
                 <div class="row">
                   <div class="col">
                     Limit initial events to
-                    <select class="criteria-box customCard-SelectBox" v-model="cdtsrc">
-                      <option selected disabled>Datasource</option>
-                      <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
+                    <select class="criteria-box H25 w9R" v-model="cdtsrc">
+                      <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
                     </select>
@@ -274,7 +272,7 @@ export default {
         { 'label': 'GRP2', 'value': 'GRP2' },
         { 'label': 'GRP3', 'value': 'GRP3' }
       ],
-      dtSourceOpts: [
+      dtSourceOpts2: [
         {
           value: 'Latest',
           label: 'Latest'
@@ -282,6 +280,20 @@ export default {
         {
           value: 'Earliest',
           label: 'Earliest'
+        }
+      ],
+      dtSourceOpts: [
+        {
+          value: 'DRG',
+          label: 'DRG'
+        },
+        {
+          value: 'Optum',
+          label: 'Optum'
+        },
+        {
+          value: 'MarketScan',
+          label: 'Market Scan'
         }
       ],
 
