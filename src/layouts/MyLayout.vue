@@ -9,8 +9,8 @@
 
             <div class="headerRight">
                 <div class="TopMenu">
-                  <router-link class="textDecorNone" to="/list"><span class="Cohorts q-ml-sm">Cohort</span></router-link>
-                  <router-link class="textDecorNone" to="/listcodeset"><span class="Code-Group q-ml-lg">Code-set</span></router-link>
+                  <router-link class="textDecorNone" to="/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
+                  <router-link class="textDecorNone" to="/listcodeset"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
                 </div>
                 <q-btn
                 icon="img:statics/imgs/userIcon.png"
@@ -67,7 +67,7 @@ export default {
   },
   watch: {
     $route (to, from) {
-      if (to.path === '/codeset') {
+      if (to.path === '/listcodeset' || to.path === '/codeset') {
         this.Cohorts = 'Code-Group'
         this.CodeGroup = 'Cohorts'
         this.mainLogo = '/statics/imgs/group-212@3x.jpg'
