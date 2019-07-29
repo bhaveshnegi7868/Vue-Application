@@ -30,13 +30,15 @@
         </q-card>
         </div>
         <div class="row q-my-sm">
-          <div class="col-6 q-mx-auto q-px-xl">
-            <q-btn class="q-mx-xl" color="green" text-color="white" rounded unelevated @click="codesPopup = true" >
-              <q-icon class="right-bordered-icon on-left" name="search"/>
-              Search Codes
-            </q-btn>
-            <div class="upload-btn-wrapper">
-              <q-btn class="q-mx-xl" color="green" text-color="white" rounded unelevated >
+          <div class="col-6 row q-mx-auto q-px-xl">
+            <div class="col">
+              <q-btn class="" color="green" text-color="white" rounded unelevated @click="codesPopup = true" >
+                <q-icon class="right-bordered-icon on-left" name="search"/>
+                Search Codes
+              </q-btn>
+            </div>
+            <div class="upload-btn-wrapper col">
+              <q-btn class="" color="green" text-color="white" rounded unelevated >
                 <q-icon class="right-bordered-icon on-left" name="backup"/>
                 Upload Codes
               </q-btn>
@@ -56,9 +58,13 @@
             <label>Standard Code</label><br>
             <span class="sub-header">Source Code</span>
           </q-th>
-          <q-th key="podUpload2">
+          <q-th key="podUpload2 w30R">
             <label>Standard Code Description</label><br>
             <span class="sub-header">Source Code Description</span>
+          </q-th>
+          <q-th key="podUpload6 ">
+            <label>Standard Vocabulary</label><br>
+            <span class="sub-header">Source Vocabulary</span>
           </q-th>
           <q-th key="podUpload3">
             <q-checkbox v-model="exclude" label="Exclude" />
@@ -75,6 +81,7 @@
         <q-tr slot="body" slot-scope="data" :props="data">
           <q-th key="podUpload1">{{data.row.code}}</q-th>
           <q-th key="podUpload2">{{data.row.description}}</q-th>
+          <q-th key="podUpload2">-</q-th>
           <q-th key="podUpload3"><q-checkbox v-model="data.row.exclude"/></q-th>
           <q-th key="podUpload4">
             <q-checkbox v-model="data.row.dependents"/>

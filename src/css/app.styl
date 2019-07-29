@@ -7,6 +7,44 @@
 body{
   font-family: HelveticaNeue !important;
 }
+
+.filter-box {
+  height: 100%;
+  background: #efefef;
+  border-radius: 14px;
+}
+.filter-box-1 {
+  background: #ffffff;
+  border-radius: 14px;
+}
+.selected_events {
+  overflow: auto;
+  height: 430px;
+}
+.footer {
+  width:100%;
+  height:10%;
+  position:relative;
+  /*float:left;*/
+  text-align: center;
+  /*border:1px solid blue;*/
+  /*bottom: -webkit-calc(-100% + 60px);*/
+   bottom:0;
+}
+.addtolist-btn{
+  border-radius: 8px;
+  background-color: #6b9840;
+  color: white;
+}
+.fullscreen{
+  z-index: 0 !important;
+}
+.table-box{
+  border: solid 1px #707070;
+  background-color: #ffffff;
+  padding: 10px;
+  /*height: 100%;*/
+}
 .w4R{
 width:3.5rem;
 }
@@ -41,6 +79,29 @@ width:7rem !important;
 .secondary-header {
 	background: #606060;
 	height: 55px;
+}
+.q-field--with-bottom{
+padding:0px !important;
+}
+.q-field__bottom--animated{
+display: none !important;
+}
+.q-menu--square .q-item{
+    min-height: 20px !important;
+    padding: 0px 16px !important;
+    font-size: 12px !important;
+}
+.w25R{
+width:25rem !important;
+}
+.q-field--auto-height .q-field__control, .q-field--auto-height .q-field__native{
+min-height: 25px !important;
+}
+.q-select--without-input .q-field__control {
+    border: 1px solid #bdb5b5 !important;
+}
+.chartjs-render-monitor{
+height: 250px !important;
 }
 .pad10LR{
   padding: 0px 10px;
@@ -672,6 +733,7 @@ font-size:12px !important;
 .attributeDiv {
   max-height: 100%;
   overflow: auto;
+  padding: 0px;
 }
 .eventBox {
   max-height: 100%;
@@ -1185,9 +1247,37 @@ text-align: left;
 .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
-  display: inline;
 }
-
+.genderGraph img{
+  height:10rem !important;
+  width:10rem !important;
+}
+.genderGraph-Count {
+  text-align: center;
+  height: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+}
+.By-GraphLbls_Underline {
+  width: 3rem;
+  border: solid 1px #707070;
+  background-color: #ffffff;
+}
+.By-GraphLbls {
+  font-family: HelveticaNeue;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.13;
+  letter-spacing: normal;
+  text-align: left;
+  color: #6b9840;
+}
+.w30R{
+width:30rem !important;
+}
 .btn {
   color: gray;
   background-color: white;
@@ -1201,4 +1291,76 @@ text-align: left;
   left: 0;
   top: 0;
   opacity: 0;
+}
+
+
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border-radius: 3px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+  background-color: black;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+  background-color: black;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+  left: 6px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
