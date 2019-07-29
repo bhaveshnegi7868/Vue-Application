@@ -167,6 +167,28 @@
                 <div class="bor1grey q-px-xs q-my-sm ">
                   <summery-graph></summery-graph>
                 </div>
+                <div class="bor1grey row q-px-xs q-my-sm ">
+                    <div class="col-6">
+                      <div class="By-GraphLbls q-my-xs">
+                        By Gender
+                        <div class="By-GraphLbls_Underline"></div>
+                      </div>
+                      <div class="genderGraph q-mx-md">
+                        <q-icon class="q-mx-xs q-my-xs" name="img:statics/imgs/genderStats.png" />
+                      </div>
+                      <div class="row q-my-xs">
+                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">28374</div>
+                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">43876</div>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="By-GraphLbls q-my-xs">
+                        By Race
+                        <div class="By-GraphLbls_Underline"></div>
+                      </div>
+                      <summery-piegraph></summery-piegraph>
+                    </div>
+                </div>
               </div>
             </div>
           </div>

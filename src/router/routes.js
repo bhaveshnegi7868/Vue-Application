@@ -8,6 +8,7 @@ const routes = [
       { path: '/create', component: () => import('pages/createCohort.vue') },
       { path: '/summerygraph', component: () => import('pages/summeryGraph.vue') },
       { path: '/list', component: () => import('pages/listCohort.vue') },
+      { path: '/login', component: () => import('pages/login.vue') },
       { path: '/listcodeset', component: () => import('pages/listCodeset.vue') },
       { path: '/codeset', component: () => import('pages/codeSet.vue') },
       { path: '/login', component: () => import('pages/login.vue') },
