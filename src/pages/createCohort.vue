@@ -37,20 +37,32 @@
         </div>
         <div class="header_Bor1"></div>
         <q-btn v-for="criteria in criteriaArray"  :key="criteria.name"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
-            {{criteria.name}}
+            <label v-if="criteria.ICriteriaListName">{{criteria.ICriteriaListName}}</label>
+            <label v-if="criteria.PCriteriaListName">{{criteria.PCriteriaListName}}</label>
             <i class="fa fa-times-circle pull-right mar1"></i>
         </q-btn>
         <q-btn class="categories_addNew full-width" @click="addNewCriteria">
             Add Criteria Set
         </q-btn>
+        <q-btn class="categories_addNew full-width" @click="createDictAndShow">
+            Show Dict
+        </q-btn>
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
-        <q-card class="row q-mx-sm shadow-2">
+        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaListName'] === undefined">
           <div class="col-4 q-ma-sm">
-            <input class="input-box full-width" v-model="currentCriteria.name" placeholder="Criteria Name" />
+            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaListName" placeholder="Criteria Name" />
           </div>
           <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="currentCriteria.description" placeholder="Criteria Description" />
+            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaListDesc" placeholder="Criteria Description" />
+          </div>
+        </q-card>
+        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaListName'] !== undefined">
+          <div class="col-4 q-ma-sm">
+            <input class="input-box full-width" v-model="currentCriteria.PCriteriaListName" placeholder="Criteria Name" />
+          </div>
+          <div class="col q-ma-sm">
+            <input class="input-box full-width" v-model="currentCriteria.PCriteriaListDesc" placeholder="Criteria Description" />
           </div>
         </q-card>
         <div class="elements-block  q-mt-sm">
@@ -73,9 +85,9 @@
             </q-card>
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm custom-card">
-                <div class="row">
+                <div class="row" v-if="currentCriteria['PCriteriaListName'] === undefined">
                   <div class="col">
-                    <select class="criteria-box" v-model="selectedCriteria">
+                    <select class="criteria-box" v-model="currentInclusionObj.Type">
                       <option disabled>Select</option>
                       <option>All</option>
                       <option>Any</option>
@@ -88,29 +100,50 @@
                 <div class="list-group" id="list-group"  ref="test" group="people">
                   <div
                     class="list-group-item"
-                    v-for="(elementObj,index) in eventArray[currentCriteria]"
+                    v-for="(elementObj,index) in currentCriteria.CriteriaList"
                     :key="index"
                   >
-                    <div v-if="elementObj.events">
+                    <div>
+                      <q-card class="custom-card event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
+                        <div class="col-1">
+                          <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
+                        </div>
+                        <div class="col-7">
+                          <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
+                        </div>
+                        <div class="col-2">
+                        </div>
+                        <div class="col-2">
+                          <q-btn class="fCgreen q-px-sm f12  float-right" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
+                        </div>
+                      </q-card>
+                    </div>
+                  </div>
+                </div>
+                <div
+                    class="list-group-item"
+                    v-for="(elementObj,index) in currentInclusionObj.Groups"
+                    :key="index"
+                  >
+                   <div>
                       <q-card class="row sub-grp q-mt-sm q-mb-sm">
                         <div class="col-9 q-pa-sm">
-                          <select class="criteria-box" v-model="elementObj.option">
+                          <select class="criteria-box" v-model="elementObj.Type">
                             <option disabled>Select</option>
-                            <option>All</option>
-                            <option>Any</option>
+                            <option value="ALL">All</option>
+                            <option value="ANY">Any</option>
                           </select> of the criteria
                         </div>
-
                         <div class="col q-ml-lg q-px-xs q-mt-sm">
                           <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                         <div class="col-12 row  q-pa-sm">
                             <q-badge color="positive" class="q-my-sm">{{elementObj.id}}</q-badge>
-                            <input class="input-box col-11 q-mx-xs" v-model="elementObj.name" placeholder="Group Name" />
+                            <input class="input-box col-11 q-mx-xs" v-model="elementObj.Name" placeholder="Group Name" />
                         </div>
                         <div class="row full-width">
                         <q-card
-                          v-for="(elementObj1,index1) in elementObj.events"
+                          v-for="(elementObj1,index1) in elementObj.CriteriaList"
                           :key="elementObj1.id"
                           :class="elementObj1.currentSelected"
                           class="custom-card-1 event-card"
@@ -141,23 +174,7 @@
                         </div>
                       </q-card>
                     </div>
-                    <div v-if="!elementObj.events">
-                      <q-card class="custom-card event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
-                        <div class="col-1">
-                          <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
-                        </div>
-                        <div class="col-7">
-                          <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                        <div class="col-2">
-                          <q-btn class="fCgreen q-px-sm f12  float-right" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
-                        </div>
-                      </q-card>
-                    </div>
                   </div>
-                </div>
                 <div class="row full-width">
                   <drop @drop="handleDrop" class="full-width" >
                     <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
@@ -173,31 +190,40 @@
                 <div class="row">
                   <div class="col">
                     Limit initial events to
-                    <select class="criteria-box H25 w9R" v-model="cdtsrc">
+                    <select class="criteria-box H25 w9R" v-model="currentCriteria.PrimaryCriteriaLimit.Type">
                       <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
                     </select>
                   </div>
-                  </div>
-                  <div class="row q-mt-lg">
+                </div>
+                <div class="row q-mt-lg" v-if="currentCriteria.ObservationWindow">
                     <div class="col">
                       Contineous enrollment w.r.t initial events index start date
                     </div>
-                  </div>
-                  <div class="row q-mt-xs">
+                </div>
+                <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
-                    Between <input  class="input-box H25 w4R" />
-                     days before and <input  class="input-box H25 w4R" /> days after
+                    Between <input  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
+                     days before and <input  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
                   </div>
                 </div>
               </q-card>
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
+              <event-attributes :mappingDict="mappingDict" :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
+      <q-dialog
+          v-model="dictPopup"
+          transition-show="slide-up"
+          transition-hide="slide-down"
+        >
+          <q-card>
+            <pre>{{baseObj}}</pre>
+          </q-card>
+      </q-dialog>
     </q-card>
    </q-page>
 </template>
@@ -209,11 +235,15 @@
 import { Drag, Drop } from 'vue-drag-drop'
 import eventAttributes from 'pages/eventAttributes'
 import secondaryHeader from 'components/secondaryHeader'
+import diagnosisData from '../json/diagnosisNew.json'
+import procedureData from '../json/procedureNew.json'
+import treatementData from '../json/treatmentNew.json'
 import {
   QCard,
   Loading,
   QSpinnerIos,
-  QBadge
+  QBadge,
+  QDialog
 } from 'quasar'
 Loading.show({
   spinner: QSpinnerIos,
@@ -231,16 +261,38 @@ export default {
     QBadge,
     Drag,
     Drop,
+    QDialog,
     'event-attributes': eventAttributes,
     'secondary-header': secondaryHeader
   },
   data () {
     return {
+      dictPopup: false,
+      apiData: {
+        'Procedure': procedureData,
+        'Diagnosis': diagnosisData,
+        'Treatement': treatementData
+      },
+      mappingDict: {
+        'Procedure': 'ProcedureOccurrence',
+        'Diagnosis': 'ConditionOccurrence',
+        'Treatement': 'DrugExposure'
+      },
       currentcohort: {
         'name': 'New cohort',
         'description': 'cohort Description',
         'group': 'GRP2',
         'datasource': 'dt1'
+      },
+      baseObj: {
+        'PrimaryCriteria': {
+          'PCriteriaListName': '',
+          'PCriteriaListDesc': '',
+          'CriteriaList': [],
+          'ObservationWindow': {},
+          'PrimaryCriteriaLimit': {}
+        },
+        'InclusionRules': []
       },
       selectedPage: 'Cohort Definition',
       cname: '',
@@ -253,18 +305,20 @@ export default {
       selectedCriteria: 'Select',
       readonlyCriteriaSelect: false,
       eventArray: {},
+      currentInclusionObj: {},
       currentCriteria: {
       },
       criteriaArray: [
         {
-          'name': 'Initial Criteria',
+          'id': 'PrimaryCriteria',
+          'PCriteriaListName': 'Initial Criteria',
           'currentSelected': 1,
-          'description': 'This Is The Initial cohort'
+          'PCriteriaListDesc': 'This Is The Initial cohort'
         },
         {
-          'name': 'Criteria Set 1',
+          'ICriteriaListName': 'Criteria Set 1',
           'currentSelected': 0,
-          'description': 'This Is Criteria Set 1'
+          'ICriteriaListDesc': 'This Is Criteria Set 1'
         }
       ],
       eventArray1: [
@@ -314,23 +368,41 @@ export default {
     this.markCriteriaAsSelected(this.criteriaArray[0])
   },
   methods: {
+    createDictAndShow () {
+      // var that = this
+      // var allCriterias = Object.keys(that.eventArray)
+      // var PrimaryCriteria = allCriterias.shift()
+      // that.makePrimaryCriteria(PrimaryCriteria)
+      // allCriterias.forEach(function (criteria) {
+      // })
+      this.dictPopup = true
+    },
+    makePrimaryCriteria (criteria) {
+      var that = this
+      that.baseObj.PrimaryCriteria.PCriteriaListName = that.eventArray[criteria].name
+      that.baseObj.PrimaryCriteria.PCriteriaListDesc = that.eventArray[criteria].description
+      that.baseObj.PrimaryCriteria.CriteriaList = that.eventArray[criteria]
+    },
     showAttributes (event, mainIndex, subIndex) {
-      console.log(mainIndex)
-      if (mainIndex >= 0) {
+      if (mainIndex >= 0 && event !== '') {
         var that = this
         that.currentEvent = event
         that.currentEvent['mainIndex'] = mainIndex
         that.currentEvent['subIndex'] = subIndex
+        if (that.currentEvent[that.mappingDict[event.event]] === undefined) {
+          that.currentEvent = Object.assign(that.currentEvent, JSON.parse(JSON.stringify(that.apiData[event.event])))
+        }
         that.setQCardColor(that.currentEvent)
       } else { console.log('flase') }
     },
     addGroup () {
       var that = this
-      that.eventArray[that.currentCriteria].currentNumber = that.getNextDigit()
-      that.currentGroup = that.eventArray[that.currentCriteria].currentNumber
-      that.eventArray[that.currentCriteria].push({
-        'id': that.currentGroup,
-        'events': [],
+      that.currentCriteria.currentNumber = that.getNextDigit()
+      that.currentInclusionObj.Groups.push({
+        'id': that.currentCriteria.currentNumber,
+        'Type': 'ANY',
+        'Name': '',
+        'CriteriaList': [],
         'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-2 row'
       })
       that.$refs.test.click()
@@ -362,13 +434,13 @@ export default {
       var that = this
       var indexToReturn = null
       groupId = parseInt(groupId)
-      that.eventArray[that.currentCriteria].forEach(function (data, index) {
+      that.currentInclusionObj.Groups.forEach(function (data, index) {
         if (data.id === groupId) {
           indexToReturn = index
         }
       })
       var lastChar = 0
-      that.eventArray[that.currentCriteria][indexToReturn].events.forEach(function (data) {
+      that.currentInclusionObj.Groups[indexToReturn].CriteriaList.forEach(function (data) {
         lastChar = data.id.toString()
       })
       if (indexToReturn != null && lastChar === 0) {
@@ -385,25 +457,25 @@ export default {
         if (groupId) {
           if (groupId.constructor.name !== 'Event' && groupId !== 0) {
             var inde = that.getIndexWithId(groupId)
-            that.eventArray[that.currentCriteria][inde.index].events.push({
+            that.currentInclusionObj.Groups[inde.index].CriteriaList.push({
               'id': that.getNextDigit(inde.lastChar),
               'event': that.selectedEvent,
               'criteria': that.selectedCriteria,
               'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
             })
           } else {
-            that.eventArray[that.currentCriteria].currentNumber = that.getNextDigit()
-            that.eventArray[that.currentCriteria].push({
-              'id': that.eventArray[that.currentCriteria].currentNumber,
+            that.currentCriteria.currentNumber = that.getNextDigit()
+            that.currentCriteria['CriteriaList'].push({
+              'id': that.currentCriteria.currentNumber,
               'event': that.selectedEvent,
               'criteria': that.selectedCriteria,
               'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
             })
           }
         } else {
-          that.eventArray[that.currentCriteria].currentNumber = that.getNextDigit()
-          that.eventArray[that.currentCriteria].push({
-            'id': that.eventArray[that.currentCriteria].currentNumber,
+          that.currentCriteria.currentNumber = that.getNextDigit()
+          that.currentCriteria.CriteriaList.push({
+            'id': that.currentCriteria.currentNumber,
             'event': that.selectedEvent,
             'criteria': that.selectedCriteria,
             'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
@@ -412,7 +484,7 @@ export default {
       }
       var container = this.$el.querySelector('#list-group')
       container.scrollTop = container.scrollHeight
-      if (that.eventArray[that.currentCriteria].length > 0) {
+      if (that.currentCriteria.CriteriaList.length > 0) {
         that.readonlyCriteriaSelect = true
       } else {
         that.readonlyCriteriaSelect = false
@@ -430,7 +502,7 @@ export default {
           return (parseInt(key)).toString() + 'A'
         }
       } else {
-        newArray = that.eventArray[that.currentCriteria].currentNumber.toString().match(/[a-z]+|[^a-z]+/gi)
+        newArray = that.currentCriteria.currentNumber.toString().match(/[a-z]+|[^a-z]+/gi)
         return parseInt(newArray[0]) + 1
       }
     },
@@ -457,44 +529,48 @@ export default {
       var idArr = id.toString().match(/[a-z]+|[^a-z]+/gi)
       if (id.length > 1) {
         let retDict = that.getIndexWithId(idArr[0])
-        that.eventArray[that.currentCriteria][retDict.index].events.forEach(function (row, index) {
+        that.currentInclusionObj.Groups[retDict.index].CriteriaList.forEach(function (row, index) {
           if (row.id === id) {
-            that.eventArray[that.currentCriteria][retDict.index].events.splice(index, 1)
+            that.currentInclusionObj.Groups[retDict.index].CriteriaList.splice(index, 1)
           }
         })
       } else {
-        that.eventArray[that.currentCriteria].forEach(function (row, index) {
+        that.currentCriteria.CriteriaList.forEach(function (row, index) {
           if (row.id === id) {
-            that.eventArray[that.currentCriteria].splice(index, 1)
+            that.currentCriteria.CriteriaList.splice(index, 1)
+          }
+        })
+        that.currentInclusionObj.Groups.forEach(function (row, index) {
+          if (row.id === id) {
+            that.currentInclusionObj.Groups.splice(index, 1)
           }
         })
       }
       that.currentEvent = ''
       that.showAttributes('', null, null)
-      if (that.eventArray[that.currentCriteria].length > 0) {
-        that.readonlyCriteriaSelect = true
-      } else {
-        that.readonlyCriteriaSelect = false
-      }
+      // if (that.eventArray[that.currentCriteria.name].length > 0) {
+      //   that.readonlyCriteriaSelect = true
+      // } else {
+      //   that.readonlyCriteriaSelect = false
+      // }
     },
     setQCardColor (event) {
       var that = this
-      that.eventArray[that.currentCriteria].forEach(function (row, index) {
-        if (row.events) {
-          row.events.forEach(function (row1, index1) {
-            if (row1.id.toString() === event.id.toString()) {
-              that.eventArray[that.currentCriteria][index].events[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
-            } else {
-              that.eventArray[that.currentCriteria][index].events[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
-            }
-          })
+      that.currentCriteria.CriteriaList.forEach(function (row, index) {
+        if (row.id.toString() === event.id.toString()) {
+          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
         } else {
-          if (row.id.toString() === event.id.toString()) {
-            that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
-          } else {
-            that.eventArray[that.currentCriteria][index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
-          }
+          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
         }
+      })
+      that.currentInclusionObj.Groups.forEach(function (row, index) {
+        row.CriteriaList.forEach(function (row1, index1) {
+          if (row1.id.toString() === event.id.toString()) {
+            that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
+          } else {
+            that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
+          }
+        })
       })
     },
     handleDrop (data, event) {
@@ -509,17 +585,49 @@ export default {
     },
     markCriteriaAsSelected (criteria) {
       var that = this
-      that.currentCriteria = criteria.name
-      if (!(that.currentCriteria in that.eventArray)) {
-        that.eventArray[that.currentCriteria] = []
-        that.eventArray[that.currentCriteria].currentGroup = 0
-        that.eventArray[that.currentCriteria].currentNumber = 0
-      }
+      // if (!(that.currentCriteria.name in that.eventArray)) {
+      //   that.eventArray[that.currentCriteria.name] = criteria
+      //   that.eventArray[that.currentCriteria.name].CriteriaList = []
+      //   that.eventArray[that.currentCriteria.name].currentGroup = 0
+      //   that.eventArray[that.currentCriteria.name].currentNumber = 0
+      // }
       that.criteriaArray.forEach(function (row, index) {
-        if (row.name === criteria.name) {
-          row.currentSelected = 1
+        if (index === 0) {
+          if (row.PCriteriaListName === criteria.PCriteriaListName) {
+            that.currentCriteria = that.baseObj['PrimaryCriteria']
+            that.currentCriteria.PCriteriaListName = row.PCriteriaListName
+            that.currentCriteria.PCriteriaListDesc = row.PCriteriaListDesc
+            that.currentInclusionObj = {}
+            row.currentSelected = 1
+          } else {
+            row.currentSelected = 0
+          }
         } else {
-          row.currentSelected = 0
+          if (row.ICriteriaListName === criteria.ICriteriaListName) {
+            if (that.baseObj['InclusionRules'][index - 1]) {
+              that.currentCriteria = that.baseObj['InclusionRules'][index - 1].expression
+              that.currentInclusionObj = that.baseObj['InclusionRules'][index - 1]
+            } else {
+              that.baseObj['InclusionRules'][index - 1] = {
+                'expression': {
+                  'CriteriaList': [],
+                  'ObservationWindow': false,
+                  'PrimaryCriteriaLimit': {}
+                },
+                'Groups': []
+              }
+              that.currentInclusionObj = that.baseObj['InclusionRules'][index - 1]
+              that.currentCriteria = that.baseObj['InclusionRules'][index - 1].expression
+            }
+            row.currentSelected = 1
+          } else {
+            row.currentSelected = 0
+          }
+        }
+        if (that.currentCriteria.currentGroup === undefined) {
+          that.currentCriteria.currentGroup = 0
+          that.currentCriteria.currentNumber = 0
+          that.ObjectToIterate = []
         }
       })
     },
@@ -527,17 +635,17 @@ export default {
       var that = this
       if (that.currentEvent.mainIndex != null) {
         if (that.currentEvent.subIndex != null) {
-          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex].events[that.currentEvent.subIndex] = event
+          that.currentInclusionObj.Groups[event.mainIndex].CriteriaList[event.subIndex] = event
         } else {
-          that.eventArray[that.currentCriteria][that.currentEvent.mainIndex] = event
+          that.currentCriteria.CriteriaList[event.mainIndex] = event
         }
       }
     },
     addNewCriteria () {
       var that = this
       that.criteriaArray.push({
-        'name': 'New Criteria',
-        'description': '',
+        'ICriteriaListName': 'New Criteria',
+        'ICriteriaListDesc': '',
         'currentSelected': 0
       })
     }
