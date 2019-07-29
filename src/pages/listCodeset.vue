@@ -31,11 +31,16 @@
           <q-td slot="body-cell-Codesetname" slot-scope="row" :props="row">
           <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
             </q-td>
-          <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
-              <q-btn round color="green" size="0.5rem" icon="file_copy" ></q-btn>
-              <q-btn round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.__index);"></q-btn>
+            <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
+                <q-btn round color="green" size="0.5rem" icon="file_copy" v-if="allowImport==false"></q-btn>
+                <q-btn round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.__index); " v-if="allowImport==false"></q-btn>
+                <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
           </q-table>
+        </div>
+        <div class="footer" v-if="allowImport">
+          <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" ></q-btn>
+          <q-btn  class="q-ma-md" color="green-9" v-close-popup label="Import" @click="sendDataToParent"></q-btn>
         </div>
     </div>
   </template>
@@ -44,7 +49,9 @@ import {
   QBtnToggle,
   QTable,
   QInput,
-  QTd
+  QTd,
+  QCheckbox,
+  ClosePopup
 } from 'quasar'
 export default {
   name: 'listCodeset',
@@ -52,7 +59,11 @@ export default {
     QInput,
     QBtnToggle,
     QTable,
-    QTd
+    QTd,
+    QCheckbox
+  },
+  directives: {
+    ClosePopup
   },
   data () {
     return {
@@ -71,37 +82,54 @@ export default {
           Codesetdescription: 'Myocardial Infarction',
           Createdby: 'Muthu R',
           Createddate: '01-Jul-19',
-          Actions: '14%'
+          Actions: '14%',
+          selected: false
         },
         {
           Codesetname1: 'Unstable Angina',
           Codesetdescription: 'Unstable Angina',
           Createdby: 'Muthu R',
           Createddate: '01-Jul-19',
-          Actions: '8%'
+          Actions: '8%',
+          selected: false
         },
         {
           Codesetname1: 'Statins',
           Codesetdescription: 'Statins',
           Createdby: 'Muthu R',
           Createddate: '01-Jul-19',
-          Actions: '6%'
+          Actions: '6%',
+          selected: false
         },
         {
           Codesetname1: 'Familal hypercholestrolemia',
           Codesetdescription: 'Familal hypercholestrolemia',
           Createdby: 'Muthu R',
           Createddate: '01-Jul-19',
-          Actions: '8%'
+          Actions: '8%',
+          selected: false
         }
       ]
     }
+  },
+  props: {
+    allowImport: Boolean
   },
   methods: {
     removeFromList: function (id) {
       console.log('removeFromList… id:')
       console.log(id)
       this.data.splice(id, 1)
+    },
+    sendDataToParent () {
+      var returnArray = []
+      this.data.forEach(function (row) {
+        if (row.selected) {
+          returnArray.push(row)
+        }
+      })
+      debugger
+      this.$emit('addImports', returnArray)
     }
   }
 }

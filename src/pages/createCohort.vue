@@ -3,19 +3,49 @@
     <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
     <div class="row q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
-            <div class="col-4 q-pa-sm">
+            <div class="col-2 q-pa-sm">
                 <input class="input-box full-width" v-model="currentcohort.name" placeholder="Cohort Name" />
             </div>
-            <div class="col-6 q-pa-sm">
+            <div class="col-5 q-pa-sm">
                 <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
             </div>
             <div class="col q-pa-sm">
-                <select required class="select-box full-width" v-model="currentcohort.datasource" placeholder="datasource">
-                  <option value="Datasource" hidden selected >Datasource</option>
-                  <option v-for="opt in dtSourceOpts" v-bind:key="opt.value" :value="opt.value">
-                    {{opt.label}}
-                  </option>
-                </select>
+              <q-btn-dropdown
+                  flat
+                  no-caps
+                  class="full-width select-box"
+                  label="Cohart Group"
+                >
+                <q-btn
+                  color="primary"
+                  class="full-width"
+                  icon-right="add"
+                  label="Add New Code Group"
+                  @click="openCreateCohartGroupPopup"
+                  v-close-popup
+                />
+                <q-card  class="bg-secondary text-white selected-btn-dropdown">
+                  {{currentcohort.group}}
+                </q-card>
+                <div class="options-values" v-for="opt in dtSourceOpts" v-bind:key="opt.value" @click="currentcohort.group = opt.value">
+                  {{opt.label}}
+                </div>
+              </q-btn-dropdown>
+            </div>
+            <div class="col q-pa-sm">
+              <q-btn-dropdown
+                  no-caps
+                  flat
+                  class="full-width select-box"
+                  label="Datasource"
+                >
+                <q-card  class="bg-secondary text-white selected-btn-dropdown">
+                  {{currentcohort.datasource}}
+                </q-card>
+                <div class="options-values" v-for="opt in dtSourceOpts" v-bind:key="opt.value" @click="currentcohort.datasource = opt.value">
+                  {{opt.label}}
+                </div>
+              </q-btn-dropdown>
             </div>
         </q-card>
         <q-card class="col row">
@@ -224,6 +254,11 @@
             <pre>{{baseObj}}</pre>
           </q-card>
       </q-dialog>
+      <q-dialog v-model="createCohartGroupPopup">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <create-cohart-group @addCohart="addCohart"></create-cohart-group>
+        </q-card>
+      </q-dialog>
     </q-card>
    </q-page>
 </template>
@@ -234,6 +269,7 @@
 <script>
 import { Drag, Drop } from 'vue-drag-drop'
 import eventAttributes from 'pages/eventAttributes'
+import createCohartGroup from 'components/createCohartGroup'
 import secondaryHeader from 'components/secondaryHeader'
 import diagnosisData from '../json/diagnosisNew.json'
 import procedureData from '../json/procedureNew.json'
@@ -243,7 +279,9 @@ import {
   Loading,
   QSpinnerIos,
   QBadge,
-  QDialog
+  QDialog,
+  QBtnDropdown,
+  ClosePopup
 } from 'quasar'
 Loading.show({
   spinner: QSpinnerIos,
@@ -262,12 +300,18 @@ export default {
     Drag,
     Drop,
     QDialog,
+    QBtnDropdown,
     'event-attributes': eventAttributes,
-    'secondary-header': secondaryHeader
+    'secondary-header': secondaryHeader,
+    'create-cohart-group': createCohartGroup
+  },
+  directives: {
+    ClosePopup
   },
   data () {
     return {
       dictPopup: false,
+      createCohartGroupPopup: false,
       apiData: {
         'Procedure': procedureData,
         'Diagnosis': diagnosisData,
@@ -368,6 +412,10 @@ export default {
     this.markCriteriaAsSelected(this.criteriaArray[0])
   },
   methods: {
+    openCreateCohartGroupPopup () {
+      this.createCohartGroupPopup = false
+      this.createCohartGroupPopup = true
+    },
     createDictAndShow () {
       // var that = this
       // var allCriterias = Object.keys(that.eventArray)
@@ -376,6 +424,13 @@ export default {
       // allCriterias.forEach(function (criteria) {
       // })
       this.dictPopup = true
+    },
+    addCohart (cohartGroup) {
+      this.dtSourceOpts.push({
+        value: cohartGroup.name,
+        label: cohartGroup.name
+      })
+      this.createCohartGroupPopup = false
     },
     makePrimaryCriteria (criteria) {
       var that = this

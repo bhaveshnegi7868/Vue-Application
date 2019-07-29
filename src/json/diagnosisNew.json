@@ -6,8 +6,8 @@
       "data":"",
       "inputs":[{
         "name":"codeset",
-        "Type":"multiple-select",
-        "value":["Import", "Myocardial Infarction", "Unstable Angina", "Statins", "Familial Hypercholesterolemia"]
+        "Type":"multiple-select-dropdown",
+        "value":[]
        } 
       ]
     },

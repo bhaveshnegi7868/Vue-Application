@@ -13,6 +13,27 @@
             {{localObj.Label}}
           </div>
           <div class="col row q-mx-lg q-my-sm" v-for="(obj,index) in localObj.inputs" v-bind:key="index">
+            <q-btn-dropdown
+                  flat
+                  class="full-width select-box"
+                  :label="localObj.Label"
+                  v-if="obj.Type == 'multiple-select-dropdown'"
+                >
+                <q-btn
+                  color="primary"
+                  class="full-width"
+                  icon-right="add"
+                  label="Import"
+                  @click="openImportCodesetPopupFun(obj.value)"
+                  v-close-popup
+                />
+                <div  class="bg-secondary text-white selected-btn-dropdown full-width">
+                  {{event[mappingDict[event.event]][key][obj.name]}}
+                </div>
+                <div class="options-values" v-for="opt in obj.value" v-bind:key="opt" @click="event[mappingDict[event.event]][key][obj.name] = opt">
+                  {{opt}}
+                </div>
+            </q-btn-dropdown>
             <div class="col full-width q-my-sm" v-if="obj.Type == 'multiple-select'">
               <div class="q-mt-xs">
                 <div class="q-mr-xs">
@@ -142,15 +163,28 @@
           </div>
         </div>
     </div>
+    <q-dialog
+         v-model="openImportCodesetPopup" no-backdrop-dismiss
+         full-width
+       >
+       <q-card>
+        <list-codeset :allowImport="true" @addImports="addImportData"></list-codeset>
+       </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
+import listCodeset from 'pages/listCodeset'
 import {
   QCheckbox,
   QDate,
   QInput,
   QIcon,
-  QPopupProxy
+  QCard,
+  QPopupProxy,
+  QBtnDropdown,
+  ClosePopup,
+  QDialog
 } from 'quasar'
 export default {
   name: 'eventAttributes',
@@ -158,11 +192,19 @@ export default {
     QDate,
     QIcon,
     QInput,
+    QCard,
     QPopupProxy,
-    QCheckbox
+    QCheckbox,
+    QBtnDropdown,
+    QDialog,
+    'list-codeset': listCodeset
+  },
+  directives: {
+    ClosePopup
   },
   data () {
     return {
+      openImportCodesetPopup: false,
       shape: 'include',
       limit: true,
       sdate: '2019/02/01',
@@ -172,6 +214,18 @@ export default {
     }
   },
   methods: {
+    addImportData (data) {
+      var that = this
+      data.forEach(function (row) {
+        that.currentValueObject.push(row.Codesetname1)
+      })
+      this.openImportCodesetPopup = false
+    },
+    openImportCodesetPopupFun (array) {
+      this.currentValueObject = array
+      this.openImportCodesetPopup = false
+      this.openImportCodesetPopup = true
+    },
     sendName (event) {
       var that = this
       this.$emit('inputChange', that.event)
