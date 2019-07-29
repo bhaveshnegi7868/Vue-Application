@@ -2,8 +2,16 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import VueDataTables from 'vue-data-tables'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
 
+locale.use(lang)
 Vue.use(VueRouter)
+Vue.use(VueDataTables)
+Vue.use(ElementUI)
 
 /*
  * If not building with SSR mode, you can

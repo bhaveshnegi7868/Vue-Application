@@ -4,14 +4,14 @@
       <h6>Dependents</h6>
       <div class="row justify-center">
         <q-tree
-          :nodes="simple"
-          node-key="code"
+          :nodes="desendents"
+          node-key="target_concept_id"
           tick-strategy="leaf"
           :ticked.sync="ticked"
         >
           <template v-slot:default-header="prop">
             <q-card class="q-pa-md unselected-card">
-              {{prop.node.code}} | {{prop.node.description}}
+              {{prop.node.target_concept_id}} | {{prop.node.target_concept_name}}
             </q-card>
           </template>
         </q-tree>
@@ -146,9 +146,12 @@ export default {
       ]
     }
   },
+  props: {
+    'desendents': Array
+  },
   mounted () {
-    debugger
-    this.$q.iconSet.tree.icon = 'fiber_manual_record'
+    // debugger
+    // this.$q.iconSet.tree.icon = 'fiber_manual_record'
   },
   methods: {
     sendName (event) {

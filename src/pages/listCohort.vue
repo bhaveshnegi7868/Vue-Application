@@ -24,27 +24,6 @@
                   <q-icon name="search" />
                 </template>
               </q-input>
-              <q-btn-dropdown class="float-right pull-left" color="grey-1" text-color="black" label="Cohort Group">
-                 <q-list>
-                   <q-item clickable v-close-popup>
-                     <q-item-section>
-                       <q-item-label>Group-1</q-item-label>
-                     </q-item-section>
-                   </q-item>
-
-                   <q-item clickable v-close-popup>
-                     <q-item-section>
-                       <q-item-label>Group-2</q-item-label>
-                     </q-item-section>
-                   </q-item>
-
-                   <q-item clickable v-close-popup>
-                     <q-item-section>
-                       <q-item-label>Group-3</q-item-label>
-                     </q-item-section>
-                   </q-item>
-                 </q-list>
-              </q-btn-dropdown>
               <router-link to="/create">
                 <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohort" />
               </router-link>
@@ -64,11 +43,6 @@
 import {
   QBtnToggle,
   QTable,
-  QBtnDropdown,
-  QList,
-  QItem,
-  QItemSection,
-  QItemLabel,
   QInput,
   QTd
 } from 'quasar'
@@ -78,11 +52,6 @@ export default {
     QInput,
     QBtnToggle,
     QTable,
-    QBtnDropdown,
-    QList,
-    QItem,
-    QItemSection,
-    QItemLabel,
     QTd
   },
   data () {
@@ -100,58 +69,13 @@ export default {
       ],
       data: [
         {
-          Cohortname1: 'RA patients with specific drugs',
-          Cohortdescription: 'RA patients taking market basket drugs',
-          Createdby: 'Swetank Gupta',
-          Createddate: '21-Mar-19',
-          Executeddate: '21-Mar-19',
-          Status: 'Processing',
+          Cohortname1: 'CHD with CV events',
+          Cohortdescription: 'Diagnosed with unstable angina or Myocardial Infarction (MI)',
+          Createdby: 'Muthu R',
+          Createddate: '01-Jul-19',
+          Executeddate: '16-Jul-19',
+          Status: 'Completed',
           Actions: '14%'
-        },
-        {
-          Cohortname1: 'Severe Asthma and Urticaria Cohort',
-          Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
-          Createdby: 'Swetank Gupta',
-          Createddate: '04-Nov-18',
-          Executeddate: '04-Nov-18',
-          Status: 'Completed',
-          Actions: '8%'
-        },
-        {
-          Cohortname1: 'Out Patient Cohort',
-          Cohortdescription: 'Analyse OP patients drug share by Source of Business',
-          Createdby: 'Varsha',
-          Createddate: '09-Jun-18',
-          Executeddate: '23-Oct-18',
-          Status: 'Failed',
-          Actions: '6%'
-        },
-        {
-          Cohortname1: 'Severe Urticaria Cohort',
-          Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
-          Createdby: 'Swetank Gupta',
-          Createddate: '04-Aug-18',
-          Executeddate: '09-Nov-18',
-          Status: 'Failed',
-          Actions: '8%'
-        },
-        {
-          Cohortname1: 'Severe Asthma  Cohort',
-          Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
-          Createdby: 'Rubesh Gupta',
-          Createddate: '16-Oct-18',
-          Executeddate: '04-Nov-18',
-          Status: 'Completed',
-          Actions: '8%'
-        },
-        {
-          Cohortname1: 'Severe  Cohort',
-          Cohortdescription: 'Identify Chronic Urticaria patients who also have Severe Asthma',
-          Createdby: 'Saranya Gupta',
-          Createddate: '04-Nov-18',
-          Executeddate: '10-Dec-18',
-          Status: 'Completed',
-          Actions: '8%'
         }
       ]
     }

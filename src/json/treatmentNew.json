@@ -1,0 +1,196 @@
+{
+  "DrugExposure": {
+    "listDrugs":{
+      "Label":"List of Drugs",
+      "name":"listDrugs",
+      "data":"",
+      "inputs":[{
+        "name":"codeset",
+        "Type":"multiple-select-dropdown",
+        "value":[]
+       } 
+      ]
+    },
+    "OccurenceLimit":{
+      "Label":"Limit Only To First Occurences of Treatment",
+      "name":"OccurenceLimit",
+      "data":"",
+      "inputs":[{
+        "name":"OccurenceLimit",
+        "Type":"checkbox"
+       } 
+      ]
+    },
+    "Occurrence":{
+      "Label":"Number of Occurences",
+      "name":"OccurenceNumber",
+      "inputs":[{
+        "name":"type",
+        "Type":"single-select",
+        "value":{
+          "1":"Atleast",
+          "0":"Exactly"
+        }
+       },{
+        "name":"count",
+        "Type":"number"
+       } 
+      ]
+    },
+    "OccurrenceStartDate":{
+      "Label":"Treatment Occurence Start Date",
+      "name":"OccurenceStartDate",
+      "inputs":[{
+        "name":"Value",
+        "Type":"single-select",
+        "value":{
+          "lt":"Before", 
+          "lte":"On or Before", 
+          "eq":"On", 
+          "gt":"After", 
+          "gte":"On or After", 
+          "bt":"Between", 
+          "!bt":"Not Between"
+        }
+      },{
+        "name":"Value",
+        "Type":"date"
+      },{
+        "name":"Extent",
+        "Type":"date"
+      }]
+    },
+    "Refills":{
+      "Label":"Refills",
+      "name":"Age",
+      "inputs":[{
+        "name":"Op",
+        "Type":"single-select",
+        "value":{
+          "lt":"Less than", 
+          "lte":"Less or Equal to", 
+          "eq":"Equal to", 
+          "gt":"Greater than", 
+          "gte":"Greater or Equal to", 
+          "bt":"Between", 
+          "!bt":"Not Between"
+        }
+      },{
+        "name":"Value",
+        "Type":"number"
+      },{
+        "name":"Extent",
+        "Type":"number"
+      }] 
+    },
+    "Quantity":{
+      "Label":"Quantity",
+      "name":"Quantity",
+      "inputs":[{
+        "name":"Op",
+        "Type":"single-select",
+        "value":{
+          "lt":"Less than", 
+          "lte":"Less or Equal to", 
+          "eq":"Equal to", 
+          "gt":"Greater than", 
+          "gte":"Greater or Equal to", 
+          "bt":"Between", 
+          "!bt":"Not Between"
+        }
+      },{
+        "name":"Value",
+        "Type":"number"
+      },{
+        "name":"Extent",
+        "Type":"number"
+      }] 
+    },
+    "DaysSupply":{
+      "Label":"Days of Supply",
+      "name":"DaysSupply",
+      "inputs":[{
+        "name":"Op",
+        "Type":"single-select",
+        "value":{
+          "lt":"Less than", 
+          "lte":"Less or Equal to", 
+          "eq":"Equal to", 
+          "gt":"Greater than", 
+          "gte":"Greater or Equal to", 
+          "bt":"Between", 
+          "!bt":"Not Between"
+        }
+      },{
+        "name":"Value",
+        "Type":"number"
+      },{
+        "name":"Extent",
+        "Type":"number"
+      }] 
+    },
+    "Age":{
+      "Label":"Age Of Diagnosis Occurences",
+      "name":"Age",
+      "inputs":[{
+        "name":"Op",
+        "Type":"single-select",
+        "value":{
+          "lt":"Less than", 
+          "lte":"Less or Equal to", 
+          "eq":"Equal to", 
+          "gt":"Greater than", 
+          "gte":"Greater or Equal to", 
+          "bt":"Between", 
+          "!bt":"Not Between"
+        }
+      },{
+        "name":"Value",
+        "Type":"number"
+      },{
+        "name":"Extent",
+        "Type":"number"
+      }] 
+    },
+    "Gender":{
+      "Label":"Gender",
+      "name":"gender",
+      "inputs":[{
+        "name":"Op",
+        "Type":"single-select",
+        "value":{
+          "lt":"MALE", 
+          "lte":"FEMALE", 
+          "eq":"UNKNOWN"
+        }
+      }]
+    },
+    "ConditionType":{
+      "Label":"Treatment Type",
+      "name":"ConditionType",
+      "inputs":[{
+        "name":"TreatmentType",
+        "Type":"single-select",
+        "value":["Condition era - 0 days persistence window", "Condition era - 30 days persistence window", "Condition tested for by diagnostic procedure", "Death Certificate contributory cause", "Death Certificate immediate cause", "Death Certificate underlying cause", "EHR billing diagnosis", "EHR Chief Complaint", "EHR discharge status 'Expired'", "EHR encounter diagnosis", "EHR problem list entry", "EHR Record immediate cause of death", "EHR record patient status 'Deceased'", "First Position Condition", "Inpatient detail - primary", "Inpatient header - primary", "Medical claim diagnostic code indicating death", "Medical claim discharge status 'Died'", "Medical claim DRG code indicating death", "Observation recorded from EHR", "Outpatient detail", "Outpatient header", "Payer enrollment status 'Deceased'", "Primary Condition", "Referral record", "Secondary Condition"]
+      }]
+    },
+    "ProviderSpecialty":{
+      "Label":"Provider Speciality",
+      "name":"ProviderSpecialty",
+      "inputs":[{
+        "name":"ProviderSpecialty",
+        "Type":"single-select",
+        "value":["Allergy/Immunology", "Anesthesiology", "Cardiology", "Colorectal Surgery", "Dermatology", "Emergency Medicine", "Endocrinology", "Family Practice", "Gastroenterology", "General Practice", "General Surgery", "Hematology", "Infectious Disease", "Internal Medicine", "Interventional Pain Management (IPM)", "Nephrology", "Neurology", "Neurosurgery", "Nurse Practitioner", "Obstetrics/Gynecology", "Ophthalmology", "Oral Surgery", "Orthopedic Surgery", "Osteopathic Manipulative Therapy", "Otolaryngology", "Pathology", "Physical Medicine And Rehabilitation", "Plastic And Reconstructive Surgery", "Psychiatry", "Pulmonary Disease", "Rheumatology", "Thoracic Surgery", "Urology"]
+      }]
+    },
+    "VisitType":{
+      "Label":"Visit Type",
+      "name":"VisitType",
+      "inputs":[{
+        "name":"VisitType",
+        "Type":"single-select",
+        "value":["Emergency Room and Inpatient Visit", "Long Term Care Visit", "Emergency Room Visit", "Outpatient Visit", "Inpatient Visit", "Pharmacy visit", "Home Visit", "Office Visit", "Ambulance Visit", "Rehabilitation Visit", "Laboratory Visit", "Intensive Care"]
+      }]
+    }
+  }
+}

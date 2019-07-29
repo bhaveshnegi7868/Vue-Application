@@ -24,7 +24,9 @@
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "vue-drag-drop": "^1.1.3",
-    "vue-chartjs": ""
+    "vue-chartjs": "",
+    "vue-data-tables": "",
+    "element-ui": ""
   },
   "engines": {
     "node": ">= 8.9.0",
