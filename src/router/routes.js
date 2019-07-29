@@ -10,6 +10,7 @@ const routes = [
       { path: '/list', component: () => import('pages/listCohort.vue') },
       { path: '/listcodeset', component: () => import('pages/listCodeset.vue') },
       { path: '/codeset', component: () => import('pages/codeSet.vue') },
+      { path: '/login', component: () => import('pages/login.vue') },
       { path: '/summary', component: () => import('pages/summary.vue') }
     ]
   }
