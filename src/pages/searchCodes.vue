@@ -5,28 +5,22 @@
       <div class="row" >
         <div class="col-7 selected_events">
           <div>
-            <el-row>
-              <el-col :span="24">
-                <el-input v-model="filters[2].value" placeholder="Search">
+                <el-input v-model="filter" placeholder="Search">
                   <template v-slot:prepend>
                     <q-icon name="search" />
                   </template>
-                  <template v-slot:append>
-                    <el-button type="Info" @click="addAll()">Add All</el-button>
-                  </template>
                 </el-input>
-              </el-col>
-            </el-row>
           </div>
           <div class="row table-box">
-            <!-- <div class="col-3">
+            <div class="col-3">
               <div class="q-pa-sm q-ma-sm filter-box">
-                <q-list  bordered class="rounded-borders q-ma-sm" v-for="fil in filters" :key="fil.prop" >
+                <q-list  bordered class="q-ma-sm" v-for="fil in filters" :key="fil.prop" >
                   <q-expansion-item
                     expand-separator
-                    :label="fil.prop"
+                    class="expansion-item-header"
+                    :label="fil.label"
                   >
-                    <q-card class="q-pa-sm filter-box-1">
+                    <q-card class="q-pa-sm">
                       <el-checkbox-group v-model="fil.value">
                         <el-checkbox v-for="av in fil.available" :key="av" :label="av"></el-checkbox>
                       </el-checkbox-group>
@@ -34,9 +28,19 @@
                   </q-expansion-item>
                 </q-list>
               </div>
-            </div> -->
-            <div class="col-12">
-              <data-tables
+            </div>
+            <div class="col-9">
+              <q-table
+                :data="data"
+                :columns="columns"
+                row-key="id"
+                :pagination.sync="pagination"
+                :loading="loading"
+                :filter="filter"
+                @request="onRequest"
+                binary-state-sort
+              />
+              <!-- <data-tables
                 :data="data"
                 :filters="filters"
                 @selection-change="handleSelectionChange"
@@ -47,7 +51,7 @@
                 </el-table-column>
                 <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.prop" sortable="custom">
                 </el-table-column>
-              </data-tables>
+              </data-tables> -->
             </div>
           </div>
           <!-- <q-table
@@ -112,16 +116,18 @@
 <script>
 import sourceData from '../json/sourceCodes.json'
 import {
-  QCard
-  // QList,
-  // QExpansionItem
+  QCard,
+  QTable,
+  QList,
+  QExpansionItem
 } from 'quasar'
 export default {
   name: 'searchCodes',
   components: {
-    QCard
-    // QList,
-    // QExpansionItem
+    QCard,
+    QTable,
+    QList,
+    QExpansionItem
   },
   data () {
     return {
@@ -130,17 +136,15 @@ export default {
       filters: [
         {
           prop: 'domain_id',
+          label: 'Domain Id',
           value: [],
           available: ['Domain 01', 'Domain 02', 'Domain 03']
         },
         {
           prop: 'source_vocabulary_id',
+          label: 'Source Vocabulary Id',
           value: [],
           available: ['Vocabulary 01', 'Vocabulary 02', 'Vocabulary 03']
-        },
-        {
-          prop: ['domain_id', 'target_concept_id', 'target_concept_name', 'target_concept_vocab_id'],
-          value: ''
         }
       ],
       titles: [{
@@ -158,12 +162,21 @@ export default {
       }
       ],
       columns: [
-        { name: 'code', field: 'code', label: 'Code', align: 'left', sortable: true },
-        { name: 'name', label: 'Name', field: 'name', align: 'left', sortable: true },
-        { name: 'domain', label: 'Domain', field: 'domain', sortable: true, align: 'left' },
-        { name: 'vocabulary', label: 'Vocabulary', field: 'vocabulary', sortable: true }
+        { name: 'target_concept_id', field: 'target_concept_id', label: 'Code', align: 'left', sortable: true },
+        { name: 'target_concept_name', label: 'Name', field: 'target_concept_name', align: 'left', sortable: true },
+        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, align: 'left' },
+        { name: 'target_concept_vocab_id', label: 'Vocabulary', field: 'target_concept_vocab_id', sortable: true }
       ],
-      data: sourceData
+      pagination: {
+        sortBy: 'name',
+        descending: false,
+        page: 1,
+        rowsPerPage: 3,
+        rowsNumber: 10
+      },
+      loading: false,
+      data: [],
+      original: sourceData
       // [
       //   {
       //     name: 'RA patients with specific drugs',
@@ -203,6 +216,12 @@ export default {
       // ]
     }
   },
+  mounted () {
+    this.onRequest({
+      pagination: this.pagination,
+      filter: undefined
+    })
+  },
   methods: {
     getSelectedString () {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
@@ -217,6 +236,83 @@ export default {
     sendName (event) {
       var that = this
       this.$emit('selectedChange', that.selected)
+    },
+    onRequest (props) {
+      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination
+      let filter = props.filter
+      this.loading = true
+      // emulate server
+      setTimeout(() => {
+        // update rowsCount with appropriate value
+        this.pagination.rowsNumber = this.getRowsNumberCount(filter)
+        // get all rows if "All" (0) is selected
+        let fetchCount = rowsPerPage === 0 ? rowsNumber : rowsPerPage
+        // calculate starting row of data
+        let startRow = (page - 1) * rowsPerPage
+        // fetch data from "server"
+        let returnedData = this.fetchFromServer(startRow, fetchCount, filter, sortBy, descending)
+        // clear out existing data and add new
+        this.data.splice(0, this.data.length, ...returnedData)
+        // don't forget to update local pagination object
+        this.pagination.page = page
+        this.pagination.rowsPerPage = rowsPerPage
+        this.pagination.sortBy = sortBy
+        this.pagination.descending = descending
+        // ...and turn of loading indicator
+        this.loading = false
+      }, 1500)
+    },
+    // emulate ajax call
+    // SELECT * FROM ... WHERE...LIMIT...
+    fetchFromServer (startRow, count, filter, sortBy, descending) {
+      let data = []
+      if (!filter) {
+        data = this.original.slice(startRow, startRow + count)
+      } else {
+        let found = 0
+        for (let index = startRow, items = 0; index < this.original.length && items < count; ++index) {
+          let row = this.original[index]
+          // match filter?
+          if (!row['target_concept_name'].includes(filter)) {
+            // get a different row, until one is found
+            continue
+          }
+          ++found
+          if (found >= startRow) {
+            data.push(row)
+            ++items
+          }
+        }
+      }
+      // handle sortBy
+      if (sortBy) {
+        data.sort((a, b) => {
+          let x = descending ? b : a
+          let y = descending ? a : b
+          if (sortBy === 'desc') {
+            // string sort
+            return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0
+          } else {
+            // numeric sort
+            return parseFloat(x[sortBy]) - parseFloat(y[sortBy])
+          }
+        })
+      }
+      return data
+    },
+
+    // emulate 'SELECT count(*) FROM ...WHERE...'
+    getRowsNumberCount (filter) {
+      if (!filter) {
+        return this.original.length
+      }
+      let count = 0
+      this.original.forEach((treat) => {
+        if (treat['target_concept_name'].includes(filter)) {
+          ++count
+        }
+      })
+      return count
     }
   }
 }
