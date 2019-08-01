@@ -1,4 +1,9 @@
 // Configuration for your app
+const DotEnv = require('dotenv')
+const webpack = require('webpack')
+const envparser = require('./config/envparser')
+const path = require('path');
+
 
 module.exports = function (ctx) {
   console.log(ctx)
@@ -57,6 +62,7 @@ module.exports = function (ctx) {
 
     build: {
       scopeHoisting: true,
+      env: envparser(),
       // vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
@@ -69,6 +75,13 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
+        // cfg.resolve.alias.env = path.resolve(__dirname, 'config/helpers/env.js')
+
+        // cfg.plugins.push(
+        //   new webpack.ProvidePlugin({
+        //     'env': 'env' 
+        //   })
+        // )
       }
     },
 

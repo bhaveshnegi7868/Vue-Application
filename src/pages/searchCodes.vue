@@ -31,14 +31,17 @@
             </div>
             <div class="col-9">
               <q-table
+                class="selected_events"
                 :data="data"
                 :columns="columns"
-                row-key="id"
+                row-key="target_concept_id"
                 :pagination.sync="pagination"
                 :loading="loading"
                 :filter="filter"
                 @request="onRequest"
-                binary-state-sort
+                :selected-rows-label="getSelectedString"
+                selection="multiple"
+                :selected.sync="selected"
               />
               <!-- <data-tables
                 :data="data"
@@ -162,8 +165,16 @@ export default {
       }
       ],
       columns: [
-        { name: 'target_concept_id', field: 'target_concept_id', label: 'Code', align: 'left', sortable: true },
-        { name: 'target_concept_name', label: 'Name', field: 'target_concept_name', align: 'left', sortable: true },
+        {
+          name: 'target_concept_id',
+          required: true,
+          field: row => row.target_concept_id,
+          format: val => `${val}`,
+          label: 'Code',
+          align: 'left',
+          sortable: true
+        },
+        { name: 'target_concept_name', label: 'Name', field: 'target_concept_name', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 100px' },
         { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, align: 'left' },
         { name: 'target_concept_vocab_id', label: 'Vocabulary', field: 'target_concept_vocab_id', sortable: true }
       ],
