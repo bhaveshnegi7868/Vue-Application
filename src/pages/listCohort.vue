@@ -40,6 +40,7 @@
     </div>
   </template>
 <script>
+import axios from 'axios'
 import {
   QBtnToggle,
   QTable,
@@ -80,11 +81,18 @@ export default {
       ]
     }
   },
+  mounted () {
+    var that = this
+    that.getList()
+  },
   methods: {
     removeFromList: function (id) {
       console.log('removeFromList… id:')
       console.log(id)
       this.data.splice(id, 1)
+    },
+    getList() {
+      axios.post(process.env.API_URL+'accounts/login/', datadict).then(function(response) {
     }
   }
 }

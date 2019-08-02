@@ -1,0 +1,38 @@
+[{
+      "target_concept_id": 4276560,
+      "target_concept_name": "Familial hypercholesterolemia",
+      "children": [{
+          "target_concept_id": 4275206,
+          "target_concept_name": "Familial hypercholesterolemia",
+          "children": [{
+            "target_concept_id": 4166128,
+            "target_concept_name": "Familial hypercholesterolemia",
+            "children": [{
+                "target_concept_id": 4042561,
+                "target_concept_name": "Familial hypercholesterolemia"
+              },
+              {
+                "target_concept_id": 4151660,
+                "target_concept_name": "Familial hypercholesterolemia"
+              }
+            ]
+          }]
+        },
+        {
+          "target_concept_id": 40484935,
+          "target_concept_name": "Familial hypercholesterolemia",
+          "children": [{
+            "target_concept_id": 4166128,
+            "target_concept_name": "Familial hypercholesterolemia",
+            "children": [{
+                "target_concept_id": 4042561,
+                "target_concept_name": "Familial hypercholesterolemia"
+              },
+              {
+                "target_concept_id": 4151660,
+                "target_concept_name": "Familial hypercholesterolemia"
+              }
+            ]
+          }]
+        }]
+}]

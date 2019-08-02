@@ -284,7 +284,11 @@ export default {
         for (let index = startRow, items = 0; index < this.original.length && items < count; ++index) {
           let row = this.original[index]
           // match filter?
-          if (!row['target_concept_name'].includes(filter)) {
+          let toQuery = row['target_concept_id']
+          if (typeof toQuery === 'number') {
+            toQuery = toQuery.toString()
+          }
+          if (!toQuery.includes(filter)) {
             // get a different row, until one is found
             continue
           }
@@ -319,7 +323,11 @@ export default {
       }
       let count = 0
       this.original.forEach((treat) => {
-        if (treat['target_concept_name'].includes(filter)) {
+        let toQuery = treat['target_concept_id']
+        if (typeof toQuery === 'number') {
+          toQuery = toQuery.toString()
+        }
+        if (toQuery.includes(filter)) {
           ++count
         }
       })
