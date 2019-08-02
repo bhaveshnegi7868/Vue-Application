@@ -17,6 +17,9 @@ Vue.use(ElementUI)
  * If not building with SSR mode, you can
  * directly export the Router instantiation
  */
+import axios from 'axios'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default function (/* { store, ssrContext } */) {
   const Router = new VueRouter({

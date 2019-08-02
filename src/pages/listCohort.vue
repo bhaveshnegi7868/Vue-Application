@@ -5,16 +5,19 @@
             :data="data"
             :columns="columns"
             row-key="name"
+            :loading="loading"
+            :filter="filter"
           >
           <template v-slot:top-left>
             <q-btn-toggle
-              v-model="model" spread no-caps toggle-color="green"
+              v-model="cohartToggle" spread no-caps toggle-color="green"
               color="white"
                 text-color="black"
                 :options="[
-                  {label: 'My Cohort', value: 'one'},
-                  {label: 'All Cohorts', value: 'two'}
+                  {label: 'My Cohort', value: 0},
+                  {label: 'All Cohorts', value: 1}
                 ]"
+                @input="getList"
               >
             </q-btn-toggle>
           </template>
@@ -57,14 +60,16 @@ export default {
   },
   data () {
     return {
-      model: 'one',
       searchModel: '',
+      cohartToggle: 0,
+      filter: '',
+      loading: true,
       columns: [
-        { name: 'Cohortname', field: 'Cohortname1', label: 'Cohort name', align: 'left', sortable: true },
-        { name: 'Cohortdescription', label: 'Cohort description', field: 'Cohortdescription', align: 'left', sortable: true },
-        { name: 'Createdby', label: 'Created by', field: 'Createdby', sortable: true, align: 'left' },
-        { name: 'Createddate', label: 'Created date', field: 'Createddate', sortable: true },
-        { name: 'Executeddate', label: 'Executed date', field: 'Executeddate', sortable: true },
+        { name: 'cohort_name', field: 'cohort_name', label: 'Cohort name', align: 'left', sortable: true },
+        { name: 'Cohortdescription', label: 'Cohort description', field: 'cohort_desc', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 130px' },
+        { name: 'Createdby', label: 'Created by', field: 'cohort_created_by', sortable: true, align: 'left' },
+        { name: 'Createddate', label: 'Created date', field: 'cohort_created_at', sortable: true },
+        { name: 'Executeddate', label: 'Executed date', field: 'cohort_executed_at', sortable: true },
         { name: 'Status', label: 'Status', field: 'Status', sortable: true },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
@@ -91,8 +96,27 @@ export default {
       console.log(id)
       this.data.splice(id, 1)
     },
-    getList() {
-      axios.post(process.env.API_URL+'accounts/login/', datadict).then(function(response) {
+    getList () {
+      var that = this
+      var url = process.env.API_URL + 'cohort/cohort_list/'
+      that.loading = true
+      if (!that.cohartToggle) {
+        url += '?username="' + that.$q.sessionStorage.getItem('username') + '"'
+      }
+      axios.get(url).then(function (response) {
+        that.data = response.data.result
+        that.loading = false
+      })
+    },
+    readCookie (name) {
+      var nameEQ = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length)
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length)
+      }
+      return null
     }
   }
 }

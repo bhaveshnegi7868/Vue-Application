@@ -44,6 +44,9 @@ export default {
     }
   },
   mounted () {
+    if (!this.$q.sessionStorage.getItem('username')) {
+      this.$router.push('/login')
+    }
     if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
@@ -55,6 +58,9 @@ export default {
     }
   },
   created () {
+    if (!this.$q.sessionStorage.getItem('username')) {
+      this.$router.push('/login')
+    }
     if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
@@ -67,6 +73,9 @@ export default {
   },
   watch: {
     $route (to, from) {
+      if (!this.$q.sessionStorage.getItem('username')) {
+        this.$router.push('/login')
+      }
       if (to.path === '/listcodeset' || to.path === '/codeset') {
         this.Cohorts = 'Code-Group'
         this.CodeGroup = 'Cohorts'

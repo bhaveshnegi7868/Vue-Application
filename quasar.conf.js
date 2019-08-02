@@ -51,7 +51,8 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'SessionStorage'
       ]
 
       // iconSet: 'ionicons-v4'

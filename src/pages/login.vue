@@ -34,6 +34,7 @@ import {
   QBtn,
   QInput,
   QCard,
+  QCardActions,
   QLayout,
   QCheckbox,
   QSpinnerHourglass
@@ -46,6 +47,7 @@ export default {
     QBtn,
     QInput,
     QCard,
+    QCardActions,
     QLayout,
     QCheckbox,
     QSpinnerHourglass
@@ -89,7 +91,13 @@ export default {
           'username': that.username,
           'password': that.password
         }
+        console.log(process.env.API_URL2)
         axios.post(process.env.API_URL+'accounts/login/', datadict).then(function(response) {
+          axios.defaults.headers.common = {
+            key: response.data.api_key,
+            User: that.username
+          }
+          that.$q.sessionStorage.set('username', that.username)
           that.$router.push('/list')
           that.btnLoading = false
         }).catch(function(err) {

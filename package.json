@@ -27,7 +27,8 @@
     "vue-chartjs": "",
     "vue-data-tables": "",
     "element-ui": "",
-    "axios": ""
+    "axios": "",
+    "moment": ""
   },
   "engines": {
     "node": ">= 8.9.0",
