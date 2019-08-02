@@ -16,7 +16,11 @@ export default {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      legend: {
+        display: true,
+        position: 'bottom'
+      }
     }
   }),
 

@@ -283,13 +283,15 @@
 import {} from 'vue-drag-drop'
 import secondaryHeader from 'components/secondaryHeader'
 import summeryGraph from 'components/summeryGraph'
+import summeryPiegraph from 'components/summeryPieGraph'
 import {
 } from 'quasar'
 export default {
   name: 'createCohort',
   components: {
     'secondary-header': secondaryHeader,
-    'summery-graph': summeryGraph
+    'summery-graph': summeryGraph,
+    'summery-piegraph': summeryPiegraph
   },
   data () {
     return {

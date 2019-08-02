@@ -107,10 +107,12 @@
       transition-show="slide-up"
       transition-hide="slide-down"
     >
-      <q-card>
-        <q-btn dense flat icon="close" v-close-popup class="float-right">
-          <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
-        </q-btn>
+      <q-card class="q-my-xl q-mx-xs">
+          <q-card-section class="row items-center">
+              <div class="float-right">
+              <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+              </div>
+            </q-card-section>
         <search-codes v-on:selectedChange="handleChange"></search-codes>
       </q-card>
     </q-dialog>
@@ -120,7 +122,12 @@
       transition-show="slide-up"
       transition-hide="slide-down"
     >
-      <q-card>
+      <q-card class="q-ma-lg">
+        <q-card-section class="row items-center">
+          <div class="float-right">
+          <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+          </div>
+        </q-card-section>
         <dependent-codes :desendents="currentDependents" v-on:selectedChange="handleChange"></dependent-codes>
       </q-card>
     </q-dialog>
@@ -137,7 +144,6 @@ import {
   QCard,
   QCheckbox,
   QDialog,
-  QTooltip,
   ClosePopup
 } from 'quasar'
 export default {
@@ -149,7 +155,6 @@ export default {
     QCard,
     QCheckbox,
     QDialog,
-    QTooltip,
     'search-codes': searchCodes,
     'dependent-codes': dependentsCodes
   },
