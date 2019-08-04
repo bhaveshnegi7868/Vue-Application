@@ -1,1 +1,528 @@
-[{"source_code": 1545996, "target_concept_code": 617311.0, "target_concept_id": 1545996, "target_concept_vocab_id": "RxNorm", "target_concept_name": "atorvastatin 40 MG Oral Tablet", "descendant": [{"source_code": 1545996, "source_vocabulary_id": 0, "target_concept_code": 617320.0, "target_concept_id": 19123593, "target_concept_vocab_id": "RxNorm", "target_concept_name": "atorvastatin 40 MG Oral Tablet [Lipitor]"}]}, {"source_code": 4134862, "target_concept_code": 398036000.0, "target_concept_id": 4134862, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Familial hypercholesterolemia", "descendant": [{"source_code": 4134862, "source_vocabulary_id": 0, "target_concept_code": 238078005.0, "target_concept_id": 4079885, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Familial hypercholesterolemia - homozygous"}, {"source_code": 4134862, "source_vocabulary_id": 0, "target_concept_code": 403830007.0, "target_concept_id": 4298010, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Familial hypercholesterolemia due to homozygous LDL receptor mutation"}, {"source_code": 4134862, "source_vocabulary_id": 0, "target_concept_code": 403831006.0, "target_concept_id": 4295609, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Familial hypercholesterolemia due to genetic defect of apolipoprotein B"}, {"source_code": 4134862, "source_vocabulary_id": 0, "target_concept_code": 403829002.0, "target_concept_id": 4295608, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Familial hypercholesterolemia due to heterozygous LDL receptor mutation"}, {"source_code": 4134862, "source_vocabulary_id": 0, "target_concept_code": 238079002.0, "target_concept_id": 4029259, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Familial hypercholesterolemia - heterozygous"}, {"source_code": 4134862, "source_vocabulary_id": 0, "target_concept_code": 767133009.0, "target_concept_id": 35608140, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Double heterozygous familial hypercholesterolemia"}, {"source_code": 4134862, "source_vocabulary_id": 0, "target_concept_code": 397915002.0, "target_concept_id": 4220010, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Fredrickson type IIa hyperlipoproteinemia"}]}, {"source_code": 312327, "target_concept_code": 57054005.0, "target_concept_id": 312327, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction", "descendant": [{"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 401303003.0, "target_concept_id": 4296653, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233828006.0, "target_concept_id": 4119944, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-Q wave infarction - anterolateral"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233826005.0, "target_concept_id": 4119456, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-Q wave infarction - anteroseptal"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 76593002.0, "target_concept_id": 441579, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of inferoposterior wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 10273003.0, "target_concept_id": 4011131, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute infarction of papillary muscle"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 282006.0, "target_concept_id": 4151046, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of basal-lateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 23300000000000.0, "target_concept_id": 44782712, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction due to right coronary artery occlusion"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233838001.0, "target_concept_id": 319039, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute posterior myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233831007.0, "target_concept_id": 4121465, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute Q wave infarction - inferolateral"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233833005.0, "target_concept_id": 4124684, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute Q wave infarction - lateral"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 703251009.0, "target_concept_id": 45771322, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of inferior wall involving right ventricle"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 52035003.0, "target_concept_id": 4178129, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute anteroapical myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46270164, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of septum"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233829003.0, "target_concept_id": 4121464, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute Q wave infarction - inferior"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.22e+16, "target_concept_id": 35611570, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of inferolateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.6e+16, "target_concept_id": 761736, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of anteroapical wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 286000000000000.0, "target_concept_id": 43020460, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction involving left anterior descending coronary artery"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.6e+16, "target_concept_id": 761737, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction due to occlusion of circumflex coronary artery"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 64627002.0, "target_concept_id": 4275436, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of high lateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46270161, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of posterior wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46270159, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of anterolateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 703253007.0, "target_concept_id": 45766151, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of inferior wall involving right ventricle"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 70422006.0, "target_concept_id": 444406, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute subendocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233825009.0, "target_concept_id": 4119943, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute Q wave infarction - anteroseptal"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46270158, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of posterolateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 65547006.0, "target_concept_id": 438447, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of inferolateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 304914007.0, "target_concept_id": 4126801, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute Q wave myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233835003.0, "target_concept_id": 4119947, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute widespread myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233837006.0, "target_concept_id": 4124685, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-Q wave infarction - widespread"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46273495, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of posterobasal wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 286000000000000.0, "target_concept_id": 43020461, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction involving left main coronary artery"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 15990001.0, "target_concept_id": 4051874, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of posterolateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1090000000000000.0, "target_concept_id": 35610091, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute nontransmural myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 194809007.0, "target_concept_id": 4108669, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of atrium"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233836002.0, "target_concept_id": 4119948, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute Q wave infarction - widespread"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46270160, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of anteroseptal wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 79009004.0, "target_concept_id": 4303359, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of septum"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 59063002.0, "target_concept_id": 4243372, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of apical-lateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46274044, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of lateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 17500000000000.0, "target_concept_id": 44782769, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction due to left coronary artery occlusion"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 70998009.0, "target_concept_id": 4324413, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of posterobasal wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46270163, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction due to right coronary artery occlusion"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233834004.0, "target_concept_id": 4121466, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-Q wave infarction - lateral"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 30277009.0, "target_concept_id": 4147223, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction with rupture of ventricle"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 54329005.0, "target_concept_id": 434376, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of anterior wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233832000.0, "target_concept_id": 4119946, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-Q wave infarction - inferolateral"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 703213009.0, "target_concept_id": 45766116, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of inferior wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 703252002.0, "target_concept_id": 45766150, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of anterior wall involving right ventricle"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233827001.0, "target_concept_id": 4119457, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute Q wave infarction - anterolateral"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 703164000.0, "target_concept_id": 45766075, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute anterior ST segment elevation myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 401314000.0, "target_concept_id": 4270024, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-ST segment elevation myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 703212004.0, "target_concept_id": 45766115, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction during procedure"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1090000000000000.0, "target_concept_id": 35610093, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute transmural myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 62695002.0, "target_concept_id": 4267568, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute anteroseptal myocardial infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.22e+16, "target_concept_id": 35611571, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of inferoposterior wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 58612006.0, "target_concept_id": 436706, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of lateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 70211005.0, "target_concept_id": 438438, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of anterolateral wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 703165004.0, "target_concept_id": 45766076, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction of anterior wall involving right ventricle"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 233830008.0, "target_concept_id": 4119945, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-Q wave infarction - inferior"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 307140009.0, "target_concept_id": 4145721, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute non-Q wave infarction"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 73795002.0, "target_concept_id": 438170, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute myocardial infarction of inferior wall"}, {"source_code": 312327, "source_vocabulary_id": 0, "target_concept_code": 1.57e+16, "target_concept_id": 46270162, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute ST segment elevation myocardial infarction due to left coronary artery occlusion"}]}, {"source_code": 315296, "target_concept_code": 4557003.0, "target_concept_id": 315296, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Preinfarction syndrome", "descendant": [{"source_code": 315296, "source_vocabulary_id": 0, "target_concept_code": 194823009.0, "target_concept_id": 4108670, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Acute coronary insufficiency"}, {"source_code": 315296, "source_vocabulary_id": 0, "target_concept_code": 1.6e+16, "target_concept_id": 35615053, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Unstable angina co-occurrent and due to arteriosclerosis of coronary artery bypass graft"}, {"source_code": 315296, "source_vocabulary_id": 0, "target_concept_code": 1.6e+16, "target_concept_id": 36712982, "target_concept_vocab_id": "SNOMED", "target_concept_name": "Unstable angina co-occurrent and due to coronary arteriosclerosis"}]}]
+[{
+  "source_code": 1545996,
+  "target_concept_code": 617311.0,
+  "target_concept_id": 1545996,
+  "target_concept_vocab_id": "RxNorm",
+  "target_concept_name": "atorvastatin 40 MG Oral Tablet",
+  "descendant": [{
+    "source_code": 1545996,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 617320.0,
+    "target_concept_id": 19123593,
+    "target_concept_vocab_id": "RxNorm",
+    "target_concept_name": "atorvastatin 40 MG Oral Tablet [Lipitor]"
+  }]
+}, {
+  "source_code": 4134862,
+  "target_concept_code": 398036000.0,
+  "target_concept_id": 4134862,
+  "target_concept_vocab_id": "SNOMED",
+  "target_concept_name": "Familial hypercholesterolemia",
+  "descendant": [{
+      "target_concept_id": 4276560,
+      "target_concept_name": "Familial hypercholesterolemia",
+      "children": [{
+          "target_concept_id": 4275206,
+          "target_concept_name": "Familial hypercholesterolemia",
+          "children": [{
+            "target_concept_id": 4166128,
+            "target_concept_name": "Familial hypercholesterolemia",
+            "children": [{
+                "target_concept_id": 4042561,
+                "target_concept_name": "Familial hypercholesterolemia"
+              },
+              {
+                "target_concept_id": 4151660,
+                "target_concept_name": "Familial hypercholesterolemia"
+              }
+            ]
+          }]
+        },
+        {
+          "target_concept_id": 40484935,
+          "target_concept_name": "Familial hypercholesterolemia",
+          "children": [{
+            "target_concept_id": 4166128,
+            "target_concept_name": "Familial hypercholesterolemia",
+            "children": [{
+                "target_concept_id": 4042561,
+                "target_concept_name": "Familial hypercholesterolemia"
+              },
+              {
+                "target_concept_id": 4151660,
+                "target_concept_name": "Familial hypercholesterolemia"
+              }
+            ]
+          }]
+        }]
+  }]
+}, {
+  "source_code": 312327,
+  "target_concept_code": 57054005.0,
+  "target_concept_id": 312327,
+  "target_concept_vocab_id": "SNOMED",
+  "target_concept_name": "Acute myocardial infarction",
+  "descendant": [{
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 401303003.0,
+    "target_concept_id": 4296653,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233828006.0,
+    "target_concept_id": 4119944,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-Q wave infarction - anterolateral"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233826005.0,
+    "target_concept_id": 4119456,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-Q wave infarction - anteroseptal"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 76593002.0,
+    "target_concept_id": 441579,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of inferoposterior wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 10273003.0,
+    "target_concept_id": 4011131,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute infarction of papillary muscle"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 282006.0,
+    "target_concept_id": 4151046,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of basal-lateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 23300000000000.0,
+    "target_concept_id": 44782712,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction due to right coronary artery occlusion"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233838001.0,
+    "target_concept_id": 319039,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute posterior myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233831007.0,
+    "target_concept_id": 4121465,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute Q wave infarction - inferolateral"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233833005.0,
+    "target_concept_id": 4124684,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute Q wave infarction - lateral"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 703251009.0,
+    "target_concept_id": 45771322,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of inferior wall involving right ventricle"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 52035003.0,
+    "target_concept_id": 4178129,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute anteroapical myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46270164,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of septum"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233829003.0,
+    "target_concept_id": 4121464,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute Q wave infarction - inferior"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.22e+16,
+    "target_concept_id": 35611570,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of inferolateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.6e+16,
+    "target_concept_id": 761736,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of anteroapical wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 286000000000000.0,
+    "target_concept_id": 43020460,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction involving left anterior descending coronary artery"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.6e+16,
+    "target_concept_id": 761737,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction due to occlusion of circumflex coronary artery"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 64627002.0,
+    "target_concept_id": 4275436,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of high lateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46270161,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of posterior wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46270159,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of anterolateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 703253007.0,
+    "target_concept_id": 45766151,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of inferior wall involving right ventricle"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 70422006.0,
+    "target_concept_id": 444406,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute subendocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233825009.0,
+    "target_concept_id": 4119943,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute Q wave infarction - anteroseptal"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46270158,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of posterolateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 65547006.0,
+    "target_concept_id": 438447,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of inferolateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 304914007.0,
+    "target_concept_id": 4126801,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute Q wave myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233835003.0,
+    "target_concept_id": 4119947,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute widespread myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233837006.0,
+    "target_concept_id": 4124685,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-Q wave infarction - widespread"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46273495,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of posterobasal wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 286000000000000.0,
+    "target_concept_id": 43020461,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction involving left main coronary artery"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 15990001.0,
+    "target_concept_id": 4051874,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of posterolateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1090000000000000.0,
+    "target_concept_id": 35610091,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute nontransmural myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 194809007.0,
+    "target_concept_id": 4108669,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of atrium"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233836002.0,
+    "target_concept_id": 4119948,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute Q wave infarction - widespread"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46270160,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of anteroseptal wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 79009004.0,
+    "target_concept_id": 4303359,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of septum"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 59063002.0,
+    "target_concept_id": 4243372,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of apical-lateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46274044,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of lateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 17500000000000.0,
+    "target_concept_id": 44782769,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction due to left coronary artery occlusion"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 70998009.0,
+    "target_concept_id": 4324413,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of posterobasal wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46270163,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction due to right coronary artery occlusion"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233834004.0,
+    "target_concept_id": 4121466,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-Q wave infarction - lateral"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 30277009.0,
+    "target_concept_id": 4147223,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction with rupture of ventricle"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 54329005.0,
+    "target_concept_id": 434376,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of anterior wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233832000.0,
+    "target_concept_id": 4119946,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-Q wave infarction - inferolateral"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 703213009.0,
+    "target_concept_id": 45766116,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of inferior wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 703252002.0,
+    "target_concept_id": 45766150,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of anterior wall involving right ventricle"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233827001.0,
+    "target_concept_id": 4119457,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute Q wave infarction - anterolateral"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 703164000.0,
+    "target_concept_id": 45766075,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute anterior ST segment elevation myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 401314000.0,
+    "target_concept_id": 4270024,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-ST segment elevation myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 703212004.0,
+    "target_concept_id": 45766115,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction during procedure"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1090000000000000.0,
+    "target_concept_id": 35610093,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute transmural myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 62695002.0,
+    "target_concept_id": 4267568,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute anteroseptal myocardial infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.22e+16,
+    "target_concept_id": 35611571,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of inferoposterior wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 58612006.0,
+    "target_concept_id": 436706,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of lateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 70211005.0,
+    "target_concept_id": 438438,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of anterolateral wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 703165004.0,
+    "target_concept_id": 45766076,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction of anterior wall involving right ventricle"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 233830008.0,
+    "target_concept_id": 4119945,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-Q wave infarction - inferior"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 307140009.0,
+    "target_concept_id": 4145721,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute non-Q wave infarction"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 73795002.0,
+    "target_concept_id": 438170,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute myocardial infarction of inferior wall"
+  }, {
+    "source_code": 312327,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.57e+16,
+    "target_concept_id": 46270162,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute ST segment elevation myocardial infarction due to left coronary artery occlusion"
+  }]
+}, {
+  "source_code": 315296,
+  "target_concept_code": 4557003.0,
+  "target_concept_id": 315296,
+  "target_concept_vocab_id": "SNOMED",
+  "target_concept_name": "Preinfarction syndrome",
+  "descendant": [{
+    "source_code": 315296,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 194823009.0,
+    "target_concept_id": 4108670,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Acute coronary insufficiency"
+  }, {
+    "source_code": 315296,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.6e+16,
+    "target_concept_id": 35615053,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Unstable angina co-occurrent and due to arteriosclerosis of coronary artery bypass graft"
+  }, {
+    "source_code": 315296,
+    "source_vocabulary_id": 0,
+    "target_concept_code": 1.6e+16,
+    "target_concept_id": 36712982,
+    "target_concept_vocab_id": "SNOMED",
+    "target_concept_name": "Unstable angina co-occurrent and due to coronary arteriosclerosis"
+  }]
+}]
