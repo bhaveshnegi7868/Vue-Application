@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <q-card class="q-pa-md">
-      <h6>Search Codes Using Key Words</h6>
+  <div class="searchCode-card">
+    <q-card class="q-px-md">
+      <div class="q-my-sm searchCodesetHeader">Search Codes Using Key Words</div>
       <div class="row" >
         <div class="col-7 selected_events">
           <div>
