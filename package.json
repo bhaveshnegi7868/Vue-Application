@@ -28,7 +28,8 @@
     "vue-data-tables": "",
     "element-ui": "",
     "axios": "",
-    "moment": ""
+    "moment": "",
+    "vue-sweetalert2": ""
   },
   "engines": {
     "node": ">= 8.9.0",

@@ -7,19 +7,25 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
+import VueSweetalert2 from 'vue-sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 locale.use(lang)
 Vue.use(VueRouter)
 Vue.use(VueDataTables)
 Vue.use(ElementUI)
 
+const options = {
+  confirmButtonColor: '#6b9840',
+  cancelButtonColor: '#9f9f9f'
+}
+
+Vue.use(VueSweetalert2, options)
+
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation
  */
-import axios from 'axios'
-axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default function (/* { store, ssrContext } */) {
   const Router = new VueRouter({

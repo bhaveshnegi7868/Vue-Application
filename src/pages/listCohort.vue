@@ -92,9 +92,27 @@ export default {
   },
   methods: {
     removeFromList: function (id) {
-      console.log('removeFromList… id:')
-      console.log(id)
-      this.data.splice(id, 1)
+      this.$swal({
+        title: 'Are you sure?',
+        text: 'You want To Delete This Cohart',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete'
+      }).then((result) => {
+        if (result.value) {
+          this.deleteCohart(id).then(function (apiResult) {
+            debugger
+          })
+          this.$swal(
+            'Deleted!',
+            'Cohart Deleted',
+            'success'
+          )
+        }
+      })
+      // console.log('removeFromList… id:')
+      // console.log(id)
+      // this.data.splice(id, 1)
     },
     getList () {
       var that = this
@@ -117,6 +135,13 @@ export default {
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length)
       }
       return null
+    },
+    deleteCohart (id) {
+      var url = process.env.API_URL + 'cohort/delete_cohort/'
+      var dataToSend = {
+        cohort_id: 22
+      }
+      return axios.delete(url, dataToSend)
     }
   }
 }

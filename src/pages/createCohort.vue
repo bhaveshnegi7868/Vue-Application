@@ -15,6 +15,7 @@
                   no-caps
                   class="full-width select-box"
                   label="Cohart Group"
+                  @click="getDatasourceList"
                 >
                 <q-btn
                   color="primary"
@@ -268,6 +269,7 @@
 
 <script>
 import { Drag, Drop } from 'vue-drag-drop'
+import axios from 'axios'
 import eventAttributes from 'pages/eventAttributes'
 import createCohartGroup from 'components/createCohartGroup'
 import secondaryHeader from 'components/secondaryHeader'
@@ -702,6 +704,16 @@ export default {
         'ICriteriaListName': 'New Criteria',
         'ICriteriaListDesc': '',
         'currentSelected': 0
+      })
+    },
+    getDatasourceList () {
+      var that = this
+      var url = process.env.API_URL + 'cohort/cohort_group_list/'
+      console.log(that)
+      axios.get(url).then(function (response) {
+        debugger
+        // that.data = response.data.result
+        // that.loading = false
       })
     }
   }
