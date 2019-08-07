@@ -1,13 +1,13 @@
 <template>
   <q-page class="app-layout ">
-    <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
+    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj.cohort_name"></secondary-header>
     <div class="row q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-pa-sm">
-                <input class="input-box full-width" v-model="currentcohort.name" placeholder="Cohort Name" />
+                <input class="input-box full-width" v-model="baseObj.cohort_name" placeholder="Cohort Name" />
             </div>
             <div class="col-5 q-pa-sm">
-                <input class="input-box full-width" v-model="currentcohort.description" placeholder="Cohort Description" />
+                <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
             <div class="col q-pa-sm">
               <q-btn-dropdown
@@ -15,21 +15,21 @@
                   no-caps
                   class="full-width select-box"
                   label="Cohart Group"
-                  @click="getDatasourceList"
+                  @click="getCohortGroupList"
                 >
                 <q-btn
                   color="primary"
                   class="full-width"
                   icon-right="add"
-                  label="Add New Code Group"
+                  label="Add New Cohort Group"
                   @click="openCreateCohartGroupPopup"
                   v-close-popup
                 />
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
-                  {{currentcohort.group}}
+                  {{baseObj.cohort_group}}
                 </q-card>
-                <div class="options-values" v-for="opt in dtSourceOpts" v-bind:key="opt.value" @click="currentcohort.group = opt.value">
-                  {{opt.label}}
+                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="baseObj.cohort_group = opt.name">
+                  {{opt.name}}
                 </div>
               </q-btn-dropdown>
             </div>
@@ -39,12 +39,13 @@
                   flat
                   class="full-width select-box"
                   label="Datasource"
+                  @click="getDataSourceList"
                 >
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
-                  {{currentcohort.datasource}}
+                  {{baseObj.data_source}}
                 </q-card>
-                <div class="options-values" v-for="opt in dtSourceOpts" v-bind:key="opt.value" @click="currentcohort.datasource = opt.value">
-                  {{opt.label}}
+                <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="baseObj.data_source = opt.name">
+                  {{opt.name}}
                 </div>
               </q-btn-dropdown>
             </div>
@@ -67,9 +68,9 @@
             Criteria Set
         </div>
         <div class="header_Bor1"></div>
-        <q-btn v-for="criteria in criteriaArray"  :key="criteria.name"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
-            <label v-if="criteria.ICriteriaListName">{{criteria.ICriteriaListName}}</label>
-            <label v-if="criteria.PCriteriaListName">{{criteria.PCriteriaListName}}</label>
+        <q-btn v-for="criteria in criteriaArray"  :key="criteria.id"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
+            <label v-if="criteria.ICriteriaSetName" class="ellipsis">{{criteria.ICriteriaSetName}}</label>
+            <label v-if="criteria.PCriteriaSetName">{{criteria.PCriteriaSetName}}</label>
             <i class="fa fa-times-circle pull-right mar1"></i>
         </q-btn>
         <q-btn class="categories_addNew full-width" @click="addNewCriteria">
@@ -80,20 +81,20 @@
         </q-btn>
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
-        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaListName'] === undefined">
+        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
           <div class="col-4 q-ma-sm">
-            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaListName" placeholder="Criteria Name" />
+            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaSetName" placeholder="Criteria Name" />
           </div>
           <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaListDesc" placeholder="Criteria Description" />
+            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaSetDesc" placeholder="Criteria Description" />
           </div>
         </q-card>
-        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaListName'] !== undefined">
+        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] !== undefined">
           <div class="col-4 q-ma-sm">
-            <input class="input-box full-width" v-model="currentCriteria.PCriteriaListName" placeholder="Criteria Name" />
+            <input class="input-box full-width" v-model="currentCriteria.PCriteriaSetName" placeholder="Criteria Name" />
           </div>
           <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="currentCriteria.PCriteriaListDesc" placeholder="Criteria Description" />
+            <input class="input-box full-width" v-model="currentCriteria.PCriteriaSetDesc" placeholder="Criteria Description" />
           </div>
         </q-card>
         <div class="elements-block  q-mt-sm">
@@ -116,7 +117,7 @@
             </q-card>
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm custom-card">
-                <div class="row" v-if="currentCriteria['PCriteriaListName'] === undefined">
+                <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col">
                     <select class="criteria-box" v-model="currentInclusionObj.Type">
                       <option disabled>Select</option>
@@ -135,17 +136,16 @@
                     :key="index"
                   >
                     <div>
-                      <q-card class="custom-card event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
+                      <q-card class="custom-card row event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
                         <div class="col-1">
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
                         <div class="col-7">
-                          <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
+                          <label class="text-h6 q-pa-xs">{{reverseMappingDict[Object.keys(elementObj)[0]]}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
+                        <div class="col-2"></div>
                         <div class="col-2">
-                        </div>
-                        <div class="col-2">
-                          <q-btn class="fCgreen q-px-sm f12  float-right" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
+                          <q-btn class="fCgreen f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
                         </div>
                       </q-card>
                     </div>
@@ -324,6 +324,11 @@ export default {
         'Diagnosis': 'ConditionOccurrence',
         'Treatement': 'DrugExposure'
       },
+      reverseMappingDict: {
+        'ProcedureOccurrence': 'Procedure',
+        'ConditionOccurrence': 'Diagnosis',
+        'DrugExposure': 'Treatement'
+      },
       currentcohort: {
         'name': 'New cohort',
         'description': 'cohort Description',
@@ -332,13 +337,13 @@ export default {
       },
       baseObj: {
         'PrimaryCriteria': {
-          'PCriteriaListName': '',
-          'PCriteriaListDesc': '',
+          'PCriteriaSetName': '',
+          'PCriteriaSetDesc': '',
           'CriteriaList': [],
           'ObservationWindow': {},
           'PrimaryCriteriaLimit': {}
         },
-        'InclusionRules': []
+        'inclusion_rules': []
       },
       selectedPage: 'Cohort Definition',
       cname: '',
@@ -357,14 +362,14 @@ export default {
       criteriaArray: [
         {
           'id': 'PrimaryCriteria',
-          'PCriteriaListName': 'Initial Criteria',
+          'PCriteriaSetName': 'Initial Criteria',
           'currentSelected': 1,
-          'PCriteriaListDesc': 'This Is The Initial cohort'
+          'PCriteriaSetDesc': 'This Is The Initial cohort'
         },
         {
-          'ICriteriaListName': 'Criteria Set 1',
+          'ICriteriaSetName': 'Criteria Set 1',
           'currentSelected': 0,
-          'ICriteriaListDesc': 'This Is Criteria Set 1'
+          'ICriteriaSetDesc': 'This Is Criteria Set 1'
         }
       ],
       eventArray1: [
@@ -401,7 +406,8 @@ export default {
           label: 'Market Scan'
         }
       ],
-
+      dataSources: [],
+      cohortGroups: [],
       currentEvent: '',
       openGroup: false,
       criteriaClass: [
@@ -411,7 +417,19 @@ export default {
     }
   },
   created () {
-    this.markCriteriaAsSelected(this.criteriaArray[0])
+    var that = this
+    that.cohort_id = that.$route.params.cohort_id
+    if (that.cohort_id) {
+      that.getCohortDict(that.cohort_id)
+    }
+  },
+  mounted () {
+    var that = this
+    that.cohort_id = that.$route.params.cohort_id
+    debugger
+    if (that.cohort_id) {
+      that.getCohortDict(that.cohort_id)
+    }
   },
   methods: {
     openCreateCohartGroupPopup () {
@@ -428,16 +446,29 @@ export default {
       this.dictPopup = true
     },
     addCohart (cohartGroup) {
-      this.dtSourceOpts.push({
-        value: cohartGroup.name,
-        label: cohartGroup.name
+      var that = this
+      var url = process.env.API_URL + 'cohort/group/create'
+      var datadict = {
+        name: cohartGroup.name,
+        description: cohartGroup.description,
+        created_by: that.$q.sessionStorage.getItem('username')
+      }
+      axios.post(url, datadict).then(function (response) {
+        that.createCohartGroupPopup = false
+      }).catch(function (err) {
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: err.message,
+          position: 'bottom-right',
+          timeout: 3000
+        })
       })
-      this.createCohartGroupPopup = false
     },
     makePrimaryCriteria (criteria) {
       var that = this
-      that.baseObj.PrimaryCriteria.PCriteriaListName = that.eventArray[criteria].name
-      that.baseObj.PrimaryCriteria.PCriteriaListDesc = that.eventArray[criteria].description
+      that.baseObj.PrimaryCriteria.PCriteriaSetName = that.eventArray[criteria].name
+      that.baseObj.PrimaryCriteria.PCriteriaSetDesc = that.eventArray[criteria].description
       that.baseObj.PrimaryCriteria.CriteriaList = that.eventArray[criteria]
     },
     showAttributes (event, mainIndex, subIndex) {
@@ -642,30 +673,24 @@ export default {
     },
     markCriteriaAsSelected (criteria) {
       var that = this
-      // if (!(that.currentCriteria.name in that.eventArray)) {
-      //   that.eventArray[that.currentCriteria.name] = criteria
-      //   that.eventArray[that.currentCriteria.name].CriteriaList = []
-      //   that.eventArray[that.currentCriteria.name].currentGroup = 0
-      //   that.eventArray[that.currentCriteria.name].currentNumber = 0
-      // }
       that.criteriaArray.forEach(function (row, index) {
         if (index === 0) {
-          if (row.PCriteriaListName === criteria.PCriteriaListName) {
-            that.currentCriteria = that.baseObj['PrimaryCriteria']
-            that.currentCriteria.PCriteriaListName = row.PCriteriaListName
-            that.currentCriteria.PCriteriaListDesc = row.PCriteriaListDesc
+          if (row.PCriteriaSetName === criteria.PCriteriaSetName) {
+            that.currentCriteria = that.baseObj['primary_criteria']
+            that.currentCriteria.PCriteriaSetName = row.PCriteriaSetName
+            that.currentCriteria.PCriteriaSetDesc = row.PCriteriaSetDesc
             that.currentInclusionObj = {}
             row.currentSelected = 1
           } else {
             row.currentSelected = 0
           }
         } else {
-          if (row.ICriteriaListName === criteria.ICriteriaListName) {
-            if (that.baseObj['InclusionRules'][index - 1]) {
-              that.currentCriteria = that.baseObj['InclusionRules'][index - 1].expression
-              that.currentInclusionObj = that.baseObj['InclusionRules'][index - 1]
+          if (row.ICriteriaSetName === criteria.ICriteriaSetName) {
+            if (that.baseObj['inclusion_rules'][index - 1]) {
+              that.currentCriteria = that.baseObj['inclusion_rules'][index - 1].expression
+              that.currentInclusionObj = that.baseObj['inclusion_rules'][index - 1]
             } else {
-              that.baseObj['InclusionRules'][index - 1] = {
+              that.baseObj['inclusion_rules'][index - 1] = {
                 'expression': {
                   'CriteriaList': [],
                   'ObservationWindow': false,
@@ -673,8 +698,8 @@ export default {
                 },
                 'Groups': []
               }
-              that.currentInclusionObj = that.baseObj['InclusionRules'][index - 1]
-              that.currentCriteria = that.baseObj['InclusionRules'][index - 1].expression
+              that.currentInclusionObj = that.baseObj['inclusion_rules'][index - 1]
+              that.currentCriteria = that.baseObj['inclusion_rules'][index - 1].expression
             }
             row.currentSelected = 1
           } else {
@@ -701,18 +726,49 @@ export default {
     addNewCriteria () {
       var that = this
       that.criteriaArray.push({
-        'ICriteriaListName': 'New Criteria',
-        'ICriteriaListDesc': '',
+        'ICriteriaSetName': 'New Criteria',
+        'ICriteriaSetDesc': '',
         'currentSelected': 0
       })
     },
-    getDatasourceList () {
+    getCohortGroupList () {
       var that = this
-      var url = process.env.API_URL + 'cohort/cohort_group_list/'
-      console.log(that)
+      var url = process.env.API_URL + 'cohort/group/list/'
       axios.get(url).then(function (response) {
-        debugger
-        // that.data = response.data.result
+        that.cohortGroups = response.data.result
+        that.loading = false
+      })
+    },
+    getDataSourceList () {
+      var that = this
+      var url = process.env.API_URL + 'cohort/datasource/list/'
+      axios.get(url).then(function (response) {
+        that.dataSources = response.data.result
+        that.loading = false
+      })
+    },
+    getCohortDict (cohortId) {
+      var that = this
+      var url = process.env.API_URL + 'cohort/get/?cohort_id=' + cohortId
+      axios.get(url).then(function (response) {
+        that.baseObj = response.data
+        that.criteriaArray = [
+          {
+            'id': 'PrimaryCriteria',
+            'PCriteriaSetName': response.data.primary_criteria.PCriteriaSetName,
+            'currentSelected': 1,
+            'PCriteriaSetDesc': response.data.primary_criteria.PCriteriaSetDesc
+          }
+        ]
+        response.data.inclusion_rules.forEach(function (row) {
+          that.criteriaArray.push({
+            'ICriteriaSetName': row.ICriteriaSetName,
+            'currentSelected': 0,
+            'ICriteriaSetDesc': row.ICriteriaSetDesc
+          })
+        })
+        that.markCriteriaAsSelected(that.criteriaArray[0])
+        // that.dtSourceOpts = response.data.result
         // that.loading = false
       })
     }

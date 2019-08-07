@@ -12,14 +12,20 @@
                   <router-link class="textDecorNone" to="/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
                   <router-link class="textDecorNone" to="/listcodeset" target="_blank"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
                 </div>
+                <q-btn-dropdown
+                  icon="img:statics/imgs/userIcon.png"
+                  icon-right="more_vert"
+                  outline
+                  no-caps
+                  class="userName headerRight"
+                  label="Muthu R"
+                >
                 <q-btn
-                icon="img:statics/imgs/userIcon.png"
-                icon-right="more_vert"
-                outline
-                no-caps
-                class="userName headerRight"
-                label="Muthu R"
+                  class="full-width"
+                  label="Logout"
+                  @click="logout"
                 />
+              </q-btn-dropdown>
             </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -31,9 +37,15 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
-
+import axios from 'axios'
+import {
+  openURL,
+  QBtnDropdown
+} from 'quasar'
 export default {
+  components: {
+    QBtnDropdown
+  },
   name: 'MyLayout',
   data () {
     return {
@@ -88,7 +100,22 @@ export default {
     }
   },
   methods: {
-    openURL
+    openURL,
+    logout: function () {
+      let that = this
+      let datadict = {
+        'username': sessionStorage.getItem('username')
+      }
+      axios.post(process.env.API_URL + 'accounts/logout/', datadict).then(function (response) {
+        axios.defaults.headers.common = {}
+        that.$q.sessionStorage.clear()
+        that.$router.push('/login')
+        that.btnLoading = false
+      }).catch(function (error) {
+        console.log(error)
+        that.$router.push('/login')
+      })
+    }
   }
 }
 </script>
