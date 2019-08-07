@@ -173,10 +173,11 @@
                         By Gender
                         <div class="By-GraphLbls_Underline"></div>
                       </div>
-                      <div class="genderGraph q-mx-md">
-                        <q-icon class="q-mx-xs q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/genderStats.png" />
+                      <div class="genderGraph q-mx-xs">
+                        <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/manImg.png" />
+                        <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/womanImg.png" />
                       </div>
-                      <div class="row q-my-xs">
+                      <div class="row q-my-xs q-mt-lg">
                         <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">28374</div>
                         <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">43876</div>
                       </div>

@@ -35,9 +35,8 @@
           <router-link to="/create/">{{row.row.Cohortname1}}</router-link>
             </q-td>
           <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
-              <q-btn round color="green" size="0.5rem" icon="edit" @click="editCohart(props.row.cohort_id)"></q-btn>
-              <q-btn round color="green" size="0.5rem" icon="file_copy" @click="copyCohart(props.row.cohort_id)"></q-btn>
-              <q-btn round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);"></q-btn>
+              <q-btn round color="green" size="0.5rem" icon="file_copy" ></q-btn>
+              <q-btn round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.__index);"></q-btn>
             </q-td>
           </q-table>
         </div>
@@ -120,7 +119,7 @@ export default {
       var url = process.env.API_URL + 'cohort/list/'
       that.loading = true
       if (!that.cohartToggle) {
-        url += '?username=' + that.$q.sessionStorage.getItem('username')
+        url += '?username="' + that.$q.sessionStorage.getItem('username') + '"'
       }
       axios.get(url).then(function (response) {
         that.data = response.data.result
@@ -137,17 +136,13 @@ export default {
       }
       return null
     },
-    copyCohart () {
-    },
-    editCohart (id) {
-      this.$router.push('/create/' + id)
-    },
     deleteCohart (id) {
-      var url = process.env.API_URL + 'cohort/delete/'
+      console.log(id)
+      var url = process.env.API_URL + 'cohort/delete_cohort/'
       var dataToSend = {
-        cohort_id: id
+        cohort_id: 22
       }
-      return axios.delete(url, { body: dataToSend })
+      return axios.delete(url, dataToSend)
     }
   }
 }

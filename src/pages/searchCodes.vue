@@ -1,19 +1,24 @@
 <template>
-  <div class="searchCode-card">
-    <q-card class="q-px-md">
+  <div clas="searchCode-card">
+    <q-card class="q-pa-md">
       <div class="q-my-sm searchCodesetHeader">Search Codes Using Key Words</div>
       <div class="row" >
-        <div class="col-7 selected_events">
-          <div>
+        <div class="col-8 ">
+          <div class="q-my-sm">
                 <el-input v-model="filter" placeholder="Search">
                   <template v-slot:prepend>
                     <q-icon name="search" />
                   </template>
                 </el-input>
           </div>
-          <div class="row table-box">
+          <div class="q-my-sm row bor1Lightgrey selectedFilter">
+            <div class=" Applied-Filters">Applied Filters</div>
+            <div class="filtersList"></div>
+          </div>
+          <div class="row selected_events">
+          <div class="row col table-box">
             <div class="col-3">
-              <div class="q-pa-sm q-ma-sm filter-box">
+              <div class="q-pa-xs q-ma-xs filter-box">
                 <q-list  bordered class="q-ma-sm" v-for="fil in filters" :key="fil.prop" >
                   <q-expansion-item
                     expand-separator
@@ -90,8 +95,9 @@
             </q-tr>
           </template>
           </q-table> -->
+          </div>
         </div>
-        <div class="col-5">
+        <div class="col-4">
           <div class="q-pa-sm selected-codes-card q-ml-md">
             <div class="body">
               <div class="categories_header">
