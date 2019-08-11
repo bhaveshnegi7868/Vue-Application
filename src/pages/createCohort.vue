@@ -55,7 +55,7 @@
             <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative"/>
           </div>
           <div class="col q-mx-xs">
-            <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary"/>
+            <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
           </div>
           <div class="col q-mx-xs">
             <q-btn outlined icon="play_circle_filled" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
@@ -68,11 +68,39 @@
             Criteria Set
         </div>
         <div class="header_Bor1"></div>
-        <q-btn v-for="criteria in criteriaArray"  :key="criteria.id"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
+        <q-list>
+          <q-item
+            clickable
+            v-ripple
+            class="categories_list"
+            :active="link === 1"
+            @click="markCriteriaAsSelected(baseObj.criteriaObj.PrimaryCriteria)"
+            active-class="categories_Selected"
+          >
+            <q-item-section>
+              <label>{{baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetName}}</label>
+            </q-item-section>
+          </q-item>
+          <q-item
+            v-for="criteria in baseObj.criteriaObj.InclusionRules"
+            :key="criteria.id"
+            clickable
+            v-ripple
+            class="categories_list"
+            :active="link === criteria.id"
+            @click="markCriteriaAsSelected(criteria)"
+            active-class="categories_Selected"
+          >
+            <q-item-section>
+              <label v-if="criteria.ICriteriaSetName" class="ellipsis">{{criteria.ICriteriaSetName}}</label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+        <!-- <q-btn v-for="criteria in criteriaArray"  :key="criteria.id"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
             <label v-if="criteria.ICriteriaSetName" class="ellipsis">{{criteria.ICriteriaSetName}}</label>
             <label v-if="criteria.PCriteriaSetName">{{criteria.PCriteriaSetName}}</label>
             <i class="fa fa-times-circle pull-right mar1"></i>
-        </q-btn>
+        </q-btn> -->
         <q-btn class="categories_addNew full-width" @click="addNewCriteria">
             Add Criteria Set
         </q-btn>
@@ -141,7 +169,7 @@
                           <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
                         </div>
                         <div class="col-7">
-                          <label class="text-h6 q-pa-xs">{{reverseMappingDict[Object.keys(elementObj)[0]]}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
+                          <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="col-2"></div>
                         <div class="col-2">
@@ -242,7 +270,7 @@
               </q-card>
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes :mappingDict="mappingDict" :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
+              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -312,22 +340,23 @@ export default {
   },
   data () {
     return {
+      renderComponent: true,
       dictPopup: false,
       createCohartGroupPopup: false,
       apiData: {
         'Procedure': procedureData,
         'Diagnosis': diagnosisData,
-        'Treatement': treatementData
+        'Treatment': treatementData
       },
       mappingDict: {
         'Procedure': 'ProcedureOccurrence',
         'Diagnosis': 'ConditionOccurrence',
-        'Treatement': 'DrugExposure'
+        'Treatment': 'DrugExposure'
       },
       reverseMappingDict: {
         'ProcedureOccurrence': 'Procedure',
         'ConditionOccurrence': 'Diagnosis',
-        'DrugExposure': 'Treatement'
+        'DrugExposure': 'Treatment'
       },
       currentcohort: {
         'name': 'New cohort',
@@ -336,14 +365,16 @@ export default {
         'datasource': 'dt1'
       },
       baseObj: {
-        'PrimaryCriteria': {
-          'PCriteriaSetName': '',
-          'PCriteriaSetDesc': '',
-          'CriteriaList': [],
-          'ObservationWindow': {},
-          'PrimaryCriteriaLimit': {}
-        },
-        'inclusion_rules': []
+        'criteriaObj': {
+          'PrimaryCriteria': {
+            'PCriteriaSetName': '',
+            'PCriteriaSetDesc': '',
+            'CriteriaList': [],
+            'ObservationWindow': {},
+            'PrimaryCriteriaLimit': {}
+          },
+          'InclusionRules': []
+        }
       },
       selectedPage: 'Cohort Definition',
       cname: '',
@@ -365,11 +396,6 @@ export default {
           'PCriteriaSetName': 'Initial Criteria',
           'currentSelected': 1,
           'PCriteriaSetDesc': 'This Is The Initial cohort'
-        },
-        {
-          'ICriteriaSetName': 'Criteria Set 1',
-          'currentSelected': 0,
-          'ICriteriaSetDesc': 'This Is Criteria Set 1'
         }
       ],
       eventArray1: [
@@ -416,20 +442,16 @@ export default {
       ]
     }
   },
-  created () {
-    var that = this
-    that.cohort_id = that.$route.params.cohort_id
-    if (that.cohort_id) {
-      that.getCohortDict(that.cohort_id)
-    }
-  },
   mounted () {
     var that = this
     that.cohort_id = that.$route.params.cohort_id
-    debugger
     if (that.cohort_id) {
       that.getCohortDict(that.cohort_id)
+    } else {
+      that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
+      that.markCriteriaAsSelected(that.criteriaArray[0])
     }
+    that.getEventsDict()
   },
   methods: {
     openCreateCohartGroupPopup () {
@@ -478,7 +500,8 @@ export default {
         that.currentEvent['mainIndex'] = mainIndex
         that.currentEvent['subIndex'] = subIndex
         if (that.currentEvent[that.mappingDict[event.event]] === undefined) {
-          that.currentEvent = Object.assign(that.currentEvent, JSON.parse(JSON.stringify(that.apiData[event.event])))
+          that.getEventAttributes(event.event)
+          // that.currentEvent = Object.assign(that.currentEvent, JSON.parse(JSON.stringify(that.apiData[event.event])))
         }
         that.setQCardColor(that.currentEvent)
       } else { console.log('flase') }
@@ -676,7 +699,8 @@ export default {
       that.criteriaArray.forEach(function (row, index) {
         if (index === 0) {
           if (row.PCriteriaSetName === criteria.PCriteriaSetName) {
-            that.currentCriteria = that.baseObj['primary_criteria']
+            that.link = 1
+            that.currentCriteria = that.baseObj['criteriaObj']['PrimaryCriteria']
             that.currentCriteria.PCriteriaSetName = row.PCriteriaSetName
             that.currentCriteria.PCriteriaSetDesc = row.PCriteriaSetDesc
             that.currentInclusionObj = {}
@@ -686,11 +710,12 @@ export default {
           }
         } else {
           if (row.ICriteriaSetName === criteria.ICriteriaSetName) {
-            if (that.baseObj['inclusion_rules'][index - 1]) {
-              that.currentCriteria = that.baseObj['inclusion_rules'][index - 1].expression
-              that.currentInclusionObj = that.baseObj['inclusion_rules'][index - 1]
+            that.link = row.id
+            if (that.baseObj['criteriaObj']['InclusionRules'][index - 1]) {
+              that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
+              that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
             } else {
-              that.baseObj['inclusion_rules'][index - 1] = {
+              that.baseObj['criteriaObj']['InclusionRules'][index - 1] = {
                 'expression': {
                   'CriteriaList': [],
                   'ObservationWindow': false,
@@ -698,8 +723,8 @@ export default {
                 },
                 'Groups': []
               }
-              that.currentInclusionObj = that.baseObj['inclusion_rules'][index - 1]
-              that.currentCriteria = that.baseObj['inclusion_rules'][index - 1].expression
+              that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
+              that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
             }
             row.currentSelected = 1
           } else {
@@ -715,6 +740,8 @@ export default {
     },
     handleChange (event) {
       var that = this
+      // that.renderComponent = false
+      // debugger
       if (that.currentEvent.mainIndex != null) {
         if (that.currentEvent.subIndex != null) {
           that.currentInclusionObj.Groups[event.mainIndex].CriteriaList[event.subIndex] = event
@@ -722,14 +749,27 @@ export default {
           that.currentCriteria.CriteriaList[event.mainIndex] = event
         }
       }
+      // that.$nextTick(() => {
+      //   // Add the component back in
+      //   that.renderComponent = true
+      // })
     },
     addNewCriteria () {
       var that = this
-      that.criteriaArray.push({
+      let criteriaObj = {
+        'id': that.baseObj.criteriaObj.InclusionRules.length + 2,
         'ICriteriaSetName': 'New Criteria',
         'ICriteriaSetDesc': '',
-        'currentSelected': 0
-      })
+        'currentSelected': 0,
+        'expression': {
+          'CriteriaList': [],
+          'ObservationWindow': false,
+          'PrimaryCriteriaLimit': {}
+        },
+        'Groups': []
+      }
+      that.baseObj.criteriaObj.InclusionRules.push(criteriaObj)
+      that.criteriaArray.push(criteriaObj)
     },
     getCohortGroupList () {
       var that = this
@@ -749,18 +789,18 @@ export default {
     },
     getCohortDict (cohortId) {
       var that = this
-      var url = process.env.API_URL + 'cohort/get/?cohort_id=' + cohortId
+      var url = process.env.API_URL + 'cohort/get/' + cohortId
       axios.get(url).then(function (response) {
         that.baseObj = response.data
         that.criteriaArray = [
           {
             'id': 'PrimaryCriteria',
-            'PCriteriaSetName': response.data.primary_criteria.PCriteriaSetName,
+            'PCriteriaSetName': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetName,
             'currentSelected': 1,
-            'PCriteriaSetDesc': response.data.primary_criteria.PCriteriaSetDesc
+            'PCriteriaSetDesc': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
           }
         ]
-        response.data.inclusion_rules.forEach(function (row) {
+        response.data.criteriaObj.InclusionRules.forEach(function (row) {
           that.criteriaArray.push({
             'ICriteriaSetName': row.ICriteriaSetName,
             'currentSelected': 0,
@@ -770,6 +810,45 @@ export default {
         that.markCriteriaAsSelected(that.criteriaArray[0])
         // that.dtSourceOpts = response.data.result
         // that.loading = false
+      })
+    },
+    getEventsDict () {
+      var that = this
+      var url = process.env.API_URL + 'cohort/events/list/'
+      axios.get(url).then(function (response) {
+        that.eventArray1 = []
+        let id = 0
+        response.data.data.forEach(function (row) {
+          id++
+          that.eventArray1.push({
+            id: id,
+            name: row
+          })
+        })
+        // that.dtSourceOpts = response.data.result
+        // that.loading = false
+      })
+    },
+    getEventAttributes (event) {
+      var that = this
+      var url = process.env.API_URL + 'cohort/' + that.capitalizeFirstLetter(event)
+      axios.get(url).then(function (response) {
+        that.currentEvent = Object.assign(that.currentEvent, response.data.data)
+        // that.dtSourceOpts = response.data.result
+        // that.loading = false
+      })
+    },
+    capitalizeFirstLetter (event) {
+      var lower = event.toLowerCase()
+      return lower.charAt(0).toUpperCase() + lower.substring(1)
+    },
+    saveCohart () {
+      var that = this
+      var url = process.env.API_URL + 'cohort/create/'
+      axios.post(url, that.baseObj).then(function (response) {
+        if (response.data.cohortId) {
+          that.$router.push('/create/' + response.data.cohortId)
+        }
       })
     }
   }

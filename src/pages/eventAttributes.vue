@@ -46,15 +46,11 @@
               </div>
             </div>
             <div class="col datepckr q-ml-sm" v-if="obj.Type == 'date'">
-              <q-input class="w7R" filled v-model="event[mappingDict[event.event]][key][obj.name]" mask="date" :rules="['date']">
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
+                <q-icon name="event" class="cursor-pointer">
+                  <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
+                    <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
+                  </q-popup-proxy>
+                </q-icon>
             </div>
             <div class="col full-width q-my-sm" v-if="obj.Type == 'text'">
               <input class="input-box full-width" v-model="event[mappingDict[event.event]][key][obj.name]"/>
@@ -129,15 +125,11 @@
                 </select>
                 </div>
                 <div class=" datepckr q-ml-sm" v-if="event[obj.name] == 'Between' || event[obj.name] == 'Not Between'">
-                  <q-input class="w7R" filled v-model="edate" mask="date" :rules="['date']">
-                    <template v-slot:append>
                       <q-icon name="event" class="cursor-pointer">
                         <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                           <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="() => $refs.qDateProxy.hide()" ></q-date>
                         </q-popup-proxy>
                       </q-icon>
-                    </template>
-                  </q-input>
                 </div>
               </div>
             </div>
@@ -153,7 +145,7 @@
               <div class="row">
                 <div class=" q-mx-xs ">
                   <select class="criteria-box w9R "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
-                    <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
+                    <option v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>
                   </select>
@@ -178,7 +170,6 @@ import listCodeset from 'pages/listCodeset'
 import {
   QCheckbox,
   QDate,
-  QInput,
   QIcon,
   QCard,
   QPopupProxy,
@@ -191,7 +182,6 @@ export default {
   components: {
     QDate,
     QIcon,
-    QInput,
     QCard,
     QPopupProxy,
     QCheckbox,
@@ -228,6 +218,7 @@ export default {
     },
     sendName (event) {
       var that = this
+      that.$forceUpdate()
       this.$emit('inputChange', that.event)
     },
     hideProxy (prox) {
