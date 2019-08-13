@@ -14,7 +14,7 @@
                   flat
                   no-caps
                   class="full-width select-box"
-                  label="Cohart Group"
+                  :label="baseObj.cohort_group ? baseObj.cohort_group : 'Cohort Group'"
                   @click="getCohortGroupList"
                 >
                 <q-btn
@@ -38,13 +38,13 @@
                   no-caps
                   flat
                   class="full-width select-box"
-                  label="Datasource"
+                  :label="baseObj.data_source ? baseObj.data_source : 'Datasource'"
                   @click="getDataSourceList"
                 >
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.data_source}}
                 </q-card>
-                <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="baseObj.data_source = opt.name">
+                <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="baseObj.data_source = opt.name" v-close-popup>
                   {{opt.name}}
                 </div>
               </q-btn-dropdown>
@@ -54,8 +54,11 @@
           <div class="col-2 q-mx-xs">
             <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative"/>
           </div>
-          <div class="col q-mx-xs">
+          <div class="col q-mx-xs" v-if="pagemethod !== 'update'">
             <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+          </div>
+          <div class="col-5 q-mx-xs" v-if="pagemethod === 'update'">
+            <q-btn outlined icon="save" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
           </div>
           <div class="col q-mx-xs">
             <q-btn outlined icon="play_circle_filled" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
@@ -86,7 +89,7 @@
             :key="criteria.id"
             clickable
             v-ripple
-            class="categories_list"
+            class="categories_list ellipsis"
             :active="link === criteria.id"
             @click="markCriteriaAsSelected(criteria)"
             active-class="categories_Selected"
@@ -439,16 +442,18 @@ export default {
       criteriaClass: [
         'categories_list',
         'categories_Selected'
-      ]
+      ],
+      pagemethod: undefined
     }
   },
   mounted () {
     var that = this
     that.cohort_id = that.$route.params.cohort_id
+    that.pagemethod = that.$route.params.method
     if (that.cohort_id) {
       that.getCohortDict(that.cohort_id)
     } else {
-      that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
+      // that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       that.markCriteriaAsSelected(that.criteriaArray[0])
     }
     that.getEventsDict()
@@ -847,8 +852,16 @@ export default {
       var url = process.env.API_URL + 'cohort/create/'
       axios.post(url, that.baseObj).then(function (response) {
         if (response.data.cohortId) {
-          that.$router.push('/create/' + response.data.cohortId)
+          that.$router.push('/cohort/update/' + response.data.cohortId)
         }
+      }).catch(function () {
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: 'Error Creating Cohort, Please Contact Admin',
+          position: 'bottom-right',
+          timeout: 3000
+        })
       })
     }
   }

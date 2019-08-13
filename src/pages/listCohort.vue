@@ -27,12 +27,12 @@
                   <q-icon name="search" />
                 </template>
               </q-input>
-              <router-link to="/create">
+              <router-link to="/cohort/create/">
                 <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohort" />
               </router-link>
           </template>
           <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">
-          <router-link to="/create/">{{row.row.Cohortname1}}</router-link>
+          <router-link to="cohort/create/">{{row.row.Cohortname1}}</router-link>
             </q-td>
           <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
               <q-btn round color="green" size="0.5rem" icon="edit" @click="editCohart(props.row.cohort_id)"></q-btn>
@@ -74,17 +74,7 @@ export default {
         { name: 'Status', label: 'Status', field: 'Status', sortable: true },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
-      data: [
-        {
-          Cohortname1: 'CHD with CV events',
-          Cohortdescription: 'Diagnosed with unstable angina or Myocardial Infarction (MI)',
-          Createdby: 'Muthu R',
-          Createddate: '01-Jul-19',
-          Executeddate: '16-Jul-19',
-          Status: 'Completed',
-          Actions: '14%'
-        }
-      ]
+      data: []
     }
   },
   mounted () {
@@ -93,6 +83,7 @@ export default {
   },
   methods: {
     removeFromList: function (id) {
+      var that = this
       this.$swal({
         title: 'Are you sure?',
         text: 'You want To Delete This Cohart',
@@ -102,13 +93,18 @@ export default {
       }).then((result) => {
         if (result.value) {
           this.deleteCohart(id).then(function (apiResult) {
-            debugger
+            that.$swal(
+              'Deleted!',
+              'Cohart Deleted',
+              'success'
+            )
+            that.getList()
+          }).catch(function () {
+            that.$swal({
+              title: 'Deletion Failed',
+              type: 'warning'
+            })
           })
-          this.$swal(
-            'Deleted!',
-            'Cohart Deleted',
-            'success'
-          )
         }
       })
       // console.log('removeFromList… id:')
@@ -120,10 +116,13 @@ export default {
       var url = process.env.API_URL + 'cohort/list/'
       that.loading = true
       if (!that.cohartToggle) {
-        url += '?username=' + that.$q.sessionStorage.getItem('username')
+        url = process.env.API_URL + 'cohort/mycohorts/'
+        // url += '?username=' + that.$q.sessionStorage.getItem('username')
       }
       axios.get(url).then(function (response) {
         that.data = response.data.result
+        that.loading = false
+      }).catch(function () {
         that.loading = false
       })
     },
@@ -137,17 +136,15 @@ export default {
       }
       return null
     },
-    copyCohart () {
+    copyCohart (id) {
+      this.$router.push('/cohort/copy/' + id)
     },
     editCohart (id) {
-      this.$router.push('/create/' + id)
+      this.$router.push('/cohort/update/' + id)
     },
     deleteCohart (id) {
-      var url = process.env.API_URL + 'cohort/delete/'
-      var dataToSend = {
-        cohort_id: id
-      }
-      return axios.delete(url, { body: dataToSend })
+      var url = process.env.API_URL + 'cohort/delete/' + id
+      return axios.delete(url)
     }
   }
 }

@@ -4,18 +4,23 @@ const routes = [
     path: '/login', component: () => import('pages/login.vue')
   },
   {
-    path: '/',
+    path: '/cohort',
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') },
-      { path: '/create', component: () => import('pages/createCohort.vue') },
-      { path: '/create/:cohort_id', component: () => import('pages/createCohort.vue') },
-      { path: '/summerygraph', component: () => import('pages/summeryGraph.vue') },
-      { path: '/list', component: () => import('pages/listCohort.vue') },
-      { path: '/listcodeset', component: () => import('pages/listCodeset.vue') },
-      { path: '/codeset', component: () => import('pages/codeSet.vue') },
-      { path: '/login', component: () => import('pages/login.vue') },
-      { path: '/summary', component: () => import('pages/summary.vue') }
+      { path: 'create', component: () => import('pages/createCohort.vue') },
+      { path: ':method/:cohort_id', component: () => import('pages/createCohort.vue') },
+      { path: 'summerygraph', component: () => import('pages/summeryGraph.vue') },
+      { path: 'list', component: () => import('pages/listCohort.vue') },
+      { path: 'summary', component: () => import('pages/summary.vue') }
+    ]
+  },
+  {
+    path: '/codeset',
+    component: () => import('layouts/MyLayout.vue'),
+    children: [
+      { path: 'list', component: () => import('pages/listCodeset.vue') },
+      { path: 'codeset', component: () => import('pages/codeSet.vue') }
     ]
   }
 ]

@@ -98,7 +98,7 @@ export default {
             User: that.username
           }
           that.$q.sessionStorage.set('username', that.username)
-          that.$router.push('/list')
+          that.$router.push('/cohort/list')
           that.btnLoading = false
         }).catch(function(err) {
           that.showNotify('Please enter your valid credentials')
