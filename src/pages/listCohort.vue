@@ -35,9 +35,9 @@
           <router-link to="cohort/create/">{{row.row.Cohortname1}}</router-link>
             </q-td>
           <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
-              <q-btn round color="green" size="0.5rem" icon="edit" @click="editCohart(props.row.cohort_id)"></q-btn>
+              <q-btn v-if="!cohartToggle" round color="green" size="0.5rem" icon="edit" @click="editCohart(props.row.cohort_id)"></q-btn>
               <q-btn round color="green" size="0.5rem" icon="file_copy" @click="copyCohart(props.row.cohort_id)"></q-btn>
-              <q-btn round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);"></q-btn>
+              <q-btn v-if="!cohartToggle" round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);"></q-btn>
             </q-td>
           </q-table>
         </div>
@@ -123,6 +123,7 @@ export default {
         that.data = response.data.result
         that.loading = false
       }).catch(function () {
+        that.data = []
         that.loading = false
       })
     },

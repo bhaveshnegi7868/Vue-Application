@@ -52,7 +52,7 @@
         </q-card>
         <q-card class="col row">
           <div class="col-2 q-mx-xs">
-            <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative"/>
+            <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative" @click="getCohortDict"/>
           </div>
           <div class="col q-mx-xs" v-if="pagemethod !== 'update'">
             <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
@@ -453,7 +453,6 @@ export default {
     if (that.cohort_id) {
       that.getCohortDict(that.cohort_id)
     } else {
-      // that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       that.markCriteriaAsSelected(that.criteriaArray[0])
     }
     that.getEventsDict()
@@ -792,9 +791,10 @@ export default {
         that.loading = false
       })
     },
-    getCohortDict (cohortId) {
+    getCohortDict () {
       var that = this
-      var url = process.env.API_URL + 'cohort/get/' + cohortId
+      var url = process.env.API_URL + 'cohort/get/' + that.cohort_id
+      that.$q.loading.show()
       axios.get(url).then(function (response) {
         that.baseObj = response.data
         that.criteriaArray = [
@@ -815,6 +815,7 @@ export default {
         that.markCriteriaAsSelected(that.criteriaArray[0])
         // that.dtSourceOpts = response.data.result
         // that.loading = false
+        that.$q.loading.hide()
       })
     },
     getEventsDict () {
@@ -836,8 +837,10 @@ export default {
     },
     getEventAttributes (event) {
       var that = this
+      that.$q.loading.show()
       var url = process.env.API_URL + 'cohort/' + that.capitalizeFirstLetter(event)
       axios.get(url).then(function (response) {
+        that.$q.loading.hide()
         that.currentEvent = Object.assign(that.currentEvent, response.data.data)
         // that.dtSourceOpts = response.data.result
         // that.loading = false
@@ -849,17 +852,34 @@ export default {
     },
     saveCohart () {
       var that = this
+      that.$q.loading.show()
       var url = process.env.API_URL + 'cohort/create/'
-      axios.post(url, that.baseObj).then(function (response) {
-        if (response.data.cohortId) {
-          that.$router.push('/cohort/update/' + response.data.cohortId)
+      var method
+      that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
+      if (that.pagemethod === 'update') {
+        url = process.env.API_URL + 'cohort/update/'
+        method = axios.put(url, that.baseObj)
+      } else {
+        that.baseObj.cohort_id = null
+        method = axios.post(url, that.baseObj)
+      }
+      method.then(function (response) {
+        that.$q.notify({
+          color: 'green',
+          textColor: 'white',
+          message: 'Cohort ' + that.pagemethod + 'ed Successfully',
+          timeout: 3000
+        })
+        that.$q.loading.hide()
+        if (response.data.cohort_id) {
+          that.$router.push('/cohort/update/' + response.data.cohort_id)
         }
-      }).catch(function () {
+      }).catch(function (err) {
+        that.$q.loading.hide()
         that.$q.notify({
           color: 'black',
           textColor: 'white',
-          message: 'Error Creating Cohort, Please Contact Admin',
-          position: 'bottom-right',
+          message: err.response.data.message,
           timeout: 3000
         })
       })

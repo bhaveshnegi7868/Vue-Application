@@ -89,13 +89,13 @@ export default {
       if (that.username !== '' || that.password !== '') {
         var datadict = {
           'username': that.username,
-          'password': that.password
+          'password': that.password,
+          'require_api_key': true
         }
         console.log(process.env.API_URL2)
         axios.post(process.env.API_URL+'accounts/login/', datadict).then(function(response) {
           axios.defaults.headers.common = {
-            key: response.data.api_key,
-            User: that.username
+            Authorization: 'ApiKey ' + that.username + ':' + response.data.apikey
           }
           that.$q.sessionStorage.set('username', that.username)
           that.$router.push('/cohort/list')
