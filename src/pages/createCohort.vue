@@ -288,7 +288,7 @@
       </q-dialog>
       <q-dialog v-model="createCohartGroupPopup">
         <q-card style="width: 700px; max-width: 80vw;">
-          <create-cohart-group @addCohart="addCohart"></create-cohart-group>
+          <create-cohart-group name="cohart" @addCohart="addCohart"></create-cohart-group>
         </q-card>
       </q-dialog>
     </q-card>
@@ -313,7 +313,6 @@ import {
   QSpinnerIos,
   QBadge,
   QDialog,
-  QBtnDropdown,
   ClosePopup
 } from 'quasar'
 Loading.show({
@@ -333,7 +332,6 @@ export default {
     Drag,
     Drop,
     QDialog,
-    QBtnDropdown,
     'event-attributes': eventAttributes,
     'secondary-header': secondaryHeader,
     'create-cohart-group': createCohartGroup
@@ -812,6 +810,9 @@ export default {
             'ICriteriaSetDesc': row.ICriteriaSetDesc
           })
         })
+        if (that.pagemethod === 'copy') {
+          that.baseObj.cohort_name = ''
+        }
         that.markCriteriaAsSelected(that.criteriaArray[0])
         // that.dtSourceOpts = response.data.result
         // that.loading = false
@@ -855,9 +856,11 @@ export default {
       that.$q.loading.show()
       var url = process.env.API_URL + 'cohort/create/'
       var method
+      var successStatement = 'Cohart Created Successfully'
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'cohort/update/'
+        successStatement = 'Cohart Updated Successfully'
         method = axios.put(url, that.baseObj)
       } else {
         that.baseObj.cohort_id = null
@@ -867,7 +870,7 @@ export default {
         that.$q.notify({
           color: 'green',
           textColor: 'white',
-          message: 'Cohort ' + that.pagemethod + 'ed Successfully',
+          message: successStatement,
           timeout: 3000
         })
         that.$q.loading.hide()

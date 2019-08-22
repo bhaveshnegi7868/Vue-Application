@@ -6,10 +6,10 @@
     <div v-for="path in paths" :key="path">
       <div class="col-4 text-center">
         <q-item no-caps class="Rectangle-199 h40 selected q-ml-lg" v-if="path == selectedPage">
-          <router-link class="textDecorNone" to="/create"><label class="sub-level-menus-labels">{{path}}</label></router-link>
+          <router-link class="textDecorNone" to="/cohort/create"><label class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>
         <q-item no-caps class="Rectangle-199 h40 q-ml-lg" v-if="path != selectedPage">
-          <router-link class="textDecorNone" to="/summary"><label no-caps class="sub-level-menus-labels">{{path}}</label></router-link>
+          <router-link class="textDecorNone" to="/cohort/summary"><label no-caps class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>
       </div>
     </div>

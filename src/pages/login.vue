@@ -94,10 +94,9 @@ export default {
         }
         console.log(process.env.API_URL2)
         axios.post(process.env.API_URL+'accounts/login/', datadict).then(function(response) {
-          axios.defaults.headers.common = {
-            Authorization: 'ApiKey ' + that.username + ':' + response.data.apikey
-          }
+          that.$q.localStorage.set('username', that.username)
           that.$q.sessionStorage.set('username', that.username)
+          that.$q.localStorage.set('apikey', response.data.apikey)
           that.$router.push('/cohort/list')
           that.btnLoading = false
         }).catch(function(err) {

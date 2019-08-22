@@ -2,19 +2,46 @@
   <div class="q-px-xl q-py-sm">
     <div class="row q-py-sm">
       <q-card class="row col-9 q-mr-lg">
-          <div class="col-4 q-pa-sm">
-              <input class="input-box full-width"  placeholder="Codeset Name" />
+          <div class="col-2 q-pa-sm">
+              <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="Codeset Name" />
           </div>
-          <div class="col-8 q-pa-sm">
-              <input class="input-box full-width"  placeholder="Codeset Description" />
+          <div class="col-6 q-pa-sm">
+              <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
+          </div>
+          <div class="col q-pa-sm">
+              <q-btn-dropdown
+                  flat
+                  no-caps
+                  class="full-width select-box"
+                  :label="baseObj.codeset_group ? baseObj.codeset_group : 'Codeset Group'"
+                  @click="getCodesetGroupList"
+                >
+                <q-btn
+                  color="primary"
+                  class="full-width"
+                  icon-right="add"
+                  label="Add New Codeset Group"
+                  @click="openCreateCodesetGroupPopup"
+                  v-close-popup
+                />
+                <q-card  class="bg-secondary text-white selected-btn-dropdown">
+                  {{baseObj.codeset_group}}
+                </q-card>
+                <div class="options-values" v-for="opt in codesetGroups" v-bind:key="opt.name" @click="baseObj.codeset_group = opt.name">
+                  {{opt.name}}
+                </div>
+              </q-btn-dropdown>
           </div>
       </q-card>
       <q-card class="col row">
         <div class="col q-ml-sm q-mr-sm">
-          <q-btn outlined icon="delete_forever" class="action-btns full-width" text-color="negative"/>
+          <q-btn outlined icon="delete_forever" class="action-btns full-width" text-color="negative" @click="getCodesetDict"/>
         </div>
-        <div class="col q-ml-sm q-mr-sm">
-          <q-btn outlined icon="save" label="Save" class="action-btns full-width" text-color="primary" @click="savedSuccessfully"/>
+        <div class="col q-ml-sm q-mr-sm" v-if="pagemethod != 'update'">
+          <q-btn outlined icon="save" label="Save" class="action-btns full-width" text-color="primary" @click="saveCodeset"/>
+        </div>
+        <div class="col q-ml-sm q-mr-sm" v-if="pagemethod == 'update'">
+          <q-btn outlined icon="save" label="Update" class="action-btns full-width" text-color="primary" @click="saveCodeset"/>
         </div>
       </q-card>
     </div>
@@ -131,12 +158,19 @@
         <dependent-codes :desendents="currentDependents" v-on:selectedChange="handleChange"></dependent-codes>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="createCodesetGroupPopup">
+        <q-card style="width: 700px; max-width: 80vw;">
+          <create-cohart-group name="codeset" @addCohart="addCodeset"></create-cohart-group>
+        </q-card>
+      </q-dialog>
     </div>
 </template>
 <script>
+import createCohartGroup from 'components/createCohartGroup'
 import searchCodes from 'pages/searchCodes'
 import dependentsCodes from 'pages/dependentCodes'
 import dependentJson from '../json/sourcecodewith_descendant_v2.json'
+import axios from 'axios'
 import {
   QTable,
   QTh,
@@ -156,20 +190,24 @@ export default {
     QCheckbox,
     QDialog,
     'search-codes': searchCodes,
-    'dependent-codes': dependentsCodes
+    'dependent-codes': dependentsCodes,
+    'create-cohart-group': createCohartGroup
   },
   directives: {
     ClosePopup
   },
   data () {
     return {
+      baseObj: {},
       currentDependents: [],
+      codesetGroups: [],
       maximizedToggle: true,
       selected: [],
       codesPopup: false,
       dependentsPopup: false,
       exclude: false,
       dependents: false,
+      createCodesetGroupPopup: false,
       dependentsJson: dependentJson,
       columns: [
         {
@@ -204,6 +242,15 @@ export default {
         { name: 'Action', label: 'Action', align: 'right', field: 'action', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
       data: []
+    }
+  },
+  mounted () {
+    var that = this
+    that.codeset_id = that.$route.params.codeset_id
+    that.pagemethod = that.$route.params.method
+    debugger
+    if (that.codeset_id) {
+      that.getCodesetDict(that.codeset_id)
     }
   },
   methods: {
@@ -291,6 +338,92 @@ export default {
         message: 'Code Set Saved Successfully',
         position: 'bottom-right',
         timeout: 3000
+      })
+    },
+    openCreateCodesetGroupPopup () {
+      this.createCodesetGroupPopup = false
+      this.createCodesetGroupPopup = true
+    },
+    addCodeset (group) {
+      var that = this
+      var url = process.env.API_URL + 'codeset/group/create'
+      that.$q.loading.show()
+      var datadict = {
+        name: group.name,
+        description: group.description,
+        created_by: that.$q.sessionStorage.getItem('username')
+      }
+      axios.post(url, datadict).then(function (response) {
+        that.createCodesetGroupPopup = false
+        that.$q.loading.hide()
+      }).catch(function (err) {
+        that.$q.loading.hide()
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: err.message,
+          position: 'bottom-right',
+          timeout: 3000
+        })
+      })
+    },
+    getCodesetGroupList () {
+      var that = this
+      var url = process.env.API_URL + 'codeset/group/list/'
+      axios.get(url).then(function (response) {
+        that.codesetGroups = response.data.result
+        that.loading = false
+      })
+    },
+    saveCodeset () {
+      var that = this
+      that.$q.loading.show()
+      var url = process.env.API_URL + 'codeset/create/'
+      var method
+      that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
+      if (that.pagemethod === 'update') {
+        url = process.env.API_URL + 'codeset/update/'
+        method = axios.put(url, that.baseObj)
+      } else {
+        that.baseObj.codeset_id = null
+        method = axios.post(url, that.baseObj)
+      }
+      method.then(function (response) {
+        that.$q.notify({
+          color: 'green',
+          textColor: 'white',
+          message: 'Codeset ' + that.pagemethod + 'ed Successfully',
+          timeout: 3000
+        })
+        that.$q.loading.hide()
+        if (response.data.codeset_id) {
+          that.$router.push('/codeset/update/' + response.data.codeset_id)
+        }
+      }).catch(function (err) {
+        that.$q.loading.hide()
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: err.response.data.message,
+          timeout: 3000
+        })
+      })
+    },
+    getCodesetDict () {
+      var that = this
+      var url = process.env.API_URL + 'codeset/get/' + that.codeset_id
+      that.$q.loading.show()
+      axios.get(url).then(function (response) {
+        that.baseObj = response.data
+        that.$q.loading.hide()
+      }).catch(function (err) {
+        that.$q.loading.hide()
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: err.response.data.message,
+          timeout: 3000
+        })
       })
     }
   }

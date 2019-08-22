@@ -42,7 +42,8 @@ module.exports = function (ctx) {
         'QList',
         'QItem',
         'QItemSection',
-        'QItemLabel'
+        'QItemLabel',
+        'QBtnDropdown'
       ],
 
       directives: [
@@ -53,6 +54,7 @@ module.exports = function (ctx) {
       plugins: [
         'Notify',
         'SessionStorage',
+        'LocalStorage',
         'Loading'
       ]
 

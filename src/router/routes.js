@@ -20,7 +20,8 @@ const routes = [
     component: () => import('layouts/MyLayout.vue'),
     children: [
       { path: 'list', component: () => import('pages/listCodeset.vue') },
-      { path: 'codeset', component: () => import('pages/codeSet.vue') }
+      { path: 'create', component: () => import('pages/codeSet.vue') },
+      { path: ':method/:codeset_id', component: () => import('pages/codeSet.vue') }
     ]
   }
 ]

@@ -1,0 +1,16 @@
+{
+	"codeset_name": "abu",
+	"codeset_desc": "desc",
+	"created_by": "abu",
+	"codesets": [{
+		"code": "String or Number",
+		"description": "String",
+		"vocabulary": "String",
+		"exclude": "Boolean",
+		"dependents": [
+			"dep1",
+			"dep2",
+			"dep3"
+		]
+	}]
+}

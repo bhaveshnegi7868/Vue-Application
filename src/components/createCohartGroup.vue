@@ -4,7 +4,7 @@
         <hr class="pop-up-header-underline"/>
         <div class="row q-pa-lg">
           <div class="col-5">
-            <label>Cohart Name</label>
+            <label>{{name}} Group Name</label>
           </div>
           <div class="col">
             <input type="text" v-model="cohartGroup.name" class="input-box">
@@ -12,26 +12,28 @@
         </div>
         <div class="row q-pa-lg">
           <div class="col-5">
-            <label>Cohart Description</label>
+            <label>{{name}} Group Description</label>
           </div>
           <div class="col">
             <textarea v-model="cohartGroup.description" class="textarea-box"></textarea>
           </div>
         </div>
         <div class="footer">
-          <q-btn class="q-ma-md" rounded color="grey-9" label="Cancel"/>
+          <q-btn class="q-ma-md" rounded color="grey-9" label="Cancel" v-close-popup/>
           <q-btn class="q-ma-md" rounded color="green-9" label="Create" @click="returnCreateGroup" />
         </div>
     </div>
 </template>
 <script>
 import {
+  ClosePopup
 } from 'quasar'
 export default {
   name: 'createCohartGroup',
   components: {
   },
   directives: {
+    ClosePopup
   },
   data () {
     return {
@@ -59,6 +61,9 @@ export default {
     *
     * @param Function
     **/
+  },
+  props: {
+    'name': String
   },
   computed: {
     model: {

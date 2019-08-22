@@ -56,8 +56,12 @@ export default {
     }
   },
   mounted () {
-    if (!this.$q.sessionStorage.getItem('username')) {
+    var that = this
+    if (!this.$q.localStorage.getItem('username')) {
       this.$router.push('/login')
+    }
+    axios.defaults.headers.common = {
+      Authorization: 'ApiKey ' + that.$q.localStorage.getItem('username') + ':' + that.$q.localStorage.getItem('apikey')
     }
     if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
       this.Cohorts = 'Code-Group'
@@ -70,8 +74,12 @@ export default {
     }
   },
   created () {
-    if (!this.$q.sessionStorage.getItem('username')) {
+    var that = this
+    if (!this.$q.localStorage.getItem('username')) {
       this.$router.push('/login')
+    }
+    axios.defaults.headers.common = {
+      Authorization: 'ApiKey ' + that.$q.localStorage.getItem('username') + ':' + that.$q.localStorage.getItem('apikey')
     }
     if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
       this.Cohorts = 'Code-Group'
@@ -85,7 +93,7 @@ export default {
   },
   watch: {
     $route (to, from) {
-      if (!this.$q.sessionStorage.getItem('username')) {
+      if (!this.$q.localStorage.getItem('username')) {
         this.$router.push('/login')
       }
       if (to.path === '/listcodeset' || to.path === '/codeset') {

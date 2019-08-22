@@ -8,13 +8,14 @@
           >
           <template v-slot:top-left>
             <q-btn-toggle
-              v-model="model" spread no-caps toggle-color="green"
+              v-model="codesetToggle" spread no-caps toggle-color="green"
               color="white"
                 text-color="black"
                 :options="[
-                  {label: 'My Codeset', value: 'one'},
-                  {label: 'All Codesets', value: 'two'}
+                  {label: 'My Codeset', value: 0},
+                  {label: 'All Codesets', value: 1}
                 ]"
+                @input="getList"
               >
             </q-btn-toggle>
           </template>
@@ -24,7 +25,7 @@
                   <q-icon name="search" />
                 </template>
               </q-input>
-              <router-link to="/codeset">
+              <router-link to="create">
                 <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
           </template>
@@ -32,8 +33,9 @@
           <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
             </q-td>
             <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
-                <q-btn round color="green" size="0.5rem" icon="file_copy" v-if="allowImport==false"></q-btn>
-                <q-btn round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.__index); " v-if="allowImport==false"></q-btn>
+                <q-btn v-if="!codesetToggle && allowImport==false" round color="green" size="0.5rem" icon="edit" @click="editCohart(props.row.codeset_id)"></q-btn>
+                <q-btn round color="green" size="0.5rem" icon="file_copy" @click="copyCohart(props.row.cohort_id)"></q-btn>
+                <q-btn v-if="!codesetToggle && allowImport==false" round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
                 <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
           </q-table>
@@ -45,6 +47,7 @@
     </div>
   </template>
 <script>
+import axios from 'axios'
 import {
   QBtnToggle,
   QTable,
@@ -67,69 +70,78 @@ export default {
   },
   data () {
     return {
-      model: 'one',
+      filter: '',
+      loading: true,
+      codesetToggle: 0,
       searchModel: '',
       columns: [
-        { name: 'Codesetname', field: 'Codesetname1', label: 'Codeset name', align: 'left', sortable: true },
-        { name: 'Codesetdescription', label: 'Codeset description', field: 'Codesetdescription', align: 'left', sortable: true },
-        { name: 'Createdby', label: 'Created by', field: 'Createdby', sortable: true, align: 'left' },
-        { name: 'Createddate', label: 'Created date', field: 'Createddate', sortable: true },
+        { name: 'codeset_name', field: 'codeset_name', label: 'Cohort name', align: 'left', sortable: true },
+        { name: 'codeset_desc', label: 'Cohort description', field: 'codeset_desc', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 130px' },
+        { name: 'codeset_created_by', label: 'Created by', field: 'codeset_created_by', sortable: true, align: 'left' },
+        { name: 'codeset_created_at', label: 'Created date', field: 'codeset_created_at', sortable: true },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
-      data: [
-        {
-          Codesetname1: 'Myocardial Infarction',
-          Codesetdescription: 'Myocardial Infarction',
-          Createdby: 'Muthu R',
-          Createddate: '01-Jul-19',
-          Actions: '14%',
-          selected: false
-        },
-        {
-          Codesetname1: 'Unstable Angina',
-          Codesetdescription: 'Unstable Angina',
-          Createdby: 'Muthu R',
-          Createddate: '01-Jul-19',
-          Actions: '8%',
-          selected: false
-        },
-        {
-          Codesetname1: 'Statins',
-          Codesetdescription: 'Statins',
-          Createdby: 'Muthu R',
-          Createddate: '01-Jul-19',
-          Actions: '6%',
-          selected: false
-        },
-        {
-          Codesetname1: 'Familal hypercholestrolemia',
-          Codesetdescription: 'Familal hypercholestrolemia',
-          Createdby: 'Muthu R',
-          Createddate: '01-Jul-19',
-          Actions: '8%',
-          selected: false
-        }
-      ]
+      data: []
     }
   },
   props: {
     allowImport: Boolean
   },
+  mounted () {
+    var that = this
+    that.getList()
+  },
   methods: {
     removeFromList: function (id) {
-      console.log('removeFromList… id:')
-      console.log(id)
-      this.data.splice(id, 1)
-    },
-    sendDataToParent () {
-      var returnArray = []
-      this.data.forEach(function (row) {
-        if (row.selected) {
-          returnArray.push(row)
+      var that = this
+      this.$swal({
+        title: 'Are you sure?',
+        text: 'You want To Delete This Codeset',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete'
+      }).then((result) => {
+        if (result.value) {
+          this.deleteCohart(id).then(function (apiResult) {
+            that.$swal(
+              'Deleted!',
+              'Codeset Deleted',
+              'success'
+            )
+            that.getList()
+          }).catch(function () {
+            that.$swal({
+              title: 'Deletion Failed',
+              type: 'warning'
+            })
+          })
         }
       })
-      debugger
-      this.$emit('addImports', returnArray)
+    },
+    getList () {
+      var that = this
+      var url = process.env.API_URL + 'codeset/list/'
+      that.loading = true
+      if (!that.codesetToggle) {
+        url = process.env.API_URL + 'codeset/mycodeset/'
+      }
+      axios.get(url).then(function (response) {
+        that.data = response.data.result
+        that.loading = false
+      }).catch(function () {
+        that.data = []
+        that.loading = false
+      })
+    },
+    copyCohart (id) {
+      this.$router.push('/codeset/copy/' + id)
+    },
+    editCohart (id) {
+      this.$router.push('/codeset/update/' + id)
+    },
+    deleteCohart (id) {
+      var url = process.env.API_URL + 'codeset/delete/' + id
+      return axios.delete(url)
     }
   }
 }
