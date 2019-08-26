@@ -49,9 +49,6 @@
               <div class="q-mx-sm q-py-xs col">
                 Status
               </div>
-              <div class="q-mx-sm q-py-xs col">
-                <q-icon name="av_timer" ></q-icon>
-              </div>
             </div>
             <div class="row H30 col5 text-center">
               <div class="q-mx-sm q-py-xs col">
@@ -68,8 +65,6 @@
               </div>
               <div class="q-mx-sm q-py-xs col">
                 Completed
-              </div>
-              <div class="q-mx-sm q-py-xs col">
               </div>
             </div>
           </div>
@@ -164,17 +159,17 @@
                 <div class="bgCgreen q-px-xs q-py-xs ">
                   Patient Demographics Summary
                 </div>
-                <div class="bor1grey q-px-xs q-my-sm ">
+                <div class="bor1grey summeryBarGraph q-px-xs q-my-sm ">
                   <summery-graph></summery-graph>
                 </div>
                 <div class="bor1grey row q-px-xs q-my-sm ">
-                    <div class="col-6">
+                    <div class="col ">
                       <div class="By-GraphLbls q-my-xs">
                         By Gender
                         <div class="By-GraphLbls_Underline"></div>
                       </div>
                       <div class="genderGraph q-mx-xs">
-                        <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/manImg.png" />
+                        <q-icon class="bor1RlightGreygender q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/manImg.png" />
                         <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/womanImg.png" />
                       </div>
                       <div class="row q-my-xs q-mt-lg">
@@ -182,8 +177,9 @@
                         <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">43876</div>
                       </div>
                     </div>
-                    <div class="col-6">
-                      <div class="By-GraphLbls q-my-xs">
+                    <div class="By-GraphLbls_devider"></div>
+                    <div class="col">
+                      <div class="By-GraphLbls q-my-xs q-mx-xs">
                         By Race
                         <div class="By-GraphLbls_Underline"></div>
                       </div>

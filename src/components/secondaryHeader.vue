@@ -1,10 +1,10 @@
 <template>
   <q-toolbar class="secondary-header row justify-between">
-    <div class="col q-pa-md Cohort-Name">
+    <div class="col-4 q-pa-md Cohort-Name">
       {{cohort_name}}
     </div>
-    <div v-for="path in paths" :key="path">
-      <div class="col-4 text-center">
+    <div class="" v-for="path in paths" :key="path">
+      <div class="col-4 q-px-auto ">
         <q-item no-caps class="Rectangle-199 h40 selected q-ml-lg" v-if="path == selectedPage">
           <router-link class="textDecorNone" to="/cohort/create"><label class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>

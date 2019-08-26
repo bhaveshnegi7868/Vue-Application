@@ -36,7 +36,7 @@
             </div>
             <div class="col-9">
               <q-table
-                class="selected_events"
+                class="selected_events searchCodeTable"
                 :data="data"
                 :columns="columns"
                 row-key="target_concept_id"
@@ -180,7 +180,7 @@ export default {
           align: 'left',
           sortable: true
         },
-        { name: 'target_concept_name', label: 'Name', field: 'target_concept_name', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 100px' },
+        { name: 'target_concept_name', label: 'Name', field: 'target_concept_name', align: 'left', sortable: true, classes: 'w20R ellipsis', style: 'max-width: 100px' },
         { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, align: 'left' },
         { name: 'target_concept_vocab_id', label: 'Vocabulary', field: 'target_concept_vocab_id', sortable: true }
       ],
