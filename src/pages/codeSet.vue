@@ -160,13 +160,13 @@
     </q-dialog>
     <q-dialog v-model="createCodesetGroupPopup">
         <q-card style="width: 700px; max-width: 80vw;">
-          <create-cohart-group name="codeset" @addCohart="addCodeset"></create-cohart-group>
+          <create-cohort-group name="codeset" @addCohort="addCodeset"></create-cohort-group>
         </q-card>
       </q-dialog>
     </div>
 </template>
 <script>
-import createCohartGroup from 'components/createCohartGroup'
+import createCohortGroup from 'components/createCohortGroup'
 import searchCodes from 'pages/searchCodes'
 import dependentsCodes from 'pages/dependentCodes'
 import dependentJson from '../json/sourcecodewith_descendant_v2.json'
@@ -193,7 +193,7 @@ export default {
     QCardSection,
     'search-codes': searchCodes,
     'dependent-codes': dependentsCodes,
-    'create-cohart-group': createCohartGroup
+    'create-cohort-group': createCohortGroup
   },
   directives: {
     ClosePopup

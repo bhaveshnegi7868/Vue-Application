@@ -12,20 +12,17 @@
                   <router-link class="textDecorNone" to="/cohort/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
                   <router-link class="textDecorNone" to="/codeset/list" target="_blank"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
                 </div>
-                <q-btn-dropdown
+                <q-btn
                   icon="img:statics/imgs/userIcon.png"
-                  icon-right="more_vert"
+                  icon-right="power_settings_new"
                   outline
                   no-caps
                   class="userName headerRight"
                   :label="$q.sessionStorage.getItem('username')"
-                >
-                <q-btn
-                  class="full-width"
-                  label="Logout"
                   @click="logout"
-                />
-              </q-btn-dropdown>
+                >
+
+              </q-btn>
             </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -39,12 +36,10 @@
 <script>
 import axios from 'axios'
 import {
-  openURL,
-  QBtnDropdown
+  openURL
 } from 'quasar'
 export default {
   components: {
-    QBtnDropdown
   },
   name: 'MyLayout',
   data () {
