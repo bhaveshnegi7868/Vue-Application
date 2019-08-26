@@ -25,17 +25,17 @@
                   <q-icon name="search" />
                 </template>
               </q-input>
-              <router-link to="create">
+              <router-link to="create" class="cretebtn">
                 <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
           </template>
           <q-td slot="body-cell-Codesetname" slot-scope="row" :props="row">
           <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
             </q-td>
-            <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
-                <q-btn v-if="!codesetToggle && allowImport==false" round color="green" size="0.5rem" icon="edit" @click="editCohart(props.row.codeset_id)"></q-btn>
-                <q-btn round color="green" size="0.5rem" icon="file_copy" @click="copyCohart(props.row.cohort_id)"></q-btn>
-                <q-btn v-if="!codesetToggle && allowImport==false" round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
+            <q-td slot="body-cell-Actions " slot-scope="props" :props="props">
+                <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="edit" @click="editCodeset(props.row.codeset_id)"></q-btn>
+                <q-btn round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.cohort_id)"></q-btn>
+                <q-btn v-if="!codesetToggle && allowImport==false" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
                 <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
           </q-table>
@@ -75,8 +75,8 @@ export default {
       codesetToggle: 0,
       searchModel: '',
       columns: [
-        { name: 'codeset_name', field: 'codeset_name', label: 'Cohort name', align: 'left', sortable: true },
-        { name: 'codeset_desc', label: 'Cohort description', field: 'codeset_desc', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 130px' },
+        { name: 'codeset_name', field: 'codeset_name', label: 'Codeset name', align: 'left', sortable: true },
+        { name: 'codeset_desc', label: 'Codeset description', field: 'codeset_desc', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 130px' },
         { name: 'codeset_created_by', label: 'Created by', field: 'codeset_created_by', sortable: true, align: 'left' },
         { name: 'codeset_created_at', label: 'Created date', field: 'codeset_created_at', sortable: true },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
@@ -102,7 +102,7 @@ export default {
         confirmButtonText: 'Delete'
       }).then((result) => {
         if (result.value) {
-          this.deleteCohart(id).then(function (apiResult) {
+          this.deleteCodeset(id).then(function (apiResult) {
             that.$swal(
               'Deleted!',
               'Codeset Deleted',
@@ -133,13 +133,13 @@ export default {
         that.loading = false
       })
     },
-    copyCohart (id) {
+    copyCodeset (id) {
       this.$router.push('/codeset/copy/' + id)
     },
-    editCohart (id) {
+    editCodeset (id) {
       this.$router.push('/codeset/update/' + id)
     },
-    deleteCohart (id) {
+    deleteCodeset (id) {
       var url = process.env.API_URL + 'codeset/delete/' + id
       return axios.delete(url)
     }

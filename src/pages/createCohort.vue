@@ -22,7 +22,7 @@
                   class="full-width"
                   icon-right="add"
                   label="Add New Cohort Group"
-                  @click="openCreateCohartGroupPopup"
+                  @click="openCreateCohortGroupPopup"
                   v-close-popup
                 />
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
@@ -52,20 +52,20 @@
         </q-card>
         <q-card class="col row">
           <div class="col-2 q-mx-xs">
-            <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative" @click="getCohortDict"/>
+            <q-btn outlined icon="autorenew" class="f12 action-btns borC1 full-width" text-color="negative" @click="getCohortDict"/>
           </div>
           <div class="col q-mx-xs" v-if="pagemethod !== 'update'">
-            <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+            <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col-5 q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+            <q-btn outlined icon="save" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col q-mx-xs">
             <q-btn outlined icon="play_circle_filled" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
-    <q-card class="row  q-mx-sm" >
+    <q-card class="row createBoxHeight q-mx-sm" >
       <div class="leftForm q-pa-sm">
         <div class="categories_header">
             Criteria Set
@@ -128,7 +128,7 @@
             <input class="input-box full-width" v-model="currentCriteria.PCriteriaSetDesc" placeholder="Criteria Description" />
           </div>
         </q-card>
-        <div class="elements-block  q-mt-sm">
+        <div class="elements-block  h90 q-mt-sm">
             <q-card class="eventBox q-ma-sm shadow-2">
               <div class="eventList">
                 <div class="EventList_header">
@@ -286,9 +286,9 @@
             <pre>{{baseObj}}</pre>
           </q-card>
       </q-dialog>
-      <q-dialog v-model="createCohartGroupPopup">
+      <q-dialog v-model="createCohortGroupPopup">
         <q-card style="width: 700px; max-width: 80vw;">
-          <create-cohart-group name="cohart" @addCohart="addCohart"></create-cohart-group>
+          <create-cohort-group name="cohort" @addCohort="addCohort"></create-cohort-group>
         </q-card>
       </q-dialog>
     </q-card>
@@ -302,7 +302,7 @@
 import { Drag, Drop } from 'vue-drag-drop'
 import axios from 'axios'
 import eventAttributes from 'pages/eventAttributes'
-import createCohartGroup from 'components/createCohartGroup'
+import createCohortGroup from 'components/createCohortGroup'
 import secondaryHeader from 'components/secondaryHeader'
 import diagnosisData from '../json/diagnosisNew.json'
 import procedureData from '../json/procedureNew.json'
@@ -334,7 +334,7 @@ export default {
     QDialog,
     'event-attributes': eventAttributes,
     'secondary-header': secondaryHeader,
-    'create-cohart-group': createCohartGroup
+    'create-cohort-group': createCohortGroup
   },
   directives: {
     ClosePopup
@@ -343,7 +343,7 @@ export default {
     return {
       renderComponent: true,
       dictPopup: false,
-      createCohartGroupPopup: false,
+      createCohortGroupPopup: false,
       apiData: {
         'Procedure': procedureData,
         'Diagnosis': diagnosisData,
@@ -456,9 +456,9 @@ export default {
     that.getEventsDict()
   },
   methods: {
-    openCreateCohartGroupPopup () {
-      this.createCohartGroupPopup = false
-      this.createCohartGroupPopup = true
+    openCreateCohortGroupPopup () {
+      this.createCohortGroupPopup = false
+      this.createCohortGroupPopup = true
     },
     createDictAndShow () {
       // var that = this
@@ -469,16 +469,16 @@ export default {
       // })
       this.dictPopup = true
     },
-    addCohart (cohartGroup) {
+    addCohort (cohortGroup) {
       var that = this
       var url = process.env.API_URL + 'cohort/group/create'
       var datadict = {
-        name: cohartGroup.name,
-        description: cohartGroup.description,
+        name: cohortGroup.name,
+        description: cohortGroup.description,
         created_by: that.$q.sessionStorage.getItem('username')
       }
       axios.post(url, datadict).then(function (response) {
-        that.createCohartGroupPopup = false
+        that.createCohortGroupPopup = false
       }).catch(function (err) {
         that.$q.notify({
           color: 'black',
@@ -851,16 +851,16 @@ export default {
       var lower = event.toLowerCase()
       return lower.charAt(0).toUpperCase() + lower.substring(1)
     },
-    saveCohart () {
+    saveCohort () {
       var that = this
       that.$q.loading.show()
       var url = process.env.API_URL + 'cohort/create/'
       var method
-      var successStatement = 'Cohart Created Successfully'
+      var successStatement = 'Cohort Created Successfully'
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'cohort/update/'
-        successStatement = 'Cohart Updated Successfully'
+        successStatement = 'Cohort Updated Successfully'
         method = axios.put(url, that.baseObj)
       } else {
         that.baseObj.cohort_id = null

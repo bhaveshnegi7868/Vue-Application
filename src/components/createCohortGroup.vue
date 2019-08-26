@@ -1,21 +1,21 @@
 <template>
     <div class="q-pa-xl">
-        <label class="pop-up-header">Create Cohart Group</label>
+        <label class="pop-up-header">Create Cohort Group</label>
         <hr class="pop-up-header-underline"/>
         <div class="row q-pa-lg">
           <div class="col-5">
-            <label>{{name}} Group Name</label>
+            <label class="text-capitalize"> {{name}} Group Name</label>
           </div>
           <div class="col">
-            <input type="text" v-model="cohartGroup.name" class="input-box">
+            <input type="text" v-model="cohortGroup.name" class="input-box">
           </div>
         </div>
         <div class="row q-pa-lg">
           <div class="col-5">
-            <label>{{name}} Group Description</label>
+            <label class="text-capitalize">{{name}} Group Description</label>
           </div>
           <div class="col">
-            <textarea v-model="cohartGroup.description" class="textarea-box"></textarea>
+            <textarea v-model="cohortGroup.description" class="textarea-box"></textarea>
           </div>
         </div>
         <div class="footer">
@@ -29,7 +29,7 @@ import {
   ClosePopup
 } from 'quasar'
 export default {
-  name: 'createCohartGroup',
+  name: 'createCohortGroup',
   components: {
   },
   directives: {
@@ -37,14 +37,14 @@ export default {
   },
   data () {
     return {
-      cohartGroup: {}
+      cohortGroup: {}
     }
   },
   methods: {
     returnCreateGroup () {
       var that = this
-      if (that.cohartGroup.name) {
-        this.$emit('addCohart', that.cohartGroup)
+      if (that.cohortGroup.name) {
+        this.$emit('addCohort', that.cohortGroup)
       } else {
         that.$q.notify({
           color: 'black',

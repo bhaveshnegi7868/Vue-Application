@@ -8,9 +8,9 @@
             :loading="loading"
             :filter="filter"
           >
-          <template v-slot:top-left>
+          <template v-slot:top-left >
             <q-btn-toggle
-              v-model="cohartToggle" spread no-caps toggle-color="green"
+              v-model="cohortToggle" spread no-caps toggle-color="green"
               color="white"
                 text-color="black"
                 :options="[
@@ -21,23 +21,23 @@
               >
             </q-btn-toggle>
           </template>
-          <template v-slot:top-right>
-              <q-input class="float-right" borderless dense debounce="300" v-model="filter" placeholder="">
+          <template v-slot:top-right >
+              <el-input v-model="filter" class="w20R searchBox q-mx-sm" placeholder="Search">
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
-              </q-input>
-              <router-link to="/cohort/create/">
+              </el-input>
+              <router-link to="/cohort/create/" class="cretebtn q-ml-sm w12R">
                 <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohort" />
               </router-link>
           </template>
           <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">
           <router-link to="cohort/create/">{{row.row.Cohortname1}}</router-link>
             </q-td>
-          <q-td slot="body-cell-Actions" slot-scope="props" :props="props">
-              <q-btn v-if="!cohartToggle" round color="green" size="0.5rem" icon="edit" @click="editCohart(props.row.cohort_id)"></q-btn>
-              <q-btn round color="green" size="0.5rem" icon="file_copy" @click="copyCohart(props.row.cohort_id)"></q-btn>
-              <q-btn v-if="!cohartToggle" round color="green" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);"></q-btn>
+          <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
+              <q-btn v-if="!cohortToggle" round color="theamGreen" size="0.5rem" icon="edit" @click="editCohort(props.row.cohort_id)"></q-btn>
+              <q-btn round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCohort(props.row.cohort_id)"></q-btn>
+              <q-btn v-if="!cohortToggle" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);"></q-btn>
             </q-td>
           </q-table>
         </div>
@@ -48,13 +48,11 @@ import axios from 'axios'
 import {
   QBtnToggle,
   QTable,
-  QInput,
   QTd
 } from 'quasar'
 export default {
   name: 'listCohort',
   components: {
-    QInput,
     QBtnToggle,
     QTable,
     QTd
@@ -62,12 +60,12 @@ export default {
   data () {
     return {
       searchModel: '',
-      cohartToggle: 0,
+      cohortToggle: 0,
       filter: '',
       loading: true,
       columns: [
         { name: 'cohort_name', field: 'cohort_name', label: 'Cohort name', align: 'left', sortable: true },
-        { name: 'Cohortdescription', label: 'Cohort description', field: 'cohort_desc', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 130px' },
+        { name: 'Cohortdescription', label: 'Cohort description', field: 'cohort_desc', align: 'left', sortable: true, classes: 'w25R ellipsis', style: 'max-width: 130px' },
         { name: 'Createdby', label: 'Created by', field: 'cohort_created_by', sortable: true, align: 'left' },
         { name: 'Createddate', label: 'Created date', field: 'cohort_created_at', sortable: true },
         { name: 'Executeddate', label: 'Executed date', field: 'cohort_executed_at', sortable: true },
@@ -86,16 +84,16 @@ export default {
       var that = this
       this.$swal({
         title: 'Are you sure?',
-        text: 'You want To Delete This Cohart',
+        text: 'You want To Delete This Cohort',
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Delete'
       }).then((result) => {
         if (result.value) {
-          this.deleteCohart(id).then(function (apiResult) {
+          this.deleteCohort(id).then(function (apiResult) {
             that.$swal(
               'Deleted!',
-              'Cohart Deleted',
+              'Cohort Deleted',
               'success'
             )
             that.getList()
@@ -115,7 +113,7 @@ export default {
       var that = this
       var url = process.env.API_URL + 'cohort/list/'
       that.loading = true
-      if (!that.cohartToggle) {
+      if (!that.cohortToggle) {
         url = process.env.API_URL + 'cohort/mycohorts/'
         // url += '?username=' + that.$q.sessionStorage.getItem('username')
       }
@@ -127,13 +125,13 @@ export default {
         that.loading = false
       })
     },
-    copyCohart (id) {
+    copyCohort (id) {
       this.$router.push('/cohort/copy/' + id)
     },
-    editCohart (id) {
+    editCohort (id) {
       this.$router.push('/cohort/update/' + id)
     },
-    deleteCohart (id) {
+    deleteCohort (id) {
       var url = process.env.API_URL + 'cohort/delete/' + id
       return axios.delete(url)
     }
