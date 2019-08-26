@@ -178,7 +178,8 @@ import {
   QCard,
   QCheckbox,
   QDialog,
-  ClosePopup
+  ClosePopup,
+  QCardSection
 } from 'quasar'
 export default {
   name: 'listCohort',
@@ -189,6 +190,7 @@ export default {
     QCard,
     QCheckbox,
     QDialog,
+    QCardSection,
     'search-codes': searchCodes,
     'dependent-codes': dependentsCodes,
     'create-cohart-group': createCohartGroup

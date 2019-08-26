@@ -55,13 +55,13 @@
             <q-btn outlined icon="delete_forever" class="f12 action-btns borC1 full-width" text-color="negative" @click="getCohortDict"/>
           </div>
           <div class="col q-mx-xs" v-if="pagemethod !== 'update'">
-            <q-btn outlined icon="save" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
           </div>
           <div class="col-5 q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
           </div>
           <div class="col q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="baseObj.cohort_name === ''" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
