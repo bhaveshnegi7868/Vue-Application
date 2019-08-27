@@ -65,7 +65,7 @@
     <div class="">
       <q-table
       class="my-sticky-header-table text-center"
-      :data="data"
+      :data="baseObj.codeset_data"
       :columns="columns"
       row-key="name"
     >
@@ -96,7 +96,7 @@
     </q-tr>
     <q-tr slot="body" slot-scope="data" :props="data">
       <q-th key="podUpload1">{{data.row.target_concept_id}}</q-th>
-      <q-th key="podUpload2">{{data.row.target_concept_name}}</q-th>
+      <q-th key="podUpload2" class="ellipsis" style="max-width: 200px">{{data.row.target_concept_name}}</q-th>
 
       <q-th key="podUpload6"> - </q-th>
       <q-th key="podUpload3">
@@ -121,7 +121,7 @@
         </div>
       </q-th>
       <q-th key="podUpload5">
-        <q-btn outline no-caps class="userName" @click="removeCodeFromList(data.row.source_code)">
+        <q-btn outline no-caps class="userName" @click="removeCodeFromList(data.row.target_concept_id)">
           <q-icon name="delete_forever" size="23px"/>
         </q-btn>
       </q-th>
@@ -135,12 +135,10 @@
       transition-hide="slide-down"
     >
       <q-card class="q-my-xl q-mx-xs">
-        <q-card-section class="row items-center">
-          <div class="float-rights">
-          <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+          <div class="close-btn">
+            <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
           </div>
-        </q-card-section>
-        <search-codes v-on:selectedChange="handleChange"></search-codes>
+          <search-codes v-on:selectedChange="handleChange"></search-codes>
       </q-card>
     </q-dialog>
     <q-dialog
@@ -250,9 +248,8 @@ export default {
     var that = this
     that.codeset_id = that.$route.params.codeset_id
     that.pagemethod = that.$route.params.method
-    debugger
     if (that.codeset_id) {
-      that.getCodesetDict(that.codeset_id)
+      that.getCodesetDict()
     }
   },
   methods: {
@@ -266,35 +263,59 @@ export default {
     },
     addToList (value) {
       var that = this
+      var selectedCodes = []
       value.forEach(function (row) {
         if (that.checkIfCodeInList(row)) {
-          row.exclude = false
-          row.dependents = false
-          that.data.push(row)
-
-          that.$q.notify({
-            color: 'black',
-            textColor: 'white',
-            message: row.target_concept_id + ' has been added successfully.',
-            position: 'bottom-right',
-            timeout: 3000
-          })
+          selectedCodes.push(row.concept_code)
         } else {
           that.$q.notify({
             color: 'red',
             textColor: 'white',
-            message: row.target_concept_id + ' is already available.',
+            message: row.concept_code + ' is already available.',
             position: 'bottom-right',
             timeout: 3000
           })
         }
       })
+      if (selectedCodes.length) {
+        that.gatherStandardCodes(selectedCodes)
+      }
+    },
+    gatherStandardCodes (selectedCodes) {
+      var that = this
+      var url = process.env.API_URL + 'codeset/codes/addtolist/'
+      that.$q.loading.show()
+      if (that.baseObj.codeset_data === undefined) {
+        that.baseObj.codeset_data = []
+      }
+      axios.post(url, { 'codes': selectedCodes }).then(function (response) {
+        response.data.result.forEach(function (row) {
+          row.exclude = false
+          row.dependents = false
+          that.baseObj.codeset_data.push(row)
+          that.$q.notify({
+            color: 'red',
+            textColor: 'white',
+            message: row.target_concept_id + ' is added successfully',
+            position: 'bottom-right',
+            timeout: 3000
+          })
+        })
+        that.codesPopup = false
+        that.$q.loading.hide()
+      }).catch(function (err) {
+        that.$q.loading.hide()
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: err.response.data.message,
+          timeout: 3000
+        })
+      })
     },
     checkIfCodeInList (row) {
       var that = this
-      // var returnVal = false
-
-      if (that.data.filter(row1 => row1.target_concept_id === row.target_concept_id).length) {
+      if (that.baseObj.codeset_data.filter(row1 => row1.source_concept_code === row.concept_code).length) {
         return false
       } else {
         return true
@@ -308,7 +329,7 @@ export default {
     },
     removeCodeFromList (code) {
       var that = this
-      var data = that.data.filter(row1 => row1.target_concept_id === code)
+      var data = that.baseObj.codeset_data.filter(row1 => row1.target_concept_id === code)
       if (data.length > 0) {
         that.data.splice(data[0].__index, 1)
       }
@@ -317,7 +338,7 @@ export default {
       var that = this
       that.currentDependents = []
       that.dependentsJson.forEach(function (row) {
-        if (row.target_concept_id === conceptId) {
+        if (row.concept_code === conceptId) {
           that.currentDependents = row.descendant
           that.dependentsPopup = true
         }

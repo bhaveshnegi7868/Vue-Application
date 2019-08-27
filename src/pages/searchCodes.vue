@@ -11,11 +11,11 @@
                   </template>
                 </el-input>
           </div>
-          <div class="selected_events table-box">
-            <div class="q-my-sm row bor1Lightgrey selectedFilter">
-              <div class="Applied-Filters">Applied Filters</div>
-              <applied-filters :selectedFilters="selectedFilters" v-if="showFilters"></applied-filters>
-            </div>
+          <div class="q-my-sm row bor1Lightgrey selectedFilter">
+            <div class="Applied-Filters">Applied Filters</div>
+            <applied-filters :selectedFilters="selectedFilters" v-if="showFilters"></applied-filters>
+          </div>
+          <div class="selected_events1 table-box">
             <div class="row col">
               <div class="col-3">
                 <div class="q-pa-xs q-ma-xs filter-box">
@@ -36,10 +36,10 @@
               </div>
               <div class="col-9">
                 <q-table
-                  class="selected_events"
+                  class="selected_events1"
                   :data="data"
                   :columns="columns"
-                  row-key="target_concept_id"
+                  row-key="concept_code"
                   :pagination.sync="pagination"
                   :loading="loading"
                   :filter="filter"
@@ -60,9 +60,9 @@
               </div>
               <div class="selected_events">
                 <q-card v-for="row in selected" :key="row.code" class="q-ma-md q-pa-sm" shadow-3>
-                  {{row.target_concept_id}}-{{row.target_concept_name}}<br>
+                  {{row.concept_code}} - {{row.concept_name}}<br>
                   <div class="text-right">
-                    {{row.domain_id}}-{{row.target_concept_vocab_id}}
+                    {{row.domain_id}}-{{row.vocabulary_id}}
                   </div>
                 </q-card>
               </div>
@@ -246,7 +246,10 @@ export default {
     fetchFromServer (startRow, count, filter, sortBy, descending, page, rowsPerPage) {
       let data = []
       let that = this
-      var url = process.env['API_URL'] + 'codeset/codes/list/?'
+      var url = process.env['API_URL'] + 'codeset/codes/list/?page=' + page + '&pagecount=' + rowsPerPage
+      if (filter) {
+        url += '&search=' + filter
+      }
       Object.keys(that.selectedFilters).forEach(function (key) {
         Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
           if (that.selectedFilters[key][value]) {
