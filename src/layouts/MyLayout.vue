@@ -21,7 +21,9 @@
                   :label="$q.sessionStorage.getItem('username')"
                   @click="logout"
                 >
-
+                <q-tooltip>
+                  Logout
+                </q-tooltip>
               </q-btn>
             </div>
         </q-toolbar-title>
@@ -36,10 +38,12 @@
 <script>
 import axios from 'axios'
 import {
-  openURL
+  openURL,
+  QTooltip
 } from 'quasar'
 export default {
   components: {
+    QTooltip
   },
   name: 'MyLayout',
   data () {

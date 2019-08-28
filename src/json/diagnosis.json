@@ -31,14 +31,6 @@
     "value":["Before", "On or Before", "On", "After", "On or After", "Between", "Not Between"]
   },
   {
-    "id":6,
-    "Label":"Diagnosis Occurence Start Date w.r.t initial events index start date",
-    "name":"OccurenceDate",
-    "data":{"daytypeOpt1":"","daytypeOpt2":"","dayOpt1":"","dayOpt2":""},
-    "Type":"day-between",
-    "value":["Before", "After"]
-  },
-  {
     "id":7,
     "Label":"Age Of Diagnosis Occurences",
     "Type":"count-select",

@@ -27,13 +27,6 @@
     "value":["Before", "On or Before", "On", "After", "On or After", "Between", "Not Between"]
   },
   {
-    "Label":"Treatement Occurence Start Date w.r.t initial events index start date",
-    "name":"OccurenceDate",
-    "data":{"date":[],"day":[]},
-    "Type":"day-between",
-    "value":["Before", "After"]
-  },
-  {
     "Label":"Refill",
     "Type":"count-select",
     "value":["Less than", "Less or Equal to", "Equal to", "Greater than", "Greater or Equal to", "Between", "Not Between"]

@@ -24,9 +24,6 @@
                   @click="openCreateCodesetGroupPopup"
                   v-close-popup
                 />
-                <q-card  class="bg-secondary text-white selected-btn-dropdown">
-                  {{baseObj.codeset_group}}
-                </q-card>
                 <div class="options-values" v-for="opt in codesetGroups" v-bind:key="opt.name" @click="baseObj.codeset_group = opt.name">
                   {{opt.name}}
                 </div>

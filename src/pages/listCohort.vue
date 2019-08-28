@@ -7,6 +7,7 @@
             row-key="name"
             :loading="loading"
             :filter="filter"
+            :pagination.sync="pagination"
           >
           <template v-slot:top-left >
             <q-btn-toggle
@@ -22,7 +23,7 @@
             </q-btn-toggle>
           </template>
           <template v-slot:top-right >
-              <el-input v-model="filter" class="w20R searchBox q-mx-sm" placeholder="Search">
+              <el-input v-model="filter" class="w23R searchBox q-mx-sm" placeholder="Search">
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
@@ -35,9 +36,21 @@
           <router-link to="cohort/create/">{{row.row.Cohortname1}}</router-link>
             </q-td>
           <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
-              <q-btn v-if="!cohortToggle" round color="theamGreen" size="0.5rem" icon="edit" @click="editCohort(props.row.cohort_id)"></q-btn>
-              <q-btn round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCohort(props.row.cohort_id)"></q-btn>
-              <q-btn v-if="!cohortToggle" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);"></q-btn>
+              <q-btn v-if="!cohortToggle" round color="theamGreen" size="0.5rem" icon="edit" @click="editCohort(props.row.cohort_id)">
+                <q-tooltip>
+                  Edit
+                </q-tooltip>
+              </q-btn>
+              <q-btn round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCohort(props.row.cohort_id)">
+                <q-tooltip>
+                  Copy
+                </q-tooltip>
+              </q-btn>
+              <q-btn v-if="!cohortToggle" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);">
+                <q-tooltip>
+                  Delete
+                </q-tooltip>
+              </q-btn>
             </q-td>
           </q-table>
         </div>
@@ -48,6 +61,7 @@ import axios from 'axios'
 import {
   QBtnToggle,
   QTable,
+  QTooltip,
   QTd
 } from 'quasar'
 export default {
@@ -55,6 +69,7 @@ export default {
   components: {
     QBtnToggle,
     QTable,
+    QTooltip,
     QTd
   },
   data () {
@@ -63,6 +78,9 @@ export default {
       cohortToggle: 0,
       filter: '',
       loading: true,
+      pagination: {
+        rowsPerPage: 10
+      },
       columns: [
         { name: 'cohort_name', field: 'cohort_name', label: 'Cohort name', align: 'left', sortable: true },
         { name: 'Cohortdescription', label: 'Cohort description', field: 'cohort_desc', align: 'left', sortable: true, classes: 'w25R ellipsis', style: 'max-width: 130px' },
@@ -85,7 +103,7 @@ export default {
       this.$swal({
         title: 'Are you sure?',
         text: 'You want To Delete This Cohort',
-        type: 'warning',
+        type: 'error',
         showCancelButton: true,
         confirmButtonText: 'Delete'
       }).then((result) => {

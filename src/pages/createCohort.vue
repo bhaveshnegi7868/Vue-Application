@@ -1,49 +1,43 @@
 <template>
   <q-page class="app-layout ">
     <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj.cohort_name"></secondary-header>
-    <div class="row q-px-sm q-py-sm">
+    <div class="row createcohortHeaderform q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
-            <div class="col-2 q-pa-sm">
+            <div class="col-2 q-px-sm q-py-xs">
                 <input class="input-box full-width" v-model="baseObj.cohort_name" placeholder="Cohort Name" />
             </div>
-            <div class="col-5 q-pa-sm">
+            <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
-            <div class="col q-pa-sm">
+            <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
                   flat
                   no-caps
-                  class="full-width select-box"
+                  class="full-width  f12 select-box"
                   :label="baseObj.cohort_group ? baseObj.cohort_group : 'Cohort Group'"
                   @click="getCohortGroupList"
                 >
                 <q-btn
                   color="primary"
-                  class="full-width"
+                  class="full-width f10"
                   icon-right="add"
                   label="Add New Cohort Group"
                   @click="openCreateCohortGroupPopup"
                   v-close-popup
                 />
-                <q-card  class="bg-secondary text-white selected-btn-dropdown">
-                  {{baseObj.cohort_group}}
-                </q-card>
-                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="baseObj.cohort_group = opt.name">
+                <div class="options-values " v-for="opt in cohortGroups" v-bind:key="opt.name" @click="baseObj.cohort_group = opt.name">
                   {{opt.name}}
                 </div>
               </q-btn-dropdown>
             </div>
-            <div class="col q-pa-sm">
+            <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
                   no-caps
                   flat
-                  class="full-width select-box"
+                  class="full-width f12 select-box"
                   :label="baseObj.data_source ? baseObj.data_source : 'Datasource'"
                   @click="getDataSourceList"
                 >
-                <q-card  class="bg-secondary text-white selected-btn-dropdown">
-                  {{baseObj.data_source}}
-                </q-card>
                 <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="baseObj.data_source = opt.name" v-close-popup>
                   {{opt.name}}
                 </div>
@@ -51,27 +45,31 @@
             </div>
         </q-card>
         <q-card class="col row">
-          <div class="col-2 q-mx-xs">
-            <q-btn outlined icon="autorenew" class="f12 action-btns borC2 full-width" text-color="negative" @click="getCohortDict"/>
+          <div class="col-2 createCohortbtnGrp q-mx-xs q-py-xs">
+            <q-btn outlined icon="autorenew" class="f10 action-btns borC2 full-width" text-color="negative" @click="getCohortDict">
+              <q-tooltip>
+                Reset
+              </q-tooltip>
+            </q-btn>
           </div>
-          <div class="col q-mx-xs" v-if="pagemethod !== 'update'">
-            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+          <div class="col createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod !== 'update'">
+            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Save" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohart"/>
           </div>
-          <div class="col-5 q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+          <div class="col-5 createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod === 'update'">
+            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohart"/>
           </div>
-          <div class="col q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="baseObj.cohort_name === ''" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
+          <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
+            <q-btn outlined icon="play_circle_filled" :disable="baseObj.cohort_name === ''" label="Run" @click="showLoading()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
     <q-card class="row createBoxHeight q-mx-sm" >
-      <div class="leftForm q-pa-sm">
+      <div class="leftForm q-px-sm q-py-xs">
         <div class="categories_header">
             Criteria Set
         </div>
         <div class="header_Bor1"></div>
-        <q-list>
+        <q-list class="categoriesListitems">
           <q-item
             clickable
             v-ripple
@@ -95,7 +93,7 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label v-if="criteria.ICriteriaSetName" class="ellipsis">{{criteria.ICriteriaSetName}}</label>
+              <label v-if="criteria.ICriteriaSetName" class="ellipsis">{{criteria.ICriteriaSetName}}-{{criteria.id-1}}</label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -147,13 +145,13 @@
               </div>
             </q-card>
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
-              <q-card class="q-pa-sm custom-card">
+              <q-card class="q-pa-sm f12 custom-card">
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col">
                     <select class="criteria-box" v-model="currentInclusionObj.Type">
                       <option disabled>Select</option>
-                      <option>All</option>
-                      <option>Any</option>
+                      <option value="ALL">All</option>
+                      <option value="ANY">Any</option>
                     </select> of the criteria
                   </div>
                   <div class="col-md-3">
@@ -168,15 +166,12 @@
                   >
                     <div>
                       <q-card class="custom-card row event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
-                        <div class="col-1">
-                          <q-badge color="positive" class="q-ma-sm">{{elementObj.id}}</q-badge>
-                        </div>
-                        <div class="col-7">
+                        <div class="col-8">
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="col-2"></div>
-                        <div class="col-2">
-                          <q-btn class="fCgreen f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
+                        <div class="col">
+                          <q-btn class="fCgreen q-px-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
                         </div>
                       </q-card>
                     </div>
@@ -200,8 +195,7 @@
                           <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                         <div class="col-12 row  q-pa-sm">
-                            <q-badge color="positive" class="q-my-sm">{{elementObj.id}}</q-badge>
-                            <input class="input-box col-11 q-mx-xs" v-model="elementObj.Name" placeholder="Group Name" />
+                            <input class="input-box col q-mx-xs" v-model="elementObj.Name" placeholder="Group Name" />
                         </div>
                         <div class="row full-width">
                         <q-card
@@ -211,15 +205,12 @@
                           class="custom-card-1 event-card"
                           @click.native="showAttributes(elementObj1,index,index1)"
                           align="left">
-                            <div class="col-1">
-                              <q-badge color="positive" class="q-ma-sm">{{elementObj1.id}}</q-badge>
-                            </div>
-                            <div class="col-7">
+                            <div class="col-8">
                               <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
                             </div>
                             <div class="col-2">
                             </div>
-                            <div class="col-2 ">
+                            <div class="col">
                               <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent(elementObj1.id)"/>
                             </div>
                           </q-card>
@@ -248,7 +239,7 @@
                   </drop>
                 </div>
               </q-card>
-              <q-card class="q-pa-lg q-mt-lg custom-card">
+              <q-card class="q-pa-lg q-mt-lg f12 custom-card">
                 <div class="row">
                   <div class="col">
                     Limit initial events to
@@ -311,7 +302,7 @@ import {
   QCard,
   Loading,
   QSpinnerIos,
-  QBadge,
+  QTooltip,
   QDialog,
   ClosePopup
 } from 'quasar'
@@ -328,7 +319,7 @@ export default {
   name: 'createCohort',
   components: {
     QCard,
-    QBadge,
+    QTooltip,
     Drag,
     Drop,
     QDialog,
@@ -388,13 +379,15 @@ export default {
       selectedCriteria: 'Select',
       readonlyCriteriaSelect: false,
       eventArray: {},
-      currentInclusionObj: {},
+      currentInclusionObj: {
+        'Type': 'ANY'
+      },
       currentCriteria: {
       },
       criteriaArray: [
         {
           'id': 'PrimaryCriteria',
-          'PCriteriaSetName': 'Initial Criteria',
+          'PCriteriaSetName': 'Primary Criteria',
           'currentSelected': 1,
           'PCriteriaSetDesc': 'This Is The Initial cohort'
         }
@@ -760,7 +753,7 @@ export default {
       var that = this
       let criteriaObj = {
         'id': that.baseObj.criteriaObj.InclusionRules.length + 2,
-        'ICriteriaSetName': 'New Criteria',
+        'ICriteriaSetName': 'Inclusion Criteria',
         'ICriteriaSetDesc': '',
         'currentSelected': 0,
         'expression': {

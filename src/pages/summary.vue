@@ -168,23 +168,23 @@
                         By Gender
                         <div class="By-GraphLbls_Underline"></div>
                       </div>
-                      <div class="genderGraph q-mx-xs">
+                      <div class="genderGraph w10R q-mx-auto">
                         <q-icon class="bor1RlightGreygender q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/manImg.png" />
                         <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/womanImg.png" />
                       </div>
-                      <div class="row q-my-xs q-mt-lg">
+                      <div class="row q-my-xs w10R q-mx-auto q-mt-lg">
                         <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">28374</div>
                         <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">43876</div>
                       </div>
                     </div>
-                    <div class="By-GraphLbls_devider"></div>
+                    <!-- <div class="By-GraphLbls_devider"></div>
                     <div class="col">
                       <div class="By-GraphLbls q-my-xs q-mx-xs">
                         By Race
                         <div class="By-GraphLbls_Underline"></div>
                       </div>
                       <summery-piegraph></summery-piegraph>
-                    </div>
+                    </div> -->
                 </div>
               </div>
             </div>
@@ -280,15 +280,13 @@
 import {} from 'vue-drag-drop'
 import secondaryHeader from 'components/secondaryHeader'
 import summeryGraph from 'components/summeryGraph'
-import summeryPiegraph from 'components/summeryPieGraph'
 import {
 } from 'quasar'
 export default {
   name: 'createCohort',
   components: {
     'secondary-header': secondaryHeader,
-    'summery-graph': summeryGraph,
-    'summery-piegraph': summeryPiegraph
+    'summery-graph': summeryGraph
   },
   data () {
     return {
