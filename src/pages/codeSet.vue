@@ -114,7 +114,7 @@
             </label>
           </div>
           <div class="col">
-            <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row.target_concept_id)" >
+            <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row)" >
               <q-icon name="img:/statics/imgs/group-519.png" size="20px"/>
             </q-btn>
           </div>
@@ -131,6 +131,7 @@
     <q-dialog
       v-model="codesPopup"
       full-width
+      full-height
       transition-show="slide-up"
       transition-hide="slide-down"
     >
@@ -138,12 +139,13 @@
           <div class="close-btn">
             <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
           </div>
-          <search-codes v-on:selectedChange="handleChange"></search-codes>
+          <search-codes @selectedChange="handleChange"></search-codes>
       </q-card>
     </q-dialog>
     <q-dialog
       v-model="dependentsPopup"
       full-width
+      full-height
       transition-show="slide-up"
       transition-hide="slide-down"
     >
@@ -153,7 +155,7 @@
               <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
               </div>
             </q-card-section>
-        <dependent-codes :desendents="currentDependents" v-on:selectedChange="handleChange"></dependent-codes>
+        <dependent-codes :desendents="currentDependents" @updateDependents="updateDependents"></dependent-codes>
       </q-card>
     </q-dialog>
     <q-dialog v-model="createCodesetGroupPopup">
@@ -209,6 +211,7 @@ export default {
       dependents: false,
       createCodesetGroupPopup: false,
       dependentsJson: dependentJson,
+      currentRow: {},
       columns: [
         {
           name: 'target_concept_id',
@@ -315,6 +318,9 @@ export default {
     },
     checkIfCodeInList (row) {
       var that = this
+      if (that.baseObj.codeset_data === undefined) {
+        return true
+      }
       if (that.baseObj.codeset_data.filter(row1 => row1.source_concept_code === row.concept_code).length) {
         return false
       } else {
@@ -334,16 +340,16 @@ export default {
         that.data.splice(data[0].__index, 1)
       }
     },
-    openDependentpopup (conceptId) {
+    openDependentpopup (row) {
       var that = this
+      that.currentRow = row
+      let conceptId = row.target_concept_id
       that.currentDependents = []
-      that.dependentsJson.forEach(function (row) {
-        if (row.concept_code === conceptId) {
-          that.currentDependents = row.descendant
-          that.dependentsPopup = true
-        }
-      })
-      if (that.currentDependents.length === 0) {
+      var url = process.env.API_URL + 'codeset/descendents/' + conceptId
+      axios.get(url).then(function (response) {
+        that.currentDependents = response.data.result.children
+        that.dependentsPopup = true
+      }).catch(function () {
         that.$q.notify({
           color: 'red',
           textColor: 'white',
@@ -351,7 +357,7 @@ export default {
           position: 'bottom-right',
           timeout: 3000
         })
-      }
+      })
     },
     savedSuccessfully () {
       var that = this
@@ -403,10 +409,12 @@ export default {
       that.$q.loading.show()
       var url = process.env.API_URL + 'codeset/create/'
       var method
+      var message = 'Codeset Created Successfully'
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'codeset/update/'
         method = axios.put(url, that.baseObj)
+        message = 'Codeset Updated Successfully'
       } else {
         that.baseObj.codeset_id = null
         method = axios.post(url, that.baseObj)
@@ -415,7 +423,7 @@ export default {
         that.$q.notify({
           color: 'green',
           textColor: 'white',
-          message: 'Codeset ' + that.pagemethod + 'ed Successfully',
+          message: message,
           timeout: 3000
         })
         that.$q.loading.hide()
@@ -439,15 +447,19 @@ export default {
       axios.get(url).then(function (response) {
         that.baseObj = response.data
         that.$q.loading.hide()
-      }).catch(function (err) {
+      }).catch(function () {
         that.$q.loading.hide()
         that.$q.notify({
           color: 'black',
           textColor: 'white',
-          message: err.response.data.message,
+          message: 'Reset Failed',
           timeout: 3000
         })
       })
+    },
+    updateDependents (response) {
+      var that = this
+      that.currentRow.dependentsList = response
     }
   }
 }

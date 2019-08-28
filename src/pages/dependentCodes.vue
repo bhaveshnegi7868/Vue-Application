@@ -5,17 +5,21 @@
       <div class="row justify-center">
         <q-tree
           :nodes="desendents"
-          node-key="target_concept_id"
-          tick-strategy="leaf"
+          node-key="code"
+          tick-strategy="strict"
           :ticked.sync="ticked"
         >
           <template v-slot:default-header="prop">
             <q-card class="q-pa-md unselected-card">
-              {{prop.node.target_concept_id}} | {{prop.node.target_concept_name}}
+              {{prop.node.code}} | {{prop.node.label}}
             </q-card>
           </template>
         </q-tree>
       </div>
+      <div class="footer">
+          <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
+          <q-btn  class="q-ma-md" color="green-9" v-close-popup label="Import" @click="sendName"></q-btn>
+        </div>
     </q-card>
   </div>
 </template>
@@ -24,126 +28,16 @@
 import {
   QCard,
   QTree
-  // QTr,
-  // QTd
 } from 'quasar'
 export default {
   name: 'dependentsCodes',
   components: {
     QCard,
     QTree
-    // QTr,
-    // QTd
   },
   data () {
     return {
-      ticked: [],
-      simple: [
-        {
-          description: 'Satisfied customers (with avatar)',
-          code: 'Code 01',
-          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-          children: [
-            {
-              description: 'Good food (with icon)',
-              code: 'Code 01.01',
-              icon: 'restaurant_menu',
-              children: [
-                {
-                  description: 'Quality ingredients',
-                  code: 'Code 01.01.01'
-                },
-                {
-                  description: 'Good recipe',
-                  code: 'Code 01.01.02'
-                }
-              ]
-            },
-            {
-              description: 'Good food (with icon)',
-              code: 'Code 01.02',
-              icon: 'restaurant_menu',
-              children: [
-                {
-                  description: 'Quality ingredients',
-                  code: 'Code 01.02.01'
-                },
-                {
-                  description: 'Good recipe',
-                  code: 'Code 01.02.02'
-                }
-              ]
-            },
-            {
-              description: 'Good food (with icon)',
-              code: 'Code 01.03',
-              icon: 'restaurant_menu',
-              children: [
-                {
-                  description: 'Quality ingredients',
-                  code: 'Code 01.03.01'
-                },
-                {
-                  description: 'Good recipe',
-                  code: 'Code 01.03.02'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          description: 'Satisfied customers (with avatar)',
-          code: 'Code 02',
-          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-          children: [
-            {
-              description: 'Good food (with icon)',
-              code: 'Code 02.01',
-              icon: 'restaurant_menu',
-              children: [
-                {
-                  description: 'Quality ingredients',
-                  code: 'Code 02.01.01'
-                },
-                {
-                  description: 'Good recipe',
-                  code: 'Code 02.01.02'
-                }
-              ]
-            },
-            {
-              description: 'Good food (with icon)',
-              code: 'Code 02.02',
-              icon: 'restaurant_menu',
-              children: [
-                {
-                  description: 'Quality ingredients',
-                  code: 'Code 02.02.01'
-                },
-                {
-                  description: 'Good recipe',
-                  code: 'Code 02.02.02'
-                }
-              ]
-            },
-            {
-              description: 'Good food (with icon)',
-              code: 'Code 02.03',
-              icon: 'restaurant_menu',
-              children: [
-                {
-                  description: 'Quality ingredients',
-                  code: 'Code 02.03.01'
-                },
-                {
-                  description: 'Good recipe',
-                  code: 'Code 02.03.02'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      ticked: []
     }
   },
   props: {
@@ -156,7 +50,7 @@ export default {
   methods: {
     sendName (event) {
       var that = this
-      this.$emit('inputChange', that.event)
+      this.$emit('updateDependents', that.ticked)
     }
   }
 }

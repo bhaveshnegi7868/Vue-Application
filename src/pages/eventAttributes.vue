@@ -24,7 +24,7 @@
                   class="full-width"
                   icon-right="add"
                   label="Import"
-                  @click="openImportCodesetPopupFun(obj.value)"
+                  @click="openImportCodesetPopupFun(key,index)"
                   v-close-popup
                 />
                 <div  class="bg-secondary text-white selected-btn-dropdown full-width">
@@ -149,8 +149,10 @@
         </div>
     </div>
     <q-dialog
-         v-model="openImportCodesetPopup" no-backdrop-dismiss
+         v-model="openImportCodesetPopup"
+         no-backdrop-dismiss
          full-width
+         full-height
        >
        <q-card>
         <list-codeset :allowImport="true" @addImports="addImportData"></list-codeset>
@@ -200,12 +202,14 @@ export default {
     addImportData (data) {
       var that = this
       data.forEach(function (row) {
-        that.currentValueObject.push(row.Codesetname1)
+        that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value[row.codeset_id] = row.codeset_name
       })
       this.openImportCodesetPopup = false
     },
-    openImportCodesetPopupFun (array) {
-      this.currentValueObject = array
+    openImportCodesetPopupFun (key, ind) {
+      var that = this
+      that.currentKey = key
+      that.currentIndex = ind
       this.openImportCodesetPopup = false
       this.openImportCodesetPopup = true
     },

@@ -5,6 +5,7 @@
             :data="data"
             :columns="columns"
             row-key="name"
+            :pagination.sync="pagination"
           >
           <template v-slot:top-left>
             <q-btn-toggle
@@ -30,18 +31,18 @@
               </router-link>
           </template>
           <q-td slot="body-cell-Codesetname" slot-scope="row" :props="row">
-          <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
-            </q-td>
-            <q-td slot="body-cell-Actions " slot-scope="props" :props="props">
+            <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
+          </q-td>
+            <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
                 <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="edit" @click="editCodeset(props.row.codeset_id)"></q-btn>
-                <q-btn round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.cohort_id)"></q-btn>
+                <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.cohort_id)"></q-btn>
                 <q-btn v-if="!codesetToggle && allowImport==false" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
                 <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
           </q-table>
         </div>
         <div class="footer" v-if="allowImport">
-          <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" ></q-btn>
+          <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
           <q-btn  class="q-ma-md" color="green-9" v-close-popup label="Import" @click="sendDataToParent"></q-btn>
         </div>
     </div>
@@ -74,6 +75,9 @@ export default {
       loading: true,
       codesetToggle: 0,
       searchModel: '',
+      pagination: {
+        rowsPerPage: 10
+      },
       columns: [
         { name: 'codeset_name', field: 'codeset_name', label: 'Codeset name', align: 'left', sortable: true },
         { name: 'codeset_desc', label: 'Codeset description', field: 'codeset_desc', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 130px' },
@@ -126,7 +130,10 @@ export default {
         url = process.env.API_URL + 'codeset/mycodeset/'
       }
       axios.get(url).then(function (response) {
-        that.data = response.data.result
+        response.data.result.forEach(function (row) {
+          row.selected = false
+          that.data.push(row)
+        })
         that.loading = false
       }).catch(function () {
         that.data = []
@@ -142,6 +149,16 @@ export default {
     deleteCodeset (id) {
       var url = process.env.API_URL + 'codeset/delete/' + id
       return axios.delete(url)
+    },
+    sendDataToParent () {
+      var that = this
+      var arrayToSend = []
+      that.data.forEach(function (row) {
+        if (row.selected) {
+          arrayToSend.push(row)
+        }
+      })
+      this.$emit('addImports', arrayToSend)
     }
   }
 }

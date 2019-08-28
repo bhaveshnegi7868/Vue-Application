@@ -14,8 +14,9 @@
                   flat
                   no-caps
                   class="full-width select-box"
-                  :label="baseObj.cohort_group ? baseObj.cohort_group : 'Cohort Group'"
+                  label="Cohort Group"
                   @click="getCohortGroupList"
+                  auto-close
                 >
                 <q-btn
                   color="primary"
@@ -28,7 +29,7 @@
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.cohort_group}}
                 </q-card>
-                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="baseObj.cohort_group = opt.name">
+                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="baseObj.cohort_group = opt.name" v-close-popup>
                   {{opt.name}}
                 </div>
               </q-btn-dropdown>
@@ -38,8 +39,9 @@
                   no-caps
                   flat
                   class="full-width select-box"
-                  :label="baseObj.data_source ? baseObj.data_source : 'Datasource'"
+                  label="Datasource"
                   @click="getDataSourceList"
+                  auto-close
                 >
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.data_source}}
@@ -55,10 +57,10 @@
             <q-btn outlined icon="autorenew" class="f12 action-btns borC2 full-width" text-color="negative" @click="getCohortDict"/>
           </div>
           <div class="col q-mx-xs" v-if="pagemethod !== 'update'">
-            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Save" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col-5 q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohart"/>
+            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Update" class="f12 action-btns borC2 full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col q-mx-xs">
             <q-btn outlined icon="play_circle_filled" :disable="baseObj.cohort_name === ''" label="Run" @click="showLoading()" class="f12 action-btns borC3 full-width" text-color="positive"/>
@@ -435,7 +437,7 @@ export default {
       ],
       dataSources: [],
       cohortGroups: [],
-      currentEvent: '',
+      currentEvent: {},
       openGroup: false,
       criteriaClass: [
         'categories_list',
@@ -659,7 +661,7 @@ export default {
           }
         })
       }
-      that.currentEvent = ''
+      that.currentEvent = {}
       that.showAttributes('', null, null)
       // if (that.eventArray[that.currentCriteria.name].length > 0) {
       //   that.readonlyCriteriaSelect = true
