@@ -16,8 +16,8 @@
             <q-btn-dropdown
                   flat
                   class="full-width select-box"
-                  :label="localObj.Label"
-                  v-if="obj.Type == 'multiple-select-dropdown'"
+                  :label="event[mappingDict[event.event]][key][obj.name] ? event[mappingDict[event.event]][key][obj.name] : localObj.Label"
+                  v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
                 >
                 <q-btn
                   color="primary"
@@ -30,7 +30,7 @@
                 <div  class="bg-secondary text-white selected-btn-dropdown full-width">
                   {{event[mappingDict[event.event]][key][obj.name]}}
                 </div>
-                <div class="options-values" v-for="opt in obj.value" v-bind:key="opt" @click="event[mappingDict[event.event]][key][obj.name] = opt">
+                <div class="options-values" v-for="opt in obj.value" v-bind:key="opt"  @click="makeSelected(key, obj, opt)">
                   {{opt}}
                 </div>
             </q-btn-dropdown>
@@ -46,7 +46,7 @@
               </div>
             </div>
             <div class="col" v-if="obj.Type == 'date'">
-                <q-icon name="event"  class="cursor-pointer datePicker">
+                <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
                   <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
                     <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
                   </q-popup-proxy>
@@ -189,6 +189,8 @@ export default {
   },
   data () {
     return {
+      renderComponent1: true,
+      renderComponent2: true,
       openImportCodesetPopup: false,
       shape: 'include',
       limit: true,
@@ -219,8 +221,26 @@ export default {
       this.$emit('inputChange', that.event)
     },
     hideProxy (prox) {
-      debugger
+      var that = this
+      that.renderComponent2 = false
+      setTimeout(function () {
+        that.$nextTick(() => {
+          // Add the component back in
+          that.renderComponent2 = true
+        })
+      }, 100)
       this.$refs[prox][0].hide()
+    },
+    makeSelected (key, obj, name) {
+      var that = this
+      that.event[that.mappingDict[that.event.event]][key][obj.name] = name
+      that.renderComponent1 = false
+      setTimeout(function () {
+        that.$nextTick(() => {
+          // Add the component back in
+          that.renderComponent1 = true
+        })
+      }, 100)
     }
     /**
     * Given a generator function, this component's inputValue is set

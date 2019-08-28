@@ -61,6 +61,7 @@
     </div>
     <div class="">
       <q-table
+      v-if="renderComponent"
       class="my-sticky-header-table text-center"
       :data="baseObj.codeset_data"
       :columns="columns"
@@ -132,7 +133,7 @@
       transition-show="slide-up"
       transition-hide="slide-down"
     >
-      <q-card class="q-my-xl q-mx-xs">
+      <q-card>
           <div class="close-btn">
             <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
           </div>
@@ -146,7 +147,7 @@
       transition-show="slide-up"
       transition-hide="slide-down"
     >
-      <q-card class="q-my-xl q-mx-xl">
+      <q-card>
           <q-card-section class="row items-center">
               <div class="float-rights">
               <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
@@ -198,6 +199,7 @@ export default {
   data () {
     return {
       baseObj: {},
+      renderComponent: true,
       currentDependents: [],
       codesetGroups: [],
       maximizedToggle: true,
@@ -328,14 +330,29 @@ export default {
       this.addToList(value)
     },
     removeAllCodesFromList () {
-      this.data = []
+      var that = this
+      this.baseObj.codeset_data = []
+      that.renderComponent = false
+      setTimeout(function () {
+        that.$nextTick(() => {
+          // Add the component back in
+          that.renderComponent = true
+        })
+      }, 100)
     },
     removeCodeFromList (code) {
       var that = this
       var data = that.baseObj.codeset_data.filter(row1 => row1.target_concept_id === code)
       if (data.length > 0) {
-        that.data.splice(data[0].__index, 1)
+        that.baseObj.codeset_data.splice(data[0].__index, 1)
       }
+      that.renderComponent = false
+      setTimeout(function () {
+        that.$nextTick(() => {
+          // Add the component back in
+          that.renderComponent = true
+        })
+      }, 100)
     },
     openDependentpopup (row) {
       var that = this

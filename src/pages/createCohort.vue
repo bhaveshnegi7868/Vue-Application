@@ -11,9 +11,10 @@
             </div>
             <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
+                  v-if="renderComponent1"
                   flat
                   no-caps
-                  label="Cohort Group"
+                  :label="baseObj.cohort_group ? baseObj.cohort_group : 'Cohort Group'"
                   class="full-width  f12 select-box"
                   @click="getCohortGroupList"
                   auto-close
@@ -29,21 +30,22 @@
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.cohort_group}}
                 </q-card>
-                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="baseObj.cohort_group = opt.name" v-close-popup>
+                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="makeSelected('cohort_group',opt.name)" v-close-popup>
                   {{opt.name}}
                 </div>
               </q-btn-dropdown>
             </div>
             <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
+                  v-if="renderComponent1"
                   no-caps
                   flat
-                  label="Datasource"
+                  :label="baseObj.data_source ? baseObj.data_source : 'Datasource'"
                   class="full-width f12 select-box"
                   @click="getDataSourceList"
                   auto-close
                 >
-                <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="baseObj.data_source = opt.name" v-close-popup>
+                <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="makeSelected('data_source',opt.name)" v-close-popup>
                   {{opt.name}}
                 </div>
               </q-btn-dropdown>
@@ -84,7 +86,7 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label>{{baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetName}}</label>
+              <label>{{baseObj.criteriaObj.PrimaryCriteria.displayName}}</label>
             </q-item-section>
           </q-item>
           <q-item
@@ -338,6 +340,7 @@ export default {
   data () {
     return {
       renderComponent: true,
+      renderComponent1: true,
       dictPopup: false,
       createCohortGroupPopup: false,
       apiData: {
@@ -366,6 +369,7 @@ export default {
           'PrimaryCriteria': {
             'PCriteriaSetName': '',
             'PCriteriaSetDesc': '',
+            'displayName': 'Initial Criteria',
             'CriteriaList': [],
             'ObservationWindow': {},
             'PrimaryCriteriaLimit': {}
@@ -392,9 +396,10 @@ export default {
       criteriaArray: [
         {
           'id': 'PrimaryCriteria',
-          'PCriteriaSetName': 'Primary Criteria',
+          'PCriteriaSetName': '',
+          'displayName': 'Initial Criteria',
           'currentSelected': 1,
-          'PCriteriaSetDesc': 'This Is The Initial cohort'
+          'PCriteriaSetDesc': ''
         }
       ],
       eventArray1: [
@@ -709,7 +714,7 @@ export default {
             row.currentSelected = 0
           }
         } else {
-          if (row.ICriteriaSetName === criteria.ICriteriaSetName) {
+          if (row.id === criteria.id) {
             that.link = row.id
             if (that.baseObj['criteriaObj']['InclusionRules'][index - 1]) {
               that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
@@ -841,6 +846,13 @@ export default {
       axios.get(url).then(function (response) {
         that.$q.loading.hide()
         that.currentEvent = Object.assign(that.currentEvent, response.data.data)
+        that.renderComponent = false
+        setTimeout(function () {
+          that.$nextTick(() => {
+            // Add the component back in
+            that.renderComponent = true
+          })
+        }, 100)
         // that.dtSourceOpts = response.data.result
         // that.loading = false
       })
@@ -884,6 +896,17 @@ export default {
           timeout: 3000
         })
       })
+    },
+    makeSelected (type, name) {
+      var that = this
+      that.renderComponent1 = false
+      that.baseObj[type] = name
+      setTimeout(function () {
+        that.$nextTick(() => {
+          // Add the component back in
+          that.renderComponent1 = true
+        })
+      }, 100)
     }
   }
 }
