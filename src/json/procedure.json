@@ -25,14 +25,7 @@
     "data":{"type":"","sdate":"","edate":""},
     "Type":"date-between",
     "value":["Before", "On or Before", "On", "After", "On or After", "Between", "Not Between"]
-  },
-  {
-    "Label":"Procedure Occurence Start Date w.r.t initial events index start date",
-    "name":"OccurenceDate",
-    "data":{"date":[],"day":[]},
-    "Type":"day-between",
-    "value":["Before", "After"]
-  },
+  },  
   {
     "Label":"Age at Procedure Occurence",
     "Type":"count-select",

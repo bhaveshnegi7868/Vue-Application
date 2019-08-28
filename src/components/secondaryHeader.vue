@@ -5,10 +5,10 @@
     </div>
     <div class="" v-for="path in paths" :key="path">
       <div class="col-4 q-px-auto ">
-        <q-item no-caps class="Rectangle-199 h40 selected q-ml-lg" v-if="path == selectedPage">
+        <q-item no-caps class="Rectangle-199 h35  q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path != 'Summary'">
           <router-link class="textDecorNone" to="/cohort/create"><label class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>
-        <q-item no-caps class="Rectangle-199 h40 q-ml-lg" v-if="path != selectedPage">
+        <q-item no-caps class="Rectangle-199 h35 q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'Summary'">
           <router-link class="textDecorNone" to="/cohort/summary"><label no-caps class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>
       </div>
