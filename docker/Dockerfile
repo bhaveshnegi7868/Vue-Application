@@ -17,7 +17,6 @@ RUN apk add --update nodejs npm
 
 # Create DIR(s)
 RUN mkdir -p /application/tmp
-RUN mkdir -p /application
 
 # Copy Code
 COPY . /application/tmp/
