@@ -21,12 +21,12 @@
             </q-btn-toggle>
           </template>
           <template v-slot:top-right>
-              <q-input class="float-right" borderless dense debounce="300" v-model="filter" placeholder="">
+              <el-input v-model="filter" class="w23R searchBox q-mx-sm" placeholder="Search">
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
-              </q-input>
-              <router-link to="create" class="cretebtn">
+              </el-input>
+              <router-link to="create" class="cretebtn q-ml-sm w12R">
                 <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
           </template>
@@ -52,7 +52,6 @@ import axios from 'axios'
 import {
   QBtnToggle,
   QTable,
-  QInput,
   QTd,
   QCheckbox,
   ClosePopup
@@ -60,7 +59,6 @@ import {
 export default {
   name: 'listCodeset',
   components: {
-    QInput,
     QBtnToggle,
     QTable,
     QTd,
@@ -80,10 +78,10 @@ export default {
       },
       columns: [
         { name: 'codeset_name', field: 'codeset_name', label: 'Codeset name', align: 'left', sortable: true },
-        { name: 'codeset_desc', label: 'Codeset description', field: 'codeset_desc', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 130px' },
-        { name: 'codeset_created_by', label: 'Created by', field: 'codeset_created_by', sortable: true, align: 'left' },
-        { name: 'codeset_created_at', label: 'Created date', field: 'codeset_created_at', sortable: true },
-        { name: 'Actions', label: 'Actions', field: 'Actions' }
+        { name: 'codeset_desc', label: 'Codeset description', field: 'codeset_desc', align: 'left', sortable: true, classes: 'ellipsis w20R' },
+        { name: 'codeset_created_by', label: 'Created by', field: 'codeset_created_by', sortable: true, align: 'center' },
+        { name: 'codeset_created_at', label: 'Created date', field: 'codeset_created_at', sortable: true, align: 'center' },
+        { name: 'Actions', label: 'Actions', field: 'Actions', align: 'center' }
       ],
       data: []
     }
