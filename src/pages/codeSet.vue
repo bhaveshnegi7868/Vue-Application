@@ -10,6 +10,7 @@
           </div>
           <div class="col q-pa-sm">
               <q-btn-dropdown
+                  v-if="renderComponent1"
                   flat
                   no-caps
                   class="full-width select-box"
@@ -24,7 +25,7 @@
                   @click="openCreateCodesetGroupPopup"
                   v-close-popup
                 />
-                <div class="options-values" v-for="opt in codesetGroups" v-bind:key="opt.name" @click="baseObj.codeset_group = opt.name">
+                <div class="options-values" v-for="opt in codesetGroups" v-bind:key="opt.name" @click="makeSelected('codeset_group',opt.name)">
                   {{opt.name}}
                 </div>
               </q-btn-dropdown>
@@ -200,6 +201,7 @@ export default {
     return {
       baseObj: {},
       renderComponent: true,
+      renderComponent1: true,
       currentDependents: [],
       codesetGroups: [],
       maximizedToggle: true,
@@ -328,6 +330,17 @@ export default {
     },
     handleChange: function (value) {
       this.addToList(value)
+    },
+    makeSelected (type, name) {
+      var that = this
+      that.renderComponent1 = false
+      that.baseObj[type] = name
+      setTimeout(function () {
+        that.$nextTick(() => {
+          // Add the component back in
+          that.renderComponent1 = true
+        })
+      }, 100)
     },
     removeAllCodesFromList () {
       var that = this

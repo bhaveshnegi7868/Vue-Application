@@ -86,7 +86,7 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label>{{baseObj.criteriaObj.PrimaryCriteria.displayName}}</label>
+              <label>Primary Criteria</label>
             </q-item-section>
           </q-item>
           <q-item
@@ -100,7 +100,7 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label v-if="criteria.ICriteriaSetName" class="ellipsis">{{criteria.ICriteriaSetName}}-{{criteria.id-1}}</label>
+              <label v-if="criteria.ICriteriaSetName" class="ellipsis">Inclusion Criteria-{{criteria.id-1}}</label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -714,6 +714,7 @@ export default {
             row.currentSelected = 0
           }
         } else {
+          debugger
           if (row.id === criteria.id) {
             that.link = row.id
             if (that.baseObj['criteriaObj']['InclusionRules'][index - 1]) {
@@ -810,7 +811,8 @@ export default {
           that.criteriaArray.push({
             'ICriteriaSetName': row.ICriteriaSetName,
             'currentSelected': 0,
-            'ICriteriaSetDesc': row.ICriteriaSetDesc
+            'ICriteriaSetDesc': row.ICriteriaSetDesc,
+            'id': row.id
           })
         })
         if (that.pagemethod === 'copy') {

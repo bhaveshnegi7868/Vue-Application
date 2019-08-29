@@ -36,6 +36,7 @@
               </div>
               <div class="col-9">
                 <q-table
+                  id="codesTable"
                   class="selected_events1"
                   :data="data"
                   :columns="columns"
@@ -134,7 +135,7 @@ export default {
         sortBy: 'name',
         descending: false,
         page: 1,
-        rowsPerPage: 3,
+        rowsPerPage: 10,
         rowsNumber: 10
       },
       loading: false,
@@ -268,6 +269,8 @@ export default {
         that.pagination.descending = descending
         that.pagination.rowsNumber = response.data.count
         that.loading = false
+        var container = that.$el.querySelector('#codesTable')
+        container.scrollTop = 0
       }).catch(function (err) {
         alert(err.message)
       })

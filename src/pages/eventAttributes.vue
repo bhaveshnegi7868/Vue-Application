@@ -46,11 +46,12 @@
               </div>
             </div>
             <div class="col" v-if="obj.Type == 'date'">
-                <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
-                  <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
-                    <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
-                  </q-popup-proxy>
-                </q-icon>
+                  <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
+                    <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                  {{event[mappingDict[event.event]][key][obj.name]}}
             </div>
             <div class="col full-width q-my-sm" v-if="obj.Type == 'text'">
               <input class="input-box full-width" v-model="event[mappingDict[event.event]][key][obj.name]"/>
