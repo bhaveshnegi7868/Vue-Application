@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# CI
+.codeclimate.yml
+.travis.yml
+.taskcluster.yml
+
+# Docker
+docker-compose.yml
+.docker
+
+# Distribution / packaging
+env/
+build/
+
+dist/
+*.log
+*/**.log
+**/**/*.log
+**/**/**/*.log
+
+# PyCharm
+.idea
+
+# Python mode for VIM
+.ropeproject
+*/.ropeproject
+*/*/.ropeproject
+*/*/*/.ropeproject
+
+# Vim swap files
+*.swp
+*/*.swp
+*/*/*.swp
+*/*/*/*.swp
+
+# Custom
+.DS_Store
+.DS_store
+*.swp
+*.swo
+*.swn
+.env.example
+.editorconfig
+.quasar
