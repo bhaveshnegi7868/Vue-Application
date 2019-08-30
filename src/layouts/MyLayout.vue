@@ -62,7 +62,7 @@ export default {
     axios.defaults.headers.common = {
       Authorization: 'ApiKey ' + that.$q.localStorage.getItem('username') + ':' + that.$q.localStorage.getItem('apikey')
     }
-    if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
+    if (this.$route.path.indexOf('codeset') !== -1) {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
       this.mainLogo = '/statics/imgs/group-212@3x.jpg'
@@ -80,7 +80,7 @@ export default {
     axios.defaults.headers.common = {
       Authorization: 'ApiKey ' + that.$q.localStorage.getItem('username') + ':' + that.$q.localStorage.getItem('apikey')
     }
-    if (this.$route.path === '/codeset' || this.$route.path === '/listcodeset') {
+    if (this.$route.path.indexOf('codeset') !== -1) {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
       this.mainLogo = '/statics/imgs/group-212@3x.jpg'
@@ -95,7 +95,7 @@ export default {
       if (!this.$q.localStorage.getItem('username')) {
         this.$router.push('/login')
       }
-      if (to.path === '/listcodeset' || to.path === '/codeset') {
+      if (this.$route.path.indexOf('codeset') !== -1) {
         this.Cohorts = 'Code-Group'
         this.CodeGroup = 'Cohorts'
         this.mainLogo = '/statics/imgs/group-212@3x.jpg'
