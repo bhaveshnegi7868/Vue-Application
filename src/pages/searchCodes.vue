@@ -1,17 +1,23 @@
 <template>
   <div clas="searchCode-card">
-    <q-card class="q-pa-md">
-      <div class="q-my-sm searchCodesetHeader">Search Codes Using Key Words</div>
+    <div class="row" >
+      <div class="col-3 ">
+        <div class="q-ma-md searchCodesetHeader">Search Codes Using Key Words</div>
+      </div>
+      <div class="col-8 ">
+        <div class="q-ma-sm">
+              <el-input v-model="filter" placeholder="Search">
+                <template v-slot:prepend>
+                  <q-icon name="search" />
+                </template>
+              </el-input>
+        </div>
+      </div>
+    </div>
+    <q-card class="q-px-md q-py-xs">
       <div class="row" >
         <div class="col-8 ">
-          <div class="q-my-sm">
-                <el-input v-model="filter" placeholder="Search">
-                  <template v-slot:prepend>
-                    <q-icon name="search" />
-                  </template>
-                </el-input>
-          </div>
-          <div class="q-my-sm row bor1Lightgrey selectedFilter">
+          <div class="q-mb-sm row bor1Lightgrey selectedFilter">
             <div class="Applied-Filters">Applied Filters</div>
             <applied-filters :selectedFilters="selectedFilters" v-if="showFilters"></applied-filters>
           </div>
@@ -22,7 +28,7 @@
                   <q-list  bordered class="q-ma-sm" v-for="(fil,key) in filters" :key="key" >
                     <q-expansion-item
                       expand-separator
-                      class="expansion-item-header"
+                      class="expansion-item-header filterItemList text-capitalize"
                       :label="key"
                     >
                       <q-card class="q-px-md">
@@ -60,15 +66,20 @@
                 Selected Codes
               </div>
               <div class="selected_events">
-                <q-card v-for="row in selected" :key="row.code" class="q-ma-md q-pa-sm" shadow-3>
-                  {{row.concept_code}} - {{row.concept_name}}<br>
-                  <div class="text-right">
-                    {{row.domain_id}}-{{row.vocabulary_id}}
+                <q-card v-for="row in selected" :key="row.code" class="q-ma-md row q-pa-sm" shadow-3>
+                  <div class="ellipsis col-11 f12 q-pr-sm">{{row.concept_code}} - {{row.concept_name}}</div>
+                  <div class="text-right col">
+                    <q-btn class="fCgreen f8 q-px-xs q-py-none float-right" icon="cancel" flat rounded @click="remselection()"/>
+                  </div>
+                  <div class="col-12">
+                    <div class="text-right f10 fc-theamGreen">
+                      {{row.domain_id}}-{{row.vocabulary_id}}
+                    </div>
                   </div>
                 </q-card>
               </div>
             </div>
-            <footer class="footer">
+            <footer class="footer" v-if="selected!=''">
               <q-btn no-caps class="addtolist-btn" label="Add to list" @click="sendName"/>
             </footer>
           </div>
@@ -128,8 +139,8 @@ export default {
           sortable: true
         },
         { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 250px' },
-        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, align: 'left', style: 'max-width: 100px' },
-        { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', sortable: true }
+        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, align: 'center', style: 'max-width: 100px' },
+        { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', align: 'left', sortable: true }
       ],
       pagination: {
         sortBy: 'name',

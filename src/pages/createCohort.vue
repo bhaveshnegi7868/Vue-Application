@@ -155,7 +155,7 @@
               <q-card class="q-pa-sm f12 custom-card">
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col">
-                    <select class="criteria-box" v-model="currentInclusionObj.Type">
+                    <select class="criteria-box H25" v-model="currentInclusionObj.Type">
                       <option disabled>Select</option>
                       <option value="ALL">All</option>
                       <option value="ANY">Any</option>
@@ -222,18 +222,18 @@
                   >
                    <div>
                       <q-card class="row sub-grp q-mt-sm q-mb-sm">
-                        <div class="col-9 q-pa-sm">
-                          <select class="criteria-box" v-model="elementObj.Type">
-                            <option disabled>Select</option>
-                            <option value="ALL">All</option>
-                            <option value="ANY">Any</option>
-                          </select> of the criteria
+                        <div class="col-11 q-pa-sm">
+                          <input class="input-box full-width q-mx-xs" v-model="elementObj.Name" placeholder="Group Name" />
                         </div>
                         <div class="col q-ml-lg q-px-xs q-mt-sm">
                           <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                         <div class="col-12 row  q-pa-sm">
-                            <input class="input-box col q-mx-xs" v-model="elementObj.Name" placeholder="Group Name" />
+                          <select class="criteria-box H25 q-mr-sm" v-model="elementObj.Type">
+                            <option disabled>Select</option>
+                            <option value="ALL">All</option>
+                            <option value="ANY">Any</option>
+                            </select> <span class="q-my-sm"> of the criteria </span>
                         </div>
                         <div class="row full-width">
                         <q-card
@@ -277,7 +277,7 @@
                   </drop>
                 </div>
               </q-card>
-              <q-card class="q-pa-lg q-mt-lg f12 custom-card">
+              <q-card class="q-pa-sm q-mt-lg f12 custom-card">
                 <div class="row">
                   <div class="col">
                     Limit initial events to
@@ -420,9 +420,7 @@ export default {
       selectedCriteria: 'Select',
       readonlyCriteriaSelect: false,
       eventArray: {},
-      currentInclusionObj: {
-        'Type': 'ANY'
-      },
+      currentInclusionObj: {},
       currentCriteria: {
       },
       criteriaArray: [
@@ -854,6 +852,7 @@ export default {
         'id': that.baseObj.criteriaObj.InclusionRules.length + 2,
         'ICriteriaSetName': 'Inclusion Criteria',
         'ICriteriaSetDesc': '',
+        'Type': 'ANY',
         'currentSelected': 0,
         'expression': {
           'CriteriaList': [],

@@ -1,19 +1,19 @@
 <template>
   <div class="q-px-xl q-py-sm">
     <div class="row q-py-sm">
-      <q-card class="row col-9 q-mr-lg">
-          <div class="col-2 q-pa-sm">
+      <q-card class="row col-11 q-mr-sm">
+          <div class="col-3 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="Codeset Name" />
           </div>
-          <div class="col-6 q-pa-sm">
+          <div class="col-6 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
           </div>
-          <div class="col q-pa-sm">
+          <div class="col createCodesetForm q-pa-xs">
               <q-btn-dropdown
                   v-if="renderComponent1"
                   flat
                   no-caps
-                  class="full-width select-box"
+                  class="full-width f12 q-py-xs select-box"
                   :label="baseObj.codeset_group ? baseObj.codeset_group : 'Codeset Group'"
                   @click="getCodesetGroupList"
                 >
@@ -31,28 +31,40 @@
               </q-btn-dropdown>
           </div>
       </q-card>
-      <q-card class="col row">
-        <div class="col q-ml-sm q-mr-sm">
-          <q-btn outlined icon="delete_forever" class="action-btns full-width" text-color="negative" @click="getCodesetDict"/>
+      <q-card class="col codeSetActionbtns row">
+        <div class="col q-ml-sm q-mr-sm q-py-xs">
+          <q-btn outlined icon="autorenew" class="action-btns f10 full-width" text-color="negative" @click="getCodesetDict">
+            <q-tooltip>
+              Reset
+            </q-tooltip>
+          </q-btn>
         </div>
-        <div class="col q-ml-sm q-mr-sm" v-if="pagemethod != 'update'">
-          <q-btn outlined icon="save" label="Save" class="action-btns full-width" text-color="primary" @click="saveCodeset"/>
+        <div class="col q-ml-sm q-mr-sm q-py-xs" v-if="pagemethod != 'update'">
+          <q-btn outlined icon="save" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+            <q-tooltip>
+              Save
+            </q-tooltip>
+          </q-btn>
         </div>
-        <div class="col q-ml-sm q-mr-sm" v-if="pagemethod == 'update'">
-          <q-btn outlined icon="save" label="Update" class="action-btns full-width" text-color="primary" @click="saveCodeset"/>
+        <div class="col q-ml-sm q-mr-sm q-py-xs" v-if="pagemethod == 'update'">
+          <q-btn outlined icon="save" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+            <q-tooltip>
+              Update
+            </q-tooltip>
+          </q-btn>
         </div>
       </q-card>
     </div>
     <div class="row q-my-sm">
       <div class="col-6 row q-mx-auto q-px-xl">
-        <div class="col">
-          <q-btn class="" color="green" text-color="white" rounded unelevated @click="codesPopup = true" >
+        <div class="col q-px-lg">
+          <q-btn class="q-mx-lg" color="theamGreen" text-color="white" rounded unelevated @click="codesPopup = true" >
             <q-icon class="right-bordered-icon on-left" name="search"/>
             Search Codes
           </q-btn>
         </div>
         <div class="upload-btn-wrapper col">
-          <q-btn class="" color="green" text-color="white" rounded unelevated >
+          <q-btn class="q-mx-lg" color="theamGreen" text-color="white" rounded unelevated >
             <q-icon class="right-bordered-icon on-left" name="backup"/>
             Upload Codes
           </q-btn>
@@ -63,7 +75,7 @@
     <div class="">
       <q-table
       v-if="renderComponent"
-      class="my-sticky-header-table text-center"
+      class="my-sticky-header-table codesetDataTable text-center"
       :data="baseObj.codeset_data"
       :columns="columns"
       row-key="name"
@@ -71,19 +83,19 @@
     <q-tr slot="header" class="table-header-codeset">
       <q-th key="podUpload1">
         <label>Standard Code</label><br>
-        <span class="sub-header">Source Code</span>
+        <span class="sub-header fc-theamGreen ">Source Code</span>
       </q-th>
       <q-th class="codetDes w30R" key="podUpload2">
         <label>Standard Code Description</label><br>
-        <span class="sub-header">Source Code Description</span>
+        <span class="sub-header fc-theamGreen">Source Code Description</span>
       </q-th>
       <q-th key="podUpload6">
         <label>Standard Vocabulary</label><br>
-        <span class="sub-header">Source Vocabulary</span>
+        <span class="sub-header fc-theamGreen">Source Vocabulary</span>
       </q-th>
-      <q-th key="podUpload3">
+      <!--<q-th key="podUpload3">
         <q-checkbox v-model="exclude" label="Exclude" />
-      </q-th>
+      </q-th>-->
       <q-th key="podUpload4">
         <q-checkbox v-model="dependents" label="Dependents" />
       </q-th>
@@ -177,6 +189,7 @@ import {
   QCard,
   QCheckbox,
   QDialog,
+  QTooltip,
   ClosePopup,
   QCardSection
 } from 'quasar'
@@ -185,6 +198,7 @@ export default {
   components: {
     QTable,
     QTh,
+    QTooltip,
     QTr,
     QCard,
     QCheckbox,
@@ -225,15 +239,6 @@ export default {
         },
         { name: 'target_concept_name', align: 'center', label: 'Standard Code Description', field: 'description', sortable: true },
         { name: 'target_concept_vocabulary', align: 'center', label: 'Standard Vocabulary', field: 'vocabulary', sortable: true },
-        {
-          name: 'exclude',
-          required: true,
-          label: 'Exclude',
-          align: 'left',
-          field: row => row.exclude,
-          format: val => `${val}`,
-          sortable: true
-        },
         {
           name: 'dependents',
           required: true,

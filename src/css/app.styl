@@ -38,7 +38,6 @@ opacity:1 !important;
   margin: -10px 10px 0px 10px;
 }
 .filter-box {
-  height: 100%;
   background: #efefef;
   border-radius: 14px;
 }
@@ -48,11 +47,10 @@ opacity:1 !important;
 }
 .selected_events {
   overflow: auto;
-  height: 600px;
+  height: 90%;
 }
 .selected_events1 {
   overflow: auto;
-  height: 570px;
 }
 .close-btn{
   position: absolute;
@@ -68,6 +66,7 @@ opacity:1 !important;
   /*border:1px solid blue;*/
   /*bottom: -webkit-calc(-100% + 60px);*/
    bottom:0;
+   margin:20px 0px;
 }
 .addtolist-btn{
   border-radius: 8px;
@@ -88,6 +87,25 @@ opacity:1 !important;
 }
 .searchCodeTable th{
   border:none !important;
+}
+#codesTable thead tr,
+#codesTable tbody td{
+height:30px !important;
+}
+#codesTable .q-checkbox__inner{
+padding: 5px !important;
+width:30px !important;
+min-width:30px !important;
+height:30px !important;
+}
+#codesTable .q-checkbox__inner .q-checkbox__bg{
+margin: -3px 0px;
+}
+.filterItemList .q-list--bordered{
+border:0px !important;
+}
+.filterItemList .q-hoverable:hover > .q-focus-helper{
+opacity:0 !important;
 }
 .searchCodeTable thead tr{
   background:  #efefef !important;
@@ -215,9 +233,9 @@ height: 235px !important;
   padding: 0px 10px;
 }
 .logo {
-  margin-top: 10px;
+  margin-top: 8px;
   width: 250px;
-  height: 40px;
+  height: 36px;
   object-fit: contain;
 }
 .headerLeft{
@@ -333,9 +351,12 @@ font-size:8px !important;
   font-stretch: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #6b9840;
+  color: #a5a5a5;
   padding-left: 10px;
   border-left: 1px solid #aaa;
+}
+.selectedDomain{
+color: #6b9840;
 }
 .cohort_body{
   margin: 0px !important;
@@ -354,13 +375,18 @@ font-size:8px !important;
 }
 .userName {
   font-family: HelveticaNeue;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   padding: 10px;
   color: #606060;
   border-width: 0px;
 }
-
+.userName .q-btn__content img{
+margin-left:5rem !important;
+}
+.userName .q-btn__content i{
+margin-left:4rem !important;
+}
 .Setting {
   margin-top: 10px;
   float: right;
@@ -663,7 +689,7 @@ q-table tbody .no-footer {
 .selected-codes-card {
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   background-color: #fbfffa;
-  height: 675px;
+  min-height: 100%;
   border-radius: 10px;
 }
 .unselected-card{
@@ -707,6 +733,19 @@ q-table tbody .no-footer {
 .bg-theamGreen {
 background: #6b9840 !important;
 color: #ffffff !important;
+}
+.fc-theamGreen{
+color: #6b9840 !important;
+}
+#codesTable th,
+#codesTable td,{
+padding:0px !important;
+}
+#codesTable tbody td {
+font-size:11px !important;
+}
+#codesTable th {
+font-size:12px !important;
 }
 .w12R{
 width:12rem !important;
@@ -1249,6 +1288,17 @@ color:#655f5f;
   border: solid 1px #bdb5b5;
   background-color: #f5f5f5;
 }
+.createCodesetForm .select-box{
+padding: 2px !important;
+color: #aaaaaa !important;
+}
+.codesetDataTable .q-table__bottom{
+display:none;
+}
+.codeSetActionbtns .action-btns{
+height:25px !important;
+margin:0px !important;
+}
 .categories_details_list {
   color: #606060;
   margin-top: 10px;
@@ -1265,6 +1315,8 @@ text-align: left;
   padding: 5px;
   border-radius: 8px;
   background-color: #6b9840;
+  height:25px !important;
+  font-size:11px !important;
 }
 .categories_addNew {
   padding: 3px;

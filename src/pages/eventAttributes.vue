@@ -3,7 +3,7 @@
     <div class="EventList_header">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
-    <div v-if="event != ''" class="row q-mx-lg q-my-sm">
+    <div v-if="event.event" class="row q-mx-lg q-my-sm">
       Name:
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>
