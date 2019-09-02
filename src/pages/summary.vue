@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout ">
-    <secondary-header :selectedPage="selectedPage" :cohort_name="currentcohort.name"></secondary-header>
+    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj"></secondary-header>
     <q-card class="row  q-mx-sm" >
       <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
@@ -25,10 +25,10 @@
       <div class="col q-pa-sm" >
         <q-card class="row q-mx-sm shadow-2">
           <div class="col-4 q-ma-sm">
-            <input class="input-box full-width"  placeholder="Cohort Name" />
+            <input class="input-box full-width"  v-model="baseObj.cohort_name" placeholder="Cohort Name" readonly/>
           </div>
           <div class="col q-ma-sm">
-            <input class="input-box full-width"  placeholder="Cohort Description" />
+            <input class="input-box full-width"  placeholder="Cohort Description" v-model="baseObj.cohort_desc" readonly/>
           </div>
         </q-card>
         <div class="elements-block row q-px-sm  q-mx-sm q-mt-sm shadow-2">
@@ -52,19 +52,19 @@
             </div>
             <div class="row H30 col5 text-center">
               <div class="q-mx-sm q-py-xs col">
-                Market Scan
+                {{baseObj.DataSource}}
               </div>
               <div class="q-mx-sm q-py-xs col">
-                Muthu R
+                {{baseObj.cohort_created_by}}
               </div>
               <div class="q-mx-sm q-py-xs col">
-                10 Jul 19
+                {{baseObj.cohort_executed_at}}
               </div>
               <div class="q-mx-sm q-py-xs col">
-                10 Sec
+                {{baseObj.cohort_executed_at}}
               </div>
               <div class="q-mx-sm q-py-xs col">
-                Completed
+                {{baseObj.status}}
               </div>
             </div>
           </div>
@@ -277,9 +277,9 @@
 </style>
 
 <script>
-import {} from 'vue-drag-drop'
 import secondaryHeader from 'components/secondaryHeader'
 import summeryGraph from 'components/summeryGraph'
+import axios from 'axios'
 import {
 } from 'quasar'
 export default {
@@ -290,11 +290,11 @@ export default {
   },
   data () {
     return {
-      currentcohort: {
-        'name': 'New cohort',
-        'description': 'cohort Description',
-        'group': 'GRP2',
-        'datasource': 'dt1'
+      baseObj: {
+        'cohort_name': '',
+        'description': '',
+        'group': '',
+        'datasource': ''
       },
       openFstChild: 0,
       openScdChild: 0,
@@ -305,10 +305,27 @@ export default {
       selectedPage: 'Summary'
     }
   },
+  mounted () {
+    var that = this
+    that.cohort_id = that.$route.params.cohort_id
+    if (that.cohort_id) {
+      that.getCohortDict(that.cohort_id)
+    }
+  },
   methods: {
     openChild (openFstChild) {
       debugger
       openFstChild = !openFstChild
+    },
+    getCohortDict () {
+      var that = this
+      var url = process.env.API_URL + 'cohort/summary/status/' + that.cohort_id
+      that.$q.loading.show()
+      axios.get(url).then(function (response) {
+        that.baseObj = response.data
+        that.baseObj.cohort_id = that.cohort_id
+        that.$q.loading.hide()
+      })
     }
   }
 }
