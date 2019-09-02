@@ -265,7 +265,7 @@ export default {
       Object.keys(that.selectedFilters).forEach(function (key) {
         Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
           if (that.selectedFilters[key][value]) {
-            url += '&' + key + '=' + value
+            url += '&' + key + '=' + value.toLowerCase()
           }
         })
       })

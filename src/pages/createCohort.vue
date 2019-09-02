@@ -165,7 +165,7 @@
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
                   </div>
                 </div>
-                <div class="list-group" id="list-group"  ref="test" group="people">
+                <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
                   <div
                     class="list-group-item"
                     v-for="(elementObj,index) in currentCriteria.CriteriaList"
@@ -177,7 +177,7 @@
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="col-2">
-                          <q-btn class="fCgreen q-px-xs float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" v-show="!elementObj.CorrelatedCriteria"/>
+                          <q-btn class="fCgreen q-px-xs float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" v-show="!elementObj.CorrelatedCriteria" @click.stop.prevent="showAttributes()"/>
                         </div>
                         <div class="col">
                           <q-btn class="fCgreen q-px-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
@@ -199,7 +199,7 @@
                             <div class="col-2">
                             </div>
                             <div class="col">
-                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)"/>
+                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)" @click.stop.prevent="showAttributes()"/>
                             </div>
                           </q-card>
                         </div>
@@ -671,11 +671,18 @@ export default {
       return returnData
     },
     cancelEvent1 (obj, parentObj) {
+      var that = this
       parentObj.CorrelatedCriteria.CriteriaList.forEach(function (row, index) {
         if (row.id === obj.id) {
           parentObj.CorrelatedCriteria.CriteriaList.splice(index, 1)
         }
       })
+      that.renderComponent2 = false
+      setTimeout(function () {
+        that.$nextTick(() => {
+          that.renderComponent2 = true
+        })
+      }, 100)
     },
     cancelEvent (id, keyCount) {
       var that = this
@@ -709,13 +716,14 @@ export default {
     },
     addCorelatedCriteria (elementObj) {
       var that = this
-      elementObj.CorrelatedCriteria = false
+      that.renderComponent2 = false
+      elementObj.CorrelatedCriteria = {
+        'Type': 'ANY',
+        'CriteriaList': []
+      }
       setTimeout(function () {
         that.$nextTick(() => {
-          elementObj.CorrelatedCriteria = {
-            'Type': 'ANY',
-            'CriteriaList': []
-          }
+          that.renderComponent2 = true
         })
       }, 100)
     },
@@ -850,7 +858,7 @@ export default {
       var that = this
       let criteriaObj = {
         'id': that.baseObj.criteriaObj.InclusionRules.length + 2,
-        'ICriteriaSetName': 'Inclusion Criteria',
+        'ICriteriaSetName': '',
         'ICriteriaSetDesc': '',
         'Type': 'ANY',
         'currentSelected': 0,

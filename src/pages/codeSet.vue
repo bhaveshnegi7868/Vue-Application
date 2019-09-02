@@ -110,12 +110,12 @@
       <q-th key="podUpload2" class="ellipsis" style="max-width: 200px">{{data.row.target_concept_name}}</q-th>
 
       <q-th key="podUpload6"> - </q-th>
-      <q-th key="podUpload3">
+      <!-- <q-th key="podUpload3">
         <label class="checkbox-container">
           <input type="checkbox" v-model="data.row.exclude"/>
           <span class="checkmark"></span>
         </label>
-      </q-th>
+      </q-th> -->
       <q-th key="podUpload4">
         <div class="row">
           <div class="col" style="margin-top: 12px;">
