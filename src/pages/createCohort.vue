@@ -942,6 +942,22 @@ export default {
       var url = process.env.API_URL + 'cohort/' + that.capitalizeFirstLetter(event)
       axios.get(url).then(function (response) {
         that.$q.loading.hide()
+        console.log('eventResponse')
+        console.log(response.data.data)
+        var newEventArray = []
+        var eventArrayResData = response.data.data
+        if (eventArrayResData.listDiagnosis) {
+          newEventArray.push(eventArrayResData.listDiagnosis)
+        }
+        if (eventArrayResData.OccurenceLimit) {
+          newEventArray.push(eventArrayResData.OccurenceLimit)
+        }
+        if (eventArrayResData.listDiagnosis) {
+          newEventArray.push(eventArrayResData.listDiagnosis)
+        }
+        if (eventArrayResData.OccurenceLimit) {
+          newEventArray.push(eventArrayResData.OccurenceLimit)
+        }
         that.currentEvent = Object.assign(that.currentEvent, response.data.data)
         that.renderComponent = false
         setTimeout(function () {
@@ -960,6 +976,7 @@ export default {
     },
     runCohort () {
       var that = this
+      that.baseObj.PrimaryCriteria = { 'Name': 'RA Patient Cohort', 'Description': 'CriteriaSet Description', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - RA at least 2 occurrences', 'Codeset': [ 74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686 ], 'Occurrence': { 'IsDistinct': false, 'Count': 2, 'Type': 'at least' } } }, { 'DrugExposure': { 'Name': 'Treatment - RA', 'Codeset': [1592626, 1594147, 937369, 36185701], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'CorrelatedCriteria': { 'Name': 'RA Treatment with at least 1 diagnosis', 'Type': 'ALL', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - At least 1 occur', 'Codeset': [74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'StartWindow': { 'End': { 'Coeff': 1, 'Days': 0 }, 'Start': { 'Coeff': -1, 'Days': 0 } } } } ] } } } ], 'ObservationWindow': { 'PriorDays': 0, 'PostDays': 0 }, 'PrimaryCriteriaLimit': { 'Type': 'First' } }
       that.baseObj.run = true
       that.saveCohort()
     },

@@ -9,7 +9,7 @@
     </div>
     <div class="attributeDiv" v-if="event != ''">
         <div class="row" v-for="(localObj,key) in event[mappingDict[event.event]]" v-bind:key="key">
-          <div class="col-3 q-mx-lg q-my-sm q-pa-sm">
+          <div class="col-12 q-mx-lg q-my-none">
             {{localObj.Label}}
           </div>
           <div class="col row q-mx-lg q-my-sm" v-for="(obj,index) in localObj.inputs" v-bind:key="index">
@@ -34,7 +34,7 @@
             <div class="col full-width q-my-sm" v-if="obj.Type == 'multiple-select'">
               <div class="q-mt-xs">
                 <div class="q-mr-xs">
-                   <select class="criteria-box  " v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                   <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                      <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                        {{opt}}
                      </option>
@@ -56,7 +56,7 @@
             <div class="col full-width q-my-sm" v-if="obj.Type == 'count'">
               <div class="row q-mt-xs">
                 <div class="col q-mr-xs ">
-                  <select class="criteria-box  " v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -70,7 +70,7 @@
             <div class="col full-width q-my-sm" v-if="obj.Type == 'count-select'">
               <div class="q-mt-xs">
                 <div class="col q-mr-xs  ">
-                  <select class="criteria-box full-width "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <select class="criteria-box w9R "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="q-mr-xs ">
                   <span class="q-mr-xs"> day</span>
-                  <select class="criteria-box  " v-model="event[mappingDict[event.event]][key].daytypeOpt1" v-on:change="sendName">
+                  <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key].daytypeOpt1" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="q-mr-xs ">
                   <span class="q-mr-xs"> day</span>
-                  <select class="criteria-box  " v-model="event[mappingDict[event.event]][key].daytypeOpt2" v-on:change="sendName">
+                  <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key].daytypeOpt2" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -116,7 +116,7 @@
             <div class="col full-width q-my-sm" v-if="obj.Type == 'date-between'">
               <div class="q-mt-xs">
                 <div class=" q-mr-xs ">
-                <select class="criteria-box  "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
+                <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
                   <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                     {{opt}}
                   </option>
@@ -124,7 +124,7 @@
                 </div>
               </div>
             </div>
-            <q-checkbox :label="obj.Label"  v-model="event[obj.name]" v-on:change="sendName" left-label q-my-xs  v-if="obj.Type == 'checkbox'"/>
+            <q-checkbox :label="obj.Label"  v-model="event[obj.name]" v-on:change="sendName" checked v-if="obj.Type == 'checkbox'"/>
             <div class="col full-width q-my-xs" v-if="obj.Type == 'number'">
               <div class="row">
                 <div class=" q-mx-md">
@@ -135,7 +135,7 @@
             <div class="col full-width q-my-xs" v-if="obj.Type == 'single-select'">
               <div class="row">
                 <div class=" q-mx-xs ">
-                  <select class="criteria-box  "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>

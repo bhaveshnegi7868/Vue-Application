@@ -116,13 +116,13 @@
       <span class="f10 fc-theamGreen">{{data.row.source_concept_vocab_id}}</span> </q-th>
       <q-th key="podUpload4">
         <div class="row">
-          <div class="col" style="margin-top: 12px;">
+          <div class="" style="margin-top: 12px;">
             <label class="checkbox-container">
               <input type="checkbox" v-model="data.row.dependents"/>
               <span class="checkmark"></span>
             </label>
           </div>
-          <div class="col">
+          <div class="">
             <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row)" >
               <q-icon name="img:/statics/imgs/group-519.png" size="20px"/>
             </q-btn>
