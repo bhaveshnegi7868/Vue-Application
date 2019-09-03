@@ -177,7 +177,7 @@
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="col-2">
-                          <q-btn class="fCgreen q-px-xs float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" v-show="!elementObj.CorrelatedCriteria" @click.stop.prevent="showAttributes()"/>
+                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-xs float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
                         </div>
                         <div class="col">
                           <q-btn class="fCgreen q-px-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>

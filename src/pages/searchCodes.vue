@@ -259,8 +259,8 @@ export default {
       let data = []
       let that = this
       var url = process.env['API_URL'] + 'codeset/codes/list/?page=' + page + '&pagecount=' + rowsPerPage
-      if (filter) {
-        url += '&search=' + filter
+      if (that.filter) {
+        url += '&search=' + that.filter
       }
       Object.keys(that.selectedFilters).forEach(function (key) {
         Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
