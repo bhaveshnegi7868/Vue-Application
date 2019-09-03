@@ -106,16 +106,14 @@
       </q-th>
     </q-tr>
     <q-tr slot="body" slot-scope="data" :props="data">
-      <q-th key="podUpload1">{{data.row.target_concept_id}}</q-th>
-      <q-th key="podUpload2" class="ellipsis" style="max-width: 200px">{{data.row.target_concept_name}}</q-th>
-
-      <q-th key="podUpload6"> - </q-th>
-      <q-th key="podUpload3">
-        <label class="checkbox-container">
-          <input type="checkbox" v-model="data.row.exclude"/>
-          <span class="checkmark"></span>
-        </label>
+      <q-th key="podUpload1">
+        {{data.row.target_concept_id}}<br>
+        <span class="f10 fc-theamGreen">{{data.row.source_concept_code}}</span>
       </q-th>
+      <q-th key="podUpload2" class="ellipsis" style="max-width: 200px">{{data.row.target_concept_name}}<br>
+      <span class="f10 fc-theamGreen">{{data.row.source_concept_name}}</span></q-th>
+      <q-th key="podUpload6"> {{data.row.target_concept_vocab_id}}<br>
+      <span class="f10 fc-theamGreen">{{data.row.source_concept_vocab_id}}</span> </q-th>
       <q-th key="podUpload4">
         <div class="row">
           <div class="col" style="margin-top: 12px;">
@@ -140,6 +138,7 @@
     </q-table>
     </div>
     <q-dialog
+    class="searchcodePopup"
       v-model="codesPopup"
       full-width
       full-height
@@ -243,7 +242,7 @@ export default {
           name: 'dependents',
           required: true,
           label: 'Dependents',
-          align: 'left',
+          align: 'center',
           field: row => row.dependents,
           format: val => `${val}`,
           sortable: true
@@ -277,13 +276,6 @@ export default {
         if (that.checkIfCodeInList(row)) {
           selectedCodes.push(row.concept_code)
         } else {
-          that.$q.notify({
-            color: 'red',
-            textColor: 'white',
-            message: row.concept_code + ' is already available.',
-            position: 'bottom-right',
-            timeout: 3000
-          })
         }
       })
       if (selectedCodes.length) {
@@ -302,24 +294,11 @@ export default {
           row.exclude = false
           row.dependents = false
           that.baseObj.codeset_data.push(row)
-          that.$q.notify({
-            color: 'red',
-            textColor: 'white',
-            message: row.target_concept_id + ' is added successfully',
-            position: 'bottom-right',
-            timeout: 3000
-          })
         })
         that.codesPopup = false
         that.$q.loading.hide()
-      }).catch(function (err) {
+      }).catch(function () {
         that.$q.loading.hide()
-        that.$q.notify({
-          color: 'black',
-          textColor: 'white',
-          message: err.response.data.message,
-          timeout: 3000
-        })
       })
     },
     checkIfCodeInList (row) {
@@ -382,24 +361,10 @@ export default {
         that.currentDependents = response.data.result.children
         that.dependentsPopup = true
       }).catch(function () {
-        that.$q.notify({
-          color: 'red',
-          textColor: 'white',
-          message: 'No Dependents Available For ' + conceptId + '.',
-          position: 'bottom-right',
-          timeout: 3000
-        })
+
       })
     },
     savedSuccessfully () {
-      var that = this
-      that.$q.notify({
-        color: 'green',
-        textColor: 'white',
-        message: 'Code Set Saved Successfully',
-        position: 'bottom-right',
-        timeout: 3000
-      })
     },
     openCreateCodesetGroupPopup () {
       this.createCodesetGroupPopup = false
@@ -417,15 +382,8 @@ export default {
       axios.post(url, datadict).then(function (response) {
         that.createCodesetGroupPopup = false
         that.$q.loading.hide()
-      }).catch(function (err) {
+      }).catch(function () {
         that.$q.loading.hide()
-        that.$q.notify({
-          color: 'black',
-          textColor: 'white',
-          message: err.message,
-          position: 'bottom-right',
-          timeout: 3000
-        })
       })
     },
     getCodesetGroupList () {

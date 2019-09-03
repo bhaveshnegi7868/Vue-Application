@@ -94,11 +94,23 @@ height:30px !important;
 #codesTable .q-checkbox__inner .q-checkbox__bg{
 margin: -3px 0px;
 }
-.filterItemList .q-list--bordered{
-border:0px !important;
+.q-list--bordered{
+border:none !important;
 }
 .filterItemList .q-hoverable:hover > .q-focus-helper{
 opacity:0 !important;
+}
+.filterItemList .q-item{
+    min-height:30px !important;
+    padding: 5px 10px !important;
+    margin-bottom: 5px;
+    background: #86f09378;
+    border-radius: 10px 10px;
+}
+.filterItemList .q-expansion-item__content{
+    max-height: 250px;
+    overflow-x: auto !important;
+    margin-bottom: 25px;
 }
 .searchCodeTable thead tr{
   background:  #efefef !important;
@@ -1288,9 +1300,15 @@ color: #aaaaaa !important;
 .codesetDataTable .q-table__bottom{
 display:none;
 }
+.codesetDataTable tbody td{
+padding:5px;
+}
 .codeSetActionbtns .action-btns{
 height:25px !important;
 margin:0px !important;
+}
+.w17R{
+width:17R !important;
 }
 .categories_details_list {
   color: #606060;
@@ -1549,8 +1567,7 @@ text-align: left;
 
 .searchCodesetHeader{
   font-family: HelveticaNeue;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.23;

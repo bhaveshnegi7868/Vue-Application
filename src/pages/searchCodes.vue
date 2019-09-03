@@ -1,10 +1,10 @@
 <template>
   <div clas="searchCode-card">
     <div class="row" >
-      <div class="col-3 ">
-        <div class="q-ma-md searchCodesetHeader">Search Codes Using Key Words</div>
+      <div class="w17R">
+        <div class="q-my-md q-ml-md q-mr-xs searchCodesetHeader">Search Codes Using Key Words</div>
       </div>
-      <div class="col-8 ">
+      <div class="col-9 q-mr-lg">
         <div class="q-ma-sm">
               <el-input v-model="filter" placeholder="Search">
                 <template v-slot:prepend>
@@ -23,15 +23,15 @@
           </div>
           <div class="selected_events1 table-box">
             <div class="row col">
-              <div class="col-3">
+              <div class="col">
                 <div class="q-pa-xs q-ma-xs filter-box">
-                  <q-list  bordered class="q-ma-sm" v-for="(fil,key) in filters" :key="key" >
+                  <q-list  bordered class="q-my-sm q-mx-xs" v-for="(fil,key) in filters" :key="key" >
                     <q-expansion-item
                       expand-separator
-                      class="expansion-item-header filterItemList text-capitalize"
+                      class="expansion-item-header f12 filterItemList text-capitalize"
                       :label="key"
                     >
-                      <q-card class="q-px-md">
+                      <q-card class="q-px-sm f10">
                         <div v-for="av in fil" :key="av">
                           <input v-model="selectedFilters[key][av]"  type="checkbox" @input="refreshAppliedFilters"> {{av}}
                         </div>
@@ -40,7 +40,7 @@
                   </q-list>
                 </div>
               </div>
-              <div class="col-9">
+              <div class="col-10">
                 <q-table
                   id="codesTable"
                   class="selected_events1"
