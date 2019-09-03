@@ -123,6 +123,7 @@ export default {
     getList () {
       var that = this
       var url = process.env.API_URL + 'codeset/list/'
+      that.data = []
       that.loading = true
       if (!that.codesetToggle) {
         url = process.env.API_URL + 'codeset/mycodeset/'
