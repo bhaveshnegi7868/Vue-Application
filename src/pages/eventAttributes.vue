@@ -8,15 +8,16 @@
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>
     <div class="attributeDiv" v-if="event != ''">
-        <div class="row" v-for="(localObj,key) in event[mappingDict[event.event]]" v-bind:key="key">
+        <div class="row" v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
+          <div v-if="event[mappingDict[event.event]][key]">
           <div class="col-12 q-mx-lg q-my-none">
-            {{localObj.Label}}
+            {{event[mappingDict[event.event]][key].Label}}
           </div>
-          <div class="col row q-mx-lg q-my-sm" v-for="(obj,index) in localObj.inputs" v-bind:key="index">
+          <div class="col row q-mx-lg q-my-sm" v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <q-btn-dropdown
                   flat
                   class="full-width select-box"
-                  :label="obj.value[event[mappingDict[event.event]][key][obj.name]] ? obj.value[event[mappingDict[event.event]][key][obj.name]] : localObj.Label"
+                  :label="obj.value[event[mappingDict[event.event]][key][obj.name]] ? obj.value[event[mappingDict[event.event]][key][obj.name]] : event[mappingDict[event.event]][key].Label"
                   v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
                 >
                 <q-btn
@@ -145,6 +146,7 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
     <q-dialog
          v-model="openImportCodesetPopup"
@@ -196,7 +198,21 @@ export default {
       sdate: '2019/02/01',
       edate: '2019/02/01',
       returnData: [],
-      name1: ''
+      name1: '',
+      orderToShow: [
+        'listDiagnosis',
+        'listProcedures',
+        'listDrugs',
+        'Age',
+        'ConditionType',
+        'Gender',
+        'OccurenceLimit',
+        'Occurrence',
+        'OccurrenceStartDate',
+        'ProviderSpecialty',
+        'VisitType',
+        'listProcedures'
+      ]
     }
   },
   methods: {
