@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout ">
-    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj.cohort_name"></secondary-header>
+    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj"></secondary-header>
     <div class="row createcohortHeaderform q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
@@ -60,13 +60,13 @@
             </q-btn>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod !== 'update'">
-            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Save" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-btn outlined icon="save" :disable="!baseObj.cohort_name" label="Save" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col-5 createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" :disable="baseObj.cohort_name === ''" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-btn outlined icon="save" :disable="!baseObj.cohort_name" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="baseObj.cohort_name === ''" label="Run" @click="showLoading()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!baseObj.cohort_name" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
@@ -100,7 +100,7 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label v-if="criteria.ICriteriaSetName" class="ellipsis">Inclusion Criteria {{criteria.id-1}}</label>
+              <label  class="ellipsis">Inclusion Criteria - {{criteria.id-1}}</label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -165,22 +165,53 @@
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
                   </div>
                 </div>
-                <div class="list-group" id="list-group"  ref="test" group="people">
+                <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
                   <div
                     class="list-group-item"
                     v-for="(elementObj,index) in currentCriteria.CriteriaList"
                     :key="index"
                   >
                     <div>
-                      <q-card class="custom-card row event-card"  :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
+                      <q-card class="custom-card row event-card" :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
                         <div class="col-8">
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
-                        <div class="col-2"></div>
+                        <div class="col-2">
+                          <q-btn class="fCgreen q-px-xs float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" v-show="!elementObj.CorrelatedCriteria" @click.stop.prevent="showAttributes()"/>
+                        </div>
                         <div class="col">
                           <q-btn class="fCgreen q-px-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
                         </div>
                       </q-card>
+                      <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
+                        <input ref="textbox" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Corelated Criteria Name" />
+                        <div class="row full-width q-px-sm q-pb-sm">
+                          <q-card
+                          v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
+                          :key="elementObj1.id"
+                          :class="elementObj1.currentSelected"
+                          class="custom-card-1 event-card"
+                          @click.native="showAttributes(elementObj1,index,index1)"
+                          align="left">
+                            <div class="col-8">
+                              <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
+                            </div>
+                            <div class="col-2">
+                            </div>
+                            <div class="col">
+                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)" @click.stop.prevent="showAttributes()"/>
+                            </div>
+                          </q-card>
+                        </div>
+                        <drop @drop="function(transferData, nativeEvent) { handleDropWithId(elementObj, transferData, nativeEvent) }" class="full-width" :id="'drop-zone-'+elementObj.id" >
+                          <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="handleDropWithId(elementObj)">
+                              <option disabled>Select Event</option>
+                              <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
+                                {{opt.name}}
+                              </option>
+                          </select>
+                        </drop>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -271,7 +302,7 @@
               </q-card>
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" v-on:inputChange="handleChange"></event-attributes>
+              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -341,6 +372,7 @@ export default {
     return {
       renderComponent: true,
       renderComponent1: true,
+      renderComponent2: true,
       dictPopup: false,
       createCohortGroupPopup: false,
       apiData: {
@@ -519,7 +551,7 @@ export default {
         'CriteriaList': [],
         'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-2 row'
       })
-      that.$refs.test.click()
+      // that.$refs.test.click()
     },
     showLoading () {
       Loading.show({
@@ -638,6 +670,20 @@ export default {
       var returnData = typeof id === 'string'
       return returnData
     },
+    cancelEvent1 (obj, parentObj) {
+      var that = this
+      parentObj.CorrelatedCriteria.CriteriaList.forEach(function (row, index) {
+        if (row.id === obj.id) {
+          parentObj.CorrelatedCriteria.CriteriaList.splice(index, 1)
+        }
+      })
+      that.renderComponent2 = false
+      setTimeout(function () {
+        that.$nextTick(() => {
+          that.renderComponent2 = true
+        })
+      }, 100)
+    },
     cancelEvent (id, keyCount) {
       var that = this
       var idArr = id.toString().match(/[a-z]+|[^a-z]+/gi)
@@ -668,6 +714,19 @@ export default {
       //   that.readonlyCriteriaSelect = false
       // }
     },
+    addCorelatedCriteria (elementObj) {
+      var that = this
+      that.renderComponent2 = false
+      elementObj.CorrelatedCriteria = {
+        'Type': 'ANY',
+        'CriteriaList': []
+      }
+      setTimeout(function () {
+        that.$nextTick(() => {
+          that.renderComponent2 = true
+        })
+      }, 100)
+    },
     setQCardColor (event) {
       var that = this
       that.currentCriteria.CriteriaList.forEach(function (row, index) {
@@ -676,16 +735,33 @@ export default {
         } else {
           that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
         }
-      })
-      that.currentInclusionObj.Groups.forEach(function (row, index) {
-        row.CriteriaList.forEach(function (row1, index1) {
-          if (row1.id.toString() === event.id.toString()) {
-            that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
-          } else {
-            that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
+        if (row.CorrelatedCriteria) {
+          try {
+            row.CorrelatedCriteria.CriteriaList.forEach(function (row, index) {
+              if (row.id.toString() === event.id.toString()) {
+                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
+              } else {
+                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
+              }
+            })
+          } catch {
+            console.log('Error !!')
           }
-        })
+        }
       })
+      try {
+        that.currentInclusionObj.Groups.forEach(function (row, index) {
+          row.CriteriaList.forEach(function (row1, index1) {
+            if (row1.id.toString() === event.id.toString()) {
+              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
+            } else {
+              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
+            }
+          })
+        })
+      } catch {
+        console.log('Error !!')
+      }
     },
     handleDrop (data, event) {
       var that = this
@@ -696,6 +772,26 @@ export default {
       } else {
         that.addEvent()
       }
+    },
+    handleDropWithId (elementObj, data = null, event = null) {
+      var that = this
+      if (that.selectedEvent === 'Select Event') {
+        that.selectedEvent = data.element.name
+      }
+      let heightOfArray = elementObj.CorrelatedCriteria.CriteriaList.length
+      let charToGet = elementObj.id
+      if (heightOfArray > 0) {
+        charToGet = elementObj.CorrelatedCriteria.CriteriaList[heightOfArray - 1].id
+      }
+      elementObj.CorrelatedCriteria.CriteriaList.push({
+        'id': that.getNextDigit(charToGet),
+        'event': that.selectedEvent,
+        'criteria': that.selectedCriteria,
+        'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
+      })
+      var container = this.$el.querySelector('#list-group')
+      container.scrollTop = container.scrollHeight
+      that.selectedEvent = 'Select Event'
     },
     markCriteriaAsSelected (criteria) {
       var that = this
@@ -762,7 +858,7 @@ export default {
       var that = this
       let criteriaObj = {
         'id': that.baseObj.criteriaObj.InclusionRules.length + 2,
-        'ICriteriaSetName': 'Inclusion Criteria',
+        'ICriteriaSetName': '',
         'ICriteriaSetDesc': '',
         'Type': 'ANY',
         'currentSelected': 0,
@@ -862,9 +958,26 @@ export default {
       var lower = event.toLowerCase()
       return lower.charAt(0).toUpperCase() + lower.substring(1)
     },
+    runCohort () {
+      var that = this
+      that.baseObj.run = true
+      that.saveCohort()
+    },
     saveCohort () {
       var that = this
-      that.$q.loading.show()
+      if (that.baseObj.run) {
+        that.$q.loading.show({
+          spinnerSize: 140,
+          message: 'Saving And Running Data, Please Wait',
+          messageColor: 'black'
+        })
+      } else {
+        that.$q.loading.show({
+          spinnerSize: 140,
+          message: 'Saving Data, Please Wait',
+          messageColor: 'black'
+        })
+      }
       var url = process.env.API_URL + 'cohort/create/'
       var method
       var successStatement = 'Cohort Created Successfully'
@@ -887,6 +1000,9 @@ export default {
         that.$q.loading.hide()
         if (response.data.cohort_id) {
           that.$router.push('/cohort/update/' + response.data.cohort_id)
+          that.cohort_id = that.$route.params.cohort_id
+          that.pagemethod = that.$route.params.method
+          that.getCohortDict(that.cohort_id)
         }
       }).catch(function (err) {
         that.$q.loading.hide()

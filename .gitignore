@@ -18,3 +18,8 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+.DS_Store
+.DS_store
+*.swp
+*.swo
+*.swn

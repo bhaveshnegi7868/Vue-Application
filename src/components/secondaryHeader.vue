@@ -1,15 +1,15 @@
 <template>
   <q-toolbar class="secondary-header row justify-between">
     <div class="col-4 q-pa-md Cohort-Name">
-      {{cohort_name}}
+      {{cohort_name.cohort_name}}
     </div>
     <div class="" v-for="path in paths" :key="path">
       <div class="col-4 q-px-auto ">
         <q-item no-caps class="Rectangle-199 h35  q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path != 'Summary'">
-          <router-link class="textDecorNone" to="/cohort/create"><label class="sub-level-menus-labels">{{path}}</label></router-link>
+          <router-link class="textDecorNone" :to="'/cohort/update/' + cohort_name.cohort_id"><label class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>
         <q-item no-caps class="Rectangle-199 h35 q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'Summary'">
-          <router-link class="textDecorNone" to="/cohort/summary"><label no-caps class="sub-level-menus-labels">{{path}}</label></router-link>
+          <router-link class="textDecorNone" :to="'/cohort/summary/' + cohort_name.cohort_id"><label no-caps class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>
       </div>
     </div>
@@ -34,7 +34,7 @@ export default {
   },
   props: {
     'selectedPage': String,
-    'cohort_name': String
+    'cohort_name': Object
   },
   created () {
     console.log(this.selectedPage)

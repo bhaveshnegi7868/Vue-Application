@@ -175,9 +175,8 @@
   </div>
 </template>
 <script>
-import diagnosisData from '../json/diagnosis.json'
-import procedureData from '../json/procedure.json'
-import treatmentData from '../json/treatment.json'
+import listCodeset from 'pages/listCodeset'
+import axios from 'axios'
 import {
   QCheckbox,
   QRadio,
@@ -212,6 +211,39 @@ export default {
     }
   },
   methods: {
+    addImportData (data) {
+      var that = this
+      data.forEach(function (row) {
+        var url = process.env.API_URL + 'codeset/get/' + row.codeset_id
+        that.$q.loading.show({
+          spinnerSize: 140,
+          message: 'Getting Data For Codeset ' + row.codeset_name,
+          messageColor: 'black'
+        })
+        axios.get(url).then(function (response) {
+          response.data.codeset_data.forEach(function (row1) {
+            that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value[row1.target_concept_id] = row1.target_concept_id
+          })
+          that.$q.loading.hide()
+        }).catch(function () {
+          that.$q.loading.hide()
+          that.$q.notify({
+            color: 'black',
+            textColor: 'white',
+            message: 'Failed Recieving Codeset Data Of ' + row.name,
+            timeout: 3000
+          })
+        })
+      })
+      this.openImportCodesetPopup = false
+    },
+    openImportCodesetPopupFun (key, ind) {
+      var that = this
+      that.currentKey = key
+      that.currentIndex = ind
+      this.openImportCodesetPopup = false
+      this.openImportCodesetPopup = true
+    },
     sendName (event) {
       var that = this
       this.$emit('inputChange', that.event)
