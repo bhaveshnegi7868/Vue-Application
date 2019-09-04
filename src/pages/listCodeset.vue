@@ -28,7 +28,7 @@
                   <q-icon name="search" />
                 </template>
               </el-input>
-              <router-link to="create" class="cretebtn col-4">
+              <router-link to="/codeset/create" class="cretebtn col-4">
                 <q-btn color="green pull-left h2-5R float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
               </div>
