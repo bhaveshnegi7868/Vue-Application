@@ -38,7 +38,7 @@
           </q-td>
             <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
                 <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="edit" @click="editCodeset(props.row.codeset_id)"></q-btn>
-                <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.cohort_id)"></q-btn>
+                <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.codeset_id)"></q-btn>
                 <q-btn v-if="!codesetToggle && allowImport==false" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
                 <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
@@ -143,6 +143,7 @@ export default {
       })
     },
     copyCodeset (id) {
+      debugger
       this.$router.push('/codeset/copy/' + id)
     },
     editCodeset (id) {

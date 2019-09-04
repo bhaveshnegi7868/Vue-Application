@@ -4,7 +4,7 @@
       {{cohort_name.cohort_name}}
     </div>
     <div class="" v-for="path in paths" :key="path">
-      <div class="col-4 q-px-auto ">
+      <div class="col-4 q-px-auto">
         <q-item no-caps class="Rectangle-199 h35  q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path != 'Summary'">
           <router-link class="textDecorNone" :to="'/cohort/update/' + cohort_name.cohort_id"><label class="sub-level-menus-labels">{{path}}</label></router-link>
         </q-item>

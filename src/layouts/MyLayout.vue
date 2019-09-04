@@ -9,7 +9,7 @@
 
             <div class="headerRight">
                 <div class="TopMenu">
-                  <router-link class="textDecorNone" to="/cohort/list"><span :class="Cohorts" class="q-ml-sm selectedDomain">Cohort</span></router-link>
+                  <router-link class="textDecorNone" to="/cohort/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
                   <router-link class="textDecorNone" to="/codeset/list" target="_blank"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
                 </div>
                 <q-btn

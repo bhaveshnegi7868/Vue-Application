@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout ">
-    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj"></secondary-header>
+    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj" v-if="baseObj.cohort_id"></secondary-header>
     <div class="row createcohortHeaderform q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
@@ -1014,8 +1014,8 @@ export default {
         that.$q.loading.hide()
         if (response.data.cohort_id) {
           that.$router.push('/cohort/update/' + response.data.cohort_id)
-          that.cohort_id = that.$route.params.cohort_id
-          that.pagemethod = that.$route.params.method
+          that.cohort_id = response.data.cohort_id
+          that.pagemethod = 'update'
           that.getCohortDict(that.cohort_id)
         }
       }).catch(function (err) {

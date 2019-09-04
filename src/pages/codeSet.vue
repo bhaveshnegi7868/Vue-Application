@@ -437,6 +437,10 @@ export default {
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         that.baseObj = response.data
+        if (that.pagemethod === 'copy') {
+          that.baseObj.codeset_name = ''
+          that.baseObj.codeset_id = null
+        }
         that.$q.loading.hide()
       }).catch(function () {
         that.$q.loading.hide()

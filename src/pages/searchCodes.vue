@@ -66,10 +66,10 @@
                 Selected Codes
               </div>
               <div class="selected_events q-mt-sm">
-                <q-card v-for="row in selected" :key="row.code" class="q-ma-xs row q-pa-xs" shadow-3>
+                <q-card v-for="(row,index) in selected" :key="row.code" class="q-ma-xs row q-pa-xs" shadow-3>
                   <div class="ellipsis col-11 f12 q-pr-sm">{{row.concept_code}} - {{row.concept_name}}</div>
                   <div class="text-right col">
-                    <q-btn class="fCgreen f8 q-px-xs q-py-none float-right" icon="cancel" flat rounded @click="remselection()"/>
+                    <q-btn class="fCgreen f8 q-px-xs q-py-none float-right" icon="cancel" flat rounded @click="remselection(index)"/>
                   </div>
                   <div class="col-12">
                     <div class="text-right f10 fc-theamGreen">
@@ -153,43 +153,6 @@ export default {
       data: [],
       original: sourceData,
       selectedFilters: {}
-      // [
-      //   {
-      //     name: 'RA patients with specific drugs',
-      //     code: 'Code 01',
-      //     description: 'RA patients with specific drugs',
-      //     domain: 'Domain 01',
-      //     vocabulary: 'Vocabulary 01'
-      //   },
-      //   {
-      //     name: 'RA patients with specific drugs',
-      //     code: 'Code 02',
-      //     description: 'RA patients with specific drugs',
-      //     domain: 'Domain 02',
-      //     vocabulary: 'Vocabulary 02'
-      //   },
-      //   {
-      //     name: 'RA patients with specific drugs',
-      //     code: 'Code 03',
-      //     description: 'RA patients with specific drugs',
-      //     domain: 'Domain 03',
-      //     vocabulary: 'Vocabulary 03'
-      //   },
-      //   {
-      //     name: 'RA patients with specific drugs',
-      //     code: 'Code 04',
-      //     description: 'RA patients with specific drugs',
-      //     domain: 'Domain 04',
-      //     vocabulary: 'Vocabulary 04'
-      //   },
-      //   {
-      //     name: 'RA patients with specific drugs',
-      //     code: 'Code 05',
-      //     description: 'RA patients with specific drugs',
-      //     domain: 'Domain 05',
-      //     vocabulary: 'Vocabulary 05'
-      //   }
-      // ]
     }
   },
   mounted () {
@@ -200,6 +163,9 @@ export default {
     })
   },
   methods: {
+    remselection (index) {
+      this.selected.splice(index, 1)
+    },
     refreshAppliedFilters () {
       var that = this
       setTimeout(function () {

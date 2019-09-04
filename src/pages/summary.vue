@@ -185,7 +185,7 @@
             <div class="row f12 bor1Lightgrey">
               <div class="col-12 q-pa-sm">
                 <div class="lightGreen q-px-xs q-py-xs ">
-                  Top  Diagonasis
+                  Top  {{currentReportType.label}}
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1Lightgrey H450">
                   <div class="bgClightGrey row q-px-xs q-py-xs ">
@@ -195,64 +195,16 @@
                     <div class="col">Prevalence %</div>
                     <div class="col">Length of Era</div>
                   </div>
-                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
-                      <div class="col">Diagnosis 01</div>
+                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5" v-for="(row, index) in baseObj.report" :key="index">
+                      <div class="col"></div>
                       <div class="col q-mx-xl W200 ">
                       <div id="container" class="bgStatC1 W200">
-                          <div class="clearfix q-pa-sm text-center">1,234,121</div>
+                          <div class="clearfix q-pa-sm text-center">{{row.person_count}}</div>
                           <div class="arrow-right bgStatCBor1"></div>
                       </div>
                       </div>
-                      <div class="col q-mx-xl">12345678</div>
-                      <div class="col">89%</div>
-                      <div class="col">124.78</div>
-                  </div>
-                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
-                      <div class="col">Diagnosis 02</div>
-                      <div class="col q-mx-xl W200 ">
-                        <div id="container" class="bgStatC2 W170">
-                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
-                            <div class="arrow-right bgStatCBor2"></div>
-                        </div>
-                      </div>
-                      <div class="col q-mx-xl">12345678</div>
-                      <div class="col">89%</div>
-                      <div class="col">124.78</div>
-                  </div>
-                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
-                      <div class="col">Diagnosis 03</div>
-                      <div class="col q-mx-xl W200 ">
-                        <div id="container" class="bgStatC3 W150">
-                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
-                            <div class="arrow-right bgStatCBor3"></div>
-                        </div>
-                      </div>
-                      <div class="col q-mx-xl">12345678</div>
-                      <div class="col">89%</div>
-                      <div class="col">124.78</div>
-                  </div>
-                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
-                      <div class="col">Diagnosis 04</div>
-                      <div class="col q-mx-xl W200 ">
-                        <div id="container" class="bgStatC4 W120">
-                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
-                            <div class="arrow-right bgStatCBor4"></div>
-                        </div>
-                      </div>
-                      <div class="col q-mx-xl">12345678</div>
-                      <div class="col">89%</div>
-                      <div class="col">124.78</div>
-                  </div>
-                  <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5">
-                      <div class="col">Diagnosis 05</div>
-                      <div class="col q-mx-xl W200 ">
-                        <div id="container" class="bgStatC5 W100">
-                            <div class="clearfix q-pa-sm text-center">1,234,121</div>
-                            <div class="arrow-right bgStatCBor5"></div>
-                        </div>
-                      </div>
-                      <div class="col q-mx-xl">12345678</div>
-                      <div class="col">89%</div>
+                      <div class="col q-mx-xl">{{row.condition_concept_id}}</div>
+                      <div class="col">{{ Math.round(row.Prevalence * 100)}}%</div>
                       <div class="col">124.78</div>
                   </div>
                 </div>
@@ -287,10 +239,10 @@ export default {
       summaryGraphRender: false,
       categories_header_render: true,
       availableReports: [
-        { apiKey: 'attrition', label: 'Attrition and Demographics', class: { 'bgCgreen': true } },
-        { apiKey: 'diagnosis', label: 'Diagnosis' },
-        { apiKey: 'treatment', label: 'Treatment' },
-        { apiKey: 'procedure', label: 'Procedure' }
+        { apiKey: 'attrition', label: 'Attrition and Demographics', class: { 'bgCgreen': true }, divToShow: 'arrtitionNdemoGraph' },
+        { apiKey: 'diagnosis', label: 'Diagnosis', divToShow: 'otherEvnt' },
+        { apiKey: 'treatment', label: 'Treatment', divToShow: 'otherEvnt' },
+        { apiKey: 'procedure', label: 'Procedure', divToShow: 'otherEvnt' }
       ],
       baseObj: {
         'cohort_name': '',
@@ -323,9 +275,10 @@ export default {
       var that = this
       that.availableReports.forEach(function (nRow) {
         nRow.class = { 'bgCgreen': false }
+        that[nRow.divToShow] = false
       })
       row.class = { 'bgCgreen': true }
-      that.currentReportType = row.apiKey
+      that.currentReportType = row
       that.getCohortReport()
       that.categories_header_render = false
       setTimeout(function () {
@@ -348,11 +301,12 @@ export default {
     getCohortReport () {
       var that = this
       that.summaryGraphRender = false
-      var url = process.env.API_URL + 'cohort/summary/report/' + that.cohort_id + '/' + that.currentReportType
+      var url = process.env.API_URL + 'cohort/summary/report/' + that.cohort_id + '/' + that.currentReportType.apiKey
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         that.baseObj.report = response.data.result
         that.summaryGraphRender = true
+        that[that.currentReportType.divToShow] = true
         that.$q.loading.hide()
       })
     }
