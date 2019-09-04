@@ -187,15 +187,13 @@
                           v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
                           :key="elementObj1.id"
                           :class="elementObj1.currentSelected"
-                          class="custom-card-1 event-card"
+                          class="custom-card-1 event-card "
                           @click.native="showAttributes(elementObj1,index,index1)"
                           align="left">
-                            <div class="col-8">
-                              <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
+                            <div class="col ellipsis w5R">
+                              <label class="text-h6  q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
                             </div>
-                            <div class="col-2">
-                            </div>
-                            <div class="col">
+                            <div class="col-1">
                               <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)" @click.stop.prevent="showAttributes()"/>
                             </div>
                           </q-card>
@@ -240,12 +238,10 @@
                           class="custom-card-1 event-card"
                           @click.native="showAttributes(elementObj1,index,index1)"
                           align="left">
-                            <div class="col-8">
+                            <div class="col ellipsis w7R">
                               <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
                             </div>
-                            <div class="col-2">
-                            </div>
-                            <div class="col">
+                            <div class="col-1">
                               <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent(elementObj1.id)"/>
                             </div>
                           </q-card>
