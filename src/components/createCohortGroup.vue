@@ -1,6 +1,6 @@
 <template>
     <div class="q-pa-xl">
-        <label class="pop-up-header">Create Cohort Group</label>
+        <label class="pop-up-header text-capitalize">Create {{name}} Group</label>
         <hr class="pop-up-header-underline"/>
         <div class="row q-pa-lg">
           <div class="col-5">
@@ -20,7 +20,7 @@
         </div>
         <div class="footer">
           <q-btn class="q-ma-md" rounded color="grey-9" label="Cancel" v-close-popup/>
-          <q-btn class="q-ma-md" rounded color="green-9" label="Create" @click="returnCreateGroup" />
+          <q-btn class="q-ma-md" rounded color="theamGreen" label="Create" @click="returnCreateGroup" />
         </div>
     </div>
 </template>
