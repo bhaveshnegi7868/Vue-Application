@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <q-card class="q-px-md q-py-xs">
+    <q-card class="q-px-xs q-py-xs">
       <div class="row" >
         <div class="col-8 ">
           <div class="q-mb-sm row bor1Lightgrey selectedFilter">
@@ -65,8 +65,8 @@
               <div class="categories_header">
                 Selected Codes
               </div>
-              <div class="selected_events">
-                <q-card v-for="row in selected" :key="row.code" class="q-ma-md row q-pa-sm" shadow-3>
+              <div class="selected_events q-mt-sm">
+                <q-card v-for="row in selected" :key="row.code" class="q-ma-xs row q-pa-xs" shadow-3>
                   <div class="ellipsis col-11 f12 q-pr-sm">{{row.concept_code}} - {{row.concept_name}}</div>
                   <div class="text-right col">
                     <q-btn class="fCgreen f8 q-px-xs q-py-none float-right" icon="cancel" flat rounded @click="remselection()"/>

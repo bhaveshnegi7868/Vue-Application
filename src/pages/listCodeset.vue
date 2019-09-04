@@ -5,6 +5,7 @@
             :data="data"
             :columns="columns"
             row-key="name"
+            class="codeSetlist"
             :pagination.sync="pagination"
           >
           <template v-slot:top-left>
@@ -20,15 +21,17 @@
               >
             </q-btn-toggle>
           </template>
-          <template v-slot:top-right>
-              <el-input v-model="filter" class="w23R searchBox q-mx-sm" placeholder="Search">
+          <template v-slot:top-right >
+            <div class="row full-width">
+              <el-input v-model="filter" class="col h2-5R searchBox q-ml-lg" placeholder="Search">
                 <template v-slot:prepend>
                   <q-icon name="search" />
                 </template>
               </el-input>
-              <router-link to="create" class="cretebtn q-ml-sm w12R">
-                <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
+              <router-link to="create" class="cretebtn col-4">
+                <q-btn color="green pull-left h2-5R float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
+              </div>
           </template>
           <q-td slot="body-cell-Codesetname" slot-scope="row" :props="row">
             <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
@@ -43,7 +46,7 @@
         </div>
         <div class="footer" v-if="allowImport">
           <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
-          <q-btn  class="q-ma-md" color="green-9" v-close-popup label="Import" @click="sendDataToParent"></q-btn>
+          <q-btn  class="q-ma-md" color="theamGreen" v-close-popup label="Import" @click="sendDataToParent"></q-btn>
         </div>
     </div>
   </template>

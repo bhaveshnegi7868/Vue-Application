@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <q-card class="q-pa-md">
-      <h6>Dependents</h6>
+  <div class="row">
+  <div class="col-12">
+    <div class="q-my-md q-ml-md q-mr-xs searchCodesetHeader">Descendants</div>
+  </div>
+    <q-card class="q-pa-md q-mx-auto">
+
       <div class="row justify-center">
         <q-tree
           :nodes="desendents"
@@ -16,11 +19,12 @@
           </template>
         </q-tree>
       </div>
-      <div class="footer">
-          <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
-          <q-btn  class="q-ma-md" color="green-9" v-close-popup label="Import" @click="sendName"></q-btn>
-        </div>
+
     </q-card>
+    <div class="footer">
+        <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
+        <q-btn  class="q-ma-md" color="theamGreen" v-close-popup label="Save" @click="sendName"></q-btn>
+      </div>
   </div>
 </template>
 

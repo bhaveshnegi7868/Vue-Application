@@ -78,6 +78,7 @@
       class="my-sticky-header-table codesetDataTable text-center"
       :data="baseObj.codeset_data"
       :columns="columns"
+      :pagination.sync="pagination"
       row-key="name"
     >
     <q-tr slot="header" class="table-header-codeset">
@@ -89,17 +90,17 @@
         <label>Standard Code Description</label><br>
         <span class="sub-header fc-theamGreen">Source Code Description</span>
       </q-th>
-      <q-th key="podUpload6">
+      <q-th key="podUpload6" >
         <label>Standard Vocabulary</label><br>
         <span class="sub-header fc-theamGreen">Source Vocabulary</span>
       </q-th>
       <!--<q-th key="podUpload3">
         <q-checkbox v-model="exclude" label="Exclude" />
       </q-th>-->
-      <q-th key="podUpload4">
-        <q-checkbox v-model="dependents" label="Dependents" />
+      <q-th key="podUpload4" >
+        <q-checkbox v-model="dependents" label="Descendants" />
       </q-th>
-      <q-th key="podUpload5">
+      <q-th key="podUpload5" class="w4R">
         <q-btn outline no-caps class="userName" @click="removeAllCodesFromList()">
           <q-icon name="delete_forever" size="23px"/>
         </q-btn>
@@ -116,13 +117,13 @@
       <span class="f10 fc-theamGreen">{{data.row.source_concept_vocab_id}}</span> </q-th>
       <q-th key="podUpload4">
         <div class="row">
-          <div class="" style="margin-top: 12px;">
+          <div class="col-3" style="margin-top: 12px;">
             <label class="checkbox-container">
               <input type="checkbox" v-model="data.row.dependents"/>
               <span class="checkmark"></span>
             </label>
           </div>
-          <div class="">
+          <div class="col">
             <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row)" >
               <q-icon name="img:/statics/imgs/group-519.png" size="20px"/>
             </q-btn>
@@ -160,11 +161,9 @@
       transition-hide="slide-down"
     >
       <q-card>
-          <q-card-section class="row items-center">
-              <div class="float-rights">
+              <div class="close-btn">
               <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
               </div>
-            </q-card-section>
         <dependent-codes :desendents="currentDependents" @updateDependents="updateDependents"></dependent-codes>
       </q-card>
     </q-dialog>
@@ -189,8 +188,7 @@ import {
   QCheckbox,
   QDialog,
   QTooltip,
-  ClosePopup,
-  QCardSection
+  ClosePopup
 } from 'quasar'
 export default {
   name: 'listCohort',
@@ -202,7 +200,6 @@ export default {
     QCard,
     QCheckbox,
     QDialog,
-    QCardSection,
     'search-codes': searchCodes,
     'dependent-codes': dependentsCodes,
     'create-cohort-group': createCohortGroup
@@ -213,6 +210,9 @@ export default {
   data () {
     return {
       baseObj: {},
+      pagination: {
+        rowsPerPage: 10
+      },
       renderComponent: true,
       renderComponent1: true,
       currentDependents: [],
@@ -241,8 +241,9 @@ export default {
         {
           name: 'dependents',
           required: true,
-          label: 'Dependents',
+          label: 'Descendants',
           align: 'center',
+          classes: 'w7R',
           field: row => row.dependents,
           format: val => `${val}`,
           sortable: true
