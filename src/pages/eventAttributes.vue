@@ -126,7 +126,7 @@
               </div>
             </div>
             <div class="col full-width q-my-xs"  v-if="obj.Type == 'checkbox'">
-             {{event[mappingDict[event.event]][key].Label}} <q-checkbox :label="obj.Label"  v-model="event[obj.name]" v-on:change="sendName" checked/>
+             {{event[mappingDict[event.event]][key].Label}}<q-checkbox :label="obj.Label"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" checked/>
             </div>
             <div class="col full-width q-my-xs" v-if="obj.Type == 'number'">
               <div class="row">
