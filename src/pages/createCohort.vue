@@ -112,9 +112,6 @@
         <q-btn class="categories_addNew full-width" @click="addNewCriteria">
             Add Criteria Set
         </q-btn>
-        <q-btn class="categories_addNew full-width" @click="createDictAndShow">
-            Show Dict
-        </q-btn>
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
         <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
@@ -172,20 +169,20 @@
                     :key="index"
                   >
                     <div>
-                      <q-card class="custom-card row event-card" :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
-                        <div class="col-8">
+                      <q-card class="custom-card row event-card w25R" :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
+                        <div class="col ellipsis">
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
-                        <div class="col-2">
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-xs float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
+                        <div class="">
+                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
                         </div>
-                        <div class="col">
-                          <q-btn class="fCgreen q-px-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
+                        <div class="">
+                          <q-btn class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
                         </div>
                       </q-card>
                       <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
                         <input ref="textbox" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Corelated Criteria Name" />
-                        <div class="row full-width q-px-sm q-pb-sm">
+                        <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width q-px-sm q-pb-sm">
                           <q-card
                           v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
                           :key="elementObj1.id"
@@ -976,8 +973,8 @@ export default {
     },
     runCohort () {
       var that = this
-      that.baseObj.PrimaryCriteria = { 'Name': 'RA Patient Cohort', 'Description': 'CriteriaSet Description', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - RA at least 2 occurrences', 'Codeset': [ 74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686 ], 'Occurrence': { 'IsDistinct': false, 'Count': 2, 'Type': 'at least' } } }, { 'DrugExposure': { 'Name': 'Treatment - RA', 'Codeset': [1592626, 1594147, 937369, 36185701], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'CorrelatedCriteria': { 'Name': 'RA Treatment with at least 1 diagnosis', 'Type': 'ALL', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - At least 1 occur', 'Codeset': [74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'StartWindow': { 'End': { 'Coeff': 1, 'Days': 0 }, 'Start': { 'Coeff': -1, 'Days': 0 } } } } ] } } } ], 'ObservationWindow': { 'PriorDays': 0, 'PostDays': 0 }, 'PrimaryCriteriaLimit': { 'Type': 'First' } }
       that.baseObj.run = true
+      that.baseObj.criteriaObj.PrimaryCriteria = { 'Name': 'RA Patient Cohort', 'Description': 'CriteriaSet Description', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - RA at least 2 occurrences', 'Codeset': [ 74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686 ], 'Occurrence': { 'IsDistinct': false, 'Count': 2, 'Type': 'at least' } } }, { 'DrugExposure': { 'Name': 'Treatment - RA', 'Codeset': [1592626, 1594147, 937369, 36185701], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'CorrelatedCriteria': { 'Name': 'RA Treatment with at least 1 diagnosis', 'Type': 'ALL', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - At least 1 occur', 'Codeset': [74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'StartWindow': { 'End': { 'Coeff': 1, 'Days': 0 }, 'Start': { 'Coeff': -1, 'Days': 0 } } } } ] } } } ], 'ObservationWindow': { 'PriorDays': 0, 'PostDays': 0 }, 'PrimaryCriteriaLimit': { 'Type': 'First' } }
       that.saveCohort()
     },
     saveCohort () {

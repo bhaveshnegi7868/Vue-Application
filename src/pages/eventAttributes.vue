@@ -3,17 +3,17 @@
     <div class="EventList_header f12">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
-    <div v-if="event != ''" class="row q-mx-lg q-my-sm">
+    <div v-if="event != ''" class="row q-ml-sm q-my-xs">
       Name:
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>
     <div class="attributeDiv" v-if="event != ''">
         <div class="row" v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
-          <div v-if="event[mappingDict[event.event]][key]">
-          <div class="col-12 q-mx-lg q-my-none">
+          <div class="row col-12" v-if="event[mappingDict[event.event]][key]">
+          <div class="col-12 q-ml-sm q-my-none" v-if="key!='OccurenceLimit'">
             {{event[mappingDict[event.event]][key].Label}}
           </div>
-          <div class="col row q-mx-lg q-my-sm" v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
+          <div class="q-ml-sm q-my-xs" v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <q-btn-dropdown
                   flat
                   class="full-width select-box"
@@ -32,9 +32,9 @@
                   {{opt}}
                 </div>
             </q-btn-dropdown>
-            <div class="col full-width q-my-sm" v-if="obj.Type == 'multiple-select'">
-              <div class="q-mt-xs">
-                <div class="q-mr-xs">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'multiple-select'">
+              <div class="">
+                <div class="">
                    <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                      <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                        {{opt}}
@@ -43,20 +43,20 @@
                 </div>
               </div>
             </div>
-            <div class="col" v-if="obj.Type == 'date'">
+            <div class="col dateInputBox q-my-xs q-pr-xs" v-if="obj.Type == 'date'">
                   <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
                     <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
                       <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
                     </q-popup-proxy>
                   </q-icon>
-                  {{event[mappingDict[event.event]][key][obj.name]}}
+                  {{event[mappingDict[event.event]][key][obj.name]?event[mappingDict[event.event]][key][obj.name]:'YYYY-MM-DD'}}
             </div>
-            <div class="col full-width q-my-sm" v-if="obj.Type == 'text'">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'text'">
               <input class="input-box full-width" v-model="event[mappingDict[event.event]][key][obj.name]"/>
             </div>
-            <div class="col full-width q-my-sm" v-if="obj.Type == 'count'">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'count'">
               <div class="row q-mt-xs">
-                <div class="col q-mr-xs ">
+                <div class="col ">
                   <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
@@ -68,7 +68,7 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width q-my-sm" v-if="obj.Type == 'count-select'">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'count-select'">
               <div class="q-mt-xs">
                 <div class="col q-mr-xs  ">
                   <select class="criteria-box w9R "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
@@ -86,14 +86,14 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width q-my-sm" v-if="obj.Type == 'day-between'">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'day-between'">
               <div class="q-mt-xs">
                 <div class="q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
                   <input class="input-box  w4R q-mr-xs" />
                 </div>
-                <div class="q-mr-xs ">
-                  <span class="q-mr-xs"> day</span>
+                <div class=" ">
+                  <span class=""> day</span>
                   <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key].daytypeOpt1" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
@@ -104,8 +104,8 @@
                   <span class="q-mr-xs"> and </span>
                   <input class="input-box w4R q-mr-xs" />
                 </div>
-                <div class="q-mr-xs ">
-                  <span class="q-mr-xs"> day</span>
+                <div class="">
+                  <span class=""> day</span>
                   <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key].daytypeOpt2" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
@@ -114,9 +114,9 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width q-my-sm" v-if="obj.Type == 'date-between'">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'date-between'">
               <div class="q-mt-xs">
-                <div class=" q-mr-xs ">
+                <div class="">
                 <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
                   <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                     {{opt}}
@@ -125,17 +125,19 @@
                 </div>
               </div>
             </div>
-            <q-checkbox :label="obj.Label"  v-model="event[obj.name]" v-on:change="sendName" checked v-if="obj.Type == 'checkbox'"/>
+            <div class="col full-width q-my-xs"  v-if="obj.Type == 'checkbox'">
+             {{event[mappingDict[event.event]][key].Label}} <q-checkbox :label="obj.Label"  v-model="event[obj.name]" v-on:change="sendName" checked/>
+            </div>
             <div class="col full-width q-my-xs" v-if="obj.Type == 'number'">
               <div class="row">
-                <div class=" q-mx-md">
+                <div class="">
                   <input class="input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
               </div>
             </div>
             <div class="col full-width q-my-xs" v-if="obj.Type == 'single-select'">
               <div class="row">
-                <div class=" q-mx-xs ">
+                <div class="">
                   <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
@@ -203,15 +205,18 @@ export default {
         'listDiagnosis',
         'listProcedures',
         'listDrugs',
-        'Age',
-        'ConditionType',
-        'Gender',
         'OccurenceLimit',
         'Occurrence',
         'OccurrenceStartDate',
+        'Age',
+        'Refills',
+        'Quantity',
+        'DaysSupply',
+        'Gender',
+        'ConditionType',
         'ProviderSpecialty',
         'VisitType',
-        'listProcedures'
+        'timeStamp'
       ]
     }
   },
