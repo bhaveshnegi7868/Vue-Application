@@ -7,18 +7,9 @@
             Criteria Set
         </div>
         <div class="header_Bor1"></div>
-        <div class="f12 q-mt-sm bor1grey">
-          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0 " :class="{'bgCgreen': arrtitionNdemoGraph}"  @click="otherEvnt=0;arrtitionNdemoGraph=1;">
-              Attrition and Demographics
-          </q-btn>
-          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0" :class="{'bgCgreen': otherEvnt}">
-            Diagnosis
-          </q-btn>
-          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0 " >
-            Treatment
-          </q-btn>
-          <q-btn  class="f12 pad0 text-capitalize full-width borderRad0" >
-            Procedure
+        <div class="f12 q-mt-sm bor1grey" v-if="categories_header_render">
+          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey" @click="markSelected(row)">
+              {{row.label}}
           </q-btn>
         </div>
       </div>
@@ -76,7 +67,8 @@
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
                   <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
-                      MI + UA only and age > 20
+                      <summary-attrition v-if="summaryGraphRender" :attritionData="baseObj.report.patient_count"></summary-attrition>
+                      <!-- MI + UA only and age > 20
                       <q-icon class="float-right q-mx-xs q-my-xs" @click="openFstChild=!openFstChild;openScdChild=0;" name="img:statics/imgs/greenRightArrow.png" />
                       <div class="float-right q-mx-xl W200 ">
                         <div class="col10 bgStatC1 q-mx-auto catColorLbl text-center ">
@@ -151,7 +143,7 @@
                             68,507
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -159,10 +151,10 @@
                 <div class="bgCgreen q-px-xs q-py-xs ">
                   Patient Demographics Summary
                 </div>
-                <div class="bor1grey summeryBarGraph q-px-xs q-my-sm ">
-                  <summery-graph></summery-graph>
+                <div class="bor1grey summeryBarGraph q-px-xs q-my-sm " v-if="summaryGraphRender">
+                  <summery-graph :reportData="baseObj.report.age"></summery-graph>
                 </div>
-                <div class="bor1grey row q-px-xs q-my-sm ">
+                <div class="bor1grey row q-px-xs q-my-sm " v-if="summaryGraphRender">
                     <div class="col ">
                       <div class="By-GraphLbls q-my-xs">
                         By Gender
@@ -173,8 +165,8 @@
                         <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/womanImg.png" />
                       </div>
                       <div class="row q-my-xs w10R q-mx-auto q-mt-lg">
-                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">28374</div>
-                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">43876</div>
+                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.male}}</div>
+                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.female}}</div>
                       </div>
                     </div>
                     <!-- <div class="By-GraphLbls_devider"></div>
@@ -279,6 +271,7 @@
 <script>
 import secondaryHeader from 'components/secondaryHeader'
 import summeryGraph from 'components/summeryGraph'
+import summeryAttritionFlow from 'components/arrtitionFlow'
 import axios from 'axios'
 import {
 } from 'quasar'
@@ -286,16 +279,26 @@ export default {
   name: 'createCohort',
   components: {
     'secondary-header': secondaryHeader,
-    'summery-graph': summeryGraph
+    'summery-graph': summeryGraph,
+    'summary-attrition': summeryAttritionFlow
   },
   data () {
     return {
+      summaryGraphRender: false,
+      categories_header_render: true,
+      availableReports: [
+        { apiKey: 'attrition', label: 'Attrition and Demographics', class: { 'bgCgreen': true } },
+        { apiKey: 'diagnosis', label: 'Diagnosis' },
+        { apiKey: 'treatment', label: 'Treatment' },
+        { apiKey: 'procedure', label: 'Procedure' }
+      ],
       baseObj: {
         'cohort_name': '',
         'description': '',
         'group': '',
         'datasource': ''
       },
+      currentReportType: 'attrition',
       openFstChild: 0,
       openScdChild: 0,
       openFstChild2: 0,
@@ -314,8 +317,22 @@ export default {
   },
   methods: {
     openChild (openFstChild) {
-      debugger
       openFstChild = !openFstChild
+    },
+    markSelected (row) {
+      var that = this
+      that.availableReports.forEach(function (nRow) {
+        nRow.class = { 'bgCgreen': false }
+      })
+      row.class = { 'bgCgreen': true }
+      that.currentReportType = row.apiKey
+      that.getCohortReport()
+      that.categories_header_render = false
+      setTimeout(function () {
+        that.$nextTick(() => {
+          that.categories_header_render = true
+        })
+      }, 100)
     },
     getCohortDict () {
       var that = this
@@ -324,6 +341,18 @@ export default {
       axios.get(url).then(function (response) {
         that.baseObj = response.data
         that.baseObj.cohort_id = that.cohort_id
+        that.getCohortReport()
+        that.$q.loading.hide()
+      })
+    },
+    getCohortReport () {
+      var that = this
+      that.summaryGraphRender = false
+      var url = process.env.API_URL + 'cohort/summary/report/' + that.cohort_id + '/' + that.currentReportType
+      that.$q.loading.show()
+      axios.get(url).then(function (response) {
+        that.baseObj.report = response.data.result
+        that.summaryGraphRender = true
         that.$q.loading.hide()
       })
     }
