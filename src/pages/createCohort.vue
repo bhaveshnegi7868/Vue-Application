@@ -990,11 +990,11 @@ export default {
       }
       var url = process.env.API_URL + 'cohort/create/'
       var method
-      var successStatement = 'Cohort Created Successfully'
+      var successStatement = 'Cohort  Defination Saved Successfully'
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'cohort/update/'
-        successStatement = 'Cohort Updated Successfully'
+        successStatement = 'Cohort Defination Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {
         that.baseObj.cohort_id = null
