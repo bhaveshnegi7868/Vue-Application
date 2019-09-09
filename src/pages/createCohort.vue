@@ -305,11 +305,17 @@
           transition-hide="slide-down"
         >
           <q-card>
+            <div class="close-btn">
+            <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+            </div>
             <pre>{{baseObj}}</pre>
           </q-card>
       </q-dialog>
       <q-dialog v-model="createCohortGroupPopup">
         <q-card style="width: 700px; max-width: 80vw;">
+          <div class="close-btn">
+          <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+          </div>
           <create-cohort-group name="cohort" @addCohort="addCohort"></create-cohort-group>
         </q-card>
       </q-dialog>

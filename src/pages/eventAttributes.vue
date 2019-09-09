@@ -165,6 +165,9 @@
          full-height
        >
        <q-card>
+       <div class="close-btn">
+       <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+       </div>
         <list-codeset :allowImport="true" @addImports="addImportData"></list-codeset>
        </q-card>
     </q-dialog>
