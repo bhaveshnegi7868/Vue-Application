@@ -4,21 +4,27 @@
       <q-toolbar class="Top---Menu-Bar pad10LR q-pa-xs">
         <q-toolbar-title>
             <div class="headerLeft">
-                <router-link class="textDecorNone" to="/cohort/list"><img :src="mainLogo" class="logo"></router-link>
+                <router-link class="textDecorNone" to="list"><img :src="mainLogo" class="logo"></router-link>
             </div>
 
             <div class="headerRight">
                 <div class="TopMenu">
                   <router-link class="textDecorNone" to="/cohort/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
-                  <router-link class="textDecorNone" to="/codeset/list" target="_blank"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
+                  <router-link class="textDecorNone" to="/codeset/list"><span :class="CodeGroup" class="q-ml-lg">Code-set</span></router-link>
                 </div>
                 <q-btn
                   icon="img:statics/imgs/userIcon.png"
+                  outline
+                  no-caps
+                  class="userName text-capitalize"
+                  :label="$q.sessionStorage.getItem('username')"
+                >
+              </q-btn>
+                <q-btn
                   icon-right="power_settings_new"
                   outline
                   no-caps
-                  class="userName headerRight"
-                  :label="$q.sessionStorage.getItem('username')"
+                  class="userName"
                   @click="logout"
                 >
                 <q-tooltip>
@@ -51,6 +57,7 @@ export default {
       leftDrawerOpen: this.$q.platform.is.desktop,
       Cohorts: 'Cohorts',
       CodeGroup: 'Code-Group',
+      toUrl: '/cohort/list',
       mainLogo: '/statics/imgs/logo.png',
       paths: [
         'Cohort Definition',
@@ -72,10 +79,12 @@ export default {
     if (this.$route.path.indexOf('codeset') !== -1) {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
+      this.toUrl = '/codeset/list'
       this.mainLogo = '/statics/imgs/group-212@3x.jpg'
     } else {
       this.Cohorts = 'Cohorts'
       this.CodeGroup = 'Code-Group'
+      this.toUrl = '/cohort/list'
       this.mainLogo = '/statics/imgs/logo.png'
     }
   },
@@ -90,10 +99,12 @@ export default {
     if (this.$route.path.indexOf('codeset') !== -1) {
       this.Cohorts = 'Code-Group'
       this.CodeGroup = 'Cohorts'
+      this.toUrl = '/codeset/list'
       this.mainLogo = '/statics/imgs/group-212@3x.jpg'
     } else {
       this.Cohorts = 'Cohorts'
       this.CodeGroup = 'Code-Group'
+      this.toUrl = '/cohort/list'
       this.mainLogo = '/statics/imgs/logo.png'
     }
   },
@@ -105,9 +116,11 @@ export default {
       if (this.$route.path.indexOf('codeset') !== -1) {
         this.Cohorts = 'Code-Group'
         this.CodeGroup = 'Cohorts'
+        this.toUrl = '/codeset/list'
         this.mainLogo = '/statics/imgs/group-212@3x.jpg'
       } else {
         this.Cohorts = 'Cohorts'
+        this.toUrl = '/cohort/list'
         this.CodeGroup = 'Code-Group'
         this.mainLogo = '/statics/imgs/logo.png'
       }
