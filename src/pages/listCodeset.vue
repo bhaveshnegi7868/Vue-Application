@@ -1,5 +1,8 @@
 <template>
     <div class="q-pa-xl">
+        <div v-if="errmsg" style="text-align: center; color: red; font-size: 16px;">
+          Please select Codeset
+        </div>
         <div class="">
           <q-table
             :data="data"
@@ -46,7 +49,7 @@
         </div>
         <div class="footer" v-if="allowImport">
           <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
-          <q-btn  class="q-ma-md" color="theamGreen" v-close-popup label="Import" @click="sendDataToParent"></q-btn>
+          <q-btn  class="q-ma-md" color="theamGreen" label="Import" @click="sendDataToParent"></q-btn>
         </div>
     </div>
   </template>
@@ -73,6 +76,7 @@ export default {
   data () {
     return {
       filter: '',
+      errmsg: false,
       loading: true,
       codesetToggle: 0,
       searchModel: '',
@@ -161,7 +165,12 @@ export default {
           arrayToSend.push(row)
         }
       })
-      this.$emit('addImports', arrayToSend)
+      if (arrayToSend.length >= 1) {
+        this.$emit('addImports', arrayToSend)
+      } else {
+        that.errmsg = true
+        setTimeout(function () { that.errmsg = false }, 3000)
+      }
     }
   }
 }
