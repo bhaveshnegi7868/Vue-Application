@@ -136,14 +136,22 @@
               </div>
             </div>
             <div class="col full-width q-my-xs" v-if="obj.Type == 'single-select'">
-              <div class="row">
+              <div class="row" v-if="key != 'ConditionType' && key != 'ProviderSpecialty'">
                 <div class="">
-                  <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
-                    <option v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
+                  <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                    <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>
                   </select>
                 </div>
+              </div>
+              <div v-if="key == 'ConditionType' || key == 'ProviderSpecialty'">
+                  <input class="criteria-box w9R" list="key" name="typecon" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <datalist id="key" >
+                    <option v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
+                      {{opt}}
+                    </option>
+                  </datalist>
               </div>
             </div>
           </div>
@@ -157,6 +165,9 @@
          full-height
        >
        <q-card>
+       <div class="close-btn">
+       <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+       </div>
         <list-codeset :allowImport="true" @addImports="addImportData"></list-codeset>
        </q-card>
     </q-dialog>

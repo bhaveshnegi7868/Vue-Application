@@ -4,17 +4,17 @@
     <div class="row createcohortHeaderform q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_name" placeholder="Cohort Name" />
+                <input class="input-box full-width" v-model="baseObj.cohort_name" placeholder="* Cohort Name" />
             </div>
             <div class="col-5 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
+                <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="* Cohort Description" />
             </div>
             <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
                   v-if="renderComponent1"
                   flat
                   no-caps
-                  :label="baseObj.cohort_group ? baseObj.cohort_group : 'Cohort Group'"
+                  :label="baseObj.cohort_group ? baseObj.cohort_group : '* Cohort Group'"
                   class="full-width  f12 select-box"
                   @click="getCohortGroupList"
                   auto-close
@@ -40,7 +40,7 @@
                   v-if="renderComponent1"
                   no-caps
                   flat
-                  :label="baseObj.data_source ? baseObj.data_source : 'Datasource'"
+                  :label="baseObj.data_source ? baseObj.data_source : '* Datasource'"
                   class="full-width f12 select-box"
                   @click="getDataSourceList"
                   auto-close
@@ -63,10 +63,10 @@
             <q-btn outlined icon="save" :disable="!baseObj.cohort_name" label="Save" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col-5 createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" :disable="!baseObj.cohort_name" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-btn outlined icon="save" :disable="!baseObj.cohort_name || !baseObj.cohort_desc || !baseObj.cohort_group || !baseObj.data_source" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!baseObj.cohort_name" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!baseObj.cohort_name || !baseObj.cohort_desc || !baseObj.cohort_group || !baseObj.data_source" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
@@ -306,11 +306,17 @@
           transition-hide="slide-down"
         >
           <q-card>
+            <div class="close-btn">
+            <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+            </div>
             <pre>{{baseObj}}</pre>
           </q-card>
       </q-dialog>
       <q-dialog v-model="createCohortGroupPopup">
         <q-card style="width: 700px; max-width: 80vw;">
+          <div class="close-btn">
+          <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
+          </div>
           <create-cohort-group name="cohort" @addCohort="addCohort"></create-cohort-group>
         </q-card>
       </q-dialog>
@@ -364,7 +370,7 @@ export default {
   },
   data () {
     return {
-      renderComponent: true,
+      renderComponent: false,
       renderComponent1: true,
       renderComponent2: true,
       dictPopup: false,
@@ -538,6 +544,7 @@ export default {
         }
         that.setQCardColor(that.currentEvent)
       } else { console.log('flase') }
+      that.renderComponent = true
     },
     addGroup () {
       var that = this
@@ -679,6 +686,7 @@ export default {
       setTimeout(function () {
         that.$nextTick(() => {
           that.renderComponent2 = true
+          that.renderComponent = false
         })
       }, 100)
     },
@@ -690,17 +698,20 @@ export default {
         that.currentInclusionObj.Groups[retDict.index].CriteriaList.forEach(function (row, index) {
           if (row.id === id) {
             that.currentInclusionObj.Groups[retDict.index].CriteriaList.splice(index, 1)
+            that.renderComponent = false
           }
         })
       } else {
         that.currentCriteria.CriteriaList.forEach(function (row, index) {
           if (row.id === id) {
             that.currentCriteria.CriteriaList.splice(index, 1)
+            that.renderComponent = false
           }
         })
         that.currentInclusionObj.Groups.forEach(function (row, index) {
           if (row.id === id) {
             that.currentInclusionObj.Groups.splice(index, 1)
+            that.renderComponent = false
           }
         })
       }
@@ -711,6 +722,7 @@ export default {
       // } else {
       //   that.readonlyCriteriaSelect = false
       // }
+      that.renderComponent = false
     },
     addCorelatedCriteria (elementObj) {
       var that = this
