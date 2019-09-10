@@ -9,6 +9,7 @@
             :columns="columns"
             row-key="name"
             class="codeSetlist"
+            :filter="filter"
             :pagination.sync="pagination"
           >
           <template v-slot:top-left>
@@ -86,6 +87,7 @@ export default {
       columns: [
         { name: 'codeset_name', field: 'codeset_name', label: 'Codeset name', align: 'left', sortable: true },
         { name: 'codeset_desc', label: 'Codeset description', field: 'codeset_desc', align: 'left', sortable: true, classes: 'ellipsis w20R' },
+        { name: 'codeset_group', label: 'Codeset group', field: 'codeset_group', sortable: true, align: 'center' },
         { name: 'codeset_created_by', label: 'Created by', field: 'codeset_created_by', sortable: true, align: 'center' },
         { name: 'codeset_created_at', label: 'Created date', field: 'codeset_created_at', sortable: true, align: 'center' },
         { name: 'Actions', label: 'Actions', field: 'Actions', align: 'center' }

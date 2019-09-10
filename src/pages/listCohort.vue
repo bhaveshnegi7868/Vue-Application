@@ -84,6 +84,7 @@ export default {
       columns: [
         { name: 'cohort_name', field: 'cohort_name', label: 'Cohort name', align: 'left', sortable: true },
         { name: 'Cohortdescription', label: 'Cohort description', field: 'cohort_desc', align: 'left', sortable: true, classes: 'w25R ellipsis', style: 'max-width: 130px' },
+        { name: 'cohort_group', label: 'Cohort group', field: 'cohort_group', sortable: true, align: 'left' },
         { name: 'Createdby', label: 'Created by', field: 'cohort_created_by', sortable: true, align: 'left' },
         { name: 'Createddate', label: 'Created date', field: 'cohort_created_at', sortable: true },
         { name: 'Executeddate', label: 'Executed date', field: 'cohort_executed_at', sortable: true },
