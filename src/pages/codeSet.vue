@@ -211,7 +211,7 @@ export default {
     return {
       baseObj: {},
       pagination: {
-        rowsPerPage: 10
+        rowsPerPage: 5
       },
       renderComponent: true,
       renderComponent1: true,
@@ -277,6 +277,12 @@ export default {
         if (that.checkIfCodeInList(row)) {
           selectedCodes.push(row.concept_code)
         } else {
+          that.$q.notify({
+            color: 'red',
+            textColor: 'white',
+            message: row.concept_code + ' Already Exists.',
+            timeout: 3000
+          })
         }
       })
       if (selectedCodes.length) {
@@ -297,6 +303,12 @@ export default {
           that.baseObj.codeset_data.push(row)
         })
         that.codesPopup = false
+        that.renderComponent = false
+        setTimeout(function () {
+          that.$nextTick(() => {
+            that.renderComponent = true
+          })
+        }, 100)
         that.$q.loading.hide()
       }).catch(function () {
         that.$q.loading.hide()

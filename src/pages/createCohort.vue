@@ -90,7 +90,7 @@
             </q-item-section>
           </q-item>
           <q-item
-            v-for="criteria in baseObj.criteriaObj.InclusionRules"
+            v-for="(criteria,index) in baseObj.criteriaObj.InclusionRules"
             :key="criteria.id"
             clickable
             v-ripple
@@ -101,16 +101,17 @@
           >
             <q-item-section>
               <label  class="ellipsis">Inclusion Criteria - {{criteria.id-1}}</label>
+              <div class="close-btn-criteria">
+                <q-btn size="0.4rem" class="q-pa-none float-right" icon="cancel" flat rounded @click="remselection(index)"/>
+              </div>
             </q-item-section>
           </q-item>
         </q-list>
-        <!-- <q-btn v-for="criteria in criteriaArray"  :key="criteria.id"  class="full-width" :class="criteriaClass[criteria.currentSelected]" @click="markCriteriaAsSelected(criteria)">
-            <label v-if="criteria.ICriteriaSetName" class="ellipsis">{{criteria.ICriteriaSetName}}</label>
-            <label v-if="criteria.PCriteriaSetName">{{criteria.PCriteriaSetName}}</label>
-            <i class="fa fa-times-circle pull-right mar1"></i>
-        </q-btn> -->
         <q-btn class="categories_addNew full-width" @click="addNewCriteria">
             Add Criteria Set
+        </q-btn>
+        <q-btn class="categories_addNew full-width" @click="createDictAndShow">
+            Show Dict
         </q-btn>
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
@@ -494,6 +495,10 @@ export default {
       // allCriterias.forEach(function (criteria) {
       // })
       this.dictPopup = true
+    },
+    remselection (index) {
+      this.baseObj.criteriaObj.InclusionRules.splice(index, 1)
+      this.markCriteriaAsSelected(this.criteriaArray[0])
     },
     addCohort (cohortGroup) {
       var that = this
