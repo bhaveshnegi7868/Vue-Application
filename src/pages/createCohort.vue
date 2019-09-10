@@ -369,7 +369,7 @@ export default {
   },
   data () {
     return {
-      renderComponent: true,
+      renderComponent: false,
       renderComponent1: true,
       renderComponent2: true,
       dictPopup: false,
@@ -539,6 +539,7 @@ export default {
         }
         that.setQCardColor(that.currentEvent)
       } else { console.log('flase') }
+      that.renderComponent = true
     },
     addGroup () {
       var that = this
@@ -680,6 +681,7 @@ export default {
       setTimeout(function () {
         that.$nextTick(() => {
           that.renderComponent2 = true
+          that.renderComponent = false
         })
       }, 100)
     },
@@ -691,17 +693,20 @@ export default {
         that.currentInclusionObj.Groups[retDict.index].CriteriaList.forEach(function (row, index) {
           if (row.id === id) {
             that.currentInclusionObj.Groups[retDict.index].CriteriaList.splice(index, 1)
+            that.renderComponent = false
           }
         })
       } else {
         that.currentCriteria.CriteriaList.forEach(function (row, index) {
           if (row.id === id) {
             that.currentCriteria.CriteriaList.splice(index, 1)
+            that.renderComponent = false
           }
         })
         that.currentInclusionObj.Groups.forEach(function (row, index) {
           if (row.id === id) {
             that.currentInclusionObj.Groups.splice(index, 1)
+            that.renderComponent = false
           }
         })
       }
@@ -712,6 +717,7 @@ export default {
       // } else {
       //   that.readonlyCriteriaSelect = false
       // }
+      that.renderComponent = false
     },
     addCorelatedCriteria (elementObj) {
       var that = this
