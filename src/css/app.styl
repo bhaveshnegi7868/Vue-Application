@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "HelveticaNeue";
-  src: url('/statics/fonts/HelveticaNeue-Thin.ttf');
+  src: url('/statics/fonts/HelveticaNeue-Thin.otf');
 }
 body{
   font-family: HelveticaNeue !important;
@@ -118,12 +118,20 @@ opacity:0 !important;
     min-height:30px !important;
     padding: 5px 10px !important;
     margin-bottom: 5px;
-    background: #6b9840;
-    color:#fff;
+    color: #615f5f;
+    font-weight: bolder;
+    background: #eaf7dc;
     border-radius: 10px 10px;
 }
 .filter-box i{
-  color:#fff;
+  color:#615f5f;
+}
+.filter-box .q-item__section--avatar{
+    min-width: 5px !important;
+    width: 5px !important;
+    border-radius: 5px;
+    padding: 2px !important;
+    margin-right: 5px !important;
 }
 .filterItemList .q-expansion-item__content{
     max-height: 250px;
@@ -709,9 +717,24 @@ q-table tbody .no-footer {
   border-bottom: 0px !important;
 }
 .q-table th {
-    font-weight: 500 !important;
+    font-weight: 900 !important;
     font-size: 14px !important;
     color: #000000;
+}
+.userName .q-focus-helper{
+display: none;
+}
+.filtrC1{
+background:#ffd021 !important;
+}
+.filtrC2{
+background:#e15d72 !important;
+}
+.filtrC3{
+background:#c5dd2a !important;
+}
+.filtrC4{
+background:#00e5b2 !important;
 }
 .selected-codes-card {
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);

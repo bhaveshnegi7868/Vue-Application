@@ -18,7 +18,7 @@
                   @click="getCodesetGroupList"
                 >
                 <q-btn
-                  color="primary"
+                  color="theamGreen"
                   class="full-width"
                   icon-right="add"
                   label="Add New Codeset Group"
@@ -68,7 +68,7 @@
             <q-icon class="right-bordered-icon on-left" name="backup"/>
             Upload Codes
           </q-btn>
-          <input type="file" name="myfile" />
+          <input type="file" name="myfile" accept=".csv" />
         </div>
       </div>
     </div>

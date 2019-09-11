@@ -27,7 +27,7 @@
                   class="userName"
                   @click="logout"
                 >
-                <q-tooltip>
+                <q-tooltip anchor="bottom middle" self="center left">
                   Logout
                 </q-tooltip>
               </q-btn>

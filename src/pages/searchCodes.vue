@@ -25,12 +25,20 @@
             <div class="row col">
               <div class="col">
                 <div class="q-pa-xs q-ma-xs filter-box">
-                  <q-list  bordered class="q-my-sm q-mx-xs" v-for="(fil,key) in filters" :key="key" >
+                  <q-list  bordered class="q-my-sm q-mx-xs" v-for="(fil,key,index) in filters" :key="key" >
                     <q-expansion-item
                       expand-separator
                       class="expansion-item-header f12 filterItemList text-capitalize"
-                      :label="key"
                     >
+                    <template v-slot:header>
+                      <q-item-section avatar :class="'filtrC' +(index+1)">
+                        <div></div>
+                      </q-item-section>
+
+                      <q-item-section>
+                        {{key}}
+                      </q-item-section>
+                    </template>
                       <q-card class="q-px-sm f10">
                         <div v-for="av in fil" :key="av">
                           <input v-model="selectedFilters[key][av]"  type="checkbox" @input="refreshAppliedFilters"> {{av}}
@@ -199,6 +207,7 @@ export default {
         method: 'get',
         url: process.env['API_URL'] + 'codeset/codes/filters/'
       }).then(function (response) {
+        console.log(response.data)
         that.filters = response.data
         delete that.filters.success
         Object.keys(response.data).forEach(function (row) {
