@@ -18,7 +18,7 @@
                   @click="getCodesetGroupList"
                 >
                 <q-btn
-                  color="primary"
+                  color="theamGreen"
                   class="full-width"
                   icon-right="add"
                   label="Add New Codeset Group"

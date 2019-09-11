@@ -21,7 +21,7 @@
                   v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
                 >
                 <q-btn
-                  color="primary"
+                  color="theamGreen"
                   class="full-width"
                   icon-right="add"
                   label="Import"

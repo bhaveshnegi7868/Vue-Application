@@ -20,7 +20,7 @@
                   auto-close
                 >
                 <q-btn
-                  color="primary"
+                  color="theamGreen"
                   class="full-width f10"
                   icon-right="add"
                   label="Add New Cohort Group"
