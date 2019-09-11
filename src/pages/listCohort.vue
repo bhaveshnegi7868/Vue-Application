@@ -46,7 +46,7 @@
                   Copy
                 </q-tooltip>
               </q-btn>
-              <q-btn v-if="!cohortToggle or superuser" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);">
+              <q-btn v-if="!cohortToggle || superuser" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);">
                 <q-tooltip>
                   Delete
                 </q-tooltip>
