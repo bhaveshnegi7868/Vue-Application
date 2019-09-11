@@ -43,7 +43,7 @@
                 </div>
               </div>
             </div>
-            <div class="col dateInputBox q-my-xs q-pr-xs" v-if="obj.Type == 'date'">
+            <div class="col dateInputBox q-my-xs q-pr-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
                   <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
                     <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
                       <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
@@ -114,7 +114,7 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width q-my-xs" v-if="obj.Type == 'date-between'">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'date-between' ">
               <div class="q-mt-xs">
                 <div class="">
                 <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
@@ -128,7 +128,7 @@
             <div class="col full-width q-my-xs"  v-if="obj.Type == 'checkbox'">
              {{event[mappingDict[event.event]][key].Label}}<q-checkbox :label="obj.Label"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" checked/>
             </div>
-            <div class="col full-width q-my-xs" v-if="obj.Type == 'number'">
+            <div class="col full-width q-my-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="">
                   <input class="input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
@@ -206,6 +206,7 @@ export default {
       renderComponent1: true,
       renderComponent2: true,
       openImportCodesetPopup: false,
+      excludeValues: ['bt', '!bt'],
       shape: 'include',
       limit: true,
       sdate: '2019/02/01',

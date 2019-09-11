@@ -119,7 +119,7 @@
         <div class="row">
           <div class="col-3" style="margin-top: 12px;">
             <label class="checkbox-container">
-              <input type="checkbox" v-model="data.row.dependents"/>
+              <input type="checkbox" v-model="data.row.dependents" @click="getDependents(data.row)"/>
               <span class="checkmark"></span>
             </label>
           </div>
@@ -381,6 +381,19 @@ export default {
       })
     },
     savedSuccessfully () {
+    },
+    getDependents (row) {
+      let conceptId = row.target_concept_id
+      if (!row.dependents) {
+        var url = process.env.API_URL + 'codeset/descendents/' + conceptId
+        axios.get(url).then(function (response) {
+          row.dependentsCodes = response.data.result.codes_list
+        }).catch(function () {
+
+        })
+      } else {
+        row.dependentsCodes = []
+      }
     },
     openCreateCodesetGroupPopup () {
       this.createCodesetGroupPopup = false
