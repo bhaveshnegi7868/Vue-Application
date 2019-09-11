@@ -193,10 +193,10 @@
                     <div class="col W200 q-mx-xl">Patient Count</div>
                     <div class="col q-mx-xl">Concept Id</div>
                     <div class="col">Prevalence %</div>
-                    <div class="col">Length of Era</div>
+                    <!-- <div class="col">Length of Era</div> -->
                   </div>
                   <div class="row q-mt-sm q-px-xs q-py-xs shadow-2 h40 col5" v-for="(row, index) in baseObj.report" :key="index">
-                      <div class="col"></div>
+                      <div class="col">{{row.condition}}</div>
                       <div class="col q-mx-xl W200 ">
                       <div id="container" class="bgStatC1 W200">
                           <div class="clearfix q-pa-sm text-center">{{row.person_count}}</div>
@@ -205,7 +205,7 @@
                       </div>
                       <div class="col q-mx-xl">{{row.condition_concept_id}}</div>
                       <div class="col">{{ Math.round(row.Prevalence * 100)}}%</div>
-                      <div class="col">124.78</div>
+                      <!-- <div class="col">124.78</div> -->
                   </div>
                 </div>
               </div>
@@ -250,7 +250,9 @@ export default {
         'group': '',
         'datasource': ''
       },
-      currentReportType: 'attrition',
+      currentReportType: {
+        apiKey: 'attrition'
+      },
       openFstChild: 0,
       openScdChild: 0,
       openFstChild2: 0,

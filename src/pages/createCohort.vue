@@ -102,7 +102,7 @@
             <q-item-section>
               <label  class="ellipsis">Inclusion Criteria - {{criteria.id-1}}</label>
               <div class="close-btn-criteria">
-                <q-btn size="0.4rem" class="q-pa-none float-right" icon="cancel" flat rounded @click="remselection(index)"/>
+                <q-btn size="0.4rem" class="q-pa-none float-right" icon="cancel" flat rounded @click="remselection(index)" @click.stop="markCriteriaAsSelected"/>
               </div>
             </q-item-section>
           </q-item>
@@ -153,11 +153,15 @@
               <q-card class="q-pa-sm f12 custom-card">
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col">
-                    <select class="criteria-box H25" v-model="currentInclusionObj.Type">
+                    <select class="criteria-box H25" v-model="currentInclusionObj.type.op">
                       <option disabled>Select</option>
                       <option value="ALL">All</option>
                       <option value="ANY">Any</option>
-                    </select> of the criteria
+                      <option value="At most">At Most</option>
+                      <option value="At least">At Least</option>
+                    </select>
+                    <input type="number" v-model="currentInclusionObj.type.count" class="input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                     of the criteria
                   </div>
                   <div class="col-md-3">
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
@@ -176,6 +180,7 @@
                         </div>
                         <div class="">
                           <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
+                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="remove_circle" flat rounded  @click="removeCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
                         </div>
                         <div class="">
                           <q-btn class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
@@ -225,11 +230,15 @@
                           <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                         <div class="col-12 row  q-pa-sm">
-                          <select class="criteria-box H25 q-mr-sm" v-model="elementObj.Type">
+                          <select class="criteria-box H25 q-mr-sm" v-model="elementObj.type.op">
                             <option disabled>Select</option>
                             <option value="ALL">All</option>
                             <option value="ANY">Any</option>
-                            </select> <span class="q-my-sm"> of the criteria </span>
+                            <option value="At most">At Most</option>
+                            <option value="At least">At Least</option>
+                            </select>
+                            <input type="number" v-model="elementObj.type.count" class="input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
+                            <span class="q-my-sm"> of the criteria </span>
                         </div>
                         <div class="row full-width">
                         <q-card
@@ -551,7 +560,9 @@ export default {
       that.currentCriteria.currentNumber = that.getNextDigit()
       that.currentInclusionObj.Groups.push({
         'id': that.currentCriteria.currentNumber,
-        'Type': 'ANY',
+        'type': {
+          'op': 'ANY'
+        },
         'Name': '',
         'CriteriaList': [],
         'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-2 row'
@@ -728,9 +739,21 @@ export default {
       var that = this
       that.renderComponent2 = false
       elementObj.CorrelatedCriteria = {
-        'Type': 'ANY',
+        'type': {
+          'op': 'ANY'
+        },
         'CriteriaList': []
       }
+      setTimeout(function () {
+        that.$nextTick(() => {
+          that.renderComponent2 = true
+        })
+      }, 100)
+    },
+    removeCorelatedCriteria (elementObj) {
+      var that = this
+      that.renderComponent2 = false
+      elementObj.CorrelatedCriteria = false
       setTimeout(function () {
         that.$nextTick(() => {
           that.renderComponent2 = true
@@ -818,23 +841,25 @@ export default {
             row.currentSelected = 0
           }
         } else {
-          debugger
           if (row.id === criteria.id) {
             that.link = row.id
             if (that.baseObj['criteriaObj']['InclusionRules'][index - 1]) {
               that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
               that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
             } else {
-              that.baseObj['criteriaObj']['InclusionRules'][index - 1] = {
-                'expression': {
-                  'CriteriaList': [],
-                  'ObservationWindow': false,
-                  'PrimaryCriteriaLimit': {}
-                },
-                'Groups': []
+              if (criteria) {
+                that.baseObj['criteriaObj']['InclusionRules'][index - 1] = {
+                  'expression': {
+                    'CriteriaList': [],
+                    'ObservationWindow': false,
+                    'PrimaryCriteriaLimit': {}
+                  },
+                  'Groups': [],
+                  'type': {}
+                }
+                that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
+                that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
               }
-              that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
-              that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
             }
             row.currentSelected = 1
           } else {
@@ -870,7 +895,9 @@ export default {
         'id': that.baseObj.criteriaObj.InclusionRules.length + 2,
         'ICriteriaSetName': '',
         'ICriteriaSetDesc': '',
-        'Type': 'ANY',
+        'type': {
+          'op': 'ANY'
+        },
         'currentSelected': 0,
         'expression': {
           'CriteriaList': [],
@@ -1016,6 +1043,9 @@ export default {
       } else {
         that.baseObj.cohort_id = null
         method = axios.post(url, that.baseObj)
+      }
+      if (that.baseObj.run) {
+        successStatement = 'Cohort Defination Saved Successfully and Run Has Been Initiated. Please Switch to Summary For Details.'
       }
       method.then(function (response) {
         that.$q.notify({
