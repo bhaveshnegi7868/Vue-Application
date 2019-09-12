@@ -119,7 +119,7 @@
         <div class="row">
           <div class="col-3" style="margin-top: 12px;">
             <label class="checkbox-container">
-              <input type="checkbox" v-model="data.row.dependents"/>
+              <input type="checkbox" v-model="data.row.dependents" @click="getDependents(data.row)"/>
               <span class="checkmark"></span>
             </label>
           </div>
@@ -214,7 +214,7 @@ export default {
     return {
       baseObj: {},
       pagination: {
-        rowsPerPage: 10
+        rowsPerPage: 5
       },
       renderComponent: true,
       renderComponent1: true,
@@ -280,6 +280,12 @@ export default {
         if (that.checkIfCodeInList(row)) {
           selectedCodes.push(row.concept_code)
         } else {
+          that.$q.notify({
+            color: 'red',
+            textColor: 'white',
+            message: row.concept_code + ' Already Exists.',
+            timeout: 3000
+          })
         }
       })
       if (selectedCodes.length) {
@@ -300,6 +306,12 @@ export default {
           that.baseObj.codeset_data.push(row)
         })
         that.codesPopup = false
+        that.renderComponent = false
+        setTimeout(function () {
+          that.$nextTick(() => {
+            that.renderComponent = true
+          })
+        }, 100)
         that.$q.loading.hide()
       }).catch(function () {
         that.$q.loading.hide()
@@ -369,6 +381,19 @@ export default {
       })
     },
     savedSuccessfully () {
+    },
+    getDependents (row) {
+      let conceptId = row.target_concept_id
+      if (!row.dependents) {
+        var url = process.env.API_URL + 'codeset/descendents/' + conceptId
+        axios.get(url).then(function (response) {
+          row.dependentsCodes = response.data.result.codes_list
+        }).catch(function () {
+
+        })
+      } else {
+        row.dependentsCodes = []
+      }
     },
     openCreateCodesetGroupPopup () {
       this.createCodesetGroupPopup = false

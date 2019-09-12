@@ -36,7 +36,7 @@
           <router-link to="cohort/create/">{{row.row.Cohortname1}}</router-link>
             </q-td>
           <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
-              <q-btn v-if="!cohortToggle" round color="theamGreen" size="0.5rem" icon="edit" @click="editCohort(props.row.cohort_id)">
+              <q-btn v-if="!cohortToggle || superuser" round color="theamGreen" size="0.5rem" icon="edit" @click="editCohort(props.row.cohort_id)">
                 <q-tooltip>
                   Edit
                 </q-tooltip>
@@ -46,7 +46,7 @@
                   Copy
                 </q-tooltip>
               </q-btn>
-              <q-btn v-if="!cohortToggle" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);">
+              <q-btn v-if="!cohortToggle || superuser" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.cohort_id);">
                 <q-tooltip>
                   Delete
                 </q-tooltip>
@@ -91,11 +91,13 @@ export default {
         { name: 'Status', label: 'Status', field: 'Status', sortable: true },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
-      data: []
+      data: [],
+      superuser: false
     }
   },
   mounted () {
     var that = this
+    that.superuser = that.$q.localStorage.getItem('is_superuser')
     that.getList()
   },
   methods: {

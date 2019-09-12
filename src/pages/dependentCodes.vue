@@ -8,7 +8,7 @@
       <div class="row justify-center">
         <q-tree
           :nodes="desendents"
-          node-key="code"
+          node-key="Code"
           tick-strategy="strict"
           :ticked.sync="ticked"
         >

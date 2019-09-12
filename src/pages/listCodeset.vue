@@ -41,9 +41,9 @@
             <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
           </q-td>
             <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
-                <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="edit" @click="editCodeset(props.row.codeset_id)"></q-btn>
-                <q-btn v-if="!codesetToggle && allowImport==false" round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.codeset_id)"></q-btn>
-                <q-btn v-if="!codesetToggle && allowImport==false" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
+                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamGreen" size="0.5rem" icon="edit" @click="editCodeset(props.row.codeset_id)"></q-btn>
+                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.codeset_id)"></q-btn>
+                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
                 <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
           </q-table>
@@ -92,7 +92,8 @@ export default {
         { name: 'codeset_created_at', label: 'Created date', field: 'codeset_created_at', sortable: true, align: 'center' },
         { name: 'Actions', label: 'Actions', field: 'Actions', align: 'center' }
       ],
-      data: []
+      data: [],
+      superuser: false
     }
   },
   props: {
@@ -100,6 +101,7 @@ export default {
   },
   mounted () {
     var that = this
+    that.superuser = that.$q.localStorage.getItem('is_superuser')
     that.getList()
   },
   methods: {

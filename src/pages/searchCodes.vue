@@ -234,6 +234,12 @@ export default {
       let data = []
       let that = this
       var url = process.env['API_URL'] + 'codeset/codes/list/?page=' + page + '&pagecount=' + rowsPerPage
+      url += '&sort_by_colomn=' + sortBy
+      if (descending) {
+        url += '&sort_type=desc'
+      } else {
+        url += '&sort_type=asc'
+      }
       if (that.filter) {
         url += '&search=' + that.filter
       }
