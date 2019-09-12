@@ -1,26 +1,26 @@
 <template>
-    <div class="q-pa-xl">
+    <div class="q-py-md q-px-md">
         <label class="pop-up-header text-capitalize">Create {{name}} Group</label>
         <hr class="pop-up-header-underline"/>
-        <div class="row q-pa-lg">
-          <div class="col-5">
+        <div class="row q-px-xs q-py-sm">
+          <div class="col-4">
             <label class="text-capitalize"> {{name}} Group Name</label>
           </div>
           <div class="col">
-            <input type="text" v-model="cohortGroup.name" class="input-box">
+            <input type="text" v-model="cohortGroup.name" class="full-width input-box">
           </div>
         </div>
-        <div class="row q-pa-lg">
-          <div class="col-5">
+        <div class="row q-px-xs q-py-sm">
+          <div class="col-4">
             <label class="text-capitalize">{{name}} Group Description</label>
           </div>
           <div class="col">
-            <textarea v-model="cohortGroup.description" class="textarea-box"></textarea>
+            <textarea v-model="cohortGroup.description" class="full-width textarea-box"></textarea>
           </div>
         </div>
         <div class="footer">
-          <q-btn class="q-ma-md" rounded color="grey-9" label="Cancel" v-close-popup/>
-          <q-btn class="q-ma-md" rounded color="theamGreen" label="Create" @click="returnCreateGroup" />
+          <q-btn class="q-mx-md q-my-xs" rounded color="grey-9" label="Cancel" v-close-popup/>
+          <q-btn class="q-mx-md q-my-xs" rounded color="theamGreen" label="Create" @click="returnCreateGroup" />
         </div>
     </div>
 </template>
