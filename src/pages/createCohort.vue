@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout ">
-    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj" v-if="baseObj.cohort_id"></secondary-header>
+    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj" ></secondary-header>
     <div class="row createcohortHeaderform q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
@@ -191,12 +191,12 @@
                       </q-card>
                       <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
                         <input ref="textbox" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Corelated Criteria Name" />
-                        <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width q-px-sm q-pb-sm">
+                        <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width ">
                           <q-card
                           v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
                           :key="elementObj1.id"
                           :class="elementObj1.currentSelected"
-                          class="custom-card-1 event-card "
+                          class="custom-card-2 event-card "
                           @click.native="showAttributes(elementObj1,index,index1)"
                           align="left">
                             <div class="col ellipsis w5R">
@@ -296,7 +296,7 @@
                 </div>
                 <div class="row q-mt-lg" v-if="currentCriteria.ObservationWindow">
                     <div class="col">
-                      Contineous enrollment w.r.t initial events index start date
+                      Continuous enrollment w.r.t initial events index start date
                     </div>
                 </div>
                 <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
@@ -462,6 +462,10 @@ export default {
         {
           value: 'Earliest',
           label: 'Earliest'
+        },
+        {
+          value: 'All events',
+          label: 'All events'
         }
       ],
       dtSourceOpts: [
@@ -765,6 +769,7 @@ export default {
           that.renderComponent2 = true
         })
       }, 100)
+      that.renderComponent = false
     },
     setQCardColor (event) {
       var that = this
