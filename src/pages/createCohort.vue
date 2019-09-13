@@ -66,7 +66,7 @@
             <q-btn outlined icon="save" :disable="!baseObj.cohort_name" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!baseObj.cohort_name && !baseObj.data_source" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!(baseObj.cohort_name && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1)" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
           </div>
         </q-card>
     </div>
