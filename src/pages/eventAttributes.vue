@@ -16,7 +16,7 @@
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <q-btn-dropdown
                   flat
-                  class="full-width select-box"
+                  class="full-width text-capitalize select-box" style="text-transform: capitalize;"
                   :label="obj.value[event[mappingDict[event.event]][key][obj.name]] ? obj.value[event[mappingDict[event.event]][key][obj.name]] : event[mappingDict[event.event]][key].Label"
                   v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
                 >
@@ -28,7 +28,7 @@
                   @click="openImportCodesetPopupFun(key,index)"
                   v-close-popup
                 />
-                <div class="options-values" v-for="(opt,key1) in obj.value" v-bind:key="opt"  @click="makeSelected(key, obj, key1)">
+                <div class="options-values  " v-for="(opt,key1) in obj.value" v-bind:key="opt"  @click="makeSelected(key, obj, key1)">
                   {{opt}}
                 </div>
             </q-btn-dropdown>
@@ -86,27 +86,27 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width" v-if="obj.Type == 'day-between'">
-              <div class="q-mt-xs">
-                <div class="q-mr-xs">
+            <div class="w30R full-width" v-if="obj.Type == 'day-between'">
+              <div class="row full-width col-12 q-mt-xs">
+                <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
                   <input class="input-box  w4R q-mr-xs" />
                 </div>
-                <div class=" ">
-                  <span class=""> day</span>
-                  <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key].daytypeOpt1" v-on:change="sendName">
+                <div class=" q-mr-xs ">
+                  <span class="q-mr-xs"> day</span>
+                  <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].daytypeOpt1" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
                   </select>
                 </div>
-                <div class="q-mr-xs">
+                <div class=" q-mr-xs">
                   <span class="q-mr-xs"> and </span>
                   <input class="input-box w4R q-mr-xs" />
                 </div>
-                <div class="">
-                  <span class=""> day</span>
-                  <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key].daytypeOpt2" v-on:change="sendName">
+                <div class=" q-mr-xs">
+                  <span class="q-mr-xs"> day</span>
+                  <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].daytypeOpt2" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -219,6 +219,7 @@ export default {
         'listDrugs',
         'OccurrenceLimit',
         'Occurrence',
+        'OccurrenceIndexStartDate',
         'OccurrenceStartDate',
         'Age',
         'Refills',

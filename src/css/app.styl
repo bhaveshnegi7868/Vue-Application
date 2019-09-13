@@ -91,6 +91,9 @@ font-size:14px;
 .q-table tbody td{
   height: 40px !important;
 }
+.q-table thead tr{
+background: #eaf2d0 !important;
+}
 .searchCodeTable th,
 .searchCodeTable td {
     padding: 0px 5px !important;
@@ -114,12 +117,19 @@ margin: -3px 0px;
 .q-list--bordered{
 border:none !important;
 }
+.codeSetdelete {
+border:none !important;
+color:#de0808;
+}
 .filterItemList .q-hoverable:hover > .q-focus-helper{
+opacity:0 !important;
+}
+.table-header-codeset .q-hoverable:hover > .q-focus-helper{
 opacity:0 !important;
 }
 .filterItemList .q-item{
     min-height:30px !important;
-    padding: 5px 10px !important;
+    padding: 5px 7px !important;
     margin-bottom: 5px;
     color: #615f5f;
     font-weight: bolder;
@@ -134,7 +144,7 @@ opacity:0 !important;
     width: 5px !important;
     border-radius: 5px;
     padding: 2px !important;
-    margin-right: 5px !important;
+    margin-right: 10px !important;
 }
 .filterItemList .q-expansion-item__content{
     max-height: 250px;
@@ -275,6 +285,9 @@ height: 235px !important;
 .headerLeft{
   width: 45%;
   float: left;
+}
+.select-box .q-btn__content div{
+  text-transform: capitalize !important;
 }
 .headerRight{
   text-transform: capitalize;
@@ -723,9 +736,9 @@ q-table tbody .no-footer {
   border-bottom: 0px !important;
 }
 .q-table th {
-    font-weight: 900 !important;
+    font-weight: 500 !important;
     font-size: 14px !important;
-    color: #000000;
+    color: #4c4c4c;
 }
 .userName .q-focus-helper{
 display: none;
@@ -775,11 +788,11 @@ background:#00e5b2 !important;
   width:15rem;
 }
 .q-table th:first-child {
-  border-left: 1px solid #b4b0b0;
+  border-left: 1px solid #d6cccc;
   border-radius: 5px 0px 0px 5px;
 }
 .q-table th:last-child {
-  border-right: 1px solid #b4b0b0;
+  border-right: 1px solid #d6cccc;
   border-radius: 0px 5px 5px 0px;
 }
 .createBoxHeight{
@@ -823,8 +836,8 @@ margin-left: 5px !important;
 }
 
 .q-table th {
-  border-top: 1px solid #b4b0b0;
-  border-bottom : 1px solid #b4b0b0;
+  border-top: 1px solid #d6cccc;
+  border-bottom : 1px solid #d6cccc;
 }
 .q-table tbody td:first-child {
   border-left: 1px solid #60606040 !important;
@@ -1137,6 +1150,18 @@ font-size: 12px !important;
   border-radius: 8px;
   width: 100% !important;
 }
+.custom-card-2 {
+  cursor: pointer;
+  margin: 7px 0px;
+  border-radius: 8px;
+  width: 100% !important;
+}
+.dependentsIcon .q-btn--outline{
+border:none !important;
+}
+.dependentsIcon .q-hoverable:hover > .q-focus-helper{
+opacity:0 !important;
+}
 .sub-grp {
   border-radius: 8px;
   border: solid 1px #707070;
@@ -1340,7 +1365,7 @@ color:#655f5f;
   height: 25px;
   min-height: 25px !important;
   padding: 5px;
-  border-radius: 8px;
+  border-radius: 3px;
   border: solid 1px #bdb5b5;
   background-color: #f5f5f5;
 }
@@ -1706,8 +1731,8 @@ width:30rem !important;
 /* Create a custom checkbox */
 .checkmark {
   position: absolute;
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   background-color: #fff;
   border-radius: 3px;
   border: 1px solid black;

@@ -4,7 +4,8 @@
       <q-toolbar class="Top---Menu-Bar pad10LR q-pa-xs">
         <q-toolbar-title>
             <div class="headerLeft">
-                <router-link class="textDecorNone" to="list"><img :src="mainLogo" class="logo"></router-link>
+                <router-link v-if="Cohorts=='Cohorts'" class="textDecorNone" to="/cohort/list"><img :src="mainLogo" class="logo"></router-link>
+                <router-link v-if="Cohorts=='Code-Group'" class="textDecorNone" to="/codeset/list"><img :src="mainLogo" class="logo"></router-link>
             </div>
 
             <div class="headerRight">

@@ -79,10 +79,13 @@
       :data="baseObj.codeset_data"
       :columns="columns"
       :pagination.sync="pagination"
-      row-key="name"
+      row-key="dependents"
+      :selected-rows-label="getSelectedString"
+      selection="multiple"
+      :selected.sync="selected"
     >
-    <q-tr slot="header" class="table-header-codeset">
-      <q-th key="podUpload1">
+    <q-tr  slot="header" class="table-header-codeset">
+      <q-th key="podUpload1" class="sortable">
         <label>Standard Code</label><br>
         <span class="sub-header fc-theamGreen ">Source Code</span>
       </q-th>
@@ -101,7 +104,7 @@
         <q-checkbox v-model="dependents" label="Descendants" />
       </q-th>
       <q-th key="podUpload5" class="w4R">
-        <q-btn outline no-caps class="userName" @click="removeAllCodesFromList()">
+        <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
           <q-icon name="delete_forever" size="23px"/>
         </q-btn>
       </q-th>
@@ -117,21 +120,23 @@
       <span class="f10 fc-theamGreen">{{data.row.source_concept_vocab_id}}</span> </q-th>
       <q-th key="podUpload4">
         <div class="row">
-          <div class="col-3" style="margin-top: 12px;">
-            <label class="checkbox-container">
-              <input type="checkbox" v-model="data.row.dependents" @click="getDependents(data.row)"/>
-              <span class="checkmark"></span>
-            </label>
-          </div>
-          <div class="col">
-            <q-btn outline no-caps class="userName" @click="openDependentpopup(data.row)" >
-              <q-icon name="img:/statics/imgs/group-519.png" size="20px"/>
-            </q-btn>
+          <div class="col-8 row q-mx-auto">
+            <div class="col" style="margin-top: 10px;">
+              <label class="checkbox-container">
+                <input type="checkbox" v-model="data.row.dependents" @click="getDependents(data.row)"/>
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <div class="col dependentsIcon">
+              <q-btn outline no-caps class="" @click="openDependentpopup(data.row)" >
+                <q-icon name="img:/statics/imgs/group-519.png" size="16px"/>
+              </q-btn>
+            </div>
           </div>
         </div>
       </q-th>
       <q-th key="podUpload5">
-        <q-btn outline no-caps class="userName" @click="removeCodeFromList(data.row.target_concept_id)">
+        <q-btn outline no-caps class="codeSetdelete" @click="removeCodeFromList(data.row.target_concept_id)">
           <q-icon name="delete_forever" size="23px"/>
         </q-btn>
       </q-th>
@@ -214,7 +219,7 @@ export default {
     return {
       baseObj: {},
       pagination: {
-        rowsPerPage: 5
+        rowsPerPage: 10
       },
       renderComponent: true,
       renderComponent1: true,
@@ -251,7 +256,7 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        { name: 'Action', label: 'Action', align: 'right', field: 'action', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        { name: 'Action', label: 'Action', align: 'center', field: 'action', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
       data: []
     }
