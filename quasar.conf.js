@@ -45,6 +45,7 @@ module.exports = function (ctx) {
         'QItemLabel',
         'QBtnDropdown',
         'QCheckbox',
+        'QSelect',
         'QInput'
       ],
 
@@ -86,7 +87,7 @@ module.exports = function (ctx) {
 
         // cfg.plugins.push(
         //   new webpack.ProvidePlugin({
-        //     'env': 'env' 
+        //     'env': 'env'
         //   })
         // )
       }
