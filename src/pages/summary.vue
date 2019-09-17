@@ -203,7 +203,9 @@
                           <div class="arrow-right bgStatCBor1"></div>
                       </div>
                       </div>
-                      <div class="col q-mx-xl">{{row.condition_concept_id}}</div>
+                      <div class="col q-mx-xl" v-if="row.condition_concept_id">{{row.condition_concept_id}}</div>
+                      <div class="col q-mx-xl" v-if="row.drug_concept_id">{{row.drug_concept_id}}</div>
+                      <div class="col q-mx-xl" v-if="row.procedure_concept_id">{{row.procedure_concept_id}}</div>
                       <div class="col">{{ Math.round(row.Prevalence * 100)}}%</div>
                       <!-- <div class="col">124.78</div> -->
                   </div>
