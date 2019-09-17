@@ -3,7 +3,7 @@
     <div class="row q-py-sm">
       <q-card class="row col-11 q-mr-sm">
           <div class="col-3 q-pa-xs">
-              <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="Codeset Name" />
+              <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="* Codeset Name" />
           </div>
           <div class="col-6 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
@@ -40,7 +40,7 @@
           </q-btn>
         </div>
         <div class="col q-ml-sm q-mr-sm q-py-xs" v-if="pagemethod != 'update'">
-          <q-btn outlined icon="save" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+          <q-btn outlined icon="save" :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data.length >= 1)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Save
             </q-tooltip>

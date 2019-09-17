@@ -62,6 +62,7 @@
                       {{opt}}
                     </option>
                   </select>
+
                 </div>
                 <div class="col q-mx-xs  q-ml-md">
                   <input class="input-box full-width" v-model="event[mappingDict[event.event]][key].count[obj.name]" v-on:keyup="sendName" />
@@ -146,12 +147,7 @@
                 </div>
               </div>
               <div v-if="key == 'ConditionType' || key == 'ProviderSpecialty'">
-                  <input class="criteria-box w9R" list="key" name="typecon" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
-                  <datalist id="key" >
-                    <option v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
-                      {{opt}}
-                    </option>
-                  </datalist>
+              <q-select v-model="model" :options="obj.value" label="Standard" ></q-select>
               </div>
             </div>
           </div>
@@ -181,6 +177,7 @@ import {
   QDate,
   QIcon,
   QCard,
+  QSelect,
   QPopupProxy,
   QBtnDropdown,
   ClosePopup,
@@ -195,6 +192,7 @@ export default {
     QPopupProxy,
     QCheckbox,
     QBtnDropdown,
+    QSelect,
     QDialog,
     'list-codeset': listCodeset
   },
@@ -213,6 +211,7 @@ export default {
       edate: '2019/02/01',
       returnData: [],
       name1: '',
+      filterOptions: [],
       orderToShow: [
         'listDiagnosis',
         'listProcedures',
@@ -234,6 +233,16 @@ export default {
     }
   },
   methods: {
+    createValue (val, done, objData) {
+      if (val.length > 0) {
+        if (!objData.includes(val)) {
+          objData.push(val)
+        }
+        done(val, 'toggle')
+      }
+    },
+    filterFn (val, update, objData) {
+    },
     addImportData (data) {
       var that = this
       data.forEach(function (row) {
