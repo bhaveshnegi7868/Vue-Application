@@ -9,7 +9,7 @@
         <q-tree
           :nodes="desendents"
           node-key="Code"
-          tick-strategy="strict"
+          tick-strategy="leaf"
           :ticked.sync="ticked"
         >
           <template v-slot:default-header="prop">
@@ -22,8 +22,8 @@
 
     </q-card>
     <div class="footer">
-        <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
-        <q-btn  class="q-ma-md" color="theamGreen" v-close-popup label="Save" @click="sendName"></q-btn>
+        <q-btn  class="q-ma-md" color="grey-9"  label="Cancel"></q-btn>
+        <q-btn  class="q-ma-md" color="theamGreen" label="Save" @click="sendName"></q-btn>
       </div>
   </div>
 </template>

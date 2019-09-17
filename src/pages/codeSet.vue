@@ -68,7 +68,7 @@
             <q-icon class="right-bordered-icon on-left" name="backup"/>
             Upload Codes
           </q-btn>
-          <input type="file" name="myfile" accept=".csv" />
+          <input type="file" ref="file" name="myfile" accept=".csv" @input="updateFile" />
         </div>
       </div>
     </div>
@@ -488,6 +488,42 @@ export default {
     updateDependents (response) {
       var that = this
       that.currentRow.dependentsList = response
+      that.dependentsPopup = false
+    },
+    updateFile () {
+      var that = this
+      let curFile = that.$refs.file.files[0]
+      let formData = new FormData()
+      formData.append('File', curFile)
+      var url = process.env.API_URL + 'codeset/codes/upload/'
+      that.$q.loading.show()
+      if (that.baseObj.codeset_data === undefined) {
+        that.baseObj.codeset_data = []
+      }
+      axios.post(url, formData).then(function (response) {
+        response.data.matched_upload_codes.forEach(function (row) {
+          row.exclude = false
+          row.dependents = false
+          if (that.checkIfCodeInList(row)) {
+            that.baseObj.codeset_data.push(row)
+          }
+        })
+        that.renderComponent = false
+        setTimeout(function () {
+          that.$nextTick(() => {
+            that.renderComponent = true
+          })
+        }, 100)
+        that.$q.loading.hide()
+      }).catch(function (err) {
+        that.$q.loading.hide()
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: err.response.data.message,
+          timeout: 3000
+        })
+      })
     }
   }
 }
