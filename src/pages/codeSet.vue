@@ -1,7 +1,7 @@
 <template>
   <div class="q-px-xl q-py-sm">
     <div class="row q-py-sm">
-      <q-card class="row col-11 q-mr-sm">
+      <q-card class="row col-10 q-mr-sm">
           <div class="col-3 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="* Codeset Name" />
           </div>
@@ -32,7 +32,7 @@
           </div>
       </q-card>
       <q-card class="col codeSetActionbtns row">
-        <div class="col q-ml-sm q-mr-sm q-py-xs">
+        <div class="col-3 q-ml-sm q-mr-sm q-py-xs">
           <q-btn outlined icon="autorenew" class="action-btns f10 full-width" text-color="negative" @click="getCodesetDict">
             <q-tooltip>
               Reset
@@ -40,7 +40,7 @@
           </q-btn>
         </div>
         <div class="col q-ml-sm q-mr-sm q-py-xs" v-if="pagemethod != 'update'">
-          <q-btn outlined icon="save" :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data.length >= 1)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Save
             </q-tooltip>
