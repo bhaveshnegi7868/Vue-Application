@@ -32,9 +32,11 @@
                 <q-btn color="green pull-left float-right" text-color="white" glossy unelevated icon="add" label="Create Cohort" />
               </router-link>
           </template>
-          <q-td slot="body-cell-Cohortname" slot-scope="row" :props="row">
-          <router-link to="cohort/create/">{{row.row.Cohortname1}}</router-link>
-            </q-td>
+          <q-td slot="body-cell-cohort_name" slot-scope="row" :props="row" >
+            <router-link  :to="'/cohort/view/' + row.row.cohort_id" >
+              {{row.row.cohort_name}}
+            </router-link >
+          </q-td>
           <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
               <q-btn v-if="!cohortToggle || superuser" round color="theamGreen" size="0.5rem" icon="edit" @click="editCohort(props.row.cohort_id)">
                 <q-tooltip>
@@ -88,7 +90,7 @@ export default {
         { name: 'Createdby', label: 'Created by', field: 'cohort_created_by', sortable: true, align: 'left' },
         { name: 'Createddate', label: 'Created date', field: 'cohort_created_at', sortable: true },
         { name: 'Executeddate', label: 'Executed date', field: 'cohort_executed_at', sortable: true },
-        { name: 'Status', label: 'Status', field: 'Status', sortable: true },
+        { name: 'Status', label: 'Status', field: 'cohort_status', sortable: true },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
       data: [],

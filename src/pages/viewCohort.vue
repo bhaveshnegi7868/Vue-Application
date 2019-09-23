@@ -1,10 +1,10 @@
 <template>
-  <q-page class="app-layout " >
+  <q-page class="app-layout ">
     <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj" ></secondary-header>
-    <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
+    <div class="row createcohortHeaderform q-px-sm q-py-sm">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_name" placeholder="* Cohort Name" />
+                <input class="input-box full-width" v-model="baseObj.cohort_name" placeholder="* test view" />
             </div>
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
@@ -70,7 +70,7 @@
           </div>
         </q-card>
     </div>
-    <q-card class="row createBoxHeight q-mx-sm" v-if="pagemethod != 'view'">
+    <q-card class="row createBoxHeight q-mx-sm" >
       <div class="leftForm q-px-sm q-py-xs">
         <div class="categories_header">
             Criteria Set
@@ -119,7 +119,7 @@
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
         <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
-          <div class="col-4 q-ma-sm" >
+          <div class="col-4 q-ma-sm">
             <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaSetName" placeholder="Criteria Name" />
           </div>
           <div class="col q-ma-sm">
@@ -155,7 +155,7 @@
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
-                  <div class="col" v-if="currentInclusionObj.type">
+                  <div class="col">
                     <select class="criteria-box H25" v-model="currentInclusionObj.type.op">
                       <option disabled>Select</option>
                       <option value="ALL">All</option>
@@ -303,319 +303,6 @@
                   <div class="col">
                     Between <input  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
                      days before and <input  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
-                  </div>
-                </div>
-              </q-card>
-            </q-card>
-            <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
-            </q-card>
-        </div>
-      </div>
-      <q-dialog
-          v-model="dictPopup"
-          transition-show="slide-up"
-          transition-hide="slide-down"
-        >
-          <q-card>
-            <div class="close-btn">
-            <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
-            </div>
-            <pre>{{baseObj}}</pre>
-          </q-card>
-      </q-dialog>
-      <q-dialog v-model="createCohortGroupPopup">
-        <q-card style="width: 700px; max-width: 80vw;">
-          <div class="close-btn">
-          <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
-          </div>
-          <create-cohort-group name="cohort" @addCohort="addCohort"></create-cohort-group>
-        </q-card>
-      </q-dialog>
-    </q-card>
-    <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod === 'view'">
-        <q-card class="row col-12 ">
-            <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_name" placeholder="* View Name" />
-            </div>
-            <div class="col-5 q-px-sm q-py-xs">
-                <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
-            </div>
-            <div class="col q-px-sm q-py-xs">
-              <q-btn-dropdown
-                  v-if="renderComponent1"
-                  disabled
-                  flat
-                  no-caps
-                  :label="baseObj.cohort_group ? baseObj.cohort_group : 'Cohort Group'"
-                  class="full-width  f12 select-box"
-                  @click="getCohortGroupList"
-                  auto-close
-                >
-                <q-btn
-                  color="theamGreen"
-                  class="full-width f10"
-                  icon-right="add"
-                  label="Add New Cohort Group"
-                  @click="openCreateCohortGroupPopup"
-                  v-close-popup
-                />
-                <q-card  class="bg-secondary text-white selected-btn-dropdown">
-                  {{baseObj.cohort_group}}
-                </q-card>
-                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="makeSelected('cohort_group',opt.name)" v-close-popup>
-                  {{opt.name}}
-                </div>
-              </q-btn-dropdown>
-            </div>
-            <div class="col q-px-sm q-py-xs">
-              <q-btn-dropdown
-                  v-if="renderComponent1"
-                  no-caps
-                  disabled
-                  flat
-                  :label="baseObj.data_source ? baseObj.data_source : 'Datasource'"
-                  class="full-width f12 select-box"
-                  @click="getDataSourceList"
-                  auto-close
-                >
-                <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="makeSelected('data_source',opt.name)" v-close-popup>
-                  {{opt.name}}
-                </div>
-              </q-btn-dropdown>
-            </div>
-        </q-card>
-    </div>
-    <q-card class="row createBoxHeight q-mx-sm" v-if="pagemethod === 'view'">
-      <div class="leftForm q-px-sm q-py-xs">
-        <div class="categories_header">
-            Criteria Set
-        </div>
-        <div class="header_Bor1"></div>
-        <q-list class="categoriesListitems">
-          <q-item
-            clickable
-            v-ripple
-            class="categories_list"
-            :active="link === 1"
-            @click="markCriteriaAsSelected(baseObj.criteriaObj.PrimaryCriteria)"
-            active-class="categories_Selected"
-          >
-            <q-item-section>
-              <label>Primary Criteria</label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            v-for="(criteria,index) in baseObj.criteriaObj.InclusionRules"
-            :key="criteria.id"
-            clickable
-            v-ripple
-            class="categories_list ellipsis"
-            :active="link === criteria.id"
-            @click="markCriteriaAsSelected(criteria)"
-            active-class="categories_Selected"
-          >
-            <q-item-section>
-              <div  class="ellipsis" @click="markCriteriaAsSelected(criteria)">
-              <span class="q-mr-md">Inclusion Criteria - {{index + 1}}</span>
-              </div>
-
-            </q-item-section>
-          </q-item>
-        </q-list>
-        <q-btn class="categories_addNew full-width" @click="addNewCriteria">
-            Add Criteria Set
-        </q-btn>
-        <q-btn class="categories_addNew full-width" @click="createDictAndShow">
-            Show Dict
-        </q-btn>
-      </div>
-      <div class="rightForm q-pa-sm" v-if="currentCriteria">
-        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
-          <div class="col-4 q-ma-sm">
-            <input class="input-box full-width"  readonly="true" v-model="currentInclusionObj.ICriteriaSetName" placeholder="Criteria Name" />
-          </div>
-          <div class="col q-ma-sm">
-            <input class="input-box full-width"  readonly="true" v-model="currentInclusionObj.ICriteriaSetDesc" placeholder="Criteria Description" />
-          </div>
-        </q-card>
-        <q-card class="row q-mx-sm shadow-2"  readonly="true" v-if="currentCriteria['PCriteriaSetName'] !== undefined">
-          <div class="col-4 q-ma-sm">
-            <input class="input-box full-width"  readonly="true" v-model="currentCriteria.PCriteriaSetName" placeholder="Criteria Name" />
-          </div>
-          <div class="col q-ma-sm">
-            <input class="input-box full-width"  readonly="true" v-model="currentCriteria.PCriteriaSetDesc" placeholder="Criteria Description" />
-          </div>
-        </q-card>
-        <div class="elements-block  h90 q-mt-sm">
-            <q-card class="eventBox q-ma-sm shadow-2">
-              <div class="eventList">
-                <div class="EventList_header">
-                    Events
-                </div>
-                <div class="header_Bor1"></div>
-                <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
-                  <drag
-                    class="Events"
-                    v-for="(element) in eventArray1"
-                    :key="element.id"
-                    :transfer-data="{ element }"
-                  >{{ element.name }}
-                  </drag>
-                </div>
-              </div>
-            </q-card>
-            <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
-              <q-card class="q-pa-sm f12 custom-card">
-                <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
-                  <div class="col" v-if="currentInclusionObj.type">
-                    <select class="criteria-box H25" disabled v-model="currentInclusionObj.type.op">
-                      <option disabled>Select</option>
-                      <option value="ALL">All</option>
-                      <option value="ANY">Any</option>
-                      <option value="At most">At Most</option>
-                      <option value="At least">At Least</option>
-                    </select>
-                    <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
-                     of the criteria
-                  </div>
-                  <div class="col-md-3">
-                    <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
-                  </div>
-                </div>
-                <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
-                  <div
-                    class="list-group-item"
-                    v-for="(elementObj,index) in currentCriteria.CriteriaList"
-                    :key="index"
-                  >
-                    <div>
-                      <q-card class="custom-card row event-card w25R" :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
-                        <div class="col ellipsis">
-                          <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
-                        </div>
-                        <div class="">
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="remove_circle" flat rounded  @click="removeCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
-                        </div>
-                        <div class="">
-                          <q-btn class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
-                        </div>
-                      </q-card>
-                      <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
-                        <input ref="textbox"  readonly="true" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Corelated Criteria Name" />
-                        <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width ">
-                          <q-card
-                          v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
-                          :key="elementObj1.id"
-                          :class="elementObj1.currentSelected"
-                          class="custom-card-2 event-card "
-                          @click.native="showAttributes(elementObj1,index,index1)"
-                          align="left">
-                            <div class="col ellipsis w5R">
-                              <label class="text-h6  q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
-                            </div>
-                            <div class="col-1">
-                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)" @click.stop.prevent="showAttributes()"/>
-                            </div>
-                          </q-card>
-                        </div>
-                        <drop @drop="function(transferData, nativeEvent) { handleDropWithId(elementObj, transferData, nativeEvent) }" class="full-width" :id="'drop-zone-'+elementObj.id" >
-                          <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="handleDropWithId(elementObj)">
-                              <option disabled>Select Event</option>
-                              <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                                {{opt.name}}
-                              </option>
-                          </select>
-                        </drop>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                    class="list-group-item"
-                    v-for="(elementObj,index) in currentInclusionObj.Groups"
-                    :key="index"
-                  >
-                   <div>
-                      <q-card class="row sub-grp q-mt-sm q-mb-sm">
-                        <div class="col-11 q-pa-sm">
-                          <input class="input-box full-width q-mx-xs"  readonly="true" v-model="elementObj.Name" placeholder="Group Name" />
-                        </div>
-                        <div class="col q-ml-lg q-px-xs q-mt-sm">
-                          <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
-                        </div>
-                        <div class="col-12 row  q-pa-sm">
-                          <select class="criteria-box H25 q-mr-sm" v-model="elementObj.type.op">
-                            <option disabled>Select</option>
-                            <option value="ALL">All</option>
-                            <option value="ANY">Any</option>
-                            <option value="At most">At Most</option>
-                            <option value="At least">At Least</option>
-                            </select>
-                            <input type="number"  readonly="true" v-model="elementObj.type.count" class="input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
-                            <span class="q-my-sm"> of the criteria </span>
-                        </div>
-                        <div class="row full-width">
-                        <q-card
-                          v-for="(elementObj1,index1) in elementObj.CriteriaList"
-                          :key="elementObj1.id"
-                          :class="elementObj1.currentSelected"
-                          class="custom-card-1 event-card"
-                          @click.native="showAttributes(elementObj1,index,index1)"
-                          align="left">
-                            <div class="col ellipsis w7R">
-                              <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
-                            </div>
-                            <div class="col-1">
-                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent(elementObj1.id)"/>
-                            </div>
-                          </q-card>
-                        </div>
-                        <div class="row full-width q-px-sm q-pb-sm">
-                          <drop @drop="handleDrop" class="full-width" :id="'drop-zone-'+elementObj.id" >
-                            <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent(elementObj.id)">
-                                <option disabled>Select Event</option>
-                                <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                                  {{opt.name}}
-                                </option>
-                            </select>
-                          </drop>
-                        </div>
-                      </q-card>
-                    </div>
-                  </div>
-                <div class="row full-width">
-                  <drop @drop="handleDrop" class="full-width" >
-                    <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
-                        <option disabled>Select Event</option>
-                        <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                          {{opt.name}}
-                        </option>
-                    </select>
-                  </drop>
-                </div>
-              </q-card>
-              <q-card class="q-pa-sm q-mt-lg f12 custom-card">
-                <div class="row">
-                  <div class="col">
-                    Limit initial events to
-                    <select class="criteria-box H25 w9R" v-model="currentCriteria.PrimaryCriteriaLimit.Type">
-                      <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
-                        {{opt.label}}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row q-mt-lg" v-if="currentCriteria.ObservationWindow">
-                    <div class="col">
-                      Continuous enrollment w.r.t initial events index start date
-                    </div>
-                </div>
-                <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
-                  <div class="col">
-                    Between <input  readonly="true" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
-                     days before and <input  readonly="true" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
                   </div>
                 </div>
               </q-card>
