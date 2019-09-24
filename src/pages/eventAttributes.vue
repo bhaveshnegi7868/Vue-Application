@@ -14,7 +14,28 @@
             {{event[mappingDict[event.event]][key].Label}}
           </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
-            <q-btn-dropdown
+            <q-select
+              use-input
+              hide-selected
+              fill-input
+              transition-show="jump-down"
+              transition-hide="jump-up"
+              v-model="obj.value[event[mappingDict[event.event]][key][obj.name]]"
+              :options="obj.value"
+              @focus="getCohortGroupList"
+              class="full-width f12 select-box"
+              @filter="cohortGroupfilterFn"
+              @input="makeSelected(key, obj, key1)"
+              v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
+            />
+            <q-btn
+              color="theamGreen"
+              class="f10 q-pa-none q-ma-none"
+              icon="add"
+              @click="openImportCodesetPopupFun(key,index)"
+              v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
+            />
+            <!-- <q-btn-dropdown
                   flat
                   class="full-width w12R text-capitalize select-box" style="text-transform: capitalize;"
                   :label="obj.value[event[mappingDict[event.event]][key][obj.name]] ? obj.value[event[mappingDict[event.event]][key][obj.name]] : event[mappingDict[event.event]][key].Label"
@@ -31,7 +52,7 @@
                 <div class="options-values  " v-for="(opt,key1) in obj.value" v-bind:key="opt"  @click="makeSelected(key, obj, key1)">
                   {{opt}}
                 </div>
-            </q-btn-dropdown>
+            </q-btn-dropdown> -->
             <div class="col full-width " v-if="obj.Type == 'multiple-select'">
               <div class="">
                 <div class="">
@@ -127,7 +148,7 @@
               </div>
             </div>
             <div class="col full-width"  v-if="obj.Type == 'checkbox'">
-             {{event[mappingDict[event.event]][key].Label}}<q-checkbox :label="obj.Label"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" checked/>
+             {{event[mappingDict[event.event]][key].Label}}<input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/>
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
@@ -173,13 +194,12 @@
 import listCodeset from 'pages/listCodeset'
 import axios from 'axios'
 import {
-  QCheckbox,
   QDate,
   QIcon,
   QCard,
   QSelect,
   QPopupProxy,
-  QBtnDropdown,
+  // QBtnDropdown,
   ClosePopup,
   QDialog
 } from 'quasar'
@@ -190,8 +210,7 @@ export default {
     QIcon,
     QCard,
     QPopupProxy,
-    QCheckbox,
-    QBtnDropdown,
+    // QBtnDropdown,
     QSelect,
     QDialog,
     'list-codeset': listCodeset
@@ -257,7 +276,24 @@ export default {
           response.data.codeset_data.forEach(function (row1) {
             resultArray.push(row1.target_concept_id)
           })
-          that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value[JSON.stringify(resultArray)] = row.codeset_name
+          if (that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value === {}) {
+            that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value = []
+          }
+          if (that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value.filter(v => v.label.toLowerCase() === row.codeset_name.toLowerCase()).length === 0) {
+            that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value.push({
+              'label': row.codeset_name,
+              'value': JSON.stringify(resultArray)
+            })
+          } else {
+            console.log(that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value.filter(v => v.label.toLowerCase() === row.codeset_name.toLowerCase()))
+            // that.$q.loading.hide()
+            that.$q.notify({
+              color: 'black',
+              textColor: 'white',
+              message: 'Duplicate Item With Same Name',
+              timeout: 3000
+            })
+          }
           that.renderComponent1 = false
           setTimeout(function () {
             that.$nextTick(() => {
@@ -266,8 +302,9 @@ export default {
             })
           }, 100)
           that.$q.loading.hide()
-        }).catch(function () {
+        }).catch(function (err) {
           that.$q.loading.hide()
+          console.log(err)
           that.$q.notify({
             color: 'black',
             textColor: 'white',

@@ -18,7 +18,7 @@
                   outline
                   no-caps
                   class="userName text-capitalize"
-                  :label="$q.sessionStorage.getItem('username')"
+                  :label="$q.localStorage.getItem('username')"
                 >
               </q-btn>
                 <q-btn
@@ -73,6 +73,8 @@ export default {
     var that = this
     if (!this.$q.localStorage.getItem('username')) {
       this.$router.push('/login')
+    } else {
+      this.$router.push('/cohort/list')
     }
     axios.defaults.headers.common = {
       Authorization: 'ApiKey ' + that.$q.localStorage.getItem('username') + ':' + that.$q.localStorage.getItem('apikey')
@@ -93,6 +95,8 @@ export default {
     var that = this
     if (!this.$q.localStorage.getItem('username')) {
       this.$router.push('/login')
+    } else {
+      this.$router.push('/cohort/list')
     }
     axios.defaults.headers.common = {
       Authorization: 'ApiKey ' + that.$q.localStorage.getItem('username') + ':' + that.$q.localStorage.getItem('apikey')
@@ -113,6 +117,8 @@ export default {
     $route (to, from) {
       if (!this.$q.localStorage.getItem('username')) {
         this.$router.push('/login')
+      } else {
+        this.$router.push('/cohort/list')
       }
       if (this.$route.path.indexOf('codeset') !== -1) {
         this.Cohorts = 'Code-Group'

@@ -96,7 +96,7 @@ export default {
         axios.post(process.env.API_URL+'accounts/login/', datadict).then(function(response) {
           that.$q.localStorage.set('username', that.username)
           that.$q.localStorage.set('is_superuser', response.data.is_superuser)
-          that.$q.sessionStorage.set('username', that.username)
+          that.$q.localStorage.set('username', that.username)
           that.$q.localStorage.set('apikey', response.data.apikey)
           that.$router.push('/cohort/list')
           that.btnLoading = false

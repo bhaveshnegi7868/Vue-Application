@@ -10,7 +10,19 @@
                 <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
             <div class="col q-px-sm q-py-xs">
-              <q-btn-dropdown
+              <q-select
+                use-input
+                hide-selected
+                fill-input
+                transition-show="jump-down"
+                transition-hide="jump-up"
+                v-model="baseObj.cohort_group"
+                :options="cohortGroups"
+                @focus="getCohortGroupList"
+                class="full-width f12 select-box"
+                @filter="cohortGroupfilterFn"
+              />
+              <!-- <q-btn-dropdown
                   v-if="renderComponent1"
                   flat
                   no-caps
@@ -33,10 +45,30 @@
                 <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="makeSelected('cohort_group',opt.name)" v-close-popup>
                   {{opt.name}}
                 </div>
-              </q-btn-dropdown>
+              </q-btn-dropdown> -->
+            </div>
+            <div class="col-1 q-px-sm q-py-xs">
+              <q-btn
+                  color="theamGreen"
+                  class="f10 q-pa-none q-ma-none"
+                  icon="add"
+                  @click="openCreateCohortGroupPopup"
+                />
             </div>
             <div class="col q-px-sm q-py-xs">
-              <q-btn-dropdown
+              <q-select
+                use-input
+                hide-selected
+                fill-input
+                transition-show="jump-down"
+                transition-hide="jump-up"
+                v-model="baseObj.data_source"
+                :options="dataSources"
+                @focus="getDataSourceList"
+                class="full-width f12 select-box"
+                @filter="datasourcefilterFn"
+              />
+              <!-- <q-btn-dropdown
                   v-if="renderComponent1"
                   no-caps
                   flat
@@ -48,7 +80,7 @@
                 <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="makeSelected('data_source',opt.name)" v-close-popup>
                   {{opt.name}}
                 </div>
-              </q-btn-dropdown>
+              </q-btn-dropdown> -->
             </div>
         </q-card>
         <q-card class="col row">
@@ -631,7 +663,8 @@ import {
   QSpinnerIos,
   QTooltip,
   QDialog,
-  ClosePopup
+  ClosePopup,
+  QSelect
 } from 'quasar'
 Loading.show({
   spinner: QSpinnerIos,
@@ -650,6 +683,7 @@ export default {
     Drag,
     Drop,
     QDialog,
+    QSelect,
     'event-attributes': eventAttributes,
     'secondary-header': secondaryHeader,
     'create-cohort-group': createCohortGroup
@@ -661,6 +695,7 @@ export default {
     return {
       renderComponent: false,
       renderComponent1: true,
+      cohortGroupFilter: '',
       renderComponent2: true,
       dictPopup: false,
       createCohortGroupPopup: false,
@@ -1201,7 +1236,11 @@ export default {
       var that = this
       var url = process.env.API_URL + 'cohort/group/list/'
       axios.get(url).then(function (response) {
-        that.cohortGroups = response.data.result
+        var arr = []
+        response.data.result.forEach(function (row) {
+          arr.push(row.name)
+        })
+        that.cohortGroups = arr
         that.loading = false
       })
     },
@@ -1209,7 +1248,11 @@ export default {
       var that = this
       var url = process.env.API_URL + 'cohort/datasource/list/'
       axios.get(url).then(function (response) {
-        that.dataSources = response.data.result
+        var arr = []
+        response.data.result.forEach(function (row) {
+          arr.push(row.name)
+        })
+        that.dataSources = arr
         that.loading = false
       })
     },
@@ -1371,6 +1414,18 @@ export default {
           that.renderComponent1 = true
         })
       }, 100)
+    },
+    cohortGroupfilterFn (val, update, abort) {
+      update(() => {
+        const needle = val.toLowerCase()
+        this.cohortGroups = this.cohortGroups.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+    datasourcefilterFn (val, update, abort) {
+      update(() => {
+        const needle = val.toLowerCase()
+        this.dataSources = this.dataSources.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
     }
   }
 }
