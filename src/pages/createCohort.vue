@@ -479,9 +479,6 @@
                     <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
-                  <div class="col-md-3">
-                    <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
-                  </div>
                 </div>
                 <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
                   <div
@@ -493,13 +490,6 @@
                       <q-card class="custom-card row event-card w25R" :class="elementObj.currentSelected" align="left" @click.stop="showAttributes(elementObj,index)">
                         <div class="col ellipsis">
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
-                        </div>
-                        <div class="">
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="remove_circle" flat rounded  @click="removeCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
-                        </div>
-                        <div class="">
-                          <q-btn class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
                         </div>
                       </q-card>
                       <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
@@ -539,11 +529,8 @@
                   >
                    <div>
                       <q-card class="row sub-grp q-mt-sm q-mb-sm">
-                        <div class="col-11 q-pa-sm">
+                        <div class="col-12 q-pa-sm">
                           <input class="input-box full-width q-mx-xs"  readonly="true" v-model="elementObj.Name" placeholder="Group Name" />
-                        </div>
-                        <div class="col q-ml-lg q-px-xs q-mt-sm">
-                          <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
                         <div class="col-12 row  q-pa-sm">
                           <select class="criteria-box H25 q-mr-sm" v-model="elementObj.type.op">
@@ -567,34 +554,11 @@
                             <div class="col ellipsis w7R">
                               <label class="text-h6 q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
                             </div>
-                            <div class="col-1">
-                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent(elementObj1.id)"/>
-                            </div>
                           </q-card>
-                        </div>
-                        <div class="row full-width q-px-sm q-pb-sm">
-                          <drop @drop="handleDrop" class="full-width" :id="'drop-zone-'+elementObj.id" >
-                            <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent(elementObj.id)">
-                                <option disabled>Select Event</option>
-                                <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                                  {{opt.name}}
-                                </option>
-                            </select>
-                          </drop>
                         </div>
                       </q-card>
                     </div>
                   </div>
-                <div class="row full-width">
-                  <drop @drop="handleDrop" class="full-width" >
-                    <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
-                        <option disabled>Select Event</option>
-                        <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                          {{opt.name}}
-                        </option>
-                    </select>
-                  </drop>
-                </div>
               </q-card>
               <q-card class="q-pa-sm q-mt-lg f12 custom-card">
                 <div class="row">
@@ -1338,7 +1302,6 @@ export default {
     runCohort () {
       var that = this
       that.baseObj.run = true
-      that.baseObj.criteriaObj.PrimaryCriteria = { 'Name': 'RA Patient Cohort', 'Description': 'CriteriaSet Description', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - RA at least 2 occurrences', 'Codeset': [ 74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686 ], 'Occurrence': { 'IsDistinct': false, 'Count': 2, 'Type': 'at least' } } }, { 'DrugExposure': { 'Name': 'Treatment - RA', 'Codeset': [1592626, 1594147, 937369, 36185701], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'CorrelatedCriteria': { 'Name': 'RA Treatment with at least 1 diagnosis', 'Type': 'ALL', 'CriteriaList': [ { 'ConditionOccurrence': { 'Name': 'Diagnosis - At least 1 occur', 'Codeset': [74125, 4035611, 4083556, 80809, 78230, 4107913, 4035611, 4083556, 4117686], 'Occurrence': { 'IsDistinct': false, 'Count': 1, 'Type': 'at least' }, 'StartWindow': { 'End': { 'Coeff': 1, 'Days': 0 }, 'Start': { 'Coeff': -1, 'Days': 0 } } } } ] } } } ], 'ObservationWindow': { 'PriorDays': 0, 'PostDays': 0 }, 'PrimaryCriteriaLimit': { 'Type': 'First' } }
       that.saveCohort()
     },
     saveCohort () {

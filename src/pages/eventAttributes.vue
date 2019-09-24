@@ -16,13 +16,13 @@
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <q-btn-dropdown
                   flat
-                  class="full-width text-capitalize select-box" style="text-transform: capitalize;"
+                  class="full-width w12R text-capitalize select-box" style="text-transform: capitalize;"
                   :label="obj.value[event[mappingDict[event.event]][key][obj.name]] ? obj.value[event[mappingDict[event.event]][key][obj.name]] : event[mappingDict[event.event]][key].Label"
                   v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
                 >
                 <q-btn
                   color="theamGreen"
-                  class="full-width"
+                  class="full-width "
                   icon-right="add"
                   label="Import"
                   @click="openImportCodesetPopupFun(key,index)"
