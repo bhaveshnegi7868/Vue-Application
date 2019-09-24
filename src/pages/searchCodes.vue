@@ -62,6 +62,7 @@
                   :selected-rows-label="getSelectedString"
                   selection="multiple"
                   :selected.sync="selected"
+                  :rows-per-page-options="paginationOptions"
                 >
                   <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
                     <div class="col dependentsIcon">
@@ -171,6 +172,9 @@ export default {
         rowsPerPage: 10,
         rowsNumber: 10
       },
+      paginationOptions: [
+        3, 10, 20, 50, 100, 1000
+      ],
       loading: false,
       data: [],
       currentDependents: [],
@@ -250,11 +254,13 @@ export default {
       let data = []
       let that = this
       var url = process.env['API_URL'] + 'codeset/codes/list/?page=' + page + '&pagecount=' + rowsPerPage
-      url += '&sort_by_colomn=' + sortBy
-      if (descending) {
-        url += '&sort_type=desc'
-      } else {
-        url += '&sort_type=asc'
+      if (sortBy) {
+        url += '&sort_by_colomn=' + sortBy
+        if (descending) {
+          url += '&sort_type=desc'
+        } else {
+          url += '&sort_type=asc'
+        }
       }
       if (that.filter) {
         url += '&search=' + that.filter

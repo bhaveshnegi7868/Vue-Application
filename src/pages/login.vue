@@ -80,6 +80,20 @@ export default {
   },
   mounted () {
     let that = this
+    if (!this.$q.localStorage.getItem('username')) {
+      this.$router.push('/login')
+    } else {
+      this.$router.push('/cohort/list')
+    }
+    // that.$store.dispatch('example/fetchMasterUrl', userDetails.val().db.url)
+  },
+  created () {
+    let that = this
+    if (!this.$q.localStorage.getItem('username')) {
+      this.$router.push('/login')
+    } else {
+      this.$router.push('/cohort/list')
+    }
     // that.$store.dispatch('example/fetchMasterUrl', userDetails.val().db.url)
   },
   methods: {
