@@ -1,7 +1,16 @@
 <template>
   <q-page class="app-layout ">
     <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj"></secondary-header>
-    <q-card class="row  q-mx-sm" >
+    <q-card class="row  q-mx-sm" v-if="baseObj.status==='Pending'">
+      <q-spinner-dots color="light-green" size="2.5rem" class="q-mx-auto" ></q-spinner-dots>
+      <div class="col-12 text-center fc-theamGreen">
+      <div class="q-mx-auto ">The cohort status is pending</div>
+      </div>
+      <div class="col-12 text-center fc-theamGreen">
+      <div class="q-mx-auto">Please visit this page after some time</div>
+      </div>
+    </q-card>
+    <q-card class="row  q-mx-sm" v-if="baseObj.status !='Pending'" >
       <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
             Criteria Set
@@ -228,13 +237,15 @@ import summeryGraph from 'components/summeryGraph'
 import summeryAttritionFlow from 'components/arrtitionFlow'
 import axios from 'axios'
 import {
+  QSpinnerDots
 } from 'quasar'
 export default {
   name: 'createCohort',
   components: {
     'secondary-header': secondaryHeader,
     'summery-graph': summeryGraph,
-    'summary-attrition': summeryAttritionFlow
+    'summary-attrition': summeryAttritionFlow,
+    QSpinnerDots
   },
   data () {
     return {
