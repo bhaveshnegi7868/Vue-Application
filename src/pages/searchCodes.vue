@@ -19,7 +19,7 @@
         <div class="col-8 ">
           <div class="q-mb-sm row bor1Lightgrey selectedFilter">
             <div class="Applied-Filters">Applied Filters</div>
-            <applied-filters :selectedFilters="selectedFilters" v-if="showFilters"></applied-filters>
+            <applied-filters :selectedFilters="selectedFilters" v-if="showFilters" @selectedChange="applyFilterChange"></applied-filters>
           </div>
           <div class="selected_events1 table-box">
             <div class="row col">
@@ -191,6 +191,10 @@ export default {
     })
   },
   methods: {
+    applyFilterChange (selFil) {
+      this.selectedFilters = selFil
+      this.refreshAppliedFilters()
+    },
     remselection (index) {
       this.selected.splice(index, 1)
     },

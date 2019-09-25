@@ -5,7 +5,7 @@
         <div class="a-chip " v-if="row">
           <span class="a-chip-head" :class="'filtrC' +(index+1)">{{ filter.substring(0,1).toUpperCase() }}</span>
         {{value}}
-          <q-btn class="q-pl-none q-ml-xs q-pr-xs float-right f8" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
+          <q-btn class="q-pl-none q-ml-xs q-pr-xs float-right f8" icon="cancel" flat rounded  @click="removeFilter(filter,value)"/>
         </div>
 
       </div>
@@ -17,6 +17,12 @@ export default {
   name: 'appliedFilters',
   props: {
     selectedFilters: Object
+  },
+  methods: {
+    removeFilter (filter, value) {
+      this.selectedFilters[filter][value] = false
+      this.$emit('selectedChange', this.selectedFilters)
+    }
   }
 }
 </script>
