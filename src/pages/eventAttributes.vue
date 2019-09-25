@@ -14,7 +14,20 @@
             {{event[mappingDict[event.event]][key].Label}}
           </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
-            <q-select
+            <multiselect
+              v-model="obj.value[event[mappingDict[event.event]][key][obj.name]]"
+              :options="obj.value"
+              :searchable="true"
+              :close-on-select="false"
+              :show-labels="false"
+              :placeholder="event[mappingDict[event.event]][key].Label"
+              class="full-width f12"
+              v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
+              @input="makeSelected"
+              track-by="value"
+              label="label">
+            </multiselect>
+            <!-- <q-select
               use-input
               hide-selected
               fill-input
@@ -24,10 +37,10 @@
               :options="obj.value"
               @focus="getCohortGroupList"
               class="full-width f12 select-box"
-              @filter="cohortGroupfilterFn"
+              :filter="obj.value[event[mappingDict[event.event]][key].filter]"
               @input="makeSelected(key, obj, key1)"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
-            />
+            /> -->
             <q-btn
               color="theamGreen"
               class="f10 q-pa-none q-ma-none"
@@ -56,11 +69,21 @@
             <div class="col full-width " v-if="obj.Type == 'multiple-select'">
               <div class="">
                 <div class="">
-                   <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
-                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
-                       {{opt}}
-                     </option>
-                   </select>
+                   <multiselect
+                      v-model="obj.value[event[mappingDict[event.event]][key][obj.name]]"
+                      :options="obj.value"
+                      :searchable="true"
+                      :close-on-select="false"
+                      :show-labels="false"
+                      :placeholder="event[mappingDict[event.event]][key].Label"
+                      class="full-width f12"
+                      v-if="renderComponent1"
+                      @input="makeSelected"
+                      :multiple="true"
+                      :taggable="true"
+                      track-by="value"
+                      label="label">
+                    </multiselect>
                 </div>
               </div>
             </div>
@@ -168,7 +191,7 @@
                 </div>
               </div>
               <div v-if="key == 'ConditionType' || key == 'ProviderSpecialty'">
-              <q-select v-model="model" :options="obj.value" label="Standard" ></q-select>
+              <!-- <q-select v-model="model" :options="obj.value" label="Standard" ></q-select> -->
               </div>
             </div>
           </div>
@@ -193,11 +216,12 @@
 <script>
 import listCodeset from 'pages/listCodeset'
 import axios from 'axios'
+import Multiselect from 'vue-multiselect'
 import {
   QDate,
   QIcon,
   QCard,
-  QSelect,
+  // QSelect,
   QPopupProxy,
   // QBtnDropdown,
   ClosePopup,
@@ -210,8 +234,9 @@ export default {
     QIcon,
     QCard,
     QPopupProxy,
+    Multiselect,
     // QBtnDropdown,
-    QSelect,
+    // QSelect,
     QDialog,
     'list-codeset': listCodeset
   },
@@ -338,9 +363,8 @@ export default {
       }, 100)
       this.$refs[prox][0].hide()
     },
-    makeSelected (key, obj, name) {
+    makeSelected () {
       var that = this
-      that.event[that.mappingDict[that.event.event]][key][obj.name] = name
       that.renderComponent1 = false
       setTimeout(function () {
         that.$nextTick(() => {
@@ -348,6 +372,11 @@ export default {
           that.renderComponent1 = true
         })
       }, 100)
+    },
+    commonFilter (val, data, data1, data2) {
+      debugger
+      const needle = val.toLowerCase()
+      this.cohortGroups = this.cohortGroups.filter(v => v.toLowerCase().indexOf(needle) > -1)
     }
     /**
     * Given a generator function, this component's inputValue is set
