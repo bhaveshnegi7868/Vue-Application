@@ -12,7 +12,6 @@
             <div class="col q-px-sm q-py-xs">
               <q-select
                 use-input
-                outlined
                 hide-selected
                 fill-input
                 transition-show="jump-down"
@@ -20,7 +19,7 @@
                 v-model="baseObj.cohort_group"
                 :options="cohortGroups"
                 @focus="getCohortGroupList"
-                class=" bor8R  cohortGroupDrop"
+                class=" bor8R f12 select-box"
                 @filter="cohortGroupfilterFn"
               />
               <!-- <q-btn-dropdown
@@ -39,7 +38,8 @@
                   label="Add New Cohort Group"
                   @click="openCreateCohortGroupPopup"
                   v-close-popup
-                />
+                >
+                </q-btn>
                 <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.cohort_group}}
                 </q-card>
@@ -200,7 +200,7 @@
                       <option value="At most">At Most</option>
                       <option value="At least">At Least</option>
                     </select>
-                    <input type="number" v-model="currentInclusionObj.type.count" class="input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                    <input type="number" v-model="currentInclusionObj.type.count" class="q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
                   <div class="col-md-3">
@@ -263,7 +263,7 @@
                   >
                    <div>
                       <q-card class="row sub-grp q-mt-sm q-mb-sm">
-                        <div class="col-11 q-pa-sm">
+                        <div class="col-10 q-pa-sm">
                           <input class="input-box full-width q-mx-xs" v-model="elementObj.Name" placeholder="Group Name" />
                         </div>
                         <div class="col q-ml-lg q-px-xs q-mt-sm">
@@ -277,8 +277,8 @@
                             <option value="At most">At Most</option>
                             <option value="At least">At Least</option>
                             </select>
-                            <input type="number" v-model="elementObj.type.count" class="input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
-                            <span class="q-my-sm"> of the criteria </span>
+                            <input type="number" v-model="elementObj.type.count" class=" q-mx-xs input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
+                            <span class="q-ma-xs"> of the criteria </span>
                         </div>
                         <div class="row full-width">
                         <q-card

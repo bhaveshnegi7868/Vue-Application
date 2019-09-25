@@ -134,7 +134,7 @@ export default {
       let datadict = {
         'username': sessionStorage.getItem('username')
       }
-      axios.post(process.env.API_URL + 'accounts/logout/', datadict).then(function (response) {
+      axios.get(process.env.API_URL + 'accounts/logout/', datadict).then(function (response) {
         axios.defaults.headers.common = {}
         that.$q.sessionStorage.clear()
         that.$router.push('/login')
