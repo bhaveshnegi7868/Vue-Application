@@ -21,7 +21,7 @@
               :close-on-select="false"
               :show-labels="false"
               :placeholder="event[mappingDict[event.event]][key].Label"
-              class="full-width f12"
+              class="w12R mx-h25 q-mr-xs f12"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
               @input="makeSelected"
               track-by="value"
@@ -43,7 +43,7 @@
             /> -->
             <q-btn
               color="theamGreen"
-              class="f10 q-pa-none q-ma-none"
+              class="f10 w2R q-pa-none q-ma-none"
               icon="add"
               @click="openImportCodesetPopupFun(key,index)"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
@@ -171,7 +171,8 @@
               </div>
             </div>
             <div class="col full-width"  v-if="obj.Type == 'checkbox'">
-             {{event[mappingDict[event.event]][key].Label}}<input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/>
+             <span class="q-xt-sm">{{event[mappingDict[event.event]][key].Label}}</span>
+             <span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span>
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
@@ -181,7 +182,7 @@
               </div>
             </div>
             <div class="col full-width " v-if="obj.Type == 'single-select'">
-              <div class="row" v-if="key != 'ConditionType' && key != 'ProviderSpecialty'">
+              <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
