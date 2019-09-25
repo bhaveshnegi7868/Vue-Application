@@ -166,7 +166,7 @@ export default {
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
       pagination: {
-        sortBy: 'name',
+        sortBy: 'domain_id',
         descending: false,
         page: 1,
         rowsPerPage: 10,
@@ -255,7 +255,7 @@ export default {
       let that = this
       var url = process.env['API_URL'] + 'codeset/codes/list/?page=' + page + '&pagecount=' + rowsPerPage
       if (sortBy) {
-        url += '&sort_by_colomn=' + sortBy
+        url += '&sort_by_column=' + sortBy
         if (descending) {
           url += '&sort_type=desc'
         } else {

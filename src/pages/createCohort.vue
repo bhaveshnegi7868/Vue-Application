@@ -12,6 +12,7 @@
             <div class="col q-px-sm q-py-xs">
               <q-select
                 use-input
+                outlined
                 hide-selected
                 fill-input
                 transition-show="jump-down"
@@ -19,7 +20,7 @@
                 v-model="baseObj.cohort_group"
                 :options="cohortGroups"
                 @focus="getCohortGroupList"
-                class="full-width f12 select-box"
+                class=" bor8R  cohortGroupDrop"
                 @filter="cohortGroupfilterFn"
               />
               <!-- <q-btn-dropdown
@@ -47,13 +48,17 @@
                 </div>
               </q-btn-dropdown> -->
             </div>
-            <div class="col-1 q-px-sm q-py-xs">
+            <div class=" q-px-xs q-py-xs ">
               <q-btn
                   color="theamGreen"
-                  class="f10 q-pa-none q-ma-none"
+                  class="f10 bor8R w2R q-pa-none q-ma-none"
                   icon="add"
                   @click="openCreateCohortGroupPopup"
-                />
+                >
+                <q-tooltip>
+                  Create Cohort Group
+                </q-tooltip>
+                </q-btn>
             </div>
             <div class="col q-px-sm q-py-xs">
               <q-select
@@ -65,7 +70,7 @@
                 v-model="baseObj.data_source"
                 :options="dataSources"
                 @focus="getDataSourceList"
-                class="full-width f12 select-box"
+                class="bor8R f12 select-box"
                 @filter="datasourcefilterFn"
               />
               <!-- <q-btn-dropdown
