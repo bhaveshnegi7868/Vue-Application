@@ -8,9 +8,9 @@
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>
     <div class="attributeDiv" v-if="event != ''">
-        <div class="row" v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
-          <div class="row col-12" v-if="event[mappingDict[event.event]][key]">
-          <div class="col-11 q-ml-sm q-mt-sm" v-if="key!='OccurrenceLimit'">
+        <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
+          <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key]">
+          <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit'">
             {{event[mappingDict[event.event]][key].Label}}
           </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
@@ -43,11 +43,16 @@
             /> -->
             <q-btn
               color="theamGreen"
-              class="f10 w2R q-pa-none q-ma-none"
+              rounded
+              class="q-pa-sm q-ma-none"
               icon="add"
               @click="openImportCodesetPopupFun(key,index)"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
-            />
+              >
+              <q-tooltip>
+                Import codeset
+              </q-tooltip>
+              </q-btn>
             <!-- <q-btn-dropdown
                   flat
                   class="full-width w12R text-capitalize select-box" style="text-transform: capitalize;"
@@ -170,9 +175,9 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width"  v-if="obj.Type == 'checkbox'">
-             <span class="q-xt-sm">{{event[mappingDict[event.event]][key].Label}}</span>
-             <span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span>
+            <div class="col full-width row"  v-if="obj.Type == 'checkbox'">
+            <div class="col q-my-sm">{{event[mappingDict[event.event]][key].Label}}</div>
+            <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span></div>
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
@@ -226,12 +231,14 @@ import {
   QPopupProxy,
   // QBtnDropdown,
   ClosePopup,
+  QTooltip,
   QDialog
 } from 'quasar'
 export default {
   name: 'eventAttributes',
   components: {
     QDate,
+    QTooltip,
     QIcon,
     QCard,
     QPopupProxy,
