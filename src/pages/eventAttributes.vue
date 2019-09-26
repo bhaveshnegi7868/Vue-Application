@@ -81,7 +81,7 @@
                       :close-on-select="false"
                       :show-labels="false"
                       :placeholder="event[mappingDict[event.event]][key].Label"
-                      class="full-width f12"
+                      class="full-width eventDropdownAttr w13R f12"
                       v-if="renderComponent1"
                       @input="makeSelected"
                       :multiple="true"

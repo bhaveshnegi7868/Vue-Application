@@ -395,12 +395,13 @@ padding:0px !important;
 .h40{
 min-height:40px !important;
 }
-.multiselect__select,
-.multiselect__tags,
-.multiselect{
-min-height:25px !important;
-height:25px !important;
-max-height:25px !important;
+.attributeDiv .multiselect__select,
+.attributeDiv .multiselect__tags,
+.attributeDiv .multiselect{
+min-height:25px;
+}
+.attributeDiv .multiselect__select:before{
+  top: 40%;
 }
 .multiselect__tag-icon{
   line-height: 15px !important;
@@ -865,6 +866,27 @@ font-size:12px !important;
 }
 .w12R{
 width:12rem !important;
+}
+.w13R{
+min-width:13rem !important;
+}
+.eventDropdownAttr.w13R{
+max-width:23rem !important;
+}
+.eventDropdownAttr .multiselect__tag, {
+    min-height: 25px !important;
+    height: auto !important;
+    max-height: auto !important;
+}
+.multiselect__tag,
+.multiselect__tag-icon,
+.multiselect__tag-icon:after {
+background: #6b9840 !important;
+color: #ffffff !important;
+}
+.multiselect__option--highlight{
+background: #6b9840 !important;
+color: #ffffff !important;
 }
 .searchBox .el-input-group__prepend{
  padding:10px !important;
