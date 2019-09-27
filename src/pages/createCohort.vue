@@ -200,7 +200,7 @@
                       <option value="At most">At Most</option>
                       <option value="At least">At Least</option>
                     </select>
-                    <input type="number" v-model="currentInclusionObj.type.count" class="q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                    <input type="number" v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
                   <div class="col-md-3">
@@ -277,7 +277,7 @@
                             <option value="At most">At Most</option>
                             <option value="At least">At Least</option>
                             </select>
-                            <input type="number" v-model="elementObj.type.count" class=" q-mx-xs input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
+                            <input type="number" v-model="elementObj.type.count" class=" q-mx-xs text-center q-pa-xs w2R input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-ma-xs"> of the criteria </span>
                         </div>
                         <div class="row full-width">
@@ -460,12 +460,6 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <q-btn class="categories_addNew full-width" @click="addNewCriteria">
-            Add Criteria Set
-        </q-btn>
-        <q-btn class="categories_addNew full-width" @click="createDictAndShow">
-            Show Dict
-        </q-btn>
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
         <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
@@ -513,7 +507,7 @@
                       <option value="At most">At Most</option>
                       <option value="At least">At Least</option>
                     </select>
-                    <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                    <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="text-center q-pa-xs w2R  q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
                 </div>
@@ -570,14 +564,14 @@
                           <input class="input-box full-width q-mx-xs"  readonly="true" v-model="elementObj.Name" placeholder="Group Name" />
                         </div>
                         <div class="col-12 row  q-pa-sm">
-                          <select class="criteria-box H25 q-mr-sm" v-model="elementObj.type.op">
+                          <select class="criteria-box H25 q-mr-sm" disabled v-model="elementObj.type.op">
                             <option disabled>Select</option>
                             <option value="ALL">All</option>
                             <option value="ANY">Any</option>
                             <option value="At most">At Most</option>
                             <option value="At least">At Least</option>
                             </select>
-                            <input type="number"  readonly="true" v-model="elementObj.type.count" class="input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
+                            <input type="number"  readonly="true" v-model="elementObj.type.count" class="input-box text-center q-pa-xs w2R q-mx-xs " v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-my-sm"> of the criteria </span>
                         </div>
                         <div class="row full-width">
@@ -601,7 +595,7 @@
                 <div class="row">
                   <div class="col">
                     Limit initial events to
-                    <select class="criteria-box H25 w9R" v-model="currentCriteria.PrimaryCriteriaLimit.Type">
+                    <select class="criteria-box H25 w9R" disabled v-model="currentCriteria.PrimaryCriteriaLimit.Type">
                       <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>

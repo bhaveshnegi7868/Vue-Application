@@ -114,7 +114,7 @@
 
                 </div>
                 <div class="col q-mx-xs  q-ml-md">
-                  <input class="input-box full-width" v-model="event[mappingDict[event.event]][key].count[obj.name]" v-on:keyup="sendName" />
+                  <input type="number" class="input-box text-center full-width" v-model="event[mappingDict[event.event]][key].count[obj.name]" v-on:keyup="sendName" />
                 </div>
               </div>
             </div>
@@ -128,11 +128,11 @@
                   </select>
                 </div>
                 <div class="q-mx-xs  q-ml-md">
-                  <input class="input-box w4R" />
+                  <input type="number" class="text-center input-box w4R" />
                 </div>
                 <div class="q-mx-xs  " v-if="event[mappingDict[event.event]][key][obj.name] == 'Between' || event[mappingDict[event.event]][key][obj.name] == 'Not Between'" >
                   <span class="q-mx-xs">and </span>
-                  <input class="input-box w4R" />
+                  <input type="number" class="text-center input-box w4R" />
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
-                  <input class="input-box  w4R q-mr-xs" />
+                  <input type="number" class="input-box text-center  w4R q-mr-xs" />
                 </div>
                 <div class=" q-mr-xs ">
                   <span class="q-mr-xs"> day</span>
@@ -152,7 +152,7 @@
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> and </span>
-                  <input class="input-box w4R q-mr-xs" />
+                  <input type="number" class="text-center input-box w4R q-mr-xs" />
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> day</span>
@@ -182,7 +182,7 @@
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="">
-                  <input class="input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
+                  <input type="number" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
               </div>
             </div>
