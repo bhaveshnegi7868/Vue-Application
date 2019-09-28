@@ -33,7 +33,7 @@ export default {
     attritionData: Object
   },
   mounted () {
-    this.attritionData1 = [this.attritionData]
+    this.attritionData1 = this.attritionData
   }
 }
 </script>

@@ -169,7 +169,7 @@
               <div class="close-btn">
               <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
               </div>
-        <dependent-codes :desendents="currentDependents" @updateDependents="updateDependents"></dependent-codes>
+        <dependent-codes :desendents="currentDependents" :ticked="currentSelected" @updateDependents="updateDependents"></dependent-codes>
       </q-card>
     </q-dialog>
     <q-dialog v-model="createCodesetGroupPopup">
@@ -377,6 +377,7 @@ export default {
       that.currentRow = row
       let conceptId = row.target_concept_id
       that.currentDependents = []
+      that.currentSelected = row.dependentsCodes || []
       var url = process.env.API_URL + 'codeset/descendents/' + conceptId
       axios.get(url).then(function (response) {
         that.currentDependents = response.data.result.children
@@ -487,7 +488,7 @@ export default {
     },
     updateDependents (response) {
       var that = this
-      that.currentRow.dependentsList = response
+      that.currentRow.dependentsCodes = response
       that.dependentsPopup = false
     },
     updateFile () {

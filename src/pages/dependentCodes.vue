@@ -9,7 +9,7 @@
         <q-tree
           :nodes="desendents"
           node-key="Code"
-          tick-strategy="leaf"
+          tick-strategy="strict"
           :ticked.sync="ticked"
         >
           <template v-slot:default-header="prop">
@@ -22,7 +22,6 @@
 
     </q-card>
     <div class="footer">
-        <q-btn  class="q-ma-md" color="grey-9"  label="Cancel"></q-btn>
         <q-btn  class="q-ma-md" color="theamGreen" label="Save" @click="sendName"></q-btn>
       </div>
   </div>
@@ -39,17 +38,9 @@ export default {
     QCard,
     QTree
   },
-  data () {
-    return {
-      ticked: []
-    }
-  },
   props: {
-    'desendents': Array
-  },
-  mounted () {
-    // debugger
-    // this.$q.iconSet.tree.icon = 'fiber_manual_record'
+    'desendents': Array,
+    'ticked': Array
   },
   methods: {
     sendName (event) {

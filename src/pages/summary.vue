@@ -75,8 +75,8 @@
                   Patient Attrition Flow Summary
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
-                  <div class="q-mt-sm q-px-xs q-py-sm shadow-2 h40 col5">
-                      <summary-attrition v-if="summaryGraphRender" :attritionData="baseObj.report.patient_count"></summary-attrition>
+                  <div class="q-mt-sm q-px-xs q-py-sm shadow-0 h40 col5">
+                      <summary-attrition v-if="summaryGraphRender" :attritionData="baseObj.report"></summary-attrition>
                       <!-- MI + UA only and age > 20
                       <q-icon class="float-right q-mx-xs q-my-xs" @click="openFstChild=!openFstChild;openScdChild=0;" name="img:statics/imgs/greenRightArrow.png" />
                       <div class="float-right q-mx-xl W200 ">
@@ -174,8 +174,8 @@
                         <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/womanImg.png" />
                       </div>
                       <div class="row q-my-xs w10R q-mx-auto q-mt-lg">
-                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.male}}</div>
-                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.female}}</div>
+                        <!-- <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.male}}</div>
+                        <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.female}}</div> -->
                       </div>
                     </div>
                     <!-- <div class="By-GraphLbls_devider"></div>

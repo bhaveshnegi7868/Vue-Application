@@ -301,6 +301,7 @@ export default {
           var resultArray = []
           response.data.codeset_data.forEach(function (row1) {
             resultArray.push(row1.target_concept_id)
+            resultArray.concat(row1.dependentsCodes)
           })
           if (that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value === {}) {
             that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value = []

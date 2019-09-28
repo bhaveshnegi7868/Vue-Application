@@ -12,7 +12,6 @@ export default {
   },
   methods: {
     generateChart () {
-      debugger
       var chartdata = {
         labels: this.reportData.age_range,
         datasets: [{
