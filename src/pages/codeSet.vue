@@ -1,7 +1,7 @@
 <template>
   <div class="q-px-xl q-py-sm">
     <div class="row q-py-sm">
-      <q-card class="row col-10 q-mr-sm">
+      <q-card class="row col q-mr-sm">
           <div class="col-3 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="* Codeset Name" />
           </div>
@@ -31,22 +31,22 @@
               </q-btn-dropdown>
           </div>
       </q-card>
-      <q-card class="col codeSetActionbtns row">
-        <div class="col-3 q-ml-sm q-mr-sm q-py-xs">
-          <q-btn outlined icon="autorenew" class="action-btns f10 full-width" text-color="negative" @click="getCodesetDict">
+      <q-card class="w7R codeSetActionbtns row">
+        <div class="col-3 q-ml-xs q-mr-xs q-py-xs">
+          <q-btn outlined icon="autorenew" class="action-btns f10 full-width" text-color="negative" @click="reset">
             <q-tooltip>
               Reset
             </q-tooltip>
           </q-btn>
         </div>
-        <div class="col q-ml-sm q-mr-sm q-py-xs" v-if="pagemethod != 'update'">
+        <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'update'">
           <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Save
             </q-tooltip>
           </q-btn>
         </div>
-        <div class="col q-ml-sm q-mr-sm q-py-xs" v-if="pagemethod == 'update'">
+        <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod == 'update'">
           <q-btn outlined icon="save" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Update
@@ -270,6 +270,9 @@ export default {
     }
   },
   methods: {
+    reset () {
+      window.location.reload()
+    },
     getSelectedString () {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
     },
