@@ -18,7 +18,7 @@
                   @click="getCodesetGroupList"
                 >
                 <q-btn
-                  color="theamGreen"
+                  color="theamBlue"
                   class="full-width"
                   icon-right="add"
                   label="Add New Codeset Group"
@@ -58,13 +58,13 @@
     <div class="row q-my-sm">
       <div class="col-6 row q-mx-auto q-px-xl">
         <div class="col q-px-lg">
-          <q-btn class="q-mx-lg" color="theamGreen" text-color="white" rounded unelevated @click="codesPopup = true" >
+          <q-btn class="q-mx-lg" color="theamBlue" text-color="white" rounded unelevated @click="codesPopup = true" >
             <q-icon class="right-bordered-icon on-left" name="search"/>
             Search Codes
           </q-btn>
         </div>
         <div class="upload-btn-wrapper col">
-          <q-btn class="q-mx-lg" color="theamGreen" text-color="white" rounded unelevated >
+          <q-btn class="q-mx-lg" color="theamBlue" text-color="white" rounded unelevated >
             <q-icon class="right-bordered-icon on-left" name="backup"/>
             Upload Codes
           </q-btn>
@@ -87,15 +87,15 @@
     <q-tr  slot="header" class="table-header-codeset">
       <q-th key="podUpload1" class="sortable">
         <label>Standard Code</label><br>
-        <span class="sub-header fc-theamGreen ">Source Code</span>
+        <span class="sub-header fc-theamBlue ">Source Code</span>
       </q-th>
       <q-th class="codetDes w30R" key="podUpload2">
         <label>Standard Code Description</label><br>
-        <span class="sub-header fc-theamGreen">Source Code Description</span>
+        <span class="sub-header fc-theamBlue">Source Code Description</span>
       </q-th>
       <q-th key="podUpload6" >
         <label>Standard Vocabulary</label><br>
-        <span class="sub-header fc-theamGreen">Source Vocabulary</span>
+        <span class="sub-header fc-theamBlue">Source Vocabulary</span>
       </q-th>
       <!--<q-th key="podUpload3">
         <q-checkbox v-model="exclude" label="Exclude" />
@@ -112,12 +112,12 @@
     <q-tr slot="body" slot-scope="data" :props="data">
       <q-th key="podUpload1">
         {{data.row.target_concept_id}}<br>
-        <span class="f10 fc-theamGreen">{{data.row.source_concept_code}}</span>
+        <span class="f10 fc-theamBlue">{{data.row.source_concept_code}}</span>
       </q-th>
       <q-th key="podUpload2" class="ellipsis" style="max-width: 200px">{{data.row.target_concept_name}}<br>
-      <span class="f10 fc-theamGreen">{{data.row.source_concept_name}}</span></q-th>
+      <span class="f10 fc-theamBlue">{{data.row.source_concept_name}}</span></q-th>
       <q-th key="podUpload6"> {{data.row.target_concept_vocab_id}}<br>
-      <span class="f10 fc-theamGreen">{{data.row.source_concept_vocab_id}}</span> </q-th>
+      <span class="f10 fc-theamBlue">{{data.row.source_concept_vocab_id}}</span> </q-th>
       <q-th key="podUpload4">
         <div class="row">
           <div class="col-8 row q-mx-auto">
@@ -449,7 +449,7 @@ export default {
       }
       method.then(function (response) {
         that.$q.notify({
-          color: 'green',
+          color: 'blue',
           textColor: 'white',
           message: message,
           timeout: 3000
