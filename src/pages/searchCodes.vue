@@ -35,20 +35,23 @@
                         <div></div>
                       </q-item-section>
 
-                      <q-item-section>
+                      <q-item-section >
                         {{key}}
                       </q-item-section>
                     </template>
                       <q-card class="q-px-sm f10">
-                        <div v-for="av in fil" :key="av">
+                        <div v-for="av in fil" :key="av" class="ellipsis">
                           <input v-model="selectedFilters[key][av]"  type="checkbox" @input="refreshAppliedFilters"> {{av}}
+                          <q-tooltip>
+                             {{av}}
+                          </q-tooltip>
                         </div>
                       </q-card>
                     </q-expansion-item>
                   </q-list>
                 </div>
               </div>
-              <div class="col-10">
+              <div class="w80P">
                 <q-table
                   id="codesTable"
                   class="selected_events1"
@@ -86,10 +89,10 @@
                 <q-card v-for="(row,index) in selected" :key="row.code" class="q-ma-xs row q-pa-xs" shadow-3>
                   <div class="ellipsis col-11 f12 q-pr-sm">{{row.concept_code}} - {{row.concept_name}}</div>
                   <div class="text-right col">
-                    <q-btn class="fCgreen f8 q-px-xs q-py-none float-right" icon="cancel" flat rounded @click="remselection(index)"/>
+                    <q-btn class="fCblue f8 q-px-xs q-py-none float-right" icon="cancel" flat rounded @click="remselection(index)"/>
                   </div>
                   <div class="col-12">
-                    <div class="text-right f10 fc-theamGreen">
+                    <div class="text-right f10 fc-theamBlue">
                       {{row.domain_id}}-{{row.vocabulary_id}}
                     </div>
                   </div>
@@ -117,6 +120,7 @@ import {
   QTable,
   QList,
   QTd,
+  QTooltip,
   QExpansionItem
 } from 'quasar'
 export default {
@@ -124,6 +128,7 @@ export default {
   components: {
     QCard,
     QTable,
+    QTooltip,
     QList,
     QExpansionItem,
     QTd,
@@ -161,8 +166,8 @@ export default {
           sortable: true
         },
         { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 250px' },
-        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, align: 'center', style: 'max-width: 100px' },
-        { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', align: 'left', sortable: true },
+        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, classes: 'ellipsis', align: 'center', style: 'max-width: 100px' },
+        { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', classes: 'ellipsis', align: 'right', sortable: true, style: 'max-width: 100px' },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
       pagination: {
@@ -295,6 +300,7 @@ export default {
       return data
     },
     openDependentpopup (row) {
+      console.log(row)
       var that = this
       that.currentRow = row
       let conceptId = row.concept_code

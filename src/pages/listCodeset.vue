@@ -14,7 +14,7 @@
           >
           <template v-slot:top-left>
             <q-btn-toggle
-              v-model="codesetToggle" spread no-caps toggle-color="green"
+              v-model="codesetToggle" spread no-caps toggle-color="blue"
               color="white"
                 text-color="black"
                 :options="[
@@ -33,10 +33,10 @@
                 </template>
               </el-input>
               <router-link v-if="!allowImport" to="/codeset/create" class="cretebtn col-4">
-                <q-btn color="green pull-left h2-5R float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
+                <q-btn color="blue pull-left h2-5R float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
               <router-link v-if="allowImport" to="/codeset/create" class="cretebtn col-4" target="_blank" v-close-popup>
-                <q-btn color="green pull-left h2-5R float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
+                <q-btn color="blue pull-left h2-5R float-right" text-color="white" glossy unelevated icon="add" label="Create Codeset" />
               </router-link>
               </div>
           </template>
@@ -44,8 +44,8 @@
             <router-link to="/codeset">{{row.row.Codesetname1}}</router-link>
           </q-td>
             <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
-                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamGreen" size="0.5rem" icon="edit" @click="editCodeset(props.row.codeset_id)"></q-btn>
-                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamGreen" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.codeset_id)"></q-btn>
+                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamBlue" size="0.5rem" icon="edit" @click="editCodeset(props.row.codeset_id)"></q-btn>
+                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamBlue" size="0.5rem" icon="file_copy" @click="copyCodeset(props.row.codeset_id)"></q-btn>
                 <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="red" size="0.5rem" icon="delete_outline" @click="removeFromList(props.row.codeset_id);"></q-btn>
                 <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
@@ -53,7 +53,7 @@
         </div>
         <div class="footer" v-if="allowImport">
           <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
-          <q-btn  class="q-ma-md" color="theamGreen" label="Import" @click="sendDataToParent"></q-btn>
+          <q-btn  class="q-ma-md" color="theamBlue" label="Import" @click="sendDataToParent"></q-btn>
         </div>
     </div>
   </template>
