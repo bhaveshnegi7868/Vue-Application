@@ -11,7 +11,7 @@
             <div class="headerRight">
                 <div class="TopMenu">
                   <router-link class="textDecorNone" to="/cohort/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
-                  <router-link class="textDecorNone" to="/codeset/list" target="_blank"><span :class="CodeGroup" class="q-ml-lg">Codeset</span></router-link>
+                  <router-link class="textDecorNone" to="/codeset/list" target="_blank"><span :class="CodeGroup+'code'" class="q-ml-lg">Codeset</span></router-link>
                 </div>
                 <q-btn
                   icon="img:statics/imgs/userIcon.png"

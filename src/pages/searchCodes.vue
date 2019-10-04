@@ -1,5 +1,5 @@
 <template>
-  <div clas="searchCode-card">
+  <div clas="searchCode-card ">
     <div class="row" v-if="currentDependents.length === 0">
       <div class="w17R">
         <div class="q-my-md q-ml-md q-mr-xs searchCodesetHeader">Search Codes Using Key Words</div>
@@ -16,7 +16,7 @@
     </div>
     <q-card class="q-px-xs q-py-xs" v-if="currentDependents.length === 0">
       <div class="row" >
-        <div class="col-8 ">
+        <div class="col-8 codeSetPage">
           <div class="q-mb-sm row bor1Lightgrey selectedFilter">
             <div class="Applied-Filters">Applied Filters</div>
             <applied-filters :selectedFilters="selectedFilters" v-if="showFilters" @selectedChange="applyFilterChange"></applied-filters>
@@ -82,7 +82,7 @@
         <div class="col-4">
           <div class="q-pa-sm selected-codes-card q-ml-md">
             <div class="body">
-              <div class="categories_header">
+              <div class="codeCategories_header">
                 Selected Codes
               </div>
               <div class="selected_events q-mt-sm">
