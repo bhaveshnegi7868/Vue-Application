@@ -1,5 +1,5 @@
 <template>
-  <div class="q-px-xl q-py-sm">
+  <div class="q-px-xl q-py-sm codeSetPage">
     <div class="row q-py-sm">
       <q-card class="row col q-mr-sm">
           <div class="col-3 q-pa-xs">
@@ -286,7 +286,8 @@ export default {
       var selectedCodes = []
       value.forEach(function (row) {
         if (that.checkIfCodeInList(row)) {
-          selectedCodes.push(row.concept_code)
+          var code = row.concept_code + row.vocabulary_id
+          selectedCodes.push(code)
         } else {
           that.$q.notify({
             color: 'red',

@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-xl">
+    <div class="q-pa-xl codeSetPage" >
         <div v-if="errmsg" style="text-align: center; color: red; font-size: 16px;">
           Please select Codeset
         </div>
