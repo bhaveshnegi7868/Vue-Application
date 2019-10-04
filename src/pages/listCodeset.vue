@@ -142,12 +142,13 @@ export default {
       if (!that.codesetToggle) {
         url = process.env.API_URL + 'codeset/mycodeset/'
       }
+      that.$q.loading.show()
       axios.get(url).then(function (response) {
         response.data.result.forEach(function (row) {
           row.selected = false
           that.data.push(row)
         })
-        that.loading = false
+        that.$q.loading.hide()
       }).catch(function () {
         that.data = []
         that.loading = false

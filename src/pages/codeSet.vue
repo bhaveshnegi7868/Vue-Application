@@ -86,16 +86,16 @@
     >
     <q-tr  slot="header" class="table-header-codeset">
       <q-th key="podUpload1" class="sortable">
-        <label>Standard Code</label><br>
-        <span class="sub-header fc-theamBlue ">Source Code</span>
+        <label>Standard code</label><br>
+        <span class="sub-header fc-theamBlue ">Source code</span>
       </q-th>
       <q-th class="codetDes w30R" key="podUpload2">
-        <label>Standard Code Description</label><br>
-        <span class="sub-header fc-theamBlue">Source Code Description</span>
+        <label>Standard code description</label><br>
+        <span class="sub-header fc-theamBlue">Source code description</span>
       </q-th>
       <q-th key="podUpload6" >
-        <label>Standard Vocabulary</label><br>
-        <span class="sub-header fc-theamBlue">Source Vocabulary</span>
+        <label>Standard vocabulary</label><br>
+        <span class="sub-header fc-theamBlue">Source vocabulary</span>
       </q-th>
       <!--<q-th key="podUpload3">
         <q-checkbox v-model="exclude" label="Exclude" />
@@ -271,7 +271,12 @@ export default {
   },
   methods: {
     reset () {
-      window.location.reload()
+      var that = this
+      if (that.codeset_id) {
+        that.getCodesetDict()
+      } else {
+        that.baseObj = {}
+      }
     },
     getSelectedString () {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`

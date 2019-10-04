@@ -263,13 +263,13 @@
                   >
                    <div>
                       <q-card class="row sub-grp q-mt-sm q-mb-sm">
-                        <div class="col-10 q-pa-sm">
+                        <div class="col q-px-sm q-pt-sm">
                           <input class="input-box full-width q-mx-xs" v-model="elementObj.Name" placeholder="Group Name" />
                         </div>
-                        <div class="col q-ml-lg q-px-xs q-mt-sm">
+                        <div class="col-1 q-px-xs q-mt-xs">
                           <q-btn class="fCgreen f12 q-px-xs float-right" icon="cancel" flat rounded @click="cancelEvent(elementObj.id)"/>
                         </div>
-                        <div class="col-12 row  q-pa-sm">
+                        <div class="col-12 row  q-px-sm q-pt-xs">
                           <select class="criteria-box H25 q-mr-sm" v-model="elementObj.type.op">
                             <option disabled>Select</option>
                             <option value="ALL">All</option>
@@ -280,7 +280,7 @@
                             <input type="number" v-model="elementObj.type.count" class=" q-mx-xs text-center q-pa-xs w2R input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-ma-xs"> of the criteria </span>
                         </div>
-                        <div class="row full-width">
+                        <div class="row q-px-sm q-pt-xs full-width">
                         <q-card
                           v-for="(elementObj1,index1) in elementObj.CriteriaList"
                           :key="elementObj1.id"
@@ -886,7 +886,7 @@ export default {
         },
         'Name': '',
         'CriteriaList': [],
-        'currentSelected': 'full-width q-pa-sm q-ma-sm shadow-2 row'
+        'currentSelected': 'full-width q-pa-sm q-mt-xs shadow-2 row'
       })
       // that.$refs.test.click()
     },
@@ -944,7 +944,7 @@ export default {
               'id': that.getNextDigit(inde.lastChar),
               'event': that.selectedEvent,
               'criteria': that.selectedCriteria,
-              'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
+              'currentSelected': 'q-pa-sm  q-mt-sm shadow-2 row'
             })
           } else {
             that.currentCriteria.currentNumber = that.getNextDigit()
@@ -952,7 +952,7 @@ export default {
               'id': that.currentCriteria.currentNumber,
               'event': that.selectedEvent,
               'criteria': that.selectedCriteria,
-              'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
+              'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row'
             })
           }
         } else {
@@ -961,7 +961,7 @@ export default {
             'id': that.currentCriteria.currentNumber,
             'event': that.selectedEvent,
             'criteria': that.selectedCriteria,
-            'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
+            'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row'
           })
         }
       }
@@ -1108,9 +1108,9 @@ export default {
         that.currentInclusionObj.Groups.forEach(function (row, index) {
           row.CriteriaList.forEach(function (row1, index1) {
             if (row1.id.toString() === event.id.toString()) {
-              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
+              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm  q-mt-xs shadow-2 row selected-criteria'
             } else {
-              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
+              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-mt-xs shadow-2 row'
             }
           })
         })
