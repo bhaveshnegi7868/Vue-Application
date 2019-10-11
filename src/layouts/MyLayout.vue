@@ -13,25 +13,33 @@
                   <router-link class="textDecorNone" to="/cohort/list"><span :class="Cohorts" class="q-ml-sm">Cohort</span></router-link>
                   <router-link class="textDecorNone" to="/codeset/list" target="_blank"><span :class="CodeGroup+'code'" class="q-ml-lg">Codeset</span></router-link>
                 </div>
-                <q-btn
-                  icon="img:statics/imgs/userIcon.png"
-                  outline
-                  no-caps
-                  class="userName text-capitalize"
-                  :label="$q.localStorage.getItem('username')"
-                >
-              </q-btn>
+                <div>
                 <q-btn
                   icon-right="power_settings_new"
                   outline
                   no-caps
-                  class="userName"
+                  class="float-right userName"
                   @click="logout"
                 >
-                <q-tooltip anchor="bottom middle" self="center left">
+                <q-tooltip >
                   Logout
                 </q-tooltip>
-              </q-btn>
+                </q-btn>
+                <q-btn
+                  icon="person"
+                  outline
+                  no-caps
+                  class="float-right userName text-capitalize"
+                >
+                </q-btn>
+                <q-btn
+                  outline
+                  no-caps
+                  class="userName float-right text-capitalize"
+                  :label="$q.localStorage.getItem('username')"
+                >
+                </q-btn>
+              </div>
             </div>
         </q-toolbar-title>
       </q-toolbar>
