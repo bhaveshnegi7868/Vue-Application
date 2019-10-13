@@ -262,6 +262,7 @@ export default {
     fetchFromServer (startRow, count, filter, sortBy, descending, page, rowsPerPage) {
       let data = []
       let that = this
+      that.setFiltrs = false
       var url = process.env['API_URL'] + 'codeset/codes/list/?page=' + page + '&pagecount=' + rowsPerPage
       if (sortBy) {
         url += '&sort_by_column=' + sortBy
@@ -277,7 +278,8 @@ export default {
       Object.keys(that.selectedFilters).forEach(function (key) {
         Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
           if (that.selectedFilters[key][value]) {
-            url += '&' + key + '=' + value.toLowerCase()
+            that.setFiltrs = true
+            url += '&' + key + '=' + value
           }
         })
       })
@@ -294,6 +296,9 @@ export default {
         that.loading = false
         var container = that.$el.querySelector('#codesTable')
         container.scrollTop = 0
+        if (that.setFiltrs) {
+          that.filters = response.data.distinct_filters
+        }
       }).catch(function (err) {
         alert(err.message)
       })
