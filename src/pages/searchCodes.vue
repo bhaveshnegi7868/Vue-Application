@@ -298,6 +298,10 @@ export default {
         container.scrollTop = 0
         if (that.setFiltrs) {
           that.filters = response.data.distinct_filters
+          console.log('final Res')
+          console.log(that.selectedFilters)
+        } else {
+          that.getFilters()
         }
       }).catch(function (err) {
         alert(err.message)
