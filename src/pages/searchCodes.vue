@@ -2,7 +2,7 @@
   <div clas="searchCode-card ">
     <div class="row" v-if="currentDependents.length === 0">
       <div class="w17R">
-        <div class="q-my-md q-ml-md q-mr-xs searchCodesetHeader">Search Codes Using Key Words</div>
+        <div class="q-my-md q-ml-md q-mr-xs searchCodesetHeader">Search Codes Using Keywords</div>
       </div>
       <div class="col-9 q-mr-lg">
         <div class="q-ma-sm">

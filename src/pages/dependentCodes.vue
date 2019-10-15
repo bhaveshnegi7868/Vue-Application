@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row codeSetPage">
   <div class="col-12">
     <div class="q-my-md q-ml-md q-mr-xs searchCodesetHeader">Descendants</div>
   </div>
@@ -22,7 +22,7 @@
 
     </q-card>
     <div class="footer">
-        <q-btn  class="q-ma-md" color="theamGreen" label="Save" @click="sendName"></q-btn>
+        <q-btn  class="q-ma-md" color="theamBlue" label="Save" @click="sendName"></q-btn>
       </div>
   </div>
 </template>
