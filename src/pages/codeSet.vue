@@ -100,8 +100,8 @@
       <!--<q-th key="podUpload3">
         <q-checkbox v-model="exclude" label="Exclude" />
       </q-th>-->
-      <q-th key="podUpload4" >
-        <q-checkbox v-model="dependents" label="Descendants" />
+      <q-th key="podUpload4" @click="checkAll()" >
+        <q-checkbox v-model="allDependents" label="Descendants" />
       </q-th>
       <q-th key="podUpload5" class="w4R">
         <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
@@ -121,10 +121,9 @@
       <q-th key="podUpload4">
         <div class="row">
           <div class="col-8 row q-mx-auto">
-            <div class="col" style="margin-top: 10px;">
+            <div class="col codeSetPage" >
               <label class="checkbox-container">
-                <input type="checkbox" v-model="data.row.dependents" @click="getDependents(data.row)"/>
-                <span class="checkmark"></span>
+                <q-checkbox v-model="data.row.dependents" @click="getDependents(data.row)"/>
               </label>
             </div>
             <div class="col dependentsIcon">
@@ -223,10 +222,14 @@ export default {
       },
       renderComponent: true,
       renderComponent1: true,
+      currentSelected: [],
       currentDependents: [],
+      allDependents: false,
+      currentDependentsList: [],
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
+      decendentChildFlags: [],
       codesPopup: false,
       dependentsPopup: false,
       exclude: false,
@@ -319,6 +322,8 @@ export default {
           row.dependents = false
           that.baseObj.codeset_data.push(row)
         })
+        response.data.decendent_child_flags.forEach(function (val) {
+        })
         that.codesPopup = false
         that.renderComponent = false
         setTimeout(function () {
@@ -367,6 +372,24 @@ export default {
         })
       }, 100)
     },
+    removeAllCodesFromList2 () {
+      console.log('checkall')
+    },
+    checkAll () {
+      var that = this
+      console.log('checkall')
+      console.log('inside checkall')
+      console.log(that.baseObj)
+      that.baseObj.codeset_data.forEach(function (row) {
+        console.log(row)
+      })
+      var url = process.env.API_URL + 'codeset/descendents/' + 'checkall=' + that.allDependant
+      axios.get(url).then(function (response) {
+        console.log('Check all success')
+      }).catch(function () {
+
+      })
+    },
     removeCodeFromList (code) {
       var that = this
       var data = that.baseObj.codeset_data.filter(row1 => row1.target_concept_id === code)
@@ -387,9 +410,13 @@ export default {
       let conceptId = row.target_concept_id
       that.currentDependents = []
       that.currentSelected = row.dependentsCodes || []
-      var url = process.env.API_URL + 'codeset/descendents/' + conceptId
+      var selectedConceptId = []
+      var checkall = false
+      selectedConceptId.push(conceptId)
+      var url = process.env.API_URL + 'codeset/descendents/?codes=' + selectedConceptId + '&checkall=' + checkall
       axios.get(url).then(function (response) {
         that.currentDependents = response.data.result.children
+        that.currentDependentsList = response.data.result.codes_list
         that.dependentsPopup = true
       }).catch(function () {
 
@@ -398,9 +425,10 @@ export default {
     savedSuccessfully () {
     },
     getDependents (row) {
+      console.log('Yesss')
       let conceptId = row.target_concept_id
       if (!row.dependents) {
-        var url = process.env.API_URL + 'codeset/descendents/' + conceptId
+        var url = process.env.API_URL + 'codeset/descendents/' + 'codes=' + conceptId
         axios.get(url).then(function (response) {
           row.dependentsCodes = response.data.result.codes_list
         }).catch(function () {
@@ -498,6 +526,19 @@ export default {
     updateDependents (response) {
       var that = this
       that.currentRow.dependentsCodes = response
+      console.log('ticked adat')
+      console.log(response)
+      console.log(that.currentDependents)
+      if (response.length === 0) {
+        console.log('Inside If')
+        that.currentRow.dependents = false
+      } else if (that.currentDependentsList.length === response.length) {
+        console.log('Inside Else If')
+        that.currentRow.dependents = true
+      } else {
+        console.log('Inside Else If else')
+        that.currentRow.dependents = null
+      }
       that.dependentsPopup = false
     },
     updateFile () {
