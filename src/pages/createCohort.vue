@@ -1388,11 +1388,11 @@ export default {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Extent
               }
               if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name] = {}
                 if (data[key][kIndx][data[key][kIndx].inputs[0].name] && data[key][kIndx][data[key][kIndx].inputs[0].name].length !== 0) {
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = []
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name] = []
                   data[key][kIndx][data[key][kIndx].inputs[0].name].forEach(function (v, k) {
-                    that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].push(v.value)
+                    that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name].push(v.value)
                   })
                 }
               }
@@ -1431,11 +1431,11 @@ export default {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Extent
                       }
                       if (cokIndx === 'Gender' || cokIndx === 'DrugType' || cokIndx === 'ProviderSpecialty' || cokIndx === 'VisitType' || cokIndx === 'ProcedureType' || cokIndx === 'ConditionType') {
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
+                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][codata[cokey][cokIndx].name] = {}
                         if (codata[cokey][cokIndx][codata[cokey][cokIndx].inputs[0].name] && codata[cokey][cokIndx][codata[cokey][cokIndx].inputs[0].name].length !== 0) {
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = []
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][[codata[cokey][cokIndx].name]] = []
                           codata[cokey][cokIndx][codata[cokey][cokIndx].inputs[0].name].forEach(function (v, k) {
-                            that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].push(v.value)
+                            that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][[codata[cokey][cokIndx].name]].push(v.value)
                           })
                         }
                       }
@@ -1444,6 +1444,9 @@ export default {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = codata[cokey][cokIndx].codeset.value
                       }
                       if (cokIndx === 'Occurrence') {
+                        console.log('Inside child loop CorrelatedCriteria Object')
+                        console.log('occurance data')
+                        console.log(codata[cokey][cokIndx].count)
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Count = codata[cokey][cokIndx].count
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Type = codata[cokey][cokIndx].type
