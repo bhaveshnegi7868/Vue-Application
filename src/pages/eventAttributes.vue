@@ -15,7 +15,7 @@
           </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <multiselect
-              v-model="obj.value[event[mappingDict[event.event]][key][obj.name]]"
+              v-model="event[mappingDict[event.event]][key][obj.name]"
               :options="obj.value"
               :searchable="true"
               :close-on-select="false"
@@ -75,7 +75,7 @@
               <div class="">
                 <div class="">
                    <multiselect
-                      v-model="obj.value[event[mappingDict[event.event]][key][obj.name]]"
+                      v-model="event[mappingDict[event.event]][key][obj.name]"
                       :options="obj.value"
                       :searchable="true"
                       :close-on-select="false"
@@ -140,11 +140,11 @@
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
-                  <input type="number" class="input-box text-center  w4R q-mr-xs" />
+                  <input type="number" v-model="event[mappingDict[event.event]][key].data.sday" class="input-box text-center  w4R q-mr-xs" />
                 </div>
                 <div class=" q-mr-xs ">
                   <span class="q-mr-xs"> day</span>
-                  <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].daytypeOpt1" v-on:change="sendName">
+                  <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -152,11 +152,11 @@
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> and </span>
-                  <input type="number" class="text-center input-box w4R q-mr-xs" />
+                  <input type="number" v-model="event[mappingDict[event.event]][key].data.eday" class="text-center input-box w4R q-mr-xs" />
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> day</span>
-                  <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].daytypeOpt2" v-on:change="sendName">
+                  <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -316,7 +316,7 @@ export default {
           if (that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value.filter(v => v.label.toLowerCase() === row.codeset_name.toLowerCase()).length === 0) {
             that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value.push({
               'label': row.codeset_name,
-              'value': JSON.stringify(resultArray)
+              'value': resultArray
             })
           } else {
             console.log(that.event[that.mappingDict[that.event.event]][that.currentKey].inputs[that.currentIndex].value.filter(v => v.label.toLowerCase() === row.codeset_name.toLowerCase()))
@@ -375,12 +375,10 @@ export default {
     makeSelected () {
       var that = this
       that.renderComponent1 = false
-      setTimeout(function () {
-        that.$nextTick(() => {
-          // Add the component back in
-          that.renderComponent1 = true
-        })
-      }, 100)
+      that.$nextTick(() => {
+        // Add the component back in
+        that.renderComponent1 = true
+      })
     },
     commonFilter (val, data, data1, data2) {
       debugger
