@@ -407,15 +407,16 @@ export default {
     openDependentpopup (row) {
       var that = this
       that.currentRow = row
-      let conceptId = row.target_concept_id
       that.currentDependents = []
       that.currentSelected = row.dependentsCodes || []
-      var selectedConceptId = []
-      var checkall = false
-      selectedConceptId.push(conceptId)
-      var url = process.env.API_URL + 'codeset/descendents/?codes=' + selectedConceptId + '&checkall=' + checkall
+      var selectedCodes = ['35622281', '35622307', '35622308', '35622310', '35622286', '73574']
+      var checkall = true
+      var url = process.env.API_URL + 'codeset/descendents/?checkall=' + checkall
+      selectedCodes.forEach(function (value) {
+        url += '&codes=' + value
+      })
       axios.get(url).then(function (response) {
-        that.currentDependents = response.data.result.children
+        that.currentDependents[0] = response.data.result
         that.currentDependentsList = response.data.result.codes_list
         that.dependentsPopup = true
       }).catch(function () {
