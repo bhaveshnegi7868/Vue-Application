@@ -1371,17 +1371,20 @@ export default {
       that.baseObj.actual_JSON.PrimaryCriteria.Description = that.baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
       that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList = []
       that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.forEach(function (data, index) {
+        console.log('event loop')
+        console.log(data)
         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index] = {}
         for (var key in data) {
           var resType = (typeof data[key])
           if (resType === 'object') {
             if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
-              var coParentKey = key
-              that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key] = {}
-              that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Name = data.name
+              if (!that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key]) {
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key] = {}
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Name = data.name
+              }
             }
             for (var kIndx in data[key]) {
-              if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
+              if (kIndx === 'OccurrenceStartDate' || kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Value
@@ -1410,6 +1413,11 @@ export default {
             if (key === 'CorrelatedCriteria') {
               console.log('CorrelatedCriteria Object')
               console.log(data[key])
+              var coParentKey = (data.event === 'Treatment' ? 'DrugExposure' : (data.event === 'Diagnosis' ? 'ConditionOccurrence' : 'ProcedureOccurrence'))
+              if (!that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey]) {
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey] = {}
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey].Name = data.name
+              }
               that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key] = {}
               that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].Name = data.name
               that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList = []
@@ -1424,7 +1432,7 @@ export default {
                     for (var cokIndx in codata[cokey]) {
                       console.log('Inside child loop CorrelatedCriteria Object')
                       console.log(cokIndx)
-                      if (cokIndx === 'OccurrenceStartDate' || cokIndx === 'Age' || cokIndx === 'Refills' || cokIndx === 'Quantity' || cokIndx === 'DaysSupply') {
+                      if (cokIndx === 'OccurrenceStartDate' || cokIndx === 'OccurrenceStartDate' || cokIndx === 'Age' || cokIndx === 'Refills' || cokIndx === 'Quantity' || cokIndx === 'DaysSupply') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Value
