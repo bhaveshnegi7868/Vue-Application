@@ -1489,8 +1489,73 @@ export default {
       })
       that.baseObj.actual_JSON.PrimaryCriteria.PrimaryCriteriaLimit = that.baseObj.criteriaObj.PrimaryCriteria.PrimaryCriteriaLimit
       that.baseObj.actual_JSON.PrimaryCriteria.ObservationWindow = that.baseObj.criteriaObj.PrimaryCriteria.ObservationWindow
-      console.log('Result JSON')
+      console.log('Result JSON with PrimaryCriteria')
       console.log(that.baseObj.actual_JSON)
+      that.baseObj.actual_JSON.InclusionRules = []
+      that.baseObj.criteriaObj.InclusionRules.forEach(function (data, index) {
+        console.log('Inclusion start')
+        that.baseObj.actual_JSON.InclusionRules[index] = {}
+        that.baseObj.actual_JSON.InclusionRules[index].Name = data.ICriteriaSetName
+        that.baseObj.actual_JSON.InclusionRules[index].Desc = data.ICriteriaSetDesc
+        that.baseObj.actual_JSON.InclusionRules[index].expression = {}
+        that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList = []
+        that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.forEach(function (Idata, dindex) {
+          console.log('event loop')
+          console.log(Idata)
+          that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex] = {}
+          for (var key in Idata) {
+            console.log('Inside Idata loop')
+            console.log(key)
+            var resType = (typeof Idata[key])
+            if (resType === 'object') {
+              console.log('Inside Idata object condition')
+              console.log(key)
+              if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
+                if (!that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key]) {
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key] = {}
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].Name = Idata.name
+                }
+              }
+              for (var kIndx in Idata[key]) {
+                console.log('Inside Idata key loop')
+                console.log(kIndx)
+                console.log(Idata[key][kIndx])
+                if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op ? Idata[key][kIndx].Op : ''
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value ? Idata[key][kIndx].Value : ''
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent ? Idata[key][kIndx].Extent : ''
+                }
+                if (kIndx === 'OccurrenceStartDate') {
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op ? Idata[key][kIndx].Op : ''
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent ? Idata[key][kIndx].Extent : ''
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value ? Idata[key][kIndx].Value : ''
+                }
+                if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
+                  if (Idata[key][kIndx][Idata[key][kIndx].inputs[0].name] && Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].length !== 0) {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = []
+                    Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].forEach(function (v, k) {
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name].push(v.value)
+                    })
+                  }
+                }
+                if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].Codeset = []
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
+                }
+                if (kIndx === 'Occurrence') {
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].IsDistinct = true
+                }
+              }
+            }
+          }
+        })
+      })
       var successStatement = 'Cohort  Defination Saved Successfully'
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
