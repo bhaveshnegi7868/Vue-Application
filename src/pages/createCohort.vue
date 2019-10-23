@@ -1150,6 +1150,7 @@ export default {
     },
     markCriteriaAsSelected (criteria) {
       var that = this
+      that.renderComponent = 0
       that.criteriaArray.forEach(function (row, index) {
         if (index === 0) {
           if (row.PCriteriaSetName === criteria.PCriteriaSetName) {
@@ -1407,7 +1408,7 @@ export default {
               }
               if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Codeset = []
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Codeset = data[key][kIndx].codeset.value
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Codeset = (data[key][kIndx].codeset && data[key][kIndx].codeset.value) ? data[key][kIndx].codeset.value : ''
               }
               if (kIndx === 'Occurrence') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
@@ -1461,7 +1462,7 @@ export default {
                       }
                       if (cokIndx === 'listDiagnosis' || cokIndx === 'listProcedures' || cokIndx === 'listDrugs') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = []
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = codata[cokey][cokIndx].codeset.value
+                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = (codata[cokey][cokIndx].codeset && codata[cokey][cokIndx].codeset.value) ? codata[cokey][cokIndx].codeset.value : ''
                       }
                       if (cokIndx === 'Occurrence') {
                         console.log('Inside child loop CorrelatedCriteria Object')
@@ -1522,15 +1523,15 @@ export default {
                 console.log(Idata[key][kIndx])
                 if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op ? Idata[key][kIndx].Op : ''
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value ? Idata[key][kIndx].Value : ''
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent ? Idata[key][kIndx].Extent : ''
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
                 }
                 if (kIndx === 'OccurrenceStartDate') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op ? Idata[key][kIndx].Op : ''
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent ? Idata[key][kIndx].Extent : ''
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value ? Idata[key][kIndx].Value : ''
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
                 }
                 if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
@@ -1556,6 +1557,8 @@ export default {
           }
         })
       })
+      console.log('Result JSON with Inclusion criteria')
+      console.log(that.baseObj.actual_JSON)
       var successStatement = 'Cohort  Defination Saved Successfully'
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
