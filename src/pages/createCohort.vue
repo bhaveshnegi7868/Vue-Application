@@ -195,10 +195,10 @@
                   <div class="col" v-if="currentInclusionObj.type">
                     <select class="criteria-box H25" v-model="currentInclusionObj.type.op">
                       <option disabled>Select</option>
-                      <option value="ALL">All</option>
-                      <option value="ANY">Any</option>
-                      <option value="At most">At Most</option>
-                      <option value="At least">At Least</option>
+                      <option value="All">All</option>
+                      <option value="Any">Any</option>
+                      <option value="at most">At Most</option>
+                      <option value="at least">At Least</option>
                     </select>
                     <input type="number" v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
@@ -272,10 +272,10 @@
                         <div class="col-12 row  q-px-sm q-pt-xs">
                           <select class="criteria-box H25 q-mr-sm" v-model="elementObj.type.op">
                             <option disabled>Select</option>
-                            <option value="ALL">All</option>
-                            <option value="ANY">Any</option>
-                            <option value="At most">At Most</option>
-                            <option value="At least">At Least</option>
+                            <option value="All">All</option>
+                            <option value="Any">Any</option>
+                            <option value="at most">At Most</option>
+                            <option value="at least">At Least</option>
                             </select>
                             <input type="number" v-model="elementObj.type.count" class=" q-mx-xs text-center q-pa-xs w2R input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-ma-xs"> of the criteria </span>
@@ -502,10 +502,10 @@
                   <div class="col" v-if="currentInclusionObj.type">
                     <select class="criteria-box H25" disabled v-model="currentInclusionObj.type.op">
                       <option disabled>Select</option>
-                      <option value="ALL">All</option>
-                      <option value="ANY">Any</option>
-                      <option value="At most">At Most</option>
-                      <option value="At least">At Least</option>
+                      <option value="All">All</option>
+                      <option value="Any">Any</option>
+                      <option value="at most">At Most</option>
+                      <option value="at least">At Least</option>
                     </select>
                     <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="text-center q-pa-xs w2R  q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
@@ -566,10 +566,10 @@
                         <div class="col-12 row  q-pa-sm">
                           <select class="criteria-box H25 q-mr-sm" disabled v-model="elementObj.type.op">
                             <option disabled>Select</option>
-                            <option value="ALL">All</option>
-                            <option value="ANY">Any</option>
-                            <option value="At most">At Most</option>
-                            <option value="At least">At Least</option>
+                            <option value="All">All</option>
+                            <option value="Any">Any</option>
+                            <option value="at most">At Most</option>
+                            <option value="at least">At Least</option>
                             </select>
                             <input type="number"  readonly="true" v-model="elementObj.type.count" class="input-box text-center q-pa-xs w2R q-mx-xs " v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-my-sm"> of the criteria </span>
@@ -882,7 +882,7 @@ export default {
       that.currentInclusionObj.Groups.push({
         'id': that.currentCriteria.currentNumber,
         'type': {
-          'op': 'ANY'
+          'op': 'Any'
         },
         'Name': '',
         'CriteriaList': [],
@@ -1061,7 +1061,7 @@ export default {
       that.renderComponent2 = false
       elementObj.CorrelatedCriteria = {
         'type': {
-          'op': 'ANY'
+          'op': 'Any'
         },
         'CriteriaList': []
       }
@@ -1219,7 +1219,7 @@ export default {
         'ICriteriaSetName': '',
         'ICriteriaSetDesc': '',
         'type': {
-          'op': 'ANY'
+          'op': 'Any'
         },
         'currentSelected': 0,
         'expression': {
@@ -1500,6 +1500,9 @@ export default {
         that.baseObj.actual_JSON.InclusionRules[index].Desc = data.ICriteriaSetDesc
         that.baseObj.actual_JSON.InclusionRules[index].expression = {}
         that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList = []
+        that.baseObj.actual_JSON.InclusionRules[index].expression.Type = {}
+        that.baseObj.actual_JSON.InclusionRules[index].expression.Type.op = data.type.op
+        that.baseObj.actual_JSON.InclusionRules[index].expression.Type.count = data.type.op === 'Any' ? 0 : (data.type.op === 'All' ? that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList.length : data.type.count)
         that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.forEach(function (Idata, dindex) {
           console.log('event loop')
           console.log(Idata)
@@ -1556,7 +1559,78 @@ export default {
             }
           }
         })
+        that.baseObj.actual_JSON.InclusionRules[index].expression.Groups = []
+        console.log('Group Started')
+        console.log(that.baseObj.criteriaObj.InclusionRules[index])
+        that.baseObj.criteriaObj.InclusionRules[index].Groups.forEach(function (GrpData, Grpindex) {
+          console.log('Group 1st line')
+          console.log(GrpData)
+          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex] = {}
+          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Name = GrpData.Name
+          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type = []
+          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type.op = GrpData.type.op
+          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type.count = GrpData.type.op === 'Any' ? 0 : (GrpData.type.op === 'All' ? GrpData.CriteriaList.length : GrpData.type.count)
+          console.log('Group 3st line')
+          console.log(GrpData)
+          GrpData.CriteriaList.forEach(function (Idata, dindex) {
+            console.log('Groups loop')
+            console.log(Idata)
+            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = {}
+            for (var key in Idata) {
+              console.log('Inside Idata loop')
+              console.log(key)
+              var resType = (typeof Idata[key])
+              if (resType === 'object') {
+                console.log('Inside Idata object condition')
+                console.log(key)
+                if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
+                  if (!that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key]) {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].Name = Idata.name
+                  }
+                }
+                for (var kIndx in Idata[key]) {
+                  console.log('Inside Idata key loop')
+                  console.log(kIndx)
+                  console.log(Idata[key][kIndx])
+                  if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Op = Idata[key][kIndx].Op
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Value = Idata[key][kIndx].Value
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Extent = Idata[key][kIndx].Extent
+                  }
+                  if (kIndx === 'OccurrenceStartDate') {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Op = Idata[key][kIndx].Op
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Value = Idata[key][kIndx].Extent
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Extent = Idata[key][kIndx].Value
+                  }
+                  if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][Idata[key][kIndx].name] = {}
+                    if (Idata[key][kIndx][Idata[key][kIndx].inputs[0].name] && Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].length !== 0) {
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][Idata[key][kIndx].name] = []
+                      Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].forEach(function (v, k) {
+                        that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][Idata[key][kIndx].name].push(v.value)
+                      })
+                    }
+                  }
+                  if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].Codeset = []
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
+                  }
+                  if (kIndx === 'Occurrence') {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Count = Idata[key][kIndx].count
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Type = Idata[key][kIndx].type
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].IsDistinct = true
+                  }
+                }
+              }
+            }
+          })
+        })
       })
+
       console.log('Result JSON with Inclusion criteria')
       console.log(that.baseObj.actual_JSON)
       var successStatement = 'Cohort  Defination Saved Successfully'
