@@ -320,8 +320,8 @@
                   </drop>
                 </div>
               </q-card>
-              <q-card class="q-pa-sm q-mt-lg f12 custom-card">
-                <div class="row">
+              <q-card class="q-pa-sm q-mt-lg f12 custom-card" v-if="currentCriteria.ObservationWindow">
+                <div class="row" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
                     Limit initial events to
                     <select class="criteria-box H25 w9R" v-model="currentCriteria.PrimaryCriteriaLimit.Type">
@@ -592,7 +592,7 @@
                   </div>
               </q-card>
               <q-card class="q-pa-sm q-mt-lg f12 custom-card">
-                <div class="row">
+                <div class="row" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
                     Limit initial events to
                     <select class="criteria-box H25 w9R" disabled v-model="currentCriteria.PrimaryCriteriaLimit.Type">
@@ -1555,6 +1555,14 @@ export default {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].IsDistinct = true
                 }
+                if (kIndx === 'OccurrenceIndexStartDate') {
+                  console.log('Insile OccurrenceIndexStartDate')
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow = { 'Start': {}, 'End': {} }
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === 'After' ? 1 : -1)
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.Start.Days = Idata[key][kIndx].data.sday
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === 'After' ? 1 : -1)
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.End.Days = Idata[key][kIndx].data.eday
+                }
               }
             }
           }
@@ -1575,7 +1583,7 @@ export default {
           GrpData.CriteriaList.forEach(function (Idata, dindex) {
             console.log('Groups loop')
             console.log(Idata)
-            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = {}
+            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = []
             for (var key in Idata) {
               console.log('Inside Idata loop')
               console.log(key)
@@ -1623,6 +1631,14 @@ export default {
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Count = Idata[key][kIndx].count
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Type = Idata[key][kIndx].type
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].IsDistinct = true
+                  }
+                  if (kIndx === 'OccurrenceIndexStartDate') {
+                    console.log('Insile OccurrenceIndexStartDate')
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow = { 'Start': {}, 'End': {} }
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.Start.Days = Idata[key][kIndx].data.sday
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.End.Days = Idata[key][kIndx].data.eday
                   }
                 }
               }
