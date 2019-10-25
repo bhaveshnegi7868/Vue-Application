@@ -1578,7 +1578,7 @@ export default {
           console.log(GrpData)
           that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex] = {}
           that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Name = GrpData.Name
-          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type = []
+          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type = {}
           that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type.op = GrpData.type.op
           that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type.count = GrpData.type.op === 'Any' ? 0 : (GrpData.type.op === 'All' ? GrpData.CriteriaList.length : GrpData.type.count)
           console.log('Group 3st line')
@@ -1586,7 +1586,7 @@ export default {
           GrpData.CriteriaList.forEach(function (Idata, dindex) {
             console.log('Groups loop')
             console.log(Idata)
-            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = []
+            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = {}
             for (var key in Idata) {
               console.log('Inside Idata loop')
               console.log(key)
