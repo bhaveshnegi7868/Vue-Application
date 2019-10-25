@@ -139,6 +139,7 @@ export default {
     return {
       selected: [],
       filter: '',
+      recentFilter: {},
       showFilters: false,
       filters: [],
       titles: [{

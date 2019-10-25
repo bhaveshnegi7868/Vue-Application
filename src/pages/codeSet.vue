@@ -404,7 +404,7 @@ export default {
         })
       }, 100)
     },
-    openDependentpopup (row) {
+    checkDpendanceAll (row) {
       var that = this
       that.currentRow = row
       that.currentDependents = []
@@ -415,6 +415,21 @@ export default {
       selectedCodes.forEach(function (value) {
         url += '&codes=' + value
       })
+      axios.get(url).then(function (response) {
+        that.currentDependents[0] = response.data.result
+        that.currentDependentsList = response.data.result.codes_list
+        that.dependentsPopup = true
+      }).catch(function () {
+
+      })
+    },
+    openDependentpopup (row) {
+      var that = this
+      that.currentRow = row
+      that.currentDependents = []
+      that.currentSelected = row.dependentsCodes || []
+      var checkall = false
+      var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
       axios.get(url).then(function (response) {
         that.currentDependents[0] = response.data.result
         that.currentDependentsList = response.data.result.codes_list

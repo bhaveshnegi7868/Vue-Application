@@ -1,5 +1,5 @@
 <template>
-  <div class="q-ma-sm">
+  <div class="q-ma-sm ">
     <div class="EventList_header f12">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
