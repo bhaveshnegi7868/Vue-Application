@@ -1500,9 +1500,12 @@ export default {
         that.baseObj.actual_JSON.InclusionRules[index].Desc = data.ICriteriaSetDesc
         that.baseObj.actual_JSON.InclusionRules[index].expression = {}
         that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList = []
+        console.log('count check')
+        console.log(that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList)
+        console.log(that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.length)
         that.baseObj.actual_JSON.InclusionRules[index].expression.Type = {}
         that.baseObj.actual_JSON.InclusionRules[index].expression.Type.op = data.type.op
-        that.baseObj.actual_JSON.InclusionRules[index].expression.Type.count = data.type.op === 'Any' ? 0 : (data.type.op === 'All' ? that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList.length : data.type.count)
+        that.baseObj.actual_JSON.InclusionRules[index].expression.Type.count = data.type.op === 'Any' ? 0 : (data.type.op === 'All' ? (that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.length + that.baseObj.criteriaObj.InclusionRules[index].Groups.length) : data.type.count)
         that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.forEach(function (Idata, dindex) {
           console.log('event loop')
           console.log(Idata)
@@ -1634,11 +1637,11 @@ export default {
                   }
                   if (kIndx === 'OccurrenceIndexStartDate') {
                     console.log('Insile OccurrenceIndexStartDate')
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow = { 'Start': {}, 'End': {} }
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === 'After' ? 1 : -1)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.Start.Days = Idata[key][kIndx].data.sday
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === 'After' ? 1 : -1)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].StartWindow.End.Days = Idata[key][kIndx].data.eday
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow = { 'Start': {}, 'End': {} }
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.Start.Days = Idata[key][kIndx].data.sday
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.End.Days = Idata[key][kIndx].data.eday
                   }
                 }
               }

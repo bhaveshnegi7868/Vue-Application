@@ -88,9 +88,9 @@ export default {
         { name: 'Cohortdescription', label: 'Cohort description', field: 'cohort_desc', align: 'left', sortable: true, classes: 'w25R ellipsis', style: 'max-width: 130px' },
         { name: 'cohort_group', label: 'Cohort group', field: 'cohort_group', sortable: true, align: 'left' },
         { name: 'Createdby', label: 'Created by', field: 'cohort_created_by', sortable: true, align: 'left' },
-        { name: 'Createddate', label: 'Created date', field: 'cohort_created_at', sortable: true },
-        { name: 'Executeddate', label: 'Executed date', field: 'cohort_executed_at', sortable: true },
-        { name: 'Status', label: 'Status', field: 'cohort_status', sortable: true },
+        { name: 'Createddate', label: 'Created date', field: 'cohort_created_at', sortable: true, align: 'left' },
+        { name: 'Executeddate', label: 'Executed date', field: 'cohort_executed_at', sortable: true, align: 'left' },
+        { name: 'Status', label: 'Status', field: 'cohort_status', sortable: true, align: 'left' },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
       data: [],
