@@ -140,6 +140,7 @@ export default {
       selected: [],
       filter: '',
       recentFilter: {},
+      recentFilterData: {},
       showFilters: false,
       filters: [],
       titles: [{
@@ -278,12 +279,30 @@ export default {
       }
       Object.keys(that.selectedFilters).forEach(function (key) {
         Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
+          if (that.recentFilter.length > 0) {
+            console.log('inside if recent')
+            if (that.selectedFilters[key][value] !== that.recentFilter[key][value]) {
+              that.recentFilterData.key = key
+              that.recentFilterData.value = value
+            }
+          }
+          console.log('outside if recent')
           if (that.selectedFilters[key][value]) {
+            if (!that.recentFilter.length) {
+              that.recentFilterData.key = key
+              that.recentFilterData.value = value
+            }
+            if (that.recentFilterData.key) {
+              url += '&recent_filter=' + that.recentFilterData.key + '_' + that.recentFilterData.value
+            }
             that.setFiltrs = true
             url += '&' + key + '=' + value
           }
         })
       })
+      that.recentFilter = that.selectedFilters
+      console.log('recentFilterData')
+      console.log(that.recentFilterData)
       axios({
         method: 'get',
         url: url
@@ -298,7 +317,11 @@ export default {
         var container = that.$el.querySelector('#codesTable')
         container.scrollTop = 0
         if (that.setFiltrs) {
-          that.filters = response.data.distinct_filters
+          for (var key in response.data.distinct_filters) {
+            if (!that.recentFilterData[key]) {
+              that.filters[key] = response.data.distinct_filters[key]
+            }
+          }
           console.log('final Res')
           console.log(that.selectedFilters)
         } else {
