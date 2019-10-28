@@ -279,30 +279,45 @@ export default {
       }
       Object.keys(that.selectedFilters).forEach(function (key) {
         Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
-          if (that.recentFilter.length > 0) {
-            console.log('inside if recent')
+          if (that.recentFilter[key]) {
+            console.log('inside if recent selected data')
+            console.log(that.selectedFilters)
+            console.log('inside if recent recent Data')
+            console.log(that.recentFilter)
             if (that.selectedFilters[key][value] !== that.recentFilter[key][value]) {
+              console.log('inside if recent added')
               that.recentFilterData.key = key
               that.recentFilterData.value = value
             }
           }
-          console.log('outside if recent')
           if (that.selectedFilters[key][value]) {
-            if (!that.recentFilter.length) {
+            console.log('outside if selectedFilters')
+            console.log(that.recentFilter)
+            if (!that.recentFilter[key]) {
+              console.log('outside if recentFilter')
               that.recentFilterData.key = key
               that.recentFilterData.value = value
-            }
-            if (that.recentFilterData.key) {
-              url += '&recent_filter=' + that.recentFilterData.key + '_' + that.recentFilterData.value
             }
             that.setFiltrs = true
             url += '&' + key + '=' + value
           }
         })
       })
-      that.recentFilter = that.selectedFilters
+      if (that.recentFilterData.key) {
+        url += '&recent_filter=' + that.recentFilterData.key + '_' + that.recentFilterData.value
+        Object.keys(that.selectedFilters).forEach(function (key) {
+          that.recentFilter[key] = {}
+          Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
+            console.log('recentFilter Key')
+            console.log(key)
+            console.log(value)
+            that.recentFilter[key][value] = that.selectedFilters[key][value]
+          })
+        })
+      }
       console.log('recentFilterData')
       console.log(that.recentFilterData)
+      console.log(that.recentFilter)
       axios({
         method: 'get',
         url: url
