@@ -17,7 +17,8 @@
         </div>
         <div class="header_Bor1"></div>
         <div class="f12 q-mt-sm bor1grey" v-if="categories_header_render">
-          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey" @click="markSelected(row)">
+          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey">
+          <!--<set>@click="(row.label === 'Attrition and Demographics' ? markSelected(row) : '')"</set>-->
               {{row.label}}
           </q-btn>
         </div>
@@ -296,11 +297,9 @@ export default {
       that.currentReportType = row
       that.getCohortReport()
       that.categories_header_render = false
-      setTimeout(function () {
-        that.$nextTick(() => {
-          that.categories_header_render = true
-        })
-      }, 100)
+      that.$nextTick(() => {
+        that.categories_header_render = true
+      })
     },
     getCohortDict () {
       var that = this

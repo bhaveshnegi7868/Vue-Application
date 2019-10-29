@@ -150,9 +150,9 @@
         <q-btn class="categories_addNew full-width" @click="addNewCriteria">
             Add Criteria Set
         </q-btn>
-        <q-btn class="categories_addNew full-width" @click="createDictAndShow">
+        <!--<q-btn class="categories_addNew full-width" @click="createDictAndShow">
             Show Dict
-        </q-btn>
+        </q-btn>-->
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
         <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
@@ -191,6 +191,7 @@
             </q-card>
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
+                <div v-if="!currentInclusionObj.type">Any of the following criteria</div>
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col" v-if="currentInclusionObj.type">
                     <select class="criteria-box H25" v-model="currentInclusionObj.type.op">
@@ -331,7 +332,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="row q-mt-lg" v-if="currentCriteria.ObservationWindow">
+                <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
                     <div class="col">
                       Continuous enrollment w.r.t initial events index start date
                     </div>
@@ -391,7 +392,7 @@
                 >
                 <q-btn
                   color="theamGreen"
-                  class="full-width f10"
+                  class="full-width f12"
                   icon-right="add"
                   label="Add New Cohort Group"
                   @click="openCreateCohortGroupPopup"
@@ -602,7 +603,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="row q-mt-lg" v-if="currentCriteria.ObservationWindow">
+                <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
                     <div class="col">
                       Continuous enrollment w.r.t initial events index start date
                     </div>
@@ -1065,21 +1066,17 @@ export default {
         },
         'CriteriaList': []
       }
-      setTimeout(function () {
-        that.$nextTick(() => {
-          that.renderComponent2 = true
-        })
-      }, 100)
+      that.$nextTick(() => {
+        that.renderComponent2 = true
+      })
     },
     removeCorelatedCriteria (elementObj) {
       var that = this
       that.renderComponent2 = false
       elementObj.CorrelatedCriteria = false
-      setTimeout(function () {
-        that.$nextTick(() => {
-          that.renderComponent2 = true
-        })
-      }, 100)
+      that.$nextTick(() => {
+        that.renderComponent2 = true
+      })
       that.renderComponent = false
     },
     setQCardColor (event) {
@@ -1586,7 +1583,7 @@ export default {
           GrpData.CriteriaList.forEach(function (Idata, dindex) {
             console.log('Groups loop')
             console.log(Idata)
-            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = {}
+            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = []
             for (var key in Idata) {
               console.log('Inside Idata loop')
               console.log(key)

@@ -5,13 +5,13 @@
           node-key="children"
         >
           <template v-slot:default-header="prop">
-            <q-card class="q-pa-md shadow-2 h40 col5 full-width">
-              <div class="col float-left ellipsis W240">
+            <q-card class="q-pa-xs shadow-2 h40 col5 full-width">
+              <div class="col q-pt-sm float-left ellipsis W200">
                 <span class="">
                   {{prop.node.Name}}
                 </span>
               </div>
-              <div class="float-right q-mx-xl W200 ">
+              <div class="float-right q-pt-xs q-mx-xl W200 ">
                 <div class="col10 bgStatC1 q-mx-auto catColorLbl text-center ">
                   {{prop.node.count}}
                 </div>

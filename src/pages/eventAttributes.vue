@@ -44,7 +44,7 @@
             <q-btn
               color="theamGreen"
               rounded
-              class="q-pa-sm q-ma-none"
+              class="q-pa-xs q-ma-none importIcon"
               icon="add"
               @click="openImportCodesetPopupFun(key,index)"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
@@ -131,8 +131,6 @@
                   <input type="number" class="text-center input-box w4R" />
                 </div>
                 <div class="q-mx-xs  " v-if="event[mappingDict[event.event]][key][obj.name] == 'Between' || event[mappingDict[event.event]][key][obj.name] == 'Not Between'" >
-                  <span class="q-mx-xs">and </span>
-                  <input type="number" class="text-center input-box w4R" />
                 </div>
               </div>
             </div>
