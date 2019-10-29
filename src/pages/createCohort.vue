@@ -1580,10 +1580,11 @@ export default {
           that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type.count = GrpData.type.op === 'Any' ? 0 : (GrpData.type.op === 'All' ? GrpData.CriteriaList.length : GrpData.type.count)
           console.log('Group 3st line')
           console.log(GrpData)
+          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = []
           GrpData.CriteriaList.forEach(function (Idata, dindex) {
             console.log('Groups loop')
             console.log(Idata)
-            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = []
+            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex] = {}
             for (var key in Idata) {
               console.log('Inside Idata loop')
               console.log(key)
@@ -1592,9 +1593,9 @@ export default {
                 console.log('Inside Idata object condition')
                 console.log(key)
                 if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
-                  if (!that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key]) {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].Name = Idata.name
+                  if (!that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key]) {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Name = Idata.name
                   }
                 }
                 for (var kIndx in Idata[key]) {
@@ -1602,43 +1603,43 @@ export default {
                   console.log(kIndx)
                   console.log(Idata[key][kIndx])
                   if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Op = Idata[key][kIndx].Op
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Value = Idata[key][kIndx].Value
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Extent = Idata[key][kIndx].Extent
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
                   }
                   if (kIndx === 'OccurrenceStartDate') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Op = Idata[key][kIndx].Op
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Value = Idata[key][kIndx].Extent
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Extent = Idata[key][kIndx].Value
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
                   }
                   if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][Idata[key][kIndx].name] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
                     if (Idata[key][kIndx][Idata[key][kIndx].inputs[0].name] && Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].length !== 0) {
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][Idata[key][kIndx].name] = []
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name] = []
                       Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].forEach(function (v, k) {
-                        that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][Idata[key][kIndx].name].push(v.value)
+                        that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name].push(v.value)
                       })
                     }
                   }
                   if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].Codeset = []
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Codeset = []
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
                   }
                   if (kIndx === 'Occurrence') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Count = Idata[key][kIndx].count
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].Type = Idata[key][kIndx].type
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key][kIndx].IsDistinct = true
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].IsDistinct = true
                   }
                   if (kIndx === 'OccurrenceIndexStartDate') {
                     console.log('Insile OccurrenceIndexStartDate')
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow = { 'Start': {}, 'End': {} }
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === 'After' ? 1 : -1)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.Start.Days = Idata[key][kIndx].data.sday
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === 'After' ? 1 : -1)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[key].StartWindow.End.Days = Idata[key][kIndx].data.eday
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow = { 'Start': {}, 'End': {} }
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Days = Idata[key][kIndx].data.sday
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Days = Idata[key][kIndx].data.eday
                   }
                 }
               }
