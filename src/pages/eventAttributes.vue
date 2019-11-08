@@ -11,7 +11,7 @@
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key]">
           <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit'">
-            {{event[mappingDict[event.event]][key].Label}}
+            {{event[mappingDict[event.event]][key].Label}}<br>
           </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <multiselect
@@ -138,7 +138,14 @@
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
-                  <input type="number" v-model="event[mappingDict[event.event]][key].data.sday" class="input-box text-center  w4R q-mr-xs" />
+                  <input class="input-box text-center  w4R q-mr-xs" list="listday2" name="event[mappingDict[event.event]][key].data.sday" v-model="event[mappingDict[event.event]][key].data.sday">
+                  <datalist id="listday2">
+                    <option value="All"/>
+                    <option value="1"/>
+                    <option value="2"/>
+                    <option value="3"/>
+                    <option value="4"/>
+                  </datalist>
                 </div>
                 <div class=" q-mr-xs ">
                   <span class="q-mr-xs"> day</span>
@@ -150,7 +157,14 @@
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> and </span>
-                  <input type="number" v-model="event[mappingDict[event.event]][key].data.eday" class="text-center input-box w4R q-mr-xs" />
+                  <input class="input-box text-center  w4R q-mr-xs" list="listday1" name="listday1" v-model="event[mappingDict[event.event]][key].data.eday">
+                  <datalist id="listday1">
+                    <option value="All"/>
+                    <option value="1"/>
+                    <option value="2"/>
+                    <option value="3"/>
+                    <option value="4"/>
+                  </datalist>
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> day</span>
@@ -182,6 +196,7 @@
                 <div class="">
                   <input type="number" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
+                <q-btn v-if="key == 'Occurrence'" class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Distinct' : 'Not Distinct')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])"></q-btn>
               </div>
             </div>
             <div class="col full-width " v-if="obj.Type == 'single-select'">
@@ -198,6 +213,7 @@
               <!-- <q-select v-model="model" :options="obj.value" label="Standard" ></q-select> -->
               </div>
             </div>
+
           </div>
         </div>
         </div>
@@ -230,6 +246,7 @@ import {
   // QBtnDropdown,
   ClosePopup,
   QTooltip,
+  QBtn,
   QDialog
 } from 'quasar'
 export default {
@@ -239,6 +256,7 @@ export default {
     QTooltip,
     QIcon,
     QCard,
+    QBtn,
     QPopupProxy,
     Multiselect,
     // QBtnDropdown,
@@ -261,6 +279,8 @@ export default {
       edate: '2019/02/01',
       returnData: [],
       name1: '',
+      listday1: 'All',
+      listday2: 'All',
       filterOptions: [],
       orderToShow: [
         'listDiagnosis',
