@@ -201,7 +201,7 @@
                       <option value="at most">At Most</option>
                       <option value="at least">At Least</option>
                     </select>
-                    <input type="number" v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                    <input type="number" v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
                   <div class="col-md-3">
@@ -278,7 +278,7 @@
                             <option value="at most">At Most</option>
                             <option value="at least">At Least</option>
                             </select>
-                            <input type="number" v-model="elementObj.type.count" class=" q-mx-xs text-center q-pa-xs w2R input-box" v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
+                            <input type="number" v-model="elementObj.type.count" class=" q-mx-xs text-center q-pa-xs w2R input-box" v-if="elementObj.type.op === 'at most' || elementObj.type.op === 'at least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-ma-xs"> of the criteria </span>
                         </div>
                         <div class="row q-px-sm q-pt-xs full-width">
@@ -339,8 +339,8 @@
                 </div>
                 <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
-                    Between <input  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
-                     days before and <input  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
+                    Between <input type="number"  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
+                     days before and <input type="number"   class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
                   </div>
                 </div>
               </q-card>
@@ -508,7 +508,7 @@
                       <option value="at most">At Most</option>
                       <option value="at least">At Least</option>
                     </select>
-                    <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="text-center q-pa-xs w2R  q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'At most' || currentInclusionObj.type.op === 'At least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                    <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="text-center q-pa-xs w2R  q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
                 </div>
@@ -572,7 +572,7 @@
                             <option value="at most">At Most</option>
                             <option value="at least">At Least</option>
                             </select>
-                            <input type="number"  readonly="true" v-model="elementObj.type.count" class="input-box text-center q-pa-xs w2R q-mx-xs " v-if="elementObj.type.op === 'At most' || elementObj.type.op === 'At least'" min=0 :max="elementObj.CriteriaList.length">
+                            <input type="number"  readonly="true" v-model="elementObj.type.count" class="input-box text-center q-pa-xs w2R q-mx-xs " v-if="elementObj.type.op === 'at most' || elementObj.type.op === 'at least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-my-sm"> of the criteria </span>
                         </div>
                         <div class="row full-width">
@@ -727,8 +727,13 @@ export default {
             'PCriteriaSetDesc': '',
             'displayName': 'Initial Criteria',
             'CriteriaList': [],
-            'ObservationWindow': {},
-            'PrimaryCriteriaLimit': {}
+            'ObservationWindow': {
+              'PriorDays': 0,
+              'PostDays': 0
+            },
+            'PrimaryCriteriaLimit': {
+              'Type': 'First'
+            }
           },
           'InclusionRules': []
         }
@@ -937,6 +942,8 @@ export default {
     },
     addEvent (groupId = null) {
       var that = this
+      console.log('mY check')
+      console.log(that.currentCriteria.PrimaryCriteriaLimit)
       if (that.selectedCriteria !== 'Select Event') {
         if (groupId) {
           if (groupId.constructor.name !== 'Event' && groupId !== 0) {
@@ -1420,10 +1427,10 @@ export default {
               var coParentKey = (data.event === 'Treatment' ? 'DrugExposure' : (data.event === 'Diagnosis' ? 'ConditionOccurrence' : 'ProcedureOccurrence'))
               if (!that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey]) {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey].Name = data.name
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey].Name = data[key].Name
               }
               that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key] = {}
-              that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].Name = data.name
+              that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].Name = data[key].Name
               that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList = []
               data[key].CriteriaList.forEach(function (codata, i) {
                 console.log(codata)
