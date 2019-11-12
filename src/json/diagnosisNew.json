@@ -107,7 +107,7 @@
       }]
     },
     "ProviderSpecialty":{
-      "Label":"Provider Speciality",
+      "Label":"Provider Specialty",
       "name":"ProviderSpecialty",
       "inputs":[{
         "name":"ProviderSpecialty",

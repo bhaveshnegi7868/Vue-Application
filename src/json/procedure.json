@@ -48,9 +48,9 @@
     "value":["Condition Procedure", "EHR order list entry", "Facility header", "Hospitalization Cost Record", "Inferred from claim", "Inpatient detail - primary position", "Inpatient header - primary position", "NLP derived", "Outpatient detail - primary position", "Outpatient header - primary position", "Physician administered drug (identified as procedure)", "Primary Procedure", "Procedure recorded as diagnostic code", "Procedure recorded as lab test", "Procedure Recorded from a Survey", "Referral record", "Secondary Procedure"]
   },
   {
-    "Label":"Provider Speciality",
+    "Label":"Provider Specialty",
     "Type":"single-select",
-    "name":"providerSpeciality",
+    "name":"providerSpecialty",
     "data":"",
     "value":["Allergy/Immunology", "Anesthesiology", "Cardiology", "Colorectal Surgery", "Dermatology", "Emergency Medicine", "Endocrinology", "Family Practice", "Gastroenterology", "General Practice", "General Surgery", "Hematology", "Infectious Disease", "Internal Medicine", "Interventional Pain Management (IPM)", "Nephrology", "Neurology", "Neurosurgery", "Nurse Practitioner", "Obstetrics/Gynecology", "Ophthalmology", "Oral Surgery", "Orthopedic Surgery", "Osteopathic Manipulative Therapy", "Otolaryngology", "Pathology", "Physical Medicine And Rehabilitation", "Plastic And Reconstructive Surgery", "Psychiatry", "Pulmonary Disease", "Rheumatology", "Thoracic Surgery", "Urology"]
   },

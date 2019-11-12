@@ -56,9 +56,9 @@
   },
   {
     "id":10,
-    "Label":"Provider Speciality",
+    "Label":"Provider Specialty",
     "Type":"single-select",
-    "name":"providerSpeciality",
+    "name":"providerSpecialty",
     "data":"",
     "value":["Allergy/Immunology", "Anesthesiology", "Cardiology", "Colorectal Surgery", "Dermatology", "Emergency Medicine", "Endocrinology", "Family Practice", "Gastroenterology", "General Practice", "General Surgery", "Hematology", "Infectious Disease", "Internal Medicine", "Interventional Pain Management (IPM)", "Nephrology", "Neurology", "Neurosurgery", "Nurse Practitioner", "Obstetrics/Gynecology", "Ophthalmology", "Oral Surgery", "Orthopedic Surgery", "Osteopathic Manipulative Therapy", "Otolaryngology", "Pathology", "Physical Medicine And Rehabilitation", "Plastic And Reconstructive Surgery", "Psychiatry", "Pulmonary Disease", "Rheumatology", "Thoracic Surgery", "Urology"]
   },
