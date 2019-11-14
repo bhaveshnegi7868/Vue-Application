@@ -339,8 +339,8 @@
                 </div>
                 <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
-                    Between <input type="number"  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
-                     days before and <input type="number"   class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
+                    Between <input type="number" onkeydown="return event.keyCode !== 69"  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
+                     days before and <input type="number" onkeydown="return event.keyCode !== 69" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
                   </div>
                 </div>
               </q-card>
@@ -772,6 +772,10 @@ export default {
         { 'label': 'GRP3', 'value': 'GRP3' }
       ],
       dtSourceOpts2: [
+        {
+          label: '---select---',
+          disable: true
+        },
         {
           value: 'Latest',
           label: 'Latest'
