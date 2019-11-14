@@ -21,7 +21,7 @@
                 @focus="getCohortGroupList"
                 class=" bor8R f12 select-box"
                 @filter="cohortGroupfilterFn"
-                placeholder="Cohort Group"
+                placeholder="* Cohort Group"
               />
               <!-- <q-btn-dropdown
                   v-if="renderComponent1"
@@ -73,7 +73,7 @@
                 @focus="getDataSourceList"
                 class="bor8R f12 select-box"
                 @filter="datasourcefilterFn"
-                Placeholder="Datasource"
+                Placeholder="* Datasource"
               />
               <!-- <q-btn-dropdown
                   v-if="renderComponent1"
@@ -125,7 +125,7 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label>Primary Criteria</label>
+              <label>* Primary Criteria</label>
             </q-item-section>
           </q-item>
           <q-item

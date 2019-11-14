@@ -169,7 +169,7 @@ export default {
         },
         { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 250px' },
         { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, classes: 'ellipsis', align: 'center', style: 'max-width: 100px' },
-        { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', classes: 'ellipsis', align: 'right', sortable: true, style: 'max-width: 100px' },
+        { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', classes: 'ellipsis', align: 'left', sortable: true, style: 'max-width: 100px' },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
       pagination: {
