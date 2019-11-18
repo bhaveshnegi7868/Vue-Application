@@ -63,9 +63,9 @@
     "value":["NLP derived", "Physician administered drug (identified from EHR order)", "Dispensed in Outpatient office", "Prescription dispensed in pharmacy", "Prescription dispensed through mail order", "Prescription written", "Medication list entry", "Physician administered drug (identified as procedure)", "Inpatient administration", "Drug era - 0 days persistence window", "Drug era - 30 days persistence window", "Physician administered drug (identified from EHR problem list)", "Physician administered drug (identified from referral record)", "Physician administered drug (identified from EHR observation)", "Randomized Drug", "Patient Self-Reported Medication"]
   },
   {
-    "Label":"Provider Speciality",
+    "Label":"Provider Specialty",
     "Type":"single-select",
-    "name":"providerSpeciality",
+    "name":"providerSpecialty",
     "data":"",
     "value":["Allergy/Immunology", "Anesthesiology", "Cardiology", "Colorectal Surgery", "Dermatology", "Emergency Medicine", "Endocrinology", "Family Practice", "Gastroenterology", "General Practice", "General Surgery", "Hematology", "Infectious Disease", "Internal Medicine", "Interventional Pain Management (IPM)", "Nephrology", "Neurology", "Neurosurgery", "Nurse Practitioner", "Obstetrics/Gynecology", "Ophthalmology", "Oral Surgery", "Orthopedic Surgery", "Osteopathic Manipulative Therapy", "Otolaryngology", "Pathology", "Physical Medicine And Rehabilitation", "Plastic And Reconstructive Surgery", "Psychiatry", "Pulmonary Disease", "Rheumatology", "Thoracic Surgery", "Urology"]
   },

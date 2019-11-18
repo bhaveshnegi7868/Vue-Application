@@ -13,22 +13,34 @@
                   v-if="renderComponent1"
                   flat
                   no-caps
-                  class="full-width f12 q-py-xs select-box"
+                  class=" full-width f12 q-py-xs select-box"
                   :label="baseObj.codeset_group ? baseObj.codeset_group : 'Codeset Group'"
                   @click="getCodesetGroupList"
                 >
-                <q-btn
+                <!-- <q-btn
                   color="theamBlue"
                   class="full-width"
                   icon-right="add"
                   label="Add New Codeset Group"
                   @click="openCreateCodesetGroupPopup"
                   v-close-popup
-                />
+                /> -->
                 <div class="options-values" v-for="opt in codesetGroups" v-bind:key="opt.name" @click="makeSelected('codeset_group',opt.name)">
                   {{opt.name}}
                 </div>
-              </q-btn-dropdown>
+            </q-btn-dropdown>
+              <div class=" q-px-xs q-py-xs ">
+                <q-btn
+                  color="theamBlue"
+                  class="f10 bor8R w2R q-pa-none q-ma-none"
+                  icon="add"
+                  @click="openCreateCodesetGroupPopup"
+                >
+                <q-tooltip>
+                  Create Codeset Group
+                </q-tooltip>
+                </q-btn>
+              </div>
           </div>
       </q-card>
       <q-card class="w7R codeSetActionbtns row">
@@ -64,11 +76,11 @@
           </q-btn>
         </div>
         <div class="upload-btn-wrapper col">
-          <q-btn class="q-mx-lg" color="theamBlue" text-color="white" rounded unelevated >
+          <q-btn class="q-mx-lg hover-upload"  color="theamBlue" text-color="white" rounded unelevated style="cursor:pointer !important;">
             <q-icon class="right-bordered-icon on-left" name="backup"/>
             Upload Codes
           </q-btn>
-          <input type="file" ref="file" name="myfile" accept=".csv" @input="updateFile" />
+          <input type="file" style="" ref="file" name="myfile" accept=".csv" @input="updateFile" />
         </div>
       </div>
     </div>
