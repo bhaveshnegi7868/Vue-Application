@@ -341,8 +341,8 @@
                 </div>
                 <div class="row q-mt-xs" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
-                    Between <input type="number" onkeydown="return event.keyCode !== 69"  class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
-                     days before and <input type="number" onkeydown="return event.keyCode !== 69" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
+                    Between <input type="text" maxlength="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PriorDays"/>
+                     days before and <input type="text" maxlength="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
                   </div>
                 </div>
               </q-card>
