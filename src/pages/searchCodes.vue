@@ -66,6 +66,7 @@
                   selection="multiple"
                   :selected.sync="selected"
                   :rows-per-page-options="paginationOptions"
+                  binary-state-sort
                 >
                   <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
                     <div class="col dependentsIcon">
@@ -180,7 +181,7 @@ export default {
         rowsNumber: 10
       },
       paginationOptions: [
-        3, 10, 20, 50, 100, 1000
+        3, 10, 20, 50, 100
       ],
       loading: false,
       data: [],
