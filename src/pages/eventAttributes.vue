@@ -140,7 +140,7 @@
                   <span class="q-mr-xs"> Between </span>
                   <input class="input-box text-center  w4R q-mr-xs" list="listday2" name="event[mappingDict[event.event]][key].data.sday" v-model="event[mappingDict[event.event]][key].data.sday">
                   <datalist id="listday2">
-                    <option value="All"/>
+                    <option value="ALL"/>
                     <option value="1"/>
                     <option value="2"/>
                     <option value="3"/>
@@ -159,7 +159,7 @@
                   <span class="q-mr-xs"> and </span>
                   <input class="input-box text-center  w4R q-mr-xs" list="listday1" name="listday1" v-model="event[mappingDict[event.event]][key].data.eday">
                   <datalist id="listday1">
-                    <option value="All"/>
+                    <option value="ALL"/>
                     <option value="1"/>
                     <option value="2"/>
                     <option value="3"/>
@@ -196,7 +196,7 @@
                 <div class="">
                   <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
-                <q-btn v-if="key == 'Occurrence'" class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Distinct' : 'Not Distinct')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])"></q-btn>
+                <q-btn v-if="key == 'Occurrence'" class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:change="sendName"></q-btn>
               </div>
             </div>
             <div class="col full-width " v-if="obj.Type == 'single-select'">
@@ -279,8 +279,8 @@ export default {
       edate: '2019/02/01',
       returnData: [],
       name1: '',
-      listday1: 'All',
-      listday2: 'All',
+      listday1: 'ALL',
+      listday2: 'ALL',
       filterOptions: [],
       orderToShow: [
         'listDiagnosis',
