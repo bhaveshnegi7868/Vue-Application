@@ -2,14 +2,29 @@
   <div class="q-px-xl q-py-sm codeSetPage">
     <div class="row q-py-sm">
       <q-card class="row col q-mr-sm">
-          <div class="col-3 q-pa-xs">
+          <div class="col-2 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="* Codeset Name" />
           </div>
-          <div class="col-6 q-pa-xs">
+          <div class="col-5 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
           </div>
-          <div class="col createCodesetForm q-pa-xs">
-              <q-btn-dropdown
+          <div class="col-4 q-px-sm q-py-xs">
+              <q-select
+                use-input
+                hide-selected
+                fill-input
+                transition-show="jump-down"
+                transition-hide="jump-up"
+                v-model="baseObj.codeset_group"
+                :options="codesetGroups"
+                @focus="getCodesetGroupList"
+                class="bor8R f12 select-box"
+                @filter="codesetGroupfilterFn"
+                Placeholder="Codeset Group"
+              />
+          </div>
+          <!-- <div class="col q-px-sm q-py-xs">
+            <q-btn-dropdown
                   v-if="renderComponent1"
                   flat
                   no-caps
@@ -17,22 +32,22 @@
                   :label="baseObj.codeset_group ? baseObj.codeset_group : 'Codeset Group'"
                   @click="getCodesetGroupList"
                 >
-                <!-- <q-btn
+                <q-btn
                   color="theamBlue"
                   class="full-width"
                   icon-right="add"
                   label="Add New Codeset Group"
                   @click="openCreateCodesetGroupPopup"
                   v-close-popup
-                /> -->
+                />
                 <div class="options-values" v-for="opt in codesetGroups" v-bind:key="opt.name" @click="makeSelected('codeset_group',opt.name)">
                   {{opt.name}}
                 </div>
-            </q-btn-dropdown>
-              <div class=" q-px-xs q-py-xs ">
+            </q-btn-dropdown> -->
+              <div class="col-1 q-px-xs q-py-xs ">
                 <q-btn
                   color="theamBlue"
-                  class="f10 bor8R w2R q-pa-none q-ma-none"
+                  class="f10 full-width bor8R w2R q-pa-none q-ma-none"
                   icon="add"
                   @click="openCreateCodesetGroupPopup"
                 >
@@ -41,7 +56,6 @@
                 </q-tooltip>
                 </q-btn>
               </div>
-          </div>
       </q-card>
       <q-card class="w7R codeSetActionbtns row">
         <div class="col-3 q-ml-xs q-mr-xs q-py-xs">
@@ -201,6 +215,7 @@ import dependentJson from '../json/sourcecodewith_descendant_v2.json'
 import axios from 'axios'
 import {
   QTable,
+  QSelect,
   QTh,
   QTr,
   QCard,
@@ -213,6 +228,7 @@ export default {
   name: 'listCohort',
   components: {
     QTable,
+    QSelect,
     QTh,
     QTooltip,
     QTr,
@@ -241,6 +257,7 @@ export default {
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
+      codesetGroupfilter: '',
       decendentChildFlags: [],
       codesPopup: false,
       dependentsPopup: false,
@@ -490,7 +507,11 @@ export default {
       var that = this
       var url = process.env.API_URL + 'codeset/group/list/'
       axios.get(url).then(function (response) {
-        that.codesetGroups = response.data.result
+        var arr = []
+        response.data.result.forEach(function (row) {
+          arr.push(row.name)
+        })
+        that.codesetGroups = arr
         that.loading = false
       })
     },
@@ -528,6 +549,12 @@ export default {
           message: err.response.data.message,
           timeout: 3000
         })
+      })
+    },
+    codesetGroupfilterFn (val, update, abort) {
+      update(() => {
+        const needle = val.toLowerCase()
+        this.codesetGroups = this.codesetGroups.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
     },
     getCodesetDict () {
