@@ -382,7 +382,7 @@
                 <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
             <div class="col q-px-sm q-py-xs">
-              <q-btn-dropdown
+              <!-- <q-btn-dropdown
                   v-if="renderComponent1"
                   disabled
                   flat
@@ -391,7 +391,7 @@
                   class="full-width  f12 select-box"
                   @click="getCohortGroupList"
                   auto-close
-                >
+                > -->
                 <q-btn
                   color="theamGreen"
                   class="full-width f12"
@@ -400,15 +400,15 @@
                   @click="openCreateCohortGroupPopup"
                   v-close-popup
                 />
-                <q-card  class="bg-secondary text-white selected-btn-dropdown">
+                <!-- <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.cohort_group}}
                 </q-card>
                 <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="makeSelected('cohort_group',opt.name)" v-close-popup>
                   {{opt.name}}
                 </div>
-              </q-btn-dropdown>
+              </q-btn-dropdown> -->
             </div>
-            <div class="col q-px-sm q-py-xs">
+            <!-- <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
                   v-if="renderComponent1"
                   no-caps
@@ -423,7 +423,7 @@
                   {{opt.name}}
                 </div>
               </q-btn-dropdown>
-            </div>
+            </div> -->
         </q-card>
     </div>
     <q-card class="row createBoxHeight q-mx-sm" v-if="pagemethod === 'view'">
