@@ -8,6 +8,7 @@
             :loading="loading"
             :filter="filter"
             :pagination.sync="pagination"
+            binary-state-sort
           >
           <template v-slot:top-left >
             <q-btn-toggle
