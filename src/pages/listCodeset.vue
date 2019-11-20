@@ -48,7 +48,7 @@
                 <q-btn v-if="((!codesetToggle || superuser) && allowImport==false)" round color="theamBlue" size="0.5rem" icon="edit"  @click="editCodeset(props.row.codeset_id)">
                   <q-tooltip>Edit</q-tooltip></q-btn>
                 <q-btn v-if="allowImport==false " round color="theamBlue" size="0.5rem" icon="file_copy"  @click="copyCodeset(props.row.codeset_id)"><q-tooltip>Copy</q-tooltip></q-btn>
-                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamBlue" size="0.5rem" icon="delete_outline"  @click="removeFromList(props.row.codeset_id);"><q-tooltip>Remove</q-tooltip></q-btn>
+                <q-btn v-if="(!codesetToggle || superuser) && allowImport==false" round color="theamBlue" size="0.5rem" icon="delete_outline"  @click="removeFromList(props.row.codeset_id);"><q-tooltip>Delete</q-tooltip></q-btn>
                 <q-checkbox v-if="allowImport" v-model="props.row.selected"/>
             </q-td>
           </q-table>
