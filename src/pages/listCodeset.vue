@@ -1,8 +1,5 @@
 <template>
     <div class="q-pa-xl codeSetPage" >
-        <div v-if="errmsg" style="text-align: center; color: red; font-size: 16px;">
-          Please select Codeset
-        </div>
         <div class="">
           <q-table
             :data="data"
@@ -56,6 +53,8 @@
         <div class="footer" v-if="allowImport">
           <q-btn  class="q-ma-md" color="grey-9"  label="Cancel" v-close-popup></q-btn>
           <q-btn  class="q-ma-md" color="theamBlue" label="Import" @click="sendDataToParent"></q-btn>
+          <div v-if="errmsg" style="text-align: center; color: red; font-size: 16px;">Please select Codeset
+        </div>
         </div>
     </div>
   </template>
