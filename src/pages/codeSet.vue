@@ -92,9 +92,9 @@
         <div class="upload-btn-wrapper col">
           <q-btn class="q-mx-lg hover-upload"  color="theamBlue" text-color="white" rounded unelevated style="cursor:pointer !important;">
             <q-icon class="right-bordered-icon on-left" name="backup"/>
+            <input type="file" style="" ref="file" name="myfile" accept=".csv" @input="updateFile" />
             Upload Codes
           </q-btn>
-          <input type="file" style="" ref="file" name="myfile" accept=".csv" @input="updateFile" />
         </div>
       </div>
     </div>
