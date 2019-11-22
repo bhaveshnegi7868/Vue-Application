@@ -100,12 +100,21 @@
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod !== 'update'">
             <q-btn outlined icon="save" :disable="!baseObj.cohort_name" label="Save" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-tooltip>
+                Save
+              </q-tooltip>
           </div>
           <div class="col-5 createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod === 'update'">
             <q-btn outlined icon="save" :disable="!baseObj.cohort_name" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-tooltip>
+                Update
+              </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
             <q-btn outlined icon="play_circle_filled" :disable="!(baseObj.cohort_name && baseObj.data_source && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1)" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+              <q-tooltip>
+                Run
+              </q-tooltip>
           </div>
         </q-card>
     </div>
