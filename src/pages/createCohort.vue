@@ -1683,14 +1683,14 @@ export default {
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'cohort/update/'
-        successStatement = 'Cohort Defination Saved Successfully'
+        successStatement = 'Cohort Definition Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {
         that.baseObj.cohort_id = null
         method = axios.post(url, that.baseObj)
       }
       if (that.baseObj.run) {
-        successStatement = 'Cohort Defination Saved Successfully and Run Has Been Initiated. Please Switch to Summary For Details.'
+        successStatement = 'Cohort Definition Saved Successfully and Run Has Been Initiated. Please Switch to Summary For Details.'
       }
       method.then(function (response) {
         that.$q.notify({
