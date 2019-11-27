@@ -20,7 +20,7 @@
                 @focus="getCodesetGroupList"
                 class="bor8R f12 select-box"
                 @filter="codesetGroupfilterFn"
-                Placeholder="Codeset Group"
+                Placeholder="* Codeset Group"
               />
           </div>
           <!-- <div class="col q-px-sm q-py-xs">
