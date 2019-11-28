@@ -436,10 +436,9 @@ export default {
     },
     removeCodeFromList (code) {
       var that = this
-      // that.confirm1 = false
       this.$swal({
         title: 'Are you sure?',
-        text: 'You want To Delete This row',
+        text: 'You want to delete this code',
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Delete'

@@ -1375,10 +1375,11 @@ export default {
           messageColor: 'black'
         })
       } else {
-        that.$q.loading.show({
-          spinnerSize: 140,
-          message: 'Saving Data, Please Wait',
-          messageColor: 'black'
+        that.$swal({
+          type: 'success',
+          title: 'Updating Data, Please Wait',
+          showConfirmButton: false,
+          timer: 2000
         })
       }
       var url = process.env.API_URL + 'cohort/create/'
