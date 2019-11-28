@@ -212,7 +212,7 @@
                       <option value="at most">At Most</option>
                       <option value="at least">At Least</option>
                     </select>
-                    <input type="number" v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
                   <div class="col-md-3">
@@ -519,7 +519,7 @@
                       <option value="at most">At Most</option>
                       <option value="at least">At Least</option>
                     </select>
-                    <input type="number"   readonly="true" v-model="currentInclusionObj.type.count" class="text-center q-pa-xs w2R  q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
+                    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  readonly="true" v-model="currentInclusionObj.type.count" class="text-center q-pa-xs w2R  q-mx-xs input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
                      of the criteria
                   </div>
                 </div>
@@ -583,7 +583,7 @@
                             <option value="at most">At Most</option>
                             <option value="at least">At Least</option>
                             </select>
-                            <input type="number"  readonly="true" v-model="elementObj.type.count" class="input-box text-center q-pa-xs w2R q-mx-xs " v-if="elementObj.type.op === 'at most' || elementObj.type.op === 'at least'" min=0 :max="elementObj.CriteriaList.length">
+                            <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" readonly="true" v-model="elementObj.type.count" class="input-box text-center q-pa-xs w2R q-mx-xs " v-if="elementObj.type.op === 'at most' || elementObj.type.op === 'at least'" min=0 :max="elementObj.CriteriaList.length">
                             <span class="q-my-sm"> of the criteria </span>
                         </div>
                         <div class="row full-width">
