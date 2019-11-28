@@ -45,6 +45,11 @@ export default {
       var that = this
       if (that.cohortGroup.name) {
         this.$emit('addCohort', that.cohortGroup)
+        that.$swal(
+          'Done !',
+          'Created successfully',
+          'success'
+        )
       } else {
         that.$q.notify({
           color: 'black',
