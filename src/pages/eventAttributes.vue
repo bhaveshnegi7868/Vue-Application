@@ -138,14 +138,14 @@
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
-                  <input class="input-box text-center  w4R q-mr-xs" list="listday2" name="event[mappingDict[event.event]][key].data.sday" v-model="event[mappingDict[event.event]][key].data.sday">
-                  <datalist id="listday2">
+                  <input class="input-box text-center  w4R q-mr-xs" input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
+                  <!-- <datalist id="listday2">
                     <option value="ALL"/>
                     <option value="1"/>
                     <option value="2"/>
                     <option value="3"/>
                     <option value="4"/>
-                  </datalist>
+                  </datalist> -->
                 </div>
                 <div class=" q-mr-xs ">
                   <span class="q-mr-xs"> day</span>
@@ -157,14 +157,14 @@
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> and </span>
-                  <input class="input-box text-center  w4R q-mr-xs" list="listday1" name="listday1" v-model="event[mappingDict[event.event]][key].data.eday">
-                  <datalist id="listday1">
+                  <input class="input-box text-center  w4R q-mr-xs" input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
+                  <!-- <datalist id="listday1">
                     <option value="ALL"/>
                     <option value="1"/>
                     <option value="2"/>
                     <option value="3"/>
                     <option value="4"/>
-                  </datalist>
+                  </datalist> -->
                 </div>
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> day</span>
@@ -279,8 +279,6 @@ export default {
       edate: '2019/02/01',
       returnData: [],
       name1: '',
-      listday1: 'ALL',
-      listday2: 'ALL',
       filterOptions: [],
       orderToShow: [
         'listDiagnosis',
