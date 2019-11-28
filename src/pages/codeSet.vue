@@ -130,22 +130,9 @@
         <q-checkbox v-model="allDependents" label="Descendants" />
       </q-th>
       <q-th key="podUpload5" class="w4R">
-        <q-btn outline no-caps class="codeSetdelete" @click="confirm = true">
+        <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
           <q-icon name="delete_forever" size="23px"/>
         </q-btn>
-        <div>
-    <q-dialog  v-model="confirm" persistent>
-      <q-card class="q-pa-md">
-        <q-card-section class="row items-center">
-          <span class="q-ml-sm">Are you sure you want to delete all?</span><br>
-        </q-card-section>
-        <q-card-actions align="right"><br>
-          <q-btn flat label="Yes" color="primary" @click="removeAllCodesFromList()" v-close-popup/>
-          <q-btn flat label="Cancel" color="primary" v-close-popup/>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-        </div>
       </q-th>
     </q-tr>
     <q-tr slot="body" slot-scope="data" :props="data">
@@ -257,7 +244,6 @@ export default {
   },
   data () {
     return {
-      confirm: false,
       baseObj: {},
       pagination: {
         rowsPerPage: 10
@@ -406,14 +392,29 @@ export default {
     },
     removeAllCodesFromList () {
       var that = this
-      this.baseObj.codeset_data = []
-      that.renderComponent = true
-      setTimeout(function () {
-        that.$nextTick(() => {
-          // Add the component back in
-          that.renderComponent = true
-        })
-      }, 100)
+      this.$swal({
+        title: 'Are you sure?',
+        text: 'You want To Delete all',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete'
+      }).then((result) => {
+        if (result.value) {
+          this.baseObj.codeset_data = []
+          that.renderComponent = false
+          setTimeout(function () {
+            that.$nextTick(() => {
+            // Add the component back in
+              that.renderComponent = true
+            })
+          }, 100)
+          that.$swal(
+            'Deleted!',
+            'Codes Deleted',
+            'success'
+          )
+        }
+      })
     },
     removeAllCodesFromList2 () {
       console.log('checkall')
@@ -435,17 +436,33 @@ export default {
     },
     removeCodeFromList (code) {
       var that = this
-      var data = that.baseObj.codeset_data.filter(row1 => row1.target_concept_id === code)
-      if (data.length > 0) {
-        that.baseObj.codeset_data.splice(data[0].__index, 1)
-      }
-      that.renderComponent = false
-      setTimeout(function () {
-        that.$nextTick(() => {
-          // Add the component back in
-          that.renderComponent = true
-        })
-      }, 100)
+      // that.confirm1 = false
+      this.$swal({
+        title: 'Are you sure?',
+        text: 'You want To Delete This row',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete'
+      }).then((result) => {
+        if (result.value) {
+          var data = that.baseObj.codeset_data.filter(row1 => row1.target_concept_id === code)
+          if (data.length > 0) {
+            that.baseObj.codeset_data.splice(data[0].__index, 1)
+          }
+          that.renderComponent = false
+          setTimeout(function () {
+            that.$nextTick(() => {
+            // Add the component back in
+              that.renderComponent = true
+            })
+          }, 100)
+          that.$swal(
+            'Deleted!',
+            'Code Deleted',
+            'success'
+          )
+        }
+      })
     },
     checkDpendanceAll (row) {
       var that = this
