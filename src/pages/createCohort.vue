@@ -336,7 +336,8 @@
                 <div class="row" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
                     Limit initial events to
-                    <select class="criteria-box H25 w9R" v-model="currentCriteria.PrimaryCriteriaLimit.Type">
+                    <select class="criteria-box H25 w9R" v-model="currentCriteria.PrimaryCriteriaLimit.Type" label="Select">
+                      <option value=" " disabled>Select Initial event</option>
                       <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
@@ -607,6 +608,7 @@
                 <div class="row" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
                     Limit initial events to
+                    <option value="" selected disabled>Choose</option>
                     <select class="criteria-box H25 w9R" disabled v-model="currentCriteria.PrimaryCriteriaLimit.Type">
                       <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
@@ -783,10 +785,6 @@ export default {
         { 'label': 'GRP3', 'value': 'GRP3' }
       ],
       dtSourceOpts2: [
-        {
-          label: '---select---',
-          disable: true
-        },
         {
           value: 'Latest',
           label: 'Latest'
