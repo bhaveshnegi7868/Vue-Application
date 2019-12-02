@@ -315,10 +315,11 @@ export default {
       var that = this
       data.forEach(function (row) {
         var url = process.env.API_URL + 'codeset/get/' + row.codeset_id
-        that.$q.loading.show({
-          spinnerSize: 140,
-          message: 'Getting Data For Codeset ' + row.codeset_name,
-          messageColor: 'black'
+        that.$swal({
+          type: 'success',
+          title: 'Getting Data For Codeset ' + row.codeset_name,
+          showConfirmButton: false,
+          timer: 2000
         })
         axios.get(url).then(function (response) {
           var resultArray = []
