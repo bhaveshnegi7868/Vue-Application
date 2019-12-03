@@ -1099,7 +1099,7 @@ export default {
       that.$nextTick(() => {
         that.renderComponent2 = true
       })
-      that.renderComponent = false
+      that.renderComponent = true
     },
     setQCardColor (event) {
       var that = this
@@ -1189,19 +1189,19 @@ export default {
               that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
               that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
             } else {
-              if (criteria) {
-                that.baseObj['criteriaObj']['InclusionRules'][index - 1] = {
-                  'expression': {
-                    'CriteriaList': [],
-                    'ObservationWindow': false,
-                    'PrimaryCriteriaLimit': {}
-                  },
-                  'Groups': [],
-                  'type': {}
-                }
-                that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
-                that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
-              }
+              // if (criteria) {
+              //   that.baseObj['criteriaObj']['InclusionRules'][index - 1] = {
+              //     'expression': {
+              //       'CriteriaList': [],
+              //       'ObservationWindow': false,
+              //       'PrimaryCriteriaLimit': {}
+              //     },
+              //     'Groups': [],
+              //     'type': {}
+              //   }
+              //   that.currentInclusionObj = that.baseObj['criteriaObj']['InclusionRules'][index - 1]
+              //   that.currentCriteria = that.baseObj['criteriaObj']['InclusionRules'][index - 1].expression
+              // }
             }
             row.currentSelected = 1
           } else {
