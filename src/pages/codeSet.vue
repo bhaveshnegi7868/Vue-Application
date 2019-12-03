@@ -131,7 +131,8 @@
       </q-th>
       <q-th key="podUpload5" class="w4R">
         <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
-          <q-icon name="delete_forever" size="23px"/>
+          <q-btn name="delete_forever" round color="theamBlue" icon="delete_outline" size="0.8rem"></q-btn>
+          <q-tooltip>Delete</q-tooltip>
         </q-btn>
       </q-th>
     </q-tr>
@@ -162,7 +163,8 @@
       </q-th>
       <q-th key="podUpload5">
         <q-btn outline no-caps class="codeSetdelete" @click="removeCodeFromList(data.row.target_concept_id)">
-          <q-icon name="delete_forever" size="23px"/>
+          <q-btn name="delete_forever" round color="theamBlue" icon="delete_outline" size="0.6rem" />
+          <q-tooltip>Delete</q-tooltip>
         </q-btn>
       </q-th>
     </q-tr>
