@@ -710,6 +710,7 @@ export default {
       renderComponent2: true,
       dictPopup: false,
       createCohortGroupPopup: false,
+      // swal2-popup = false
       apiData: {
         'Procedure': procedureData,
         'Diagnosis': diagnosisData,
@@ -867,15 +868,31 @@ export default {
       }
       axios.post(url, datadict).then(function (response) {
         that.createCohortGroupPopup = false
-      }).catch(function (err) {
+        that.$swal(
+          'Done !',
+          'Created successfully',
+          'success'
+        )
+      }).catch(function () {
         that.$q.notify({
-          color: 'black',
+          color: 'theamBlue',
           textColor: 'white',
-          message: err.message,
+          message: 'Cohort group already exists',
           position: 'bottom-right',
           timeout: 3000
         })
       })
+      // axios.post(url, datadict).then(function (response) {
+      //   that.createCohortGroupPopup = false
+      // }).catch(function () {
+      //   that.$q.notify({
+      //     color: 'green',
+      //     textcolor: 'white',
+      //     message: 'New cohort group created successfully',
+      //     position: 'bottom-right',
+      //     timeout: 3000
+      //   })
+      // })
     },
     makePrimaryCriteria (criteria) {
       var that = this
@@ -1256,6 +1273,7 @@ export default {
       var url = process.env.API_URL + 'cohort/group/list/'
       axios.get(url).then(function (response) {
         var arr = []
+        arr.push('--Select--')
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
