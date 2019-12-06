@@ -999,7 +999,8 @@ export default {
             'id': that.currentCriteria.currentNumber,
             'event': that.selectedEvent,
             'criteria': that.selectedCriteria,
-            'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row'
+            'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row',
+            'name': ''
           })
         }
       }
@@ -1101,6 +1102,7 @@ export default {
         'type': {
           'op': 'Any'
         },
+        'Name': elementObj.name,
         'CriteriaList': []
       }
       that.$nextTick(() => {
@@ -1110,11 +1112,12 @@ export default {
     removeCorelatedCriteria (elementObj) {
       var that = this
       that.renderComponent2 = false
+      elementObj.name = elementObj.CorrelatedCriteria.Name
       elementObj.CorrelatedCriteria = false
       that.$nextTick(() => {
         that.renderComponent2 = true
       })
-      that.renderComponent = true
+      that.renderComponent = false
     },
     setQCardColor (event) {
       var that = this
