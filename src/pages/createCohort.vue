@@ -1254,6 +1254,9 @@ export default {
       var url = process.env.API_URL + 'cohort/group/list/'
       axios.get(url).then(function (response) {
         var arr = []
+        // <option  disabled>Volvo</option>
+        var select = '<option disabled>Select Cohort Group </option>'
+        arr.push(select)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
@@ -1266,6 +1269,8 @@ export default {
       var url = process.env.API_URL + 'cohort/datasource/list/'
       axios.get(url).then(function (response) {
         var arr = []
+        var selectds = '<option disabled>Select Datasource</option>'
+        arr.push(selectds)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
