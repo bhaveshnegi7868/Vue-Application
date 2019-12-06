@@ -150,6 +150,7 @@
                 <div class=" q-mr-xs ">
                   <span class="q-mr-xs"> day</span>
                   <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
+                    <option disabled>select</option>
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -169,6 +170,7 @@
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> day</span>
                   <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
+                    <option disabled>select</option>
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -180,6 +182,7 @@
               <div class="q-mt-xs">
                 <div class="">
                 <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
+                  <!-- <option disabled>select</option> -->
                   <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                     {{opt}}
                   </option>
@@ -203,6 +206,7 @@
               <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                    <option disabled>Select</option>
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>
