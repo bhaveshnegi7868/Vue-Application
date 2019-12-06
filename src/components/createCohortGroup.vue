@@ -37,7 +37,8 @@ export default {
   },
   data () {
     return {
-      cohortGroup: {}
+      cohortGroup: {},
+      codesetGroup: {}
     }
   },
   methods: {
