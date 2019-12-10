@@ -82,8 +82,8 @@
         </div>
         <div class="col-4">
           <div class="q-pa-sm selected-codes-card q-ml-md">
-            <div class="body">
-              <div class="codeCategories_header">
+            <div class="body" id="scroll">
+              <div class="codeCategories_header" >
                 Selected Codes
               </div>
               <div class="selected_events q-mt-sm">
@@ -376,3 +376,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+#scroll
+{
+height:500px;
+top: 0px;
+bottom: 0px;
+left: 0px;
+right: 0px;
+}
+</style>
