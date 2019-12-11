@@ -712,6 +712,7 @@ export default {
       renderComponent2: true,
       dictPopup: false,
       createCohortGroupPopup: false,
+      // swal2-popup = false
       apiData: {
         'Procedure': procedureData,
         'Diagnosis': diagnosisData,
@@ -865,15 +866,31 @@ export default {
       }
       axios.post(url, datadict).then(function (response) {
         that.createCohortGroupPopup = false
-      }).catch(function (err) {
+        that.$swal(
+          'Done !',
+          'Created successfully',
+          'success'
+        )
+      }).catch(function () {
         that.$q.notify({
-          color: 'black',
+          color: 'theamBlue',
           textColor: 'white',
-          message: err.message,
+          message: 'Cohort group already exists',
           position: 'bottom-right',
           timeout: 3000
         })
       })
+      // axios.post(url, datadict).then(function (response) {
+      //   that.createCohortGroupPopup = false
+      // }).catch(function () {
+      //   that.$q.notify({
+      //     color: 'green',
+      //     textcolor: 'white',
+      //     message: 'New cohort group created successfully',
+      //     position: 'bottom-right',
+      //     timeout: 3000
+      //   })
+      // })
     },
     makePrimaryCriteria (criteria) {
       var that = this
@@ -982,7 +999,8 @@ export default {
             'id': that.currentCriteria.currentNumber,
             'event': that.selectedEvent,
             'criteria': that.selectedCriteria,
-            'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row'
+            'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row',
+            'name': ''
           })
         }
       }
@@ -1084,6 +1102,7 @@ export default {
         'type': {
           'op': 'Any'
         },
+        'Name': elementObj.name,
         'CriteriaList': []
       }
       that.$nextTick(() => {
@@ -1093,11 +1112,12 @@ export default {
     removeCorelatedCriteria (elementObj) {
       var that = this
       that.renderComponent2 = false
+      elementObj.name = elementObj.CorrelatedCriteria.Name
       elementObj.CorrelatedCriteria = false
       that.$nextTick(() => {
         that.renderComponent2 = true
       })
-      that.renderComponent = true
+      that.renderComponent = false
     },
     setQCardColor (event) {
       var that = this
@@ -1254,6 +1274,9 @@ export default {
       var url = process.env.API_URL + 'cohort/group/list/'
       axios.get(url).then(function (response) {
         var arr = []
+        // <option  disabled>Volvo</option>
+        var select = '<option disabled>Select Cohort Group </option>'
+        arr.push(select)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
@@ -1266,6 +1289,8 @@ export default {
       var url = process.env.API_URL + 'cohort/datasource/list/'
       axios.get(url).then(function (response) {
         var arr = []
+        var selectds = '<option disabled>Select Datasource</option>'
+        arr.push(selectds)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
