@@ -525,7 +525,6 @@ export default {
     addCodeset (group) {
       var that = this
       var url = process.env.API_URL + 'codeset/group/create'
-      that.$q.loading.show()
       var datadict = {
         name: group.name,
         description: group.description,
@@ -533,9 +532,19 @@ export default {
       }
       axios.post(url, datadict).then(function (response) {
         that.createCodesetGroupPopup = false
-        that.$q.loading.hide()
+        that.$swal(
+          'Done !',
+          'Created successfully',
+          'success'
+        )
       }).catch(function () {
-        that.$q.loading.hide()
+        that.$q.notify({
+          color: 'theamBlue',
+          textColor: 'white',
+          message: 'Cohort group already exists',
+          position: 'bottom-right',
+          timeout: 3000
+        })
       })
     },
     getCodesetGroupList () {
