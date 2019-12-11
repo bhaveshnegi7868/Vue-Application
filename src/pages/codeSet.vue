@@ -66,7 +66,7 @@
           </q-btn>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'update'">
-          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset"></q-btn>
+          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data[0])" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
             <q-tooltip>
               Save
             </q-tooltip>
@@ -521,7 +521,7 @@ export default {
     addCodeset (group) {
       var that = this
       var url = process.env.API_URL + 'codeset/group/create'
-      // that.$q.loading.show()
+      that.$q.loading.show()
       var datadict = {
         name: group.name,
         description: group.description,
@@ -529,20 +529,9 @@ export default {
       }
       axios.post(url, datadict).then(function (response) {
         that.createCodesetGroupPopup = false
-        that.$swal(
-          'Done !',
-          'Created successfully',
-          'success'
-        )
-        // that.$q.loading.hide()
+        that.$q.loading.hide()
       }).catch(function () {
-        that.$q.notify({
-          color: 'theamBlue',
-          textColor: 'white',
-          message: ' Codeset group already exists ',
-          position: 'bottom-right',
-          timeout: 3000
-        })
+        that.$q.loading.hide()
       })
     },
     getCodesetGroupList () {
