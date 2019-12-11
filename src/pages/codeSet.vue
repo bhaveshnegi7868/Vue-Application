@@ -541,7 +541,7 @@ export default {
         that.$q.notify({
           color: 'theamBlue',
           textColor: 'white',
-          message: 'Cohort group already exists',
+          message: 'Codeset group already exists',
           position: 'bottom-right',
           timeout: 3000
         })
