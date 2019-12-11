@@ -139,6 +139,7 @@
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
                   <input class="input-box text-center  w4R q-mr-xs" input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
+
                    ..commented earlier <datalist id="listday2">
             //         <option value="ALL"/>
             //         <option value="1"/>
@@ -180,6 +181,7 @@
               <div class="q-mt-xs">
                 <div class="">
                 <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
+                  <!-- <option disabled>select</option> -->
                   <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                     {{opt}}
                   </option>
@@ -203,6 +205,7 @@
               <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                    <option disabled>Select</option>
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>

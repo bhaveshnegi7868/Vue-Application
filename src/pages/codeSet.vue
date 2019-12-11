@@ -66,11 +66,10 @@
           </q-btn>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'update'">
-          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset"></q-btn>
             <q-tooltip>
               Save
             </q-tooltip>
-          </q-btn>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod == 'update'">
           <q-btn outlined icon="save" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
