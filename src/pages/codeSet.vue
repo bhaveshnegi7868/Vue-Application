@@ -395,6 +395,8 @@ export default {
     removeAllCodesFromList () {
       var that = this
       this.$swal({
+        backdrop: true,
+        allowOutsideClick: false,
         title: 'Are you sure?',
         text: 'You want To Delete all',
         type: 'warning',
@@ -439,6 +441,8 @@ export default {
     removeCodeFromList (code) {
       var that = this
       this.$swal({
+        backdrop: true,
+        allowOutsideClick: false,
         title: 'Are you sure?',
         text: 'You want to delete this code',
         type: 'warning',
@@ -492,7 +496,7 @@ export default {
       var checkall = false
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
       axios.get(url).then(function (response) {
-        that.currentDependents[0] = response.data.result
+        that.currentDependents[0] = response.data.result.hierarchy
         that.currentDependentsList = response.data.result.codes_list
         that.dependentsPopup = true
       }).catch(function () {

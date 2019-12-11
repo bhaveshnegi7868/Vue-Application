@@ -114,6 +114,8 @@ export default {
     removeFromList: function (id) {
       var that = this
       this.$swal({
+        backdrop: true,
+        allowOutsideClick: false,
         title: 'Are you sure?',
         text: 'You want To Delete This Codeset',
         type: 'warning',
