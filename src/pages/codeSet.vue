@@ -393,31 +393,28 @@ export default {
     },
     removeAllCodesFromList () {
       var that = this
-      this.$swal({
-        backdrop: true,
-        allowOutsideClick: false,
-        title: 'Are you sure?',
-        text: 'You want To Delete all',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Delete'
-      }).then((result) => {
-        if (result.value) {
-          this.baseObj.codeset_data = []
-          that.renderComponent = false
-          setTimeout(function () {
-            that.$nextTick(() => {
-            // Add the component back in
-              that.renderComponent = true
-            })
-          }, 100)
-          that.$swal(
-            'Deleted!',
-            'Codes Deleted',
-            'success'
-          )
-        }
-      })
+      if ((this.baseObj.codeset_data).length > 0) {
+        this.$swal({
+          backdrop: true,
+          allowOutsideClick: false,
+          title: 'Are you sure?',
+          text: 'You want To Delete all',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Delete'
+        }).then((result) => {
+          if (result.value) {
+            this.baseObj.codeset_data = []
+            that.renderComponent = false
+            setTimeout(function () {
+              that.$nextTick(() => {
+              // Add the component back in
+                that.renderComponent = true
+              })
+            }, 100)
+          }
+        })
+      }
     },
     removeAllCodesFromList2 () {
       console.log('checkall')
