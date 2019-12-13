@@ -113,7 +113,7 @@
                   </select>
 
                 </div>
-                <div class="col q-mx-xs  q-ml-md">
+                <div class="col q-mx-xs  q-ml-md" >
                   <input type="number" class="input-box text-center full-width" v-model="event[mappingDict[event.event]][key].count[obj.name]" v-on:keyup="sendName" />
                 </div>
               </div>
@@ -195,7 +195,7 @@
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
-                <div class="">
+                <div class="" v-if="key == 'Occurrence' || event[mappingDict[event.event]][key].Op">
                   <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
                 <q-btn v-if="key == 'Occurrence'" class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:change="sendName"></q-btn>
