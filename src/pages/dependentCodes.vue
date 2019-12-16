@@ -9,7 +9,7 @@
         <q-tree
           :nodes="desendents"
           node-key="Code"
-          tick-strategy="strict"
+          tick-strategy="leaf"
           :ticked.sync="ticked"
         >
           <template v-slot:default-header="prop">
