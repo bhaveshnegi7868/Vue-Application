@@ -10,10 +10,10 @@
     <div class="attributeDiv" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key]">
-            <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label == 'List of diagnosis'">
+            <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label == 'List of diagnosis' || event[mappingDict[event.event]][key].Label == 'List of procedures' || event[mappingDict[event.event]][key].Label == 'List of drugs'">
             {{event[mappingDict[event.event]][key].Label}} *<br>
           </div>
-          <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label != 'Diagnosis occurrence start date w.r.t initial events index start date' && event[mappingDict[event.event]][key].Label != 'List of diagnosis'">
+          <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label != 'Diagnosis occurrence start date w.r.t initial events index start date' && event[mappingDict[event.event]][key].Label != 'List of diagnosis' && event[mappingDict[event.event]][key].Label != 'List of procedures' && event[mappingDict[event.event]][key].Label != 'List of drugs'">
             {{event[mappingDict[event.event]][key].Label}}<br>
           </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
