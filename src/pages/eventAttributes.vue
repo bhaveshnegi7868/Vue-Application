@@ -4,13 +4,16 @@
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
-      Name:
+      Name *
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>
     <div class="attributeDiv" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key]">
-          <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label != 'Diagnosis occurrence start date w.r.t initial events index start date'">
+            <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label == 'List of diagnosis'">
+            {{event[mappingDict[event.event]][key].Label}} *<br>
+          </div>
+          <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label != 'Diagnosis occurrence start date w.r.t initial events index start date' && event[mappingDict[event.event]][key].Label != 'List of diagnosis'">
             {{event[mappingDict[event.event]][key].Label}}<br>
           </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
@@ -205,7 +208,7 @@
               <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
-                    <option disabled>Select</option>
+                    <option disabled value="">Select</option>
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>
