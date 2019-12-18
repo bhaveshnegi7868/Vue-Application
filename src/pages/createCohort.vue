@@ -202,7 +202,7 @@
             </q-card>
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
-                <div v-if="!currentInclusionObj.type">Any of the following criteria</div>
+                <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col" v-if="currentInclusionObj.type">
                     <select class="criteria-box H25" v-model="currentInclusionObj.type.op">
