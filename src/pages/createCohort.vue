@@ -111,7 +111,7 @@
               </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!(baseObj.cohort_name && baseObj.data_source && baseObj.cohort_group && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1)" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && baseObj.data_source && baseObj.cohort_group && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) && ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
               <q-tooltip>
                 Run
               </q-tooltip>
@@ -154,7 +154,6 @@
                 <q-btn class="q-pa-none f8 q-mx-xs q-mt-xs float-right" icon="cancel" flat rounded @click="remselection(index)" @click.stop="markCriteriaAsSelected"/>
               </div>
               </div>
-
             </q-item-section>
           </q-item>
         </q-list>
@@ -1234,6 +1233,7 @@ export default {
       })
     },
     handleChange (event) {
+      console.log('yesss')
       var that = this
       // that.renderComponent = false
       // debugger
@@ -1248,6 +1248,7 @@ export default {
       //   // Add the component back in
       //   that.renderComponent = true
       // })
+      that.$forceUpdate()
     },
     addNewCriteria () {
       var that = this
