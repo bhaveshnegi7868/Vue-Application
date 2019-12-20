@@ -65,14 +65,21 @@
             </q-tooltip>
           </q-btn>
         </div>
-        <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'update'">
+        <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'copy' && pagemethod != 'update'">
           <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data[0])" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
             <q-tooltip>
               Save
             </q-tooltip>
         </div>
+        <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod == 'copy'">
+          <q-btn outlined icon="update" label="Update" :disable="!(baseObj.codeset_name )" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+            <q-tooltip>
+              Update
+            </q-tooltip>
+          </q-btn>
+        </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod == 'update'">
-          <q-btn outlined icon="save" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+          <q-btn outlined icon="update" label="Update" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Update
             </q-tooltip>
