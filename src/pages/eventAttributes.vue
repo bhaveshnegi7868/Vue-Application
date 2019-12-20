@@ -5,7 +5,7 @@
     </div>
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
       Name *
-      <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
+      <input class="input-box full-width" @keydown.space.prevent v-model="event.name" v-on:keyup="sendName" />
     </div>
     <div class="attributeDiv" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
