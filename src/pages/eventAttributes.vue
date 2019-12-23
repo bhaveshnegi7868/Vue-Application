@@ -95,13 +95,17 @@
                 </div>
               </div>
             </div>
-            <div class="col dateInputBox q-mb-xs q-pr-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
+            <div class="col full-width q-mb-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
+              <div class="row">
+                <div class="col dateInputBox q-mb-xs q-pr-xs" v-if="key == 'Occurrence' || event[mappingDict[event.event]][key].Op">
                   <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
                     <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
                       <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
                     </q-popup-proxy>
                   </q-icon>
                   {{event[mappingDict[event.event]][key][obj.name]?event[mappingDict[event.event]][key][obj.name]:'YYYY-MM-DD'}}
+                </div>
+              </div>
             </div>
             <div class="col full-width " v-if="obj.Type == 'text'">
               <input class="input-box full-width" v-model="event[mappingDict[event.event]][key][obj.name]"/>
@@ -204,11 +208,11 @@
                 <q-btn v-if="key == 'Occurrence'" class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:change="sendName"></q-btn>
               </div>
             </div>
-            <div class="col full-width " v-if="obj.Type == 'single-select'">
+            <div class="col full-width " v-if="key != 'Occurrence' && obj.Type == 'single-select'">
               <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
-                    <option disabled value="">Select</option>
+                    <option value="">None</option>
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>
@@ -217,6 +221,17 @@
               </div>
               <div v-if="key == 'ConditionType' || key == 'ProviderSpecialty'">
               <!-- <q-select v-model="model" :options="obj.value" label="Standard" ></q-select> -->
+              </div>
+            </div>
+            <div class="col full-width " v-if="key == 'Occurrence' && obj.Type == 'single-select'">
+              <div class="row" >
+                <div class="">
+                  <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                    <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
+                      {{opt}}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
 
