@@ -65,8 +65,8 @@
             </q-tooltip>
           </q-btn>
         </div>
-        <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'copy' && pagemethod != 'update'">
-          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data[0])" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
+        <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'update'">
+          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && (baseObj.codeset_group != 'Select Codeset Group') && baseObj.codeset_data[0])" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
             <q-tooltip>
               Save
             </q-tooltip>
@@ -556,6 +556,8 @@ export default {
       var url = process.env.API_URL + 'codeset/group/list/'
       axios.get(url).then(function (response) {
         var arr = []
+        var select = 'Select Codeset Group'
+        arr.push(select)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
