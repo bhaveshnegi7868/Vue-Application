@@ -111,7 +111,7 @@
               </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && baseObj.data_source && baseObj.cohort_group && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && baseObj.data_source && (baseObj.data_source != 'Select Datasource') && baseObj.cohort_group && (baseObj.cohort_group != 'Select Cohort Group') && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
               <q-tooltip>
                 Run
               </q-tooltip>
@@ -1275,8 +1275,7 @@ export default {
       var url = process.env.API_URL + 'cohort/group/list/'
       axios.get(url).then(function (response) {
         var arr = []
-        // <option  disabled>Volvo</option>
-        var select = '<option disabled>Select Cohort Group </option>'
+        var select = 'Select Cohort Group'
         arr.push(select)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
@@ -1290,7 +1289,7 @@ export default {
       var url = process.env.API_URL + 'cohort/datasource/list/'
       axios.get(url).then(function (response) {
         var arr = []
-        var selectds = '<option disabled>Select Datasource</option>'
+        var selectds = 'Select Datasource'
         arr.push(selectds)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
