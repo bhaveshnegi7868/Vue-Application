@@ -4,7 +4,7 @@
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_name" placeholder="* Cohort Name" />
+                <input class="input-box full-width" v-model="baseObj.cohort_name" @keydown.space.prevent placeholder="* Cohort Name" />
             </div>
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
@@ -1430,15 +1430,27 @@ export default {
             for (var kIndx in data[key]) {
               if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Value
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Extent
+                if (data[key][kIndx].Op !== '') {
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Value
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Extent
+                } else {
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
+                }
               }
               if (kIndx === 'OccurrenceStartDate') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Extent
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Value
+                if (data[key][kIndx].Op !== '') {
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Extent
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Value
+                } else {
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
+                }
               }
               if (kIndx === 'OccurrenceLimit') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
@@ -1488,15 +1500,27 @@ export default {
                       console.log(cokIndx)
                       if (cokIndx === 'OccurrenceStartDate' || cokIndx === 'Age' || cokIndx === 'Refills' || cokIndx === 'Quantity' || cokIndx === 'DaysSupply') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Value
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Extent
+                        if (codata[cokey][cokIndx].Op !== '') {
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Value
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Extent
+                        } else {
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = undefined
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = undefined
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = undefined
+                        }
                       }
                       if (cokIndx === 'OccurrenceStartDate') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Extent
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Value
+                        if (codata[cokey][cokIndx].Op !== '') {
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Extent
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Value
+                        } else {
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = undefined
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = undefined
+                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = undefined
+                        }
                       }
                       if (cokIndx === 'OccurrenceLimit') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
@@ -1580,15 +1604,27 @@ export default {
                 console.log(Idata[key][kIndx])
                 if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
+                  if (Idata[key][kIndx].Op !== '') {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
+                  } else {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = undefined
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = undefined
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = undefined
+                  }
                 }
                 if (kIndx === 'OccurrenceStartDate') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
+                  if (Idata[key][kIndx].Op !== '') {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
+                  } else {
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = undefined
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = undefined
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = undefined
+                  }
                 }
                 if (kIndx === 'OccurrenceLimit') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
@@ -1662,19 +1698,27 @@ export default {
                   console.log(Idata[key][kIndx])
                   if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
+                    if (Idata[key][kIndx].Op !== '') {
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
+                    } else {
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = undefined
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = undefined
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = undefined
+                    }
                   }
                   if (kIndx === 'OccurrenceStartDate') {
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
-                  }
-                  if (kIndx === 'OccurrenceStartDate') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].First = Idata[key][kIndx].Value
+                    if (Idata[key][kIndx].Op !== '') {
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
+                    } else {
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = undefined
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = undefined
+                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = undefined
+                    }
                   }
                   if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
