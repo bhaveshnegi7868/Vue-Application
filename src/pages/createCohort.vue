@@ -921,9 +921,8 @@ export default {
         },
         'Name': '',
         'CriteriaList': [],
-        'currentSelected': 'full-width q-pa-sm q-mt-xs shadow-2 row'
+        'currentSelected': 'full-width q-pa-sm q-mt-xs yes35  shadow-2 row'
       })
-      // that.$refs.test.click()
     },
     showLoading () {
       Loading.show({
@@ -970,9 +969,9 @@ export default {
       }
     },
     addEvent (groupId = null) {
+      console.log('test check')
       var that = this
       console.log('mY check')
-      console.log(that.currentCriteria.PrimaryCriteriaLimit)
       if (that.selectedCriteria !== 'Select Event') {
         if (groupId) {
           if (groupId.constructor.name !== 'Event' && groupId !== 0) {
@@ -981,16 +980,29 @@ export default {
               'id': that.getNextDigit(inde.lastChar),
               'event': that.selectedEvent,
               'criteria': that.selectedCriteria,
-              'currentSelected': 'q-pa-sm  q-mt-sm shadow-2 row'
+              'currentSelected': 'q-pa-sm yess3 q-mt-sm shadow-2 row',
+              'corelated': true
             })
           } else {
             that.currentCriteria.currentNumber = that.getNextDigit()
-            that.currentCriteria['CriteriaList'].push({
-              'id': that.currentCriteria.currentNumber,
-              'event': that.selectedEvent,
-              'criteria': that.selectedCriteria,
-              'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row'
-            })
+            console.log('testing')
+            console.log(that.currentCriteria)
+            if (that.currentCriteria.PCriteriaSetName !== undefined) {
+              that.currentCriteria['CriteriaList'].push({
+                'id': that.currentCriteria.currentNumber,
+                'event': that.selectedEvent,
+                'criteria': that.selectedCriteria,
+                'currentSelected': 'q-pa-sm yess5 q-mt-xs shadow-2 row'
+              })
+            } else {
+              that.currentCriteria['CriteriaList'].push({
+                'id': that.currentCriteria.currentNumber,
+                'event': that.selectedEvent,
+                'criteria': that.selectedCriteria,
+                'currentSelected': 'q-pa-sm yess5 q-mt-xs shadow-2 row',
+                'corelated': true
+              })
+            }
           }
         } else {
           that.currentCriteria.currentNumber = that.getNextDigit()
@@ -998,8 +1010,8 @@ export default {
             'id': that.currentCriteria.currentNumber,
             'event': that.selectedEvent,
             'criteria': that.selectedCriteria,
-            'currentSelected': 'q-pa-sm q-mt-xs shadow-2 row',
-            'name': ''
+            'currentSelected': 'q-pa-sm q-mt-xs yes44 shadow-2 row',
+            'name': 'ssss'
           })
         }
       }
@@ -1122,17 +1134,19 @@ export default {
       var that = this
       that.currentCriteria.CriteriaList.forEach(function (row, index) {
         if (row.id.toString() === event.id.toString()) {
-          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
+          console.log('test Result')
+          console.log(that.currentCriteria)
+          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 yesss7 row selected-criteria'
         } else {
-          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
+          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 yesss9 row'
         }
         if (row.CorrelatedCriteria) {
           try {
             row.CorrelatedCriteria.CriteriaList.forEach(function (row, index) {
               if (row.id.toString() === event.id.toString()) {
-                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2 row selected-criteria'
+                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2  yess8 row selected-criteria'
               } else {
-                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2 row'
+                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2 yess12 row'
               }
             })
           } catch {
@@ -1144,9 +1158,9 @@ export default {
         that.currentInclusionObj.Groups.forEach(function (row, index) {
           row.CriteriaList.forEach(function (row1, index1) {
             if (row1.id.toString() === event.id.toString()) {
-              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm  q-mt-xs shadow-2 row selected-criteria'
+              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm  q-mt-xs yess23 shadow-2 row selected-criteria'
             } else {
-              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-mt-xs shadow-2 row'
+              that.currentInclusionObj.Groups[index].CriteriaList[index1].currentSelected = 'q-pa-sm q-mt-xs yes25 shadow-2 row'
             }
           })
         })
@@ -1174,11 +1188,14 @@ export default {
       if (heightOfArray > 0) {
         charToGet = elementObj.CorrelatedCriteria.CriteriaList[heightOfArray - 1].id
       }
+      console.log(that.selectedCriteria)
+      console.log(that.selectedEvent)
       elementObj.CorrelatedCriteria.CriteriaList.push({
         'id': that.getNextDigit(charToGet),
         'event': that.selectedEvent,
         'criteria': that.selectedCriteria,
-        'currentSelected': 'q-pa-sm q-ma-sm shadow-2 row'
+        'currentSelected': 'q-pa-sm yess q-ma-sm yes34 shadow-2 row',
+        'corelated': true
       })
       var container = this.$el.querySelector('#list-group')
       container.scrollTop = container.scrollHeight
@@ -1370,6 +1387,7 @@ export default {
           newEventArray.push(eventArrayResData.OccurenceLimit)
         }
         that.currentEvent = Object.assign(that.currentEvent, response.data.data)
+        console.log(that.currentEvent)
         that.renderComponent = false
         setTimeout(function () {
           that.$nextTick(() => {
