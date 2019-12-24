@@ -8,14 +8,11 @@
       <input class="input-box full-width" @keydown.space.prevent v-model="event.name" v-on:keyup="sendName" />
     </div>
     <div class="attributeDiv" v-if="event != ''">
-        <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj">
+        <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key] != undefined">
-            <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label == 'List of diagnosis' || event[mappingDict[event.event]][key].Label == 'List of procedures' || event[mappingDict[event.event]][key].Label == 'List of drugs'">
-            {{event[mappingDict[event.event]][key].Label}} *<br>
-          </div>
-          <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && event[mappingDict[event.event]][key].Label != 'Diagnosis occurrence start date w.r.t initial events index start date' && event[mappingDict[event.event]][key].Label != 'List of diagnosis' && event[mappingDict[event.event]][key].Label != 'List of procedures' && event[mappingDict[event.event]][key].Label != 'List of drugs'">
-            {{event[mappingDict[event.event]][key].Label}}<br>
-          </div>
+            <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && (key!='OccurrenceIndexStartDate' || event.corelated != undefined)">
+            {{event[mappingDict[event.event]][key].Label}} <span v-if="key == 'listDiagnosis' || key == 'listProcedures' || key == 'listDrugs'"> *</span><br>
+            </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <multiselect
               v-model="event[mappingDict[event.event]][key][obj.name]"
@@ -118,7 +115,6 @@
                       {{opt}}
                     </option>
                   </select>
-
                 </div>
                 <div class="col q-mx-xs  q-ml-md" >
                   <input type="number" class="input-box text-center full-width" v-model="event[mappingDict[event.event]][key].count[obj.name]" v-on:keyup="sendName" />
@@ -141,54 +137,53 @@
                 </div>
               </div>
             </div>
-            <!--<div class="w30R full-width" v-if="obj.Type == 'day-between'">
+            <div class="w30R full-width" v-if="obj.Type == 'day-between' && event.corelated == true">
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
                   <input class="input-box text-center  w4R q-mr-xs" input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
-
-                   ..commented earlier <datalist id="listday2">
-            //         <option value="ALL"/>
-            //         <option value="1"/>
-            //         <option value="2"/>
-            //         <option value="3"/>
-            //         <option value="4"/>
-            //       </datalist> ..>
-            //     </div>
-            //     <div class=" q-mr-xs ">
-            //       <span class="q-mr-xs"> day</span>
-            //       <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
-            //         <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
-            //           {{opt}}
-            //         </option>
-            //       </select>
-            //     </div>
-            //     <div class=" q-mr-xs">
-            //       <span class="q-mr-xs"> and </span>
-            //       <input class="input-box text-center  w4R q-mr-xs" input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
-            //       ..commented earlier <datalist id="listday1">
-            //         <option value="ALL"/>
-            //         <option value="1"/>
-            //         <option value="2"/>
-            //         <option value="3"/>
-            //         <option value="4"/>
-            //       </datalist> .commented earlier
-            //     </div>
-            //     <div class=" q-mr-xs">
-            //       <span class="q-mr-xs"> day</span>
-            //       <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
-            //         <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
-            //           {{opt}}
-            //         </option>
-            //       </select>
-            //     </div>
-            //   </div>
-            // </div>-->
-            <div class="col full-width q-mb-xs" v-if="obj.Type == 'date-between' ">
+                  <datalist id="listday2">
+                     <option value="ALL"/>
+                     <option value="1"/>
+                     <option value="2"/>
+                     <option value="3"/>
+                     <option value="4"/>
+                   </datalist>
+                 </div>
+                 <div class=" q-mr-xs ">
+                   <span class="q-mr-xs"> day</span>
+                   <select class="criteria-box w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
+                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
+                       {{opt}}
+                     </option>
+                   </select>
+                 </div>
+                 <div class=" q-mr-xs">
+                   <span class="q-mr-xs"> and </span>
+                   <input class="input-box text-center  w4R q-mr-xs" input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
+                   <datalist id="listday1">
+                     <option value="ALL"/>
+                     <option value="1"/>
+                     <option value="2"/>
+                     <option value="3"/>
+                     <option value="4"/>
+                   </datalist>
+                 </div>
+                 <div class=" q-mr-xs">
+                   <span class="q-mr-xs"> day</span>
+                   <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
+                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
+                       {{opt}}
+                     </option>
+                   </select>
+                 </div>
+               </div>
+             </div>
+            <div class="col full-width q-mb-xs" v-if="obj.Type == 'date-between' && event.corelated == true">
               <div class="q-mt-xs">
                 <div class="">
                 <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
-                  <!-- <option disabled>select</option> -->
+                  <option disabled>select</option>
                   <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                     {{opt}}
                   </option>
