@@ -3,7 +3,6 @@
     <div class="EventList_header f12">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
-    {{event.corelated}}
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
       Name *
       <input class="input-box full-width" @keydown.space.prevent v-model="event.name" v-on:keyup="sendName" />
