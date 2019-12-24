@@ -88,7 +88,7 @@
       </q-card>
     </div>
     <div class="row q-my-sm">
-      <div class="col-6 row q-mx-auto q-px-xl">
+      <div class="col-7 row q-mx-auto q-px-xl">
         <div class="col q-px-lg">
           <q-btn class="q-mx-lg" color="theamBlue" text-color="white" rounded unelevated @click="codesPopup = true" >
             <q-icon class="right-bordered-icon on-left" name="search"/>
@@ -102,6 +102,10 @@
             Upload Codes
           </q-btn>
         </div>
+        <q-btn class="q-mx-lg hover-upload"  text-color="white" rounded unelevated style="cursor:pointer !important;">
+          <q-icon name="img:/statics/imgs/excel.png" size="35px"/>
+          <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">Download sample file</q-tooltip>
+        </q-btn>
       </div>
     </div>
     <div class="">
