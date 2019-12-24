@@ -675,6 +675,12 @@ export default {
           })
         }, 100)
         that.$q.loading.hide()
+        that.$q.notify({
+          color: 'black',
+          textColor: 'white',
+          message: 'File Uploaded Successfully',
+          timeout: 3000
+        })
       }).catch(function (err) {
         that.$q.loading.hide()
         that.$q.notify({
