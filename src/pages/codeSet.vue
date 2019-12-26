@@ -95,17 +95,19 @@
             Search Codes
           </q-btn>
         </div>
+        <div class="col q-px-sm">
         <div class="upload-btn-wrapper col">
           <q-btn class="q-mx-lg hover-upload"  color="theamBlue" text-color="white" rounded unelevated style="cursor:pointer !important;">
             <q-icon class="right-bordered-icon on-left" name="backup"/>
             <input type="file" style="" ref="file" name="myfile" accept=".csv" @input="updateFile" />
             Upload Codes
           </q-btn>
+          <q-btn class="hover-upload"  @click="downloadTemplate()" text-color="white" rounded unelevated style="cursor:pointer !important;">
+            <q-icon name="img:/statics/imgs/excel.png" size="30px"/>
+            <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">Download sample file</q-tooltip>
+          </q-btn>
         </div>
-        <q-btn class="q-mx-lg hover-upload"  text-color="white" rounded unelevated style="cursor:pointer !important;">
-          <q-icon name="img:/statics/imgs/excel.png" size="35px"/>
-          <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">Download sample file</q-tooltip>
-        </q-btn>
+        </div>
       </div>
     </div>
     <div class="">
@@ -260,6 +262,7 @@ export default {
       pagination: {
         rowsPerPage: 10
       },
+      url: 'http://10.14.11.136:8008/api/v1/codeset/download/csv/',
       renderComponent: true,
       renderComponent1: true,
       currentSelected: [],
@@ -314,6 +317,25 @@ export default {
     }
   },
   methods: {
+    downloadTemplate () {
+      axios({
+        method: 'get',
+        url: this.url,
+        responseType: 'arraybuffer'
+      })
+        .then(response => {
+          this.forceFileDownload(response)
+        })
+        .catch(() => console.log('error occured'))
+    },
+    forceFileDownload (response) {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'ICD10 codes.csv')
+      document.body.appendChild(link)
+      link.click()
+    },
     reset () {
       var that = this
       if (that.codeset_id) {
