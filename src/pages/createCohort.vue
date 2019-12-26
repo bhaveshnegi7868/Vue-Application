@@ -111,7 +111,7 @@
               </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && baseObj.data_source && (baseObj.data_source != 'Select Datasource') && baseObj.cohort_group && (baseObj.cohort_group != 'Select Cohort Group') && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && baseObj.data_source && baseObj.cohort_group && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
               <q-tooltip>
                 Run
               </q-tooltip>
@@ -205,14 +205,19 @@
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col" v-if="currentInclusionObj.type">
                     <select class="criteria-box H25" v-model="currentInclusionObj.type.op">
-                      <option disabled>Select</option>
                       <option value="All">All</option>
                       <option value="Any">Any</option>
                       <option value="at most">At Most</option>
                       <option value="at least">At Least</option>
+                    </select> &nbsp;
+                    <!-- <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length"> -->
+                    <select class="criteria-box H25" v-model="currentInclusionObj.type.count" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'">
+                      <option value="0">0</option>
+                      <option v-for="i in currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length" v-bind:key="i">
+                        {{i}}
+                      </option>
                     </select>
-                    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="currentInclusionObj.type.count" class="q-mx-xs text-center q-pa-xs w2R input-box" v-if="currentInclusionObj.type.op === 'at most' || currentInclusionObj.type.op === 'at least'" min=0 :max="currentCriteria.CriteriaList.length+currentInclusionObj.Groups.length">
-                     of the criteria
+                     of the following criteria
                   </div>
                   <div class="col-md-3">
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
@@ -1274,7 +1279,8 @@ export default {
         'ICriteriaSetName': '',
         'ICriteriaSetDesc': '',
         'type': {
-          'op': 'Any'
+          'op': 'Any',
+          'count': 0
         },
         'currentSelected': 0,
         'expression': {
@@ -1292,8 +1298,6 @@ export default {
       var url = process.env.API_URL + 'cohort/group/list/'
       axios.get(url).then(function (response) {
         var arr = []
-        var select = 'Select Cohort Group'
-        arr.push(select)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
@@ -1306,8 +1310,6 @@ export default {
       var url = process.env.API_URL + 'cohort/datasource/list/'
       axios.get(url).then(function (response) {
         var arr = []
-        var selectds = 'Select Datasource'
-        arr.push(selectds)
         response.data.result.forEach(function (row) {
           arr.push(row.name)
         })
