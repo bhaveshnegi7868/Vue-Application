@@ -85,7 +85,7 @@
                       v-if="renderComponent1"
                       @input="makeSelected"
                       :multiple="true"
-                      :taggable="true"
+                      :taggable="false"
                       track-by="value"
                       label="label">
                     </multiselect>

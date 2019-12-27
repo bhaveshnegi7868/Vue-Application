@@ -1016,7 +1016,7 @@ export default {
             'event': that.selectedEvent,
             'criteria': that.selectedCriteria,
             'currentSelected': 'q-pa-sm q-mt-xs yes44 shadow-2 row',
-            'name': 'ssss'
+            'name': ''
           })
         }
       }
