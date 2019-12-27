@@ -262,7 +262,7 @@ export default {
       pagination: {
         rowsPerPage: 10
       },
-      url: 'http://10.14.11.136:8008/api/v1/codeset/download/csv/',
+      url: 'http://10.14.11.136:8006/api/v1/codeset/download/csv/',
       renderComponent: true,
       renderComponent1: true,
       currentSelected: [],
