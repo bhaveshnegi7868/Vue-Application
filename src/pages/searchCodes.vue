@@ -52,6 +52,7 @@
                 </div>
               </div>
               <div class="w80P">
+                <div id="scroll">
                 <q-table
                   id="codesTable"
                   class="selected_events1"
@@ -76,6 +77,7 @@
                     </div>
                   </q-td>
                 </q-table>
+                </div>
               </div>
             </div>
           </div>
