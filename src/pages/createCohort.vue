@@ -1101,6 +1101,12 @@ export default {
             that.renderComponent = false
           }
         })
+        if (that.currentInclusionObj.type.count !== undefined) {
+          if (that.currentInclusionObj.type.count > (that.currentCriteria.CriteriaList.length + that.currentInclusionObj.Groups.length)) {
+            that.currentInclusionObj.type.count = 0
+            that.$forceUpdate()
+          }
+        }
       }
       that.currentEvent = {}
       that.showAttributes('', null, null)
