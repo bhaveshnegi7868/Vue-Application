@@ -3,10 +3,13 @@
     <div class="col-4 q-pa-md Cohort-Name">
       {{cohort_name.cohort_name}}
     </div>
-    <div class="" v-for="path in paths" :key="path">
+    <div class="" v-for="path in paths()" :key="path">
       <div class="col-4 q-px-auto">
-        <q-item no-caps class="Rectangle-199 h35  q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path != 'Summary'">
-          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id ?'':'/cohort/update/' + cohort_name.cohort_id)"><label class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
+        <q-item no-caps class="Rectangle-199 h35  q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'Cohort Definition'">
+          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id?'':'' + cohort_name.cohort_id)"><label class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
+        </q-item>
+        <q-item no-caps class="Rectangle-199 h35 q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'back'">
+          <div class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" v-on:click="doSomething()"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">Cohort Definition</label></div>
         </q-item>
         <q-item no-caps class="Rectangle-199 h35 q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'Summary'">
           <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id ?'':'/cohort/summary/' + cohort_name.cohort_id)"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
@@ -20,16 +23,25 @@
 <script type="text/javascript">
 import {
 } from 'quasar'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 export default {
   name: 'secondaryHeader',
   components: {
   },
   data () {
     return {
-      paths: [
-        'Cohort Definition',
-        'Summary'
-      ]
+      paths: () => {
+        const path = this.$route.path
+        if (path.indexOf('/cohort/summary') !== -1) {
+          return ['back', 'Summary']
+        }
+        return [
+          'Cohort Definition',
+          'Summary'
+        ]
+      }
     }
   },
   props: {
@@ -38,6 +50,13 @@ export default {
   },
   created () {
     console.log(this.selectedPage)
+    var route = this.$route
+    console.log(route.path)
+  },
+  methods: {
+    doSomething () {
+      window.history.back()
+    }
   }
 }
 </script>

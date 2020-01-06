@@ -14,7 +14,9 @@
         >
           <template v-slot:default-header="prop">
             <q-card class="q-pa-md unselected-card">
-              {{prop.node.Code}} | <label class="ellipsis" style="max-width: 200px;">{{prop.node.Name}}</label>
+              {{prop.node.Code}} |
+              <br>
+              {{prop.node.Name}}
             </q-card>
           </template>
         </q-tree>
