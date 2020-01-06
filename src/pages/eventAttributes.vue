@@ -94,7 +94,7 @@
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
-                <div class="col dateInputBox q-mb-xs q-pr-xs" v-if="key == 'Occurrence' || event[mappingDict[event.event]][key].Op">
+                <div class="col dateInputBox q-mb-xs q-pr-xs" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !== 'undefined')">
                   <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
                     <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
                       <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
@@ -197,7 +197,7 @@
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
-                <div class="" v-if="key == 'Occurrence' || event[mappingDict[event.event]][key].Op">
+                <div class="" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !=='undefined')">
                   <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
                 <q-btn v-if="key == 'Occurrence'" class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:change="sendName"></q-btn>
@@ -207,7 +207,7 @@
               <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
-                    <option value="">None</option>
+                    <option value=undefined>None</option>
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>
