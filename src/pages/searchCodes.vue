@@ -166,14 +166,16 @@ export default {
           required: true,
           field: row => row.concept_code,
           format: val => `${val}`,
-          label: 'Code',
+          label: 'Code                 ',
           align: 'left',
-          sortable: true
+          sortable: true,
+          classes: 'w25R ellipsis',
+          style: 'max-width: 50px'
         },
-        { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'ellipsis', style: 'max-width: 250px' },
-        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, classes: 'ellipsis', align: 'center', style: 'max-width: 100px' },
+        { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'w25R ellipsis', style: 'max-width: 150px' },
+        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, classes: 'w25R ellipsis', align: 'left', style: 'max-width: 50px' },
         { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', classes: 'ellipsis', align: 'left', sortable: true, style: 'max-width: 100px' },
-        { name: 'Actions', label: 'Actions', field: 'Actions' }
+        { name: 'Actions', label: 'Actions', field: 'Actions', style: 'max-width: 150px' }
       ],
       pagination: {
         sortBy: 'domain_id',
