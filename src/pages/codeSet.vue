@@ -90,26 +90,24 @@
     <div class="row q-my-sm">
       <div class="col-7 row q-mx-auto q-px-xl">
         <div class="col q-px-lg">
-          <q-btn class="q-mx-lg" color="theamBlue" text-color="white" rounded unelevated @click="codesPopup = true" >
+          <q-btn class="" color="theamBlue" text-color="white" rounded unelevated @click="codesPopup = true" >
             <q-icon class="right-bordered-icon on-left" name="search"/>
             Search Codes
           </q-btn>
         </div>
-        <div class="col q-px-sm">
-        <div class="upload-btn-wrapper col">
-          <q-btn class="q-mx-lg hover-upload"  color="theamBlue" text-color="white" rounded unelevated style="cursor:pointer !important;">
+        <div class="upload-btn-wrapper">
+          <q-btn class="q-mx hover-upload"  color="theamBlue" text-color="white" rounded unelevated style="cursor:pointer !important;">
             <q-icon class="right-bordered-icon on-left" name="backup"/>
             <input type="file" style="" ref="file" name="myfile" accept=".csv" @input="updateFile" />
             Upload Codes
           </q-btn>
           <q-btn class="hover-upload"  @click="downloadTemplate()" text-color="white" rounded unelevated style="cursor:pointer !important;">
-            <q-icon name="img:/statics/imgs/excel.png" size="30px"/>
+            <q-icon name="img:/statics/imgs/layout.png" size="18px"/>
             <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">Download sample file</q-tooltip>
           </q-btn>
         </div>
         </div>
       </div>
-    </div>
     <div class="">
       <q-table
       v-if="renderComponent"
@@ -143,7 +141,7 @@
       </q-th>
       <q-th key="podUpload5" class="w4R">
         <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
-          <q-btn name="delete_forever" round color="theamBlue" icon="delete_outline" size="0.8rem"></q-btn>
+          <q-btn name="delete_forever" round color="theamBlue" icon="delete_outline" :disable="(!(baseObj.codeset_data) || (baseObj.codeset_data).length == 0)" size="0.8rem"></q-btn>
           <q-tooltip>Delete</q-tooltip>
         </q-btn>
       </q-th>
@@ -332,7 +330,7 @@ export default {
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
       link.href = url
-      link.setAttribute('download', 'ICD10 codes.csv')
+      link.setAttribute('download', 'Sample Template.csv')
       document.body.appendChild(link)
       link.click()
     },
