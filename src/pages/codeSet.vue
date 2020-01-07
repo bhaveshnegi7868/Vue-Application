@@ -602,6 +602,9 @@ export default {
       var url = process.env.API_URL + 'codeset/create/'
       var method
       var message = 'Codeset Created Successfully'
+      that.baseObj.codeset_data.forEach(function (value, key) {
+        that.baseObj.codeset_data[key].dependentsCodes.push(that.baseObj.codeset_data[key].target_concept_id)
+      })
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'codeset/update/'
@@ -665,16 +668,16 @@ export default {
       console.log('ticked adat')
       console.log(response)
       console.log(that.currentDependents)
-      if (response.length === 0) {
-        console.log('Inside If')
-        that.currentRow.dependents = false
-      } else if (that.currentDependentsList.length === response.length) {
-        console.log('Inside Else If')
-        that.currentRow.dependents = true
-      } else {
-        console.log('Inside Else If else')
-        that.currentRow.dependents = null
-      }
+      // if (response.length === 0) {
+      //   console.log('Inside If')
+      //   that.currentRow.dependents = false
+      // } else if (that.currentDependentsList.length === response.length) {
+      //   console.log('Inside Else If')
+      //   that.currentRow.dependents = true
+      // } else {
+      //   console.log('Inside Else If else')
+      //   that.currentRow.dependents = null
+      // }
       that.dependentsPopup = false
     },
     updateFile () {
