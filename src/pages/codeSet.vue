@@ -525,7 +525,16 @@ export default {
       axios.get(url).then(function (response) {
         that.currentDependents[0] = response.data.result.hierarchy
         that.currentDependentsList = response.data.result.codes_list
-        that.dependentsPopup = true
+        if (that.currentDependents[0] !== undefined) {
+          that.dependentsPopup = true
+        } else {
+          that.$q.notify({
+            color: 'black',
+            textColor: 'white',
+            message: 'No descendants found',
+            timeout: 1300
+          })
+        }
       }).catch(function () {
 
       })
