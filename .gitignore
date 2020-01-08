@@ -1,7 +1,4 @@
 .quasar
-package-lock.json
-package.json
-quasar.conf.js
 .DS_Store
 .thumbs.db
 node_modules
