@@ -66,7 +66,7 @@
           </q-btn>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'update'">
-          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && baseObj.codeset_data[0])" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
+          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && tableflag)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
             <q-tooltip>
               Save
             </q-tooltip>
@@ -270,6 +270,7 @@ export default {
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
+      tableflag: false,
       codesetGroupfilter: '',
       decendentChildFlags: [],
       codesPopup: false,
@@ -353,6 +354,7 @@ export default {
     addToList (value) {
       var that = this
       var selectedCodes = []
+
       value.forEach(function (row) {
         if (that.checkIfCodeInList(row)) {
           var code = row.concept_code + row.vocabulary_id
@@ -410,6 +412,12 @@ export default {
     },
     handleChange: function (value) {
       this.addToList(value)
+      console.log('ddsf')
+      // console.log(value[0].tabledata)
+      if (value[0].tabledata === false) {
+        this.tableflag = true
+      }
+      console.log(this.tableflag)
     },
     makeSelected (type, name) {
       var that = this

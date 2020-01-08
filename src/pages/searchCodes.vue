@@ -235,6 +235,8 @@ export default {
     },
     sendName (event) {
       var that = this
+      that.selected[0]['tabledata'] = false
+      console.log(that.selected)
       this.$emit('selectedChange', that.selected)
     },
     getFilters () {
