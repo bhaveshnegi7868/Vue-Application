@@ -610,9 +610,14 @@ export default {
       var url = process.env.API_URL + 'codeset/create/'
       var method
       var message = 'Codeset Created Successfully'
+      console.log(that.baseObj.codeset_data)
+      console.log('print codeset')
       that.baseObj.codeset_data.forEach(function (value, key) {
-        that.baseObj.codeset_data[key].dependentsCodes.push(that.baseObj.codeset_data[key].target_concept_id)
+        if (that.baseObj.codeset_data[key].dependentsCodes) {
+          that.baseObj.codeset_data[key].dependentsCodes.push(that.baseObj.codeset_data[key].target_concept_id)
+        }
       })
+      console.log(that.baseObj.codeset_data)
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'codeset/update/'
