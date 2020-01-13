@@ -268,6 +268,7 @@ export default {
       allDependents: false,
       currentDependentsList: [],
       codes_list: [],
+      concept_id_check: {}, // global object with source id as key and associated list as value
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
@@ -564,7 +565,8 @@ export default {
         console.log(response)
         that.codes_list = response.data.result.code_list
         that.codes_list.push(that.currentRow.target_concept_id)
-        console.log(that.codes_list)
+        that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list// key and value saved in global object
+        console.log(that.concept_id_check)
       }).catch(function () {
 
       })
@@ -625,7 +627,8 @@ export default {
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.dependentscheck === true) {
         that.baseObj.codeset_data.forEach(function (value, key) {
-          that.baseObj.codeset_data[key].dependentsCodes = that.codes_list
+          that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
+          // based on unique concept_id value is fetched from the global object
         })
       }
       console.log(that.baseObj.codeset_data)
