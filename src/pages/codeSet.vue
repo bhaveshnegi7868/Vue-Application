@@ -206,7 +206,7 @@
               <div class="close-btn">
               <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
               </div>
-        <dependent-codes :desendents="currentDependents" :ticked="currentSelected" @updateDependents="updateDependents"></dependent-codes>
+        <dependent-codes :dependentschecked="dependentscheck" :desendents="currentDependents" :ticked="currentSelected" @updateDependents="updateDependents"></dependent-codes>
       </q-card>
     </q-dialog>
     <q-dialog v-model="createCodesetGroupPopup">
@@ -530,7 +530,12 @@ export default {
       var that = this
       that.currentRow = row
       that.currentDependents = []
-      that.currentSelected = row.dependentsCodes || []
+      if (that.dependentscheck === true) {
+        that.currentSelected = row.dependentsCodes || that.codes_list
+      } else {
+        that.currentSelected = row.dependentsCodes || []
+      }
+      that.dependentscheck = true
       var checkall = false
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
       console.log(url)
@@ -554,19 +559,17 @@ export default {
     savedSuccessfully () {
     },
     getDependents (row) {
-      console.log(row)
       var that = this
       that.currentRow = row
       that.dependentscheck = true
-      that.currentSelected = row.dependentsCodes || []
       var checkall = false
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
       axios.get(url).then(function (response) {
-        console.log(response)
         that.codes_list = response.data.result.code_list
         that.codes_list.push(that.currentRow.target_concept_id)
         that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list// key and value saved in global object
-        console.log(that.concept_id_check)
+        that.currentSelected = that.codes_list
+        console.log(that.currentSelected)
       }).catch(function () {
 
       })
@@ -619,6 +622,7 @@ export default {
       var method
       var message = 'Codeset Created Successfully'
       console.log('print codeset')
+      console.log(that.baseObj.codeset_data)
       that.baseObj.codeset_data.forEach(function (value, key) {
         if (that.baseObj.codeset_data[key].dependentsCodes) {
           that.baseObj.codeset_data[key].dependentsCodes.push(that.baseObj.codeset_data[key].target_concept_id)
@@ -628,7 +632,7 @@ export default {
       if (that.dependentscheck === true) {
         that.baseObj.codeset_data.forEach(function (value, key) {
           that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
-          // based on unique concept_id value is fetched from the global object
+          // based on unique concept_id, value is fetched from the global object
         })
       }
       console.log(that.baseObj.codeset_data)
@@ -690,10 +694,20 @@ export default {
     },
     updateDependents (response) {
       var that = this
-      that.currentRow.dependentsCodes = response
       console.log('ticked adat')
       console.log(response)
-      console.log(that.currentDependents)
+      that.currentSelected = response
+      console.log(that.concept_id_check)
+      if (that.currentSelected.length === 0) {
+        that.currentRow.dependents = false
+      } else {
+        if (that.currentSelected.length === that.concept_id_check.length) {
+          that.currentRow.dependents = true
+        } else {
+          that.currentRow.dependents = null
+        }
+      }
+      console.log(JSON.stringify(that.dependents))
       // if (response.length === 0) {
       //   console.log('Inside If')
       //   that.currentRow.dependents = false
