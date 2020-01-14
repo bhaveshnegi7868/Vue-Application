@@ -206,7 +206,7 @@
               <div class="close-btn">
               <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
               </div>
-        <dependent-codes :dependentschecked="dependentscheck" :desendents="currentDependents" :ticked="currentSelected" @updateDependents="updateDependents"></dependent-codes>
+        <dependent-codes :desendents="currentDependents" :ticked="currentSelected" @updateDependents="updateDependents"></dependent-codes>
       </q-card>
     </q-dialog>
     <q-dialog v-model="createCodesetGroupPopup">
@@ -272,7 +272,6 @@ export default {
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
-      dependentscheck: false,
       tableflag: false,
       codesetGroupfilter: '',
       decendentChildFlags: [],
@@ -529,19 +528,16 @@ export default {
     openDependentpopup (row) {
       var that = this
       that.currentRow = row
+      console.log(that.currentRow.dependentsCodes)
       that.currentDependents = []
-      if (that.dependentscheck === true) {
-        that.currentSelected = row.dependentsCodes || that.codes_list
-      } else {
-        that.currentSelected = row.dependentsCodes || []
-      }
-      that.dependentscheck = true
+      console.log(that.currentSelected)
       var checkall = false
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
       console.log(url)
       axios.get(url).then(function (response) {
         that.currentDependents[0] = response.data.result.hierarchy
         that.currentDependentsList = response.data.result.code_list
+        that.currentDependentsList.push(that.currentRow.target_concept_id)
         if (that.currentDependents[0] !== undefined) {
           that.dependentsPopup = true
         } else {
@@ -561,7 +557,14 @@ export default {
     getDependents (row) {
       var that = this
       that.currentRow = row
-      that.dependentscheck = true
+      console.log(that.currentRow.dependents)
+      if (that.currentRow.dependents) {
+        that.currentRow.dependents = true
+      } else if (!that.currentRow.dependents) {
+        that.currentRow.dependents = false
+      } else {
+        that.currentRow.dependents = false
+      }
       var checkall = false
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
       axios.get(url).then(function (response) {
@@ -629,7 +632,7 @@ export default {
         }
       })
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
-      if (that.dependentscheck === true) {
+      if (that.currentRow.dependents === true) {
         that.baseObj.codeset_data.forEach(function (value, key) {
           that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
           // based on unique concept_id, value is fetched from the global object
@@ -701,7 +704,7 @@ export default {
       if (that.currentSelected.length === 0) {
         that.currentRow.dependents = false
       } else {
-        if (that.currentSelected.length === that.concept_id_check.length) {
+        if (that.currentSelected.length === that.currentDependentsList.length) {
           that.currentRow.dependents = true
         } else {
           that.currentRow.dependents = null
