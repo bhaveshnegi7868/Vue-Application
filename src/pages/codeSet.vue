@@ -136,8 +136,8 @@
       <!--<q-th key="podUpload3">
         <q-checkbox v-model="exclude" label="Exclude" />
       </q-th>-->
-      <q-th key="podUpload4" @input="checkAll()" >
-        <q-checkbox v-model="allDependents" label="Descendants" />
+      <q-th key="podUpload4" >
+        <q-checkbox v-model="allDependents" @input="checkAll()" label="Descendants" />
       </q-th>
       <q-th key="podUpload5" class="w4R">
         <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
@@ -419,7 +419,6 @@ export default {
       if (value[0].tabledata === false) {
         this.tableflag = true
       }
-      console.log(this.tableflag)
     },
     makeSelected (type, name) {
       var that = this
@@ -466,7 +465,8 @@ export default {
       console.log('inside checkall')
       console.log(that.baseObj)
       that.baseObj.codeset_data.forEach(function (row) {
-        console.log(row)
+        row.dependents = true
+        console.log(row.dependents)
       })
       var url = process.env.API_URL + 'codeset/descendents/' + 'checkall=' + that.allDependant
       axios.get(url).then(function (response) {
