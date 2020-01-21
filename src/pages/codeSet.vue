@@ -476,7 +476,6 @@ export default {
           value.code_list.push(value.hierarchy.Code)
           that.all_concept_id_check[value.hierarchy.Code] = value.code_list
         })
-        console.log(that.all_concept_id_check)
       }).catch(function () {
 
       })
