@@ -268,7 +268,8 @@ export default {
       allDependents: false,
       currentDependentsList: [],
       codes_list: [],
-      concept_id_check: {}, // global object with source id as key and associated list as value
+      concept_id_check: {},
+      all_concept_id_check: {}, // global object with source id as key and associated list as value
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
@@ -461,16 +462,21 @@ export default {
     },
     checkAll () {
       var that = this
-      console.log('checkall')
-      console.log('inside checkall')
-      console.log(that.baseObj)
+      let list = []
+      that.baseObj.codeset_data.forEach(function (value, key) {
+        list.push(that.baseObj.codeset_data[key].target_concept_id)
+      })
+      that.allDependents = true
       that.baseObj.codeset_data.forEach(function (row) {
         row.dependents = true
-        console.log(row.dependents)
       })
-      var url = process.env.API_URL + 'codeset/descendents/' + 'checkall=' + that.allDependant
+      var url = process.env.API_URL + 'codeset/descendents/?codes=' + JSON.stringify(list) + '&checkall=' + that.allDependents
       axios.get(url).then(function (response) {
-        console.log('Check all success')
+        response.data.result.forEach(function (value, key) {
+          value.code_list.push(value.hierarchy.Code)
+          that.all_concept_id_check[value.hierarchy.Code] = value.code_list
+        })
+        console.log(that.all_concept_id_check)
       }).catch(function () {
 
       })
@@ -572,7 +578,7 @@ export default {
         that.codes_list.push(that.currentRow.target_concept_id)
         that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list// key and value saved in global object
         that.currentSelected = that.codes_list
-        console.log(that.currentSelected)
+        console.log(that.concept_id_check)
       }).catch(function () {
 
       })
@@ -635,6 +641,12 @@ export default {
       if (that.currentRow.dependents === true) {
         that.baseObj.codeset_data.forEach(function (value, key) {
           that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
+          // based on unique concept_id, value is fetched from the global object
+        })
+      }
+      if (that.allDependents === true) {
+        that.baseObj.codeset_data.forEach(function (value, key) {
+          that.baseObj.codeset_data[key].dependentsCodes = that.all_concept_id_check[value.target_concept_id]
           // based on unique concept_id, value is fetched from the global object
         })
       }
