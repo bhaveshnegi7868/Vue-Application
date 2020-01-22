@@ -637,23 +637,23 @@ export default {
       var url = process.env.API_URL + 'codeset/create/'
       var method
       var message = 'Codeset Created Successfully'
-      // that.baseObj.codeset_data.forEach(function (value, key) {
-      //   that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
-      // })
+      that.baseObj.codeset_data.forEach(function (value, key) {
+        that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
+      })
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
-      if (that.currentRow.dependents === true) {
-        that.baseObj.codeset_data.forEach(function (value, key) {
-          that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
-        })
-      } else if (that.allDependents === true) {
-        that.baseObj.codeset_data.forEach(function (value, key) {
-          that.baseObj.codeset_data[key].dependentsCodes = that.all_concept_id_check[value.target_concept_id]
-        })
-      } else {
-        that.baseObj.codeset_data.forEach(function (value, key) {
-          that.baseObj.codeset_data[key].dependentsCodes = that.desc_obj[value.target_concept_id]
-        })
-      }
+      // if (that.currentRow.dependents === true) {
+      //   that.baseObj.codeset_data.forEach(function (value, key) {
+      //     that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
+      //   })
+      // } else if (that.allDependents === true) {
+      //   that.baseObj.codeset_data.forEach(function (value, key) {
+      //     that.baseObj.codeset_data[key].dependentsCodes = that.all_concept_id_check[value.target_concept_id]
+      //   })
+      // } else {
+      //   that.baseObj.codeset_data.forEach(function (value, key) {
+      //     that.baseObj.codeset_data[key].dependentsCodes = that.desc_obj[value.target_concept_id]
+      //   })
+      // }
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'codeset/update/'
         method = axios.put(url, that.baseObj)
