@@ -137,7 +137,7 @@
         <q-checkbox v-model="exclude" label="Exclude" />
       </q-th>-->
       <q-th key="podUpload4" >
-        <q-checkbox v-model="allDependents" @input="checkAll()" label="Descendants" />
+        <q-checkbox v-model="allDependents" @input="checkAll($event)" label="Descendants" />
       </q-th>
       <q-th key="podUpload5" class="w4R">
         <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
@@ -160,7 +160,7 @@
           <div class="col-8 row q-mx-auto">
             <div class="col codeSetPage" >
               <label class="checkbox-container">
-                <q-checkbox v-model="data.row.dependents" @input="getDependents(data.row)"/>
+                <q-checkbox v-model="data.row.dependents" @input="getDependents(data.row, $event)"/>
               </label>
             </div>
             <div class="col dependentsIcon">
@@ -269,7 +269,8 @@ export default {
       currentDependentsList: [],
       codes_list: [],
       concept_id_check: {},
-      all_concept_id_check: {}, // global object with source id as key and associated list as value
+      all_concept_id_check: {},
+      desc_obj: {},
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
@@ -460,22 +461,31 @@ export default {
     removeAllCodesFromList2 () {
       console.log('checkall')
     },
-    checkAll () {
+    checkAll (event) {
       var that = this
       let list = []
       that.baseObj.codeset_data.forEach(function (value, key) {
         list.push(that.baseObj.codeset_data[key].target_concept_id)
       })
-      that.allDependents = true
+      if (event) {
+        that.allDependents = true
+      } else {
+        that.allDependents = false
+      }
       that.baseObj.codeset_data.forEach(function (row) {
-        row.dependents = true
+        if (event) {
+          row.dependents = true
+        } else {
+          row.dependents = false
+        }
       })
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + JSON.stringify(list) + '&checkall=' + that.allDependents
       axios.get(url).then(function (response) {
         response.data.result.forEach(function (value, key) {
           value.code_list.push(value.hierarchy.Code)
-          that.all_concept_id_check[value.hierarchy.Code] = value.code_list
+          that.concept_id_check[value.hierarchy.Code] = value.code_list
         })
+        console.log(that.concept_id_check, 'checkall')
       }).catch(function () {
 
       })
@@ -533,16 +543,15 @@ export default {
     openDependentpopup (row) {
       var that = this
       that.currentRow = row
-      console.log(that.currentRow.dependentsCodes)
+      that.currentSelected = []
       that.currentDependents = []
-      console.log(that.currentSelected)
       var checkall = false
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
-      console.log(url)
       axios.get(url).then(function (response) {
         that.currentDependents[0] = response.data.result.hierarchy
         that.currentDependentsList = response.data.result.code_list
         that.currentDependentsList.push(that.currentRow.target_concept_id)
+        console.log(that.currentDependents[0])
         if (that.currentDependents[0] !== undefined) {
           that.dependentsPopup = true
         } else {
@@ -559,28 +568,27 @@ export default {
     },
     savedSuccessfully () {
     },
-    getDependents (row) {
+    getDependents (row, event) {
       var that = this
+      console.log(event)
       that.currentRow = row
       console.log(that.currentRow.dependents)
-      if (that.currentRow.dependents) {
-        that.currentRow.dependents = true
-      } else if (!that.currentRow.dependents) {
-        that.currentRow.dependents = false
-      } else {
-        that.currentRow.dependents = false
-      }
       var checkall = false
-      var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
-      axios.get(url).then(function (response) {
-        that.codes_list = response.data.result.code_list
-        that.codes_list.push(that.currentRow.target_concept_id)
-        that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list// key and value saved in global object
-        that.currentSelected = that.codes_list
-        console.log(that.concept_id_check)
-      }).catch(function () {
+      if (event) {
+        var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
+        axios.get(url).then(function (response) {
+          that.codes_list = response.data.result.code_list
+          that.codes_list.push(that.currentRow.target_concept_id)
+          that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list
+          that.currentSelected = that.codes_list
+          console.log(that.concept_id_check, 'single check')
+        }).catch(function () {
 
-      })
+        })
+      } else {
+        that.concept_id_check[that.currentRow.target_concept_id] = []
+        console.log(that.concept_id_check, 'single check untick')
+      }
     },
     openCreateCodesetGroupPopup () {
       this.createCodesetGroupPopup = false
@@ -629,27 +637,23 @@ export default {
       var url = process.env.API_URL + 'codeset/create/'
       var method
       var message = 'Codeset Created Successfully'
-      console.log('print codeset')
-      console.log(that.baseObj.codeset_data)
-      that.baseObj.codeset_data.forEach(function (value, key) {
-        if (that.baseObj.codeset_data[key].dependentsCodes) {
-          that.baseObj.codeset_data[key].dependentsCodes.push(that.baseObj.codeset_data[key].target_concept_id)
-        }
-      })
+      // that.baseObj.codeset_data.forEach(function (value, key) {
+      //   that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
+      // })
       that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       if (that.currentRow.dependents === true) {
         that.baseObj.codeset_data.forEach(function (value, key) {
           that.baseObj.codeset_data[key].dependentsCodes = that.concept_id_check[value.target_concept_id]
-          // based on unique concept_id, value is fetched from the global object
         })
-      }
-      if (that.allDependents === true) {
+      } else if (that.allDependents === true) {
         that.baseObj.codeset_data.forEach(function (value, key) {
           that.baseObj.codeset_data[key].dependentsCodes = that.all_concept_id_check[value.target_concept_id]
-          // based on unique concept_id, value is fetched from the global object
+        })
+      } else {
+        that.baseObj.codeset_data.forEach(function (value, key) {
+          that.baseObj.codeset_data[key].dependentsCodes = that.desc_obj[value.target_concept_id]
         })
       }
-      console.log(that.baseObj.codeset_data)
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'codeset/update/'
         method = axios.put(url, that.baseObj)
@@ -711,7 +715,6 @@ export default {
       console.log('ticked adat')
       console.log(response)
       that.currentSelected = response
-      console.log(that.concept_id_check)
       if (that.currentSelected.length === 0) {
         that.currentRow.dependents = false
       } else {
@@ -722,6 +725,9 @@ export default {
         }
       }
       console.log(JSON.stringify(that.dependents))
+      that.currentSelected.push(that.currentRow.target_concept_id)
+      that.concept_id_check[that.currentRow.target_concept_id] = that.currentSelected
+      console.log(that.concept_id_check, 'popup save')
       // if (response.length === 0) {
       //   console.log('Inside If')
       //   that.currentRow.dependents = false
