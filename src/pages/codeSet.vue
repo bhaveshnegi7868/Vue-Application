@@ -269,8 +269,7 @@ export default {
       currentDependentsList: [],
       codes_list: [],
       concept_id_check: {},
-      all_concept_id_check: {},
-      desc_obj: {},
+      table_list: [],
       codesetGroups: [],
       maximizedToggle: true,
       selected: [],
@@ -417,7 +416,8 @@ export default {
     handleChange: function (value) {
       this.addToList(value)
       console.log('ddsf')
-      // console.log(value[0].tabledata)
+      console.log(value)
+      this.table_list = value
       if (value[0].tabledata === false) {
         this.tableflag = true
       }
@@ -543,7 +543,6 @@ export default {
     openDependentpopup (row) {
       var that = this
       that.currentRow = row
-      that.currentSelected = []
       that.currentDependents = []
       var checkall = false
       var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
@@ -573,10 +572,18 @@ export default {
       console.log(event)
       that.currentRow = row
       console.log(that.currentRow.dependents)
+      // if (that.currentRow.dependents) {
+      //   that.currentRow.dependents = true
+      // } else if (!that.currentRow.dependents) {
+      //   that.currentRow.dependents = false
+      // } else {
+      //   that.currentRow.dependents = false
+      // }
       var checkall = false
       if (event) {
         var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
         axios.get(url).then(function (response) {
+          console.log(response)
           that.codes_list = response.data.result.code_list
           that.codes_list.push(that.currentRow.target_concept_id)
           that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list
@@ -585,10 +592,32 @@ export default {
         }).catch(function () {
 
         })
+        that.table_list.forEach(function (value, key) {
+          if (that.currentRow.target_concept_id === that.table_list[key].concept_id) {
+            that.table_list[key].tabledata = true
+          }
+        })
       } else {
         that.concept_id_check[that.currentRow.target_concept_id] = []
         console.log(that.concept_id_check, 'single check untick')
+        that.table_list.forEach(function (value, key) {
+          if (that.currentRow.target_concept_id === that.table_list[key].concept_id) {
+            that.table_list[key].tabledata = false
+          }
+        })
       }
+      console.log(that.table_list)
+      // let check_true = true
+      // let check_false = false
+      that.table_list.forEach(function (value, key) {
+        if (that.table_list[key].tabledata === true) {
+          that.allDependents = true
+        } else if (that.table_list[key].tabledata === false) {
+          that.allDependents = false
+        } else {
+          that.allDependents = null
+        }
+      })
     },
     openCreateCodesetGroupPopup () {
       this.createCodesetGroupPopup = false
