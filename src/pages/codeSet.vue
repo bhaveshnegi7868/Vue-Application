@@ -735,8 +735,10 @@ export default {
       } else {
         if (that.currentSelected.length === that.currentDependentsList.length) {
           that.currentRow.dependents = true
+          that.allDependents = null
         } else {
           that.currentRow.dependents = null
+          that.allDependents = null
         }
       }
       console.log(JSON.stringify(that.dependents))
