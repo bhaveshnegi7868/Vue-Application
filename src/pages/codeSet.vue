@@ -137,7 +137,7 @@
         <q-checkbox v-model="exclude" label="Exclude" />
       </q-th>-->
       <q-th key="podUpload4" >
-        <q-checkbox v-model="allDependents" @input="checkAll($event)" label="Descendants" />
+        <q-checkbox toggle-indeterminate v-model="allDependents" @input="checkAll($event)" label="Descendants" />
       </q-th>
       <q-th key="podUpload5" class="w4R">
         <q-btn outline no-caps class="codeSetdelete" @click="removeAllCodesFromList()">
@@ -549,9 +549,9 @@ export default {
       axios.get(url).then(function (response) {
         that.currentDependents[0] = response.data.result.hierarchy
         that.currentDependentsList = response.data.result.code_list
-        that.currentDependentsList.push(that.currentRow.target_concept_id)
-        console.log(that.currentDependents[0])
         if (that.currentDependents[0] !== undefined) {
+          that.currentDependentsList.push(that.currentRow.target_concept_id)
+          console.log(that.currentDependents[0])
           that.dependentsPopup = true
         } else {
           that.$q.notify({
@@ -583,14 +583,16 @@ export default {
       if (event) {
         var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
         axios.get(url).then(function (response) {
-          console.log(response)
           that.codes_list = response.data.result.code_list
-          that.codes_list.push(that.currentRow.target_concept_id)
-          that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list
-          that.currentSelected = that.codes_list
-          console.log(that.concept_id_check, 'single check')
+          if (that.codes_list !== undefined) {
+            that.codes_list.push(that.currentRow.target_concept_id)
+            that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list
+            that.currentSelected = that.codes_list
+            console.log(that.concept_id_check, 'single check')
+          } else {
+            that.codes_list = []
+          }
         }).catch(function () {
-
         })
         that.table_list.forEach(function (value, key) {
           if (that.currentRow.target_concept_id === that.table_list[key].concept_id) {
@@ -606,18 +608,15 @@ export default {
           }
         })
       }
-      console.log(that.table_list)
-      // let check_true = true
-      // let check_false = false
-      that.table_list.forEach(function (value, key) {
-        if (that.table_list[key].tabledata === true) {
-          that.allDependents = true
-        } else if (that.table_list[key].tabledata === false) {
-          that.allDependents = false
-        } else {
-          that.allDependents = null
-        }
-      })
+      let checkData = that.table_list.filter(data => { return data.tabledata === true })
+      if (checkData.length === that.table_list.length) {
+        that.allDependents = true
+      } else if (checkData.length === 0) {
+        that.allDependents = false
+      } else {
+        that.allDependents = null
+      }
+      that.$forceUpdate()
     },
     openCreateCodesetGroupPopup () {
       this.createCodesetGroupPopup = false
