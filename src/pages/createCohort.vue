@@ -111,7 +111,7 @@
               </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && baseObj.data_source && baseObj.cohort_group && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && baseObj.data_source && baseObj.cohort_group && corelatedflag &&baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
               <q-tooltip>
                 Run
               </q-tooltip>
@@ -243,7 +243,7 @@
                         </div>
                       </q-card>
                       <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
-                        <input ref="textbox" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Corelated Criteria Name" />
+                        <input ref="textbox" v-on:keyup="corelatedname(elementObj)" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Corelated Criteria Name" />
                         <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width ">
                           <q-card
                           v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
@@ -255,6 +255,8 @@
                             <div class="col ellipsis w5R">
                               <label class="text-h6  q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
                             </div>
+                            <!-- {{elementObj.CorrelatedCriteria.CriteriaList.length}}
+                            {{elementObj.CorrelatedCriteria.Name}} -->
                             <div class="col-1">
                               <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)" @click.stop.prevent="showAttributes()"/>
                             </div>
@@ -715,6 +717,7 @@ export default {
       cohortGroupFilter: '',
       renderComponent2: true,
       dictPopup: false,
+      corelatedflag: true,
       createCohortGroupPopup: false,
       // swal2-popup = false
       apiData: {
@@ -1076,9 +1079,17 @@ export default {
           that.renderComponent = false
         })
       }, 100)
+      if (parentObj.CorrelatedCriteria.Name !== '' && parentObj.CorrelatedCriteria.CriteriaList !== undefined && parentObj.CorrelatedCriteria.CriteriaList.length >= 1) {
+        this.corelatedflag = true
+        console.log(this.corelatedflag)
+      } else {
+        this.corelatedflag = false
+        console.log(this.corelatedflag)
+      }
     },
     cancelEvent (id, keyCount) {
       var that = this
+      that.corelatedflag = true
       var idArr = id.toString().match(/[a-z]+|[^a-z]+/gi)
       if (id.length > 1) {
         let retDict = that.getIndexWithId(idArr[0])
@@ -1120,11 +1131,12 @@ export default {
     addCorelatedCriteria (elementObj) {
       var that = this
       that.renderComponent2 = false
+      that.corelatedflag = false
       elementObj.CorrelatedCriteria = {
         'type': {
           'op': 'Any'
         },
-        'Name': elementObj.name,
+        'Name': '',
         'CriteriaList': []
       }
       that.$nextTick(() => {
@@ -1134,12 +1146,22 @@ export default {
     removeCorelatedCriteria (elementObj) {
       var that = this
       that.renderComponent2 = false
-      elementObj.name = elementObj.CorrelatedCriteria.Name
+      // elementObj.name = elementObj.CorrelatedCriteria.Name
       elementObj.CorrelatedCriteria = false
       that.$nextTick(() => {
         that.renderComponent2 = true
       })
-      that.renderComponent = false
+      that.renderComponent = true
+      that.corelatedflag = true
+    },
+    corelatedname (elementObj) {
+      if (elementObj.CorrelatedCriteria.Name !== '' && elementObj.CorrelatedCriteria.CriteriaList !== undefined && elementObj.CorrelatedCriteria.CriteriaList.length >= 1) {
+        this.corelatedflag = true
+        console.log(this.corelatedflag)
+      } else {
+        this.corelatedflag = false
+        console.log(this.corelatedflag)
+      }
     },
     setQCardColor (event) {
       var that = this
@@ -1191,16 +1213,14 @@ export default {
     },
     handleDropWithId (elementObj, data = null, event = null) {
       var that = this
-      if (that.selectedEvent === 'Select Event') {
-        that.selectedEvent = data.element.name
-      }
+      // if (that.selectedEvent === 'Select Event') {
+      //   that.selectedEvent = data.element.name
+      // }
       let heightOfArray = elementObj.CorrelatedCriteria.CriteriaList.length
       let charToGet = elementObj.id
       if (heightOfArray > 0) {
         charToGet = elementObj.CorrelatedCriteria.CriteriaList[heightOfArray - 1].id
       }
-      console.log(that.selectedCriteria)
-      console.log(that.selectedEvent)
       elementObj.CorrelatedCriteria.CriteriaList.push({
         'id': that.getNextDigit(charToGet),
         'event': that.selectedEvent,
@@ -1211,6 +1231,13 @@ export default {
       var container = this.$el.querySelector('#list-group')
       container.scrollTop = container.scrollHeight
       that.selectedEvent = 'Select Event'
+      if (elementObj.CorrelatedCriteria.Name !== '' && elementObj.CorrelatedCriteria.CriteriaList !== undefined && elementObj.CorrelatedCriteria.CriteriaList.length >= 1) {
+        this.corelatedflag = true
+        console.log(this.corelatedflag)
+      } else {
+        this.corelatedflag = false
+        console.log(this.corelatedflag)
+      }
     },
     markCriteriaAsSelected (criteria) {
       var that = this
