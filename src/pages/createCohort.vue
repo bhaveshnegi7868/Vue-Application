@@ -243,7 +243,7 @@
                         </div>
                       </q-card>
                       <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
-                        <input ref="textbox" v-on:keyup="corelatedname(elementObj)" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Corelated Criteria Name" />
+                        <input ref="textbox" v-on:keyup="corelatedname(elementObj)" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Correlated Criteria Name" />
                         <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width ">
                           <q-card
                           v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
