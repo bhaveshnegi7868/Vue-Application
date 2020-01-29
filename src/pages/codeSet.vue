@@ -484,6 +484,7 @@ export default {
         response.data.result.forEach(function (value, key) {
           value.code_list.push(value.hierarchy.Code)
           that.concept_id_check[value.hierarchy.Code] = value.code_list
+          that.currentSelected = value.code_list
         })
         console.log(that.concept_id_check, 'checkall')
       }).catch(function () {
@@ -584,7 +585,7 @@ export default {
         var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
         axios.get(url).then(function (response) {
           that.codes_list = response.data.result.code_list
-          if (that.codes_list !== undefined) {
+          if (that.codes_list !== undefined || that.allDependents === true) {
             that.codes_list.push(that.currentRow.target_concept_id)
             that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list
             that.currentSelected = that.codes_list
