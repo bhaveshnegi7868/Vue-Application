@@ -601,6 +601,7 @@ export default {
           }
         })
       } else {
+        that.currentSelected = []
         that.concept_id_check[that.currentRow.target_concept_id] = []
         console.log(that.concept_id_check, 'single check untick')
         that.table_list.forEach(function (value, key) {
