@@ -471,6 +471,7 @@ export default {
         that.allDependents = true
       } else {
         that.allDependents = false
+        that.currentSelected = []
       }
       that.baseObj.codeset_data.forEach(function (row) {
         if (event) {
