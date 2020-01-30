@@ -611,13 +611,15 @@ export default {
           }
         })
       }
+      console.log(that.table_list)
       let checkData = that.table_list.filter(data => { return data.tabledata === true })
-      if (checkData.length === that.table_list.length) {
-        that.allDependents = true
+      console.log(checkData)
+      if (checkData.length !== that.table_list.length) {
+        that.allDependents = null
       } else if (checkData.length === 0) {
         that.allDependents = false
       } else {
-        that.allDependents = null
+        that.allDependents = true
       }
       that.$forceUpdate()
     },
