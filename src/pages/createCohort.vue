@@ -235,11 +235,11 @@
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="">
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="remove_circle" flat rounded  @click="removeCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"/>
+                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"><q-tooltip anchor="top middle" self="center middle">Add Correlated Criteria</q-tooltip></q-btn>
+                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="img:/statics/imgs/trash.png" flat rounded  @click="removeCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"><q-tooltip anchor="top middle" self="center middle">Remove Correlated Criteria</q-tooltip></q-btn>
                         </div>
                         <div class="">
-                          <q-btn class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"/>
+                          <q-btn class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"><q-tooltip anchor="top middle" self="center middle">Remove Primary Criteria</q-tooltip></q-btn>
                         </div>
                       </q-card>
                       <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">

@@ -14,9 +14,7 @@
         >
           <template v-slot:default-header="prop">
             <q-card class="q-pa-md unselected-card">
-              {{prop.node.Code}} |
-              <br>
-              {{prop.node.Name}}
+              {{prop.node.Code}} | {{prop.node.Name}}
             </q-card>
           </template>
         </q-tree>
