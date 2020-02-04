@@ -10,7 +10,7 @@
           :nodes="desendents"
           node-key="Code"
           tick-strategy="leaf"
-          :ticked.sync="ticked"
+          :ticked.sync="__ticked"
         >
           <template v-slot:default-header="prop">
             <q-card class="q-pa-md unselected-card">
@@ -41,6 +41,15 @@ export default {
   props: {
     'desendents': Array,
     'ticked': Array
+  },
+  computed: {
+    __ticked: {
+      get () {
+        console.log(this.ticked)
+        return this.ticked
+      },
+      set (value) { this.$emit('update:ticked', value) }
+    }
   },
   methods: {
     sendName (event) {
