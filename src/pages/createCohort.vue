@@ -1507,7 +1507,7 @@ export default {
               }
               if (kIndx === 'OccurrenceLimit') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].First = data[key][kIndx].value
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].First = data[key][kIndx][kIndx] ? '1' : undefined
               }
               if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name] = {}
@@ -1577,7 +1577,7 @@ export default {
                       }
                       if (cokIndx === 'OccurrenceLimit') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].First = codata[cokey][cokIndx].Value
+                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].First = data[cokey][cokIndx][cokIndx] ? '1' : undefined
                       }
                       if (cokIndx === 'Gender' || cokIndx === 'DrugType' || cokIndx === 'ProviderSpecialty' || cokIndx === 'VisitType' || cokIndx === 'ProcedureType' || cokIndx === 'ConditionType') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][codata[cokey][cokIndx].name] = {}
@@ -1599,7 +1599,7 @@ export default {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Count = codata[cokey][cokIndx].count
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Type = codata[cokey][cokIndx].type
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].IsDistinct = true
+                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].IsDistinct = false
                       }
                       if (cokIndx === 'OccurrenceIndexStartDate') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow = { 'Start': {}, 'End': {} }
@@ -1681,7 +1681,7 @@ export default {
                 }
                 if (kIndx === 'OccurrenceLimit') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].First = Idata[key][kIndx].Value
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].First = data[key][kIndx][kIndx] ? '1' : undefined
                 }
                 if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
@@ -1700,7 +1700,7 @@ export default {
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
                   that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].IsDistinct = true
+                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].IsDistinct = false
                 }
                 if (kIndx === 'OccurrenceIndexStartDate') {
                   console.log('Insile OccurrenceIndexStartDate')
@@ -1790,7 +1790,7 @@ export default {
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].IsDistinct = true
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].IsDistinct = false
                   }
                   if (kIndx === 'OccurrenceIndexStartDate') {
                     console.log('Insile OccurrenceIndexStartDate')

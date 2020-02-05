@@ -193,14 +193,15 @@
             </div>
             <div class="col full-width row"  v-if="obj.Type == 'checkbox'">
             <div class="col q-my-sm">{{event[mappingDict[event.event]][key].Label}}</div>
-            <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span></div>
+            <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:click="sendName"/></span></div>
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !=='undefined')">
                   <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
-                <q-btn v-if="key == 'Occurrence'" class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:change="sendName"></q-btn>
+                <q-btn v-if="key == 'Occurrence' && event.corelated !== true" disabled class="q-px-sm q-mx-sm" color="theamGreen" :label="('Using Distinct')" v-on:change="sendName"></q-btn>
+                <q-btn v-if="key == 'Occurrence' && event.corelated == true " class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:click="sendName"></q-btn>
               </div>
             </div>
             <div class="col full-width " v-if="key != 'Occurrence' && obj.Type == 'single-select'">
@@ -391,8 +392,9 @@ export default {
     },
     sendName (event) {
       var that = this
+      console.log(that.event)
+      that.$emit('inputChange', that.event)
       that.$forceUpdate()
-      this.$emit('inputChange', that.event)
     },
     hideProxy (prox) {
       var that = this
