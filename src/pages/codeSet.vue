@@ -206,7 +206,7 @@
               <div class="close-btn">
               <q-btn icon="img:/statics/imgs/closeModal.png" flat round dense v-close-popup ></q-btn>
               </div>
-        <dependent-codes :desendents="currentDependents" :ticked.sync="ticked"></dependent-codes>
+        <dependent-codes :desendents="currentDependents" :ticked="currentSelected" @updateDependents="updateDependents"></dependent-codes>
       </q-card>
     </q-dialog>
     <q-dialog v-model="createCodesetGroupPopup">
