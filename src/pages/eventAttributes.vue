@@ -193,7 +193,7 @@
             </div>
             <div class="col full-width row"  v-if="obj.Type == 'checkbox'">
             <div class="col q-my-sm">{{event[mappingDict[event.event]][key].Label}}</div>
-            <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:click="sendName"/></span></div>
+            <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span></div>
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
