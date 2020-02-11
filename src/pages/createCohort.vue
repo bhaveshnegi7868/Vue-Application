@@ -749,8 +749,8 @@ export default {
             'displayName': 'Initial Criteria',
             'CriteriaList': [],
             'ObservationWindow': {
-              'PriorDays': 0,
-              'PostDays': 0
+              'PriorDays': '0',
+              'PostDays': '0'
             },
             'PrimaryCriteriaLimit': {
               'Type': 'First'
