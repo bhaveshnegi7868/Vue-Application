@@ -141,7 +141,7 @@
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
-                  <input class="input-box text-center  w5R q-mr-xs" list="listday2" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
+                  <input class="input-box text-center  w5R q-mr-xs" value="ALL" list="listday2" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
                   <datalist id="listday2">
                      <option value="ALL"/>
                      <option value="1"/>
