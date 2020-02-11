@@ -144,10 +144,19 @@
                   <input class="input-box text-center  w5R q-mr-xs" value="ALL" list="listday2" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
                   <datalist id="listday2">
                      <option value="ALL"/>
+                     <option value="0"/>
                      <option value="1"/>
-                     <option value="2"/>
-                     <option value="3"/>
-                     <option value="4"/>
+                     <option value="14"/>
+                     <option value="21"/>
+                     <option value="30"/>
+                     <option value="60"/>
+                     <option value="90"/>
+                     <option value="120"/>
+                     <option value="180"/>
+                     <option value="365"/>
+                     <option value="548"/>
+                     <option value="730"/>
+                     <option value="1095"/>
                    </datalist>
                  </div>
                  <div class=" q-mr-xs ">
@@ -163,10 +172,19 @@
                    <input class="input-box text-center  w5R q-mr-xs" list="listday1" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
                    <datalist id="listday1">
                      <option value="ALL"/>
+                     <option value="0"/>
                      <option value="1"/>
-                     <option value="2"/>
-                     <option value="3"/>
-                     <option value="4"/>
+                     <option value="14"/>
+                     <option value="21"/>
+                     <option value="30"/>
+                     <option value="60"/>
+                     <option value="90"/>
+                     <option value="120"/>
+                     <option value="180"/>
+                     <option value="365"/>
+                     <option value="548"/>
+                     <option value="730"/>
+                     <option value="1095"/>
                    </datalist>
                  </div>
                  <div class=" q-mr-xs">
