@@ -1795,9 +1795,9 @@ export default {
                   if (kIndx === 'OccurrenceIndexStartDate') {
                     console.log('Insile OccurrenceIndexStartDate')
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow = { 'Start': {}, 'End': {} }
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === '1' ? 1 : -1)
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Days = (Idata[key][kIndx].data.sday === 'All' ? 'ALL' : Idata[key][kIndx].data.sday)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === 'After' ? 1 : -1)
+                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === '1' ? 1 : -1)
                     that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Days = (Idata[key][kIndx].data.eday === 'All' ? 'ALL' : Idata[key][kIndx].data.eday)
                   }
                 }
