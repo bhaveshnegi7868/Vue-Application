@@ -1603,9 +1603,9 @@ export default {
                       }
                       if (cokIndx === 'OccurrenceIndexStartDate') {
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow = { 'Start': {}, 'End': {} }
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.Start.Coeff = (codata[cokey][cokIndx].data.stype === 'After' ? 1 : -1)
+                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.Start.Coeff = (codata[cokey][cokIndx].data.stype === '1' ? 1 : -1)
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.Start.Days = codata[cokey][cokIndx].data.sday
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.End.Coeff = (codata[cokey][cokIndx].data.etype === 'After' ? 1 : -1)
+                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.End.Coeff = (codata[cokey][cokIndx].data.etype === '1' ? 1 : -1)
                         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.End.Days = codata[cokey][cokIndx].data.eday
                       }
                     }

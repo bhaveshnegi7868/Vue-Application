@@ -160,11 +160,11 @@
                    </datalist>
                  </div>
                  <div class=" q-mr-xs ">
-                   <span class="q-mr-xs"> day</span>
+                   <span class="q-mr-xs">day</span>
                    <select class="criteria-box w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
-                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
-                       {{opt}}
-                     </option>
+                     <option v-for="opt in indexloop" v-bind:key="opt.value" :value="opt.value">
+                        {{opt.label}}
+                      </option>
                    </select>
                  </div>
                  <div class=" q-mr-xs">
@@ -190,9 +190,9 @@
                  <div class=" q-mr-xs">
                    <span class="q-mr-xs"> day</span>
                    <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
-                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
-                       {{opt}}
-                     </option>
+                     <option v-for="opt in indexloop" v-bind:key="opt.value" :value="opt.value">
+                        {{opt.label}}
+                      </option>
                    </select>
                  </div>
                </div>
@@ -304,6 +304,16 @@ export default {
   },
   data () {
     return {
+      indexloop: [
+        {
+          value: '-1',
+          label: 'Before'
+        },
+        {
+          value: '1',
+          label: 'After'
+        }
+      ],
       renderComponent1: true,
       renderComponent2: true,
       openImportCodesetPopup: false,
