@@ -3,7 +3,7 @@
     <div class="row q-py-sm">
       <q-card class="row col q-mr-sm">
           <div class="col-2 q-pa-xs">
-              <input class="input-box full-width" v-model="baseObj.codeset_name" placeholder="* Codeset Name" />
+              <input class="input-box full-width" v-model="baseObj.codeset_name" v-on:keyup="codenamecheck(baseObj.codeset_name)" placeholder="* Codeset Name" />
           </div>
           <div class="col-5 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
@@ -66,13 +66,13 @@
           </q-btn>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod != 'update'">
-          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && baseObj.codeset_group && tableflag)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
+          <q-btn outlined icon="save" label="Save"  :disable="!(baseObj.codeset_name && error_message && baseObj.codeset_group && tableflag)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset" ></q-btn>
             <q-tooltip>
               Save
             </q-tooltip>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod == 'copy'">
-          <q-btn outlined icon="update" label="Update" :disable="!(baseObj.codeset_name )" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+          <q-btn outlined icon="update" label="Update" :disable="!(baseObj.codeset_name && error_message)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Update
             </q-tooltip>
@@ -265,6 +265,7 @@ export default {
       renderComponent: true,
       renderComponent1: true,
       currentSelected: [],
+      error_message: true,
       currentDependents: [],
       allDependents: false,
       currentDependentsList: [],
@@ -762,6 +763,27 @@ export default {
       //   that.currentRow.dependents = null
       // }
       that.dependentsPopup = false
+    },
+    codenamecheck (name) {
+      var that = this
+      var codesetName = name
+      console.log(codesetName)
+      var url = process.env.API_URL + 'codeset/name/validation/?name=' + codesetName
+      var method = axios.get(url, codesetName)
+      method.then(function (response) {
+        that.error_message = true
+        console.log('error message')
+        console.log(response)
+      }).catch(function (err) {
+        that.error_message = false
+        console.log(err.message)
+        that.$q.notify({
+          color: 'red',
+          textColor: 'white',
+          message: 'Codeset name already exists',
+          timeout: 3000
+        })
+      })
     },
     updateFile () {
       var that = this
