@@ -712,8 +712,6 @@ export default {
   },
   data () {
     return {
-      key_up_count: 0,
-      current_key_count: 0,
       renderComponent: false,
       renderComponent1: true,
       cohortGroupFilter: '',
