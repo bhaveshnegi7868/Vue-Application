@@ -3,7 +3,7 @@
     <div class="row q-py-sm">
       <q-card class="row col q-mr-sm">
           <div class="col-2 q-pa-xs">
-              <input class="input-box full-width" v-model="baseObj.codeset_name" v-on:keyup="codenamecheck(baseObj.codeset_name)" placeholder="* Codeset Name" />
+              <input class="input-box full-width" v-model="baseObj.codeset_name" v-on:blur="codenamecheck(baseObj.codeset_name)" placeholder="* Codeset Name" />
           </div>
           <div class="col-5 q-pa-xs">
               <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
@@ -781,7 +781,7 @@ export default {
           color: 'red',
           textColor: 'white',
           message: 'Codeset name already exists',
-          timeout: 3000
+          timeout: 1000
         })
       })
     },

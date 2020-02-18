@@ -4,7 +4,7 @@
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_name" v-on:keyup="cohortnamecheck(baseObj.cohort_name)" placeholder="* Cohort Name" />
+                <input class="input-box full-width" v-model="baseObj.cohort_name" v-on:blur="cohortnamecheck(baseObj.cohort_name)" placeholder="* Cohort Name" />
             </div>
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
@@ -1889,7 +1889,7 @@ export default {
           color: 'red',
           textColor: 'white',
           message: 'Cohort name already exists',
-          timeout: 3000
+          timeout: 1000
         })
       })
     },
