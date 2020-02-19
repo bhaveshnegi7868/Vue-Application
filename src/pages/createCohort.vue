@@ -1082,10 +1082,8 @@ export default {
       }, 100)
       if (parentObj.CorrelatedCriteria.Name !== '' && parentObj.CorrelatedCriteria.CriteriaList !== undefined && parentObj.CorrelatedCriteria.CriteriaList.length >= 1) {
         this.corelatedflag = true
-        console.log(this.corelatedflag)
       } else {
         this.corelatedflag = false
-        console.log(this.corelatedflag)
       }
     },
     cancelEvent (id, keyCount) {
@@ -1158,10 +1156,8 @@ export default {
     corelatedname (elementObj) {
       if (elementObj.CorrelatedCriteria.Name !== '' && elementObj.CorrelatedCriteria.CriteriaList !== undefined && elementObj.CorrelatedCriteria.CriteriaList.length >= 1) {
         this.corelatedflag = true
-        console.log(this.corelatedflag)
       } else {
         this.corelatedflag = false
-        console.log(this.corelatedflag)
       }
     },
     setQCardColor (event) {
@@ -1234,10 +1230,8 @@ export default {
       that.selectedEvent = 'Select Event'
       if (elementObj.CorrelatedCriteria.Name !== '' && elementObj.CorrelatedCriteria.CriteriaList !== undefined && elementObj.CorrelatedCriteria.CriteriaList.length >= 1) {
         this.corelatedflag = true
-        console.log(this.corelatedflag)
       } else {
         this.corelatedflag = false
-        console.log(this.corelatedflag)
       }
     },
     markCriteriaAsSelected (criteria) {
@@ -1469,8 +1463,6 @@ export default {
       that.baseObj.actual_JSON.PrimaryCriteria.Description = that.baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
       that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList = []
       that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.forEach(function (data, index) {
-        console.log('event loop')
-        console.log(data)
         that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index] = {}
         for (var key in data) {
           var resType = (typeof data[key])
@@ -1478,6 +1470,8 @@ export default {
             if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
               if (!that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key]) {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key] = {}
+                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Name = data.name
+              } else {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Name = data.name
               }
             }
