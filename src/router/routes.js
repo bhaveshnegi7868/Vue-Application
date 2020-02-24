@@ -12,6 +12,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'create', component: () => import('pages/createCohort.vue') },
+      { path: 'analysis/:cohort_id', component: () => import('pages/analysis.vue') },
       { path: 'summary/:cohort_id', component: () => import('pages/summary.vue') },
       { path: ':method/:cohort_id', component: () => import('pages/createCohort.vue') },
 

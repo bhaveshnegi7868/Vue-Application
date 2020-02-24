@@ -1,93 +1,22 @@
 <template>
   <q-page class="app-layout " >
-    <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj" ></secondary-header>
+    <analysis-header :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
-            <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_name" v-on:blur="cohortnamecheck(baseObj.cohort_name)" placeholder="* Cohort Name" />
+            <div class="col-2 q-px-sm q-py-xs" style="margin-top: 3px;">
+                <label class="full-width" style="font-style:bold !important;margin: 26px !important;margin-top: 10px !important;">
+                  {{baseObj.cohort_name}}
+                </label>
             </div>
-            <div class="col-5 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
-            </div>
-            <div class="col q-px-sm q-py-xs">
-              <q-select
-                use-input
-                hide-selected
-                fill-input
-                transition-show="jump-down"
-                transition-hide="jump-up"
-                v-model="baseObj.cohort_group"
-                :options="cohortGroups"
-                @focus="getCohortGroupList"
-                class=" bor8R f12 select-box"
-                @filter="cohortGroupfilterFn"
-                placeholder="* Cohort Group"
-              />
-              <!-- <q-btn-dropdown
-                  v-if="renderComponent1"
-                  flat
-                  no-caps
-                  :label="baseObj.cohort_group ? baseObj.cohort_group : 'Cohort Group'"
-                  class="full-width  f12 select-box"
-                  @click="getCohortGroupList"
-                  auto-close
-                >
-                <q-btn
-                  color="theamGreen"
-                  class="full-width f10"
-                  icon-right="add"
-                  label="Add New Cohort Group"
-                  @click="openCreateCohortGroupPopup"
-                  v-close-popup
-                >
-                </q-btn>
-                <q-card  class="bg-secondary text-white selected-btn-dropdown">
-                  {{baseObj.cohort_group}}
-                </q-card>
-                <div class="options-values" v-for="opt in cohortGroups" v-bind:key="opt.name" @click="makeSelected('cohort_group',opt.name)" v-close-popup>
-                  {{opt.name}}
-                </div>
-              </q-btn-dropdown> -->
-            </div>
-            <div class=" q-px-xs q-py-xs ">
-              <q-btn
-                  color="theamGreen"
-                  class="f10 bor8R w2R q-pa-none q-ma-none"
-                  icon="add"
-                  @click="openCreateCohortGroupPopup"
-                >
-                <q-tooltip>
-                  Create Cohort Group
-                </q-tooltip>
-                </q-btn>
-            </div>
-            <div class="col q-px-sm q-py-xs">
-              <q-select
-                use-input
-                hide-selected
-                fill-input
-                transition-show="jump-down"
-                transition-hide="jump-up"
-                v-model="baseObj.data_source"
-                :options="dataSources"
-                @focus="getDataSourceList"
-                class="bor8R f12 select-box"
-                @filter="datasourcefilterFn"
-                Placeholder="* Datasource"
-              />
-              <!-- <q-btn-dropdown
-                  v-if="renderComponent1"
-                  no-caps
-                  flat
-                  :label="baseObj.data_source ? baseObj.data_source : 'Datasource'"
-                  class="full-width f12 select-box"
-                  @click="getDataSourceList"
-                  auto-close
-                >
-                <div class="options-values" v-for="opt in dataSources" v-bind:key="opt.name" @click="makeSelected('data_source',opt.name)" v-close-popup>
-                  {{opt.name}}
-                </div>
-              </q-btn-dropdown> -->
+            <div class="col-7 q-px-sm q-py-xs" style="margin-top: 3px;">
+                <label class="full-width" style="margin: 26px !important;margin-top: 10px !important;">
+                  {{baseObj.cohort_desc}}
+                </label>
+              </div>
+            <div class="col q-px-sm q-py-xs" style="margin-top: 3px;">
+              <label class="full-width" style="margin: 26px !important;margin-top: 10px !important;">
+                  {{baseObj.data_source}}
+                </label>
             </div>
         </q-card>
         <q-card class="col row">
@@ -134,10 +63,10 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label>* Primary Criteria</label>
+              <label>* Analysis Criteria</label>
             </q-item-section>
           </q-item>
-          <q-item
+          <!-- <q-item
             v-for="(criteria,index) in baseObj.criteriaObj.InclusionRules"
             :key="criteria.id"
             clickable
@@ -155,11 +84,11 @@
               </div>
               </div>
             </q-item-section>
-          </q-item>
+          </q-item> -->
         </q-list>
-        <q-btn class="categories_addNew full-width" @click="addNewCriteria">
+        <!-- <q-btn class="categories_addNew full-width" @click="addNewCriteria">
             Add Criteria Set
-        </q-btn>
+        </q-btn> -->
         <!--<q-btn class="categories_addNew full-width" @click="createDictAndShow">
             Show Dict
         </q-btn>-->
@@ -190,6 +119,7 @@
                 <div class="header_Bor1"></div>
                 <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
                   <drag
+                    :draggable="!(JSON.stringify(currentCriteria.CriteriaList).includes(element.name))"
                     class="Events"
                     v-for="(element) in eventArray1"
                     :key="element.id"
@@ -223,6 +153,7 @@
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
                   </div>
                 </div>
+                {{JSON.stringify(currentCriteria.CriteriaList).includes('Treatment')}}
                 <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
                   <div
                     class="list-group-item"
@@ -235,42 +166,9 @@
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="">
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && !elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="add_circle" flat rounded  @click="addCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"><q-tooltip anchor="top middle" self="center middle">Add Correlated Criteria</q-tooltip></q-btn>
-                          <q-btn v-if="currentCriteria['PCriteriaSetName'] !== undefined && elementObj.CorrelatedCriteria" class="fCgreen q-px-none float-right f12" icon="img:/statics/imgs/trash.png" flat rounded  @click="removeCorelatedCriteria(elementObj)" @click.stop.prevent="showAttributes()"><q-tooltip anchor="top middle" self="center middle">Remove Correlated Criteria</q-tooltip></q-btn>
-                        </div>
-                        <div class="">
-                          <q-btn class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"><q-tooltip anchor="top middle" self="center middle">Remove Primary Criteria</q-tooltip></q-btn>
+                          <q-btn v-if="index != 0" class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"><q-tooltip anchor="top middle" self="center middle">Remove Analysis Criteria</q-tooltip></q-btn>
                         </div>
                       </q-card>
-                      <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
-                        <input ref="textbox" v-on:keyup="corelatedname(elementObj)" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Correlated Criteria Name" />
-                        <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width ">
-                          <q-card
-                          v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
-                          :key="elementObj1.id"
-                          :class="elementObj1.currentSelected"
-                          class="custom-card-2 event-card "
-                          @click.native="showAttributes(elementObj1,index,index1)"
-                          align="left">
-                            <div class="col ellipsis w5R">
-                              <label class="text-h6  q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
-                            </div>
-                            <!-- {{elementObj.CorrelatedCriteria.CriteriaList.length}}
-                            {{elementObj.CorrelatedCriteria.Name}} -->
-                            <div class="col-1">
-                              <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)" @click.stop.prevent="showAttributes()"/>
-                            </div>
-                          </q-card>
-                        </div>
-                        <drop @drop="function(transferData, nativeEvent) { handleDropWithId(elementObj, transferData, nativeEvent) }" class="full-width" :id="'drop-zone-'+elementObj.id" >
-                          <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="handleDropWithId(elementObj)">
-                              <option disabled>Select Event</option>
-                              <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
-                                {{opt.name}}
-                              </option>
-                          </select>
-                        </drop>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -338,7 +236,7 @@
                   </drop>
                 </div>
               </q-card>
-              <q-card class="q-pa-sm q-mt-lg f12 custom-card" v-if="currentCriteria.ObservationWindow">
+              <!-- <q-card class="q-pa-sm q-mt-lg f12 custom-card" v-if="currentCriteria.ObservationWindow">
                 <div class="row" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
                     Limit initial events to
@@ -361,7 +259,7 @@
                      days before and <input type="text" maxlength="5" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
                   </div>
                 </div>
-              </q-card>
+              </q-card> -->
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
               <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
@@ -672,7 +570,7 @@ import { Drag, Drop } from 'vue-drag-drop'
 import axios from 'axios'
 import eventAttributes from 'pages/eventAttributes'
 import createCohortGroup from 'components/createCohortGroup'
-import secondaryHeader from 'components/secondaryHeader'
+import analysisheader from 'components/analysisheader'
 import diagnosisData from '../json/diagnosisNew.json'
 import procedureData from '../json/procedureNew.json'
 import treatementData from '../json/treatmentNew.json'
@@ -682,8 +580,8 @@ import {
   QSpinnerIos,
   QTooltip,
   QDialog,
-  ClosePopup,
-  QSelect
+  ClosePopup
+  // QSelect
 } from 'quasar'
 Loading.show({
   spinner: QSpinnerIos,
@@ -702,9 +600,9 @@ export default {
     Drag,
     Drop,
     QDialog,
-    QSelect,
+    // QSelect,
     'event-attributes': eventAttributes,
-    'secondary-header': secondaryHeader,
+    'analysis-header': analysisheader,
     'create-cohort-group': createCohortGroup
   },
   directives: {
@@ -748,7 +646,7 @@ export default {
             'PCriteriaSetName': '',
             'PCriteriaSetDesc': '',
             'displayName': 'Initial Criteria',
-            'CriteriaList': [],
+            'CriteriaList': [{ 'id': 0, 'event': 'Treatment', 'criteria': 'Select', 'currentSelected': 'q-pa-sm q-mt-xs yes44 shadow-2 row', 'name': '' }],
             'ObservationWindow': {
               'PriorDays': '0',
               'PostDays': '0'
@@ -760,7 +658,7 @@ export default {
           'InclusionRules': []
         }
       },
-      selectedPage: 'Cohort Definition',
+      selectedPage: 'Analysis Definition',
       cname: '',
       cdesc: '',
       cgrp: '',
@@ -785,7 +683,7 @@ export default {
       ],
       eventArray1: [
         { 'id': 1, 'name': 'Diagnosis' },
-        { 'id': 2, 'name': 'Treatement' },
+        { 'id': 2, 'name': 'Treatment' },
         { 'id': 3, 'name': 'Procedure' }
       ],
       cGrpOpts: [
@@ -834,14 +732,16 @@ export default {
   },
   mounted () {
     var that = this
+    that.markCriteriaAsSelected(that.criteriaArray[0])
     that.cohort_id = that.$route.params.cohort_id
     that.pagemethod = that.$route.params.method
     if (that.cohort_id) {
       that.getCohortDict(that.cohort_id)
-    } else {
-      that.markCriteriaAsSelected(that.criteriaArray[0])
     }
-    that.getEventsDict()
+    // else {
+    //   that.markCriteriaAsSelected(that.criteriaArray[0])
+    // }
+    // that.getEventsDict()
   },
   methods: {
     reset () {
@@ -1347,30 +1247,30 @@ export default {
     },
     getCohortDict () {
       var that = this
-      var url = process.env.API_URL + 'cohort/get/' + that.cohort_id
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/view/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         that.baseObj = response.data
-        that.criteriaArray = [
-          {
-            'id': 'PrimaryCriteria',
-            'PCriteriaSetName': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetName,
-            'currentSelected': 1,
-            'PCriteriaSetDesc': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
-          }
-        ]
-        response.data.criteriaObj.InclusionRules.forEach(function (row) {
-          that.criteriaArray.push({
-            'ICriteriaSetName': row.ICriteriaSetName,
-            'currentSelected': 0,
-            'ICriteriaSetDesc': row.ICriteriaSetDesc,
-            'id': row.id
-          })
-        })
-        if (that.pagemethod === 'copy') {
-          that.baseObj.cohort_name = ''
-        }
-        that.markCriteriaAsSelected(that.criteriaArray[0])
+        // that.criteriaArray = [
+        //   {
+        //     'id': 'PrimaryCriteria',
+        //     'PCriteriaSetName': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetName,
+        //     'currentSelected': 1,
+        //     'PCriteriaSetDesc': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
+        //   }
+        // ]
+        // response.data.criteriaObj.InclusionRules.forEach(function (row) {
+        //   that.criteriaArray.push({
+        //     'ICriteriaSetName': row.ICriteriaSetName,
+        //     'currentSelected': 0,
+        //     'ICriteriaSetDesc': row.ICriteriaSetDesc,
+        //     'id': row.id
+        //   })
+        // })
+        // if (that.pagemethod === 'copy') {
+        //   that.baseObj.cohort_name = ''
+        // }
+        // that.markCriteriaAsSelected(that.criteriaArray[0])
         // that.dtSourceOpts = response.data.result
         // that.loading = false
         that.$q.loading.hide()
