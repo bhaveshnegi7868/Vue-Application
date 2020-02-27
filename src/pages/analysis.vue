@@ -40,7 +40,7 @@
               </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.cohort_group && error_message && corelatedflag &&baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
               <q-tooltip>
                 Run
               </q-tooltip>
@@ -153,7 +153,6 @@
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
                   </div>
                 </div>
-                {{JSON.stringify(currentCriteria.CriteriaList).includes('Treatment')}}
                 <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
                   <div
                     class="list-group-item"
@@ -295,7 +294,7 @@
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
-            <div class="col q-px-sm q-py-xs">
+            <!-- <div class="col q-px-sm q-py-xs"> -->
               <!-- <q-btn-dropdown
                   v-if="renderComponent1"
                   disabled
@@ -306,14 +305,14 @@
                   @click="getCohortGroupList"
                   auto-close
                 > -->
-                <q-btn
+                <!-- <q-btn
                   color="theamGreen"
                   class="full-width f12"
                   icon-right="add"
                   label="Add New Cohort Group"
                   @click="openCreateCohortGroupPopup"
                   v-close-popup
-                />
+                /> -->
                 <!-- <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.cohort_group}}
                 </q-card>
@@ -321,7 +320,7 @@
                   {{opt.name}}
                 </div>
               </q-btn-dropdown> -->
-            </div>
+            <!-- </div> -->
             <!-- <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
                   v-if="renderComponent1"
@@ -568,7 +567,7 @@
 <script>
 import { Drag, Drop } from 'vue-drag-drop'
 import axios from 'axios'
-import eventAttributes from 'pages/eventAttributes'
+import analysisevents from 'pages/analysisevents'
 import createCohortGroup from 'components/createCohortGroup'
 import analysisheader from 'components/analysisheader'
 import diagnosisData from '../json/diagnosisNew.json'
@@ -601,7 +600,7 @@ export default {
     Drop,
     QDialog,
     // QSelect,
-    'event-attributes': eventAttributes,
+    'event-attributes': analysisevents,
     'analysis-header': analysisheader,
     'create-cohort-group': createCohortGroup
   },
@@ -1183,7 +1182,6 @@ export default {
       })
     },
     handleChange (event) {
-      console.log('yesss')
       var that = this
       // that.renderComponent = false
       // debugger
@@ -1247,38 +1245,36 @@ export default {
     },
     getCohortDict () {
       var that = this
+      console.log('check dict')
       var url = 'http://10.14.11.136:8003/api/v1/cohort/view/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
-        that.baseObj = response.data
+        console.log(response.data)
+        console.log(that.baseObj)
+        if (!that.baseObj.cohort_name) {
+          that.baseObj.cohort_name = response.data.cohort_name
+          that.baseObj.cohort_desc = response.data.cohort_desc
+          that.baseObj.data_source = response.data.data_source
+        }
+        // that.baseObj = response.data
         // that.criteriaArray = [
         //   {
         //     'id': 'PrimaryCriteria',
-        //     'PCriteriaSetName': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetName,
+        //     'PCriteriaSetName': '',
         //     'currentSelected': 1,
-        //     'PCriteriaSetDesc': response.data.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
+        //     'PCriteriaSetDesc': ''
         //   }
         // ]
-        // response.data.criteriaObj.InclusionRules.forEach(function (row) {
-        //   that.criteriaArray.push({
-        //     'ICriteriaSetName': row.ICriteriaSetName,
-        //     'currentSelected': 0,
-        //     'ICriteriaSetDesc': row.ICriteriaSetDesc,
-        //     'id': row.id
-        //   })
-        // })
-        // if (that.pagemethod === 'copy') {
-        //   that.baseObj.cohort_name = ''
-        // }
-        // that.markCriteriaAsSelected(that.criteriaArray[0])
-        // that.dtSourceOpts = response.data.result
-        // that.loading = false
+        console.log(that.baseObj, that.criteriaArray)
+        that.markCriteriaAsSelected(that.criteriaArray[0])
+        that.dtSourceOpts = response.data.result
+        that.loading = false
         that.$q.loading.hide()
       })
     },
     getEventsDict () {
       var that = this
-      var url = process.env.API_URL + 'cohort/events/list/'
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/events/list/'
       axios.get(url).then(function (response) {
         that.eventArray1 = []
         let id = 0
@@ -1297,7 +1293,7 @@ export default {
       var that = this
       console.log(event)
       that.$q.loading.show()
-      var url = process.env.API_URL + 'cohort/' + that.capitalizeFirstLetter(event)
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/attributes/' + that.capitalizeFirstLetter(event)
       axios.get(url).then(function (response) {
         that.$q.loading.hide()
         console.log('eventResponse')
@@ -1341,12 +1337,14 @@ export default {
     saveCohort () {
       var that = this
       if (that.baseObj.run) {
+        that.baseObj['run'] = true
         that.$q.loading.show({
           spinnerSize: 140,
           message: 'Saving And Running Data, Please Wait',
           messageColor: 'black'
         })
       } else {
+        that.baseObj['run'] = false
         that.$swal({
           type: 'success',
           title: 'Updating Data, Please Wait',
@@ -1354,155 +1352,146 @@ export default {
           timer: 2000
         })
       }
-      var url = process.env.API_URL + 'cohort/create/'
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/create/'
       var method
       console.log('save my obj Object')
+      that.baseObj['cohort_id'] = that.cohort_id
       console.log(that.baseObj)
-      that.baseObj.actual_JSON = {}
-      that.baseObj.actual_JSON.PrimaryCriteria = {}
-      that.baseObj.actual_JSON.PrimaryCriteria.Name = that.baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetName
-      that.baseObj.actual_JSON.PrimaryCriteria.Description = that.baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
-      that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList = []
+      that.baseObj.AnalysisCriteria = {}
+      that.baseObj.AnalysisCriteria.PrimaryCriteria = {}
+      that.baseObj.AnalysisCriteria.PrimaryCriteria.Criteria_Name = that.baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetName
+      that.baseObj.AnalysisCriteria.PrimaryCriteria.Description = that.baseObj.criteriaObj.PrimaryCriteria.PCriteriaSetDesc
+      that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList = []
       that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.forEach(function (data, index) {
-        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index] = {}
+        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index] = {}
         for (var key in data) {
           var resType = (typeof data[key])
           if (resType === 'object') {
             if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
-              if (!that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key]) {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Name = data.name
+              if (!that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key]) {
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key] = {}
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].Name = data.name
               } else {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Name = data.name
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].Name = data.name
+              }
+              if (that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key]) {
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].EventLimit = {}
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].EventLimit.Type = data.limit
               }
             }
             for (var kIndx in data[key]) {
-              if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                if (data[key][kIndx].Op !== 'undefined') {
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Value
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Extent
-                } else {
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
-                }
-              }
-              if (kIndx === 'OccurrenceStartDate') {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                if (data[key][kIndx].Op !== 'undefined') {
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Extent
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Value
-                } else {
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
-                }
-              }
-              if (kIndx === 'OccurrenceLimit') {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].First = data[key][kIndx][kIndx] ? '1' : undefined
-              }
+              // if (kIndx === 'OccurrenceStartDate') {
+              //   that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
+              //   if (data[key][kIndx].Op !== 'undefined') {
+              //     that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
+              //     that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Extent
+              //     that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Value
+              //   } else {
+              //     that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
+              //     that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
+              //     that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
+              //   }
+              // }
               if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name] = {}
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name] = {}
                 if (data[key][kIndx][data[key][kIndx].inputs[0].name] && data[key][kIndx][data[key][kIndx].inputs[0].name].length !== 0) {
-                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name] = []
+                  that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name] = []
                   data[key][kIndx][data[key][kIndx].inputs[0].name].forEach(function (v, k) {
-                    that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name].push(v.value)
+                    that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][data[key][kIndx].name].push(v.value)
                   })
                 }
               }
               if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Codeset = []
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key].Codeset = (data[key][kIndx].codeset && data[key][kIndx].codeset.value) ? data[key][kIndx].codeset.value : ''
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].Codeset = []
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].Codeset = (data[key][kIndx].codeset && data[key][kIndx].codeset.value) ? data[key][kIndx].codeset.value : ''
               }
-              if (kIndx === 'Occurrence') {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Count = data[key][kIndx].count
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Type = data[key][kIndx].type
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].IsDistinct = true
+              if (kIndx === 'OccurrenceIndexStartDate') {
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow = { 'Start': {}, 'End': {} }
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.Start.Coeff = (data[key][kIndx].data.stype === '1' ? 1 : -1)
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.Start.Days = (data[key][kIndx].data.sday === 'All' ? 'ALL' : data[key][kIndx].data.sday)
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.End.Coeff = (data[key][kIndx].data.etype === '1' ? 1 : -1)
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.End.Days = (data[key][kIndx].data.eday === 'All' ? 'ALL' : data[key][kIndx].data.eday)
               }
             }
             if (key === 'CorrelatedCriteria') {
               console.log('CorrelatedCriteria Object')
               console.log(data[key])
               var coParentKey = (data.event === 'Treatment' ? 'DrugExposure' : (data.event === 'Diagnosis' ? 'ConditionOccurrence' : 'ProcedureOccurrence'))
-              if (!that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey]) {
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey] = {}
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey].Name = data[key].Name
+              if (!that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey]) {
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey] = {}
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey].Name = data[key].Name
               }
-              that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key] = {}
-              that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].Name = data[key].Name
-              that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList = []
+              that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key] = {}
+              that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].Name = data[key].Name
+              that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList = []
               data[key].CriteriaList.forEach(function (codata, i) {
                 console.log(codata)
-                that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i] = {}
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i] = {}
                 for (var cokey in codata) {
                   var resType = (typeof codata[cokey])
                   if (resType === 'object') {
-                    that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey] = {}
-                    that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Name = codata.name
+                    that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey] = {}
+                    that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Name = codata.name
                     for (var cokIndx in codata[cokey]) {
                       console.log('Inside child loop CorrelatedCriteria Object')
                       console.log(cokIndx)
                       if (cokIndx === 'OccurrenceStartDate' || cokIndx === 'Age' || cokIndx === 'Refills' || cokIndx === 'Quantity' || cokIndx === 'DaysSupply') {
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
                         if (codata[cokey][cokIndx].Op !== 'undefined') {
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Value
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Extent
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Value
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Extent
                         } else {
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = undefined
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = undefined
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = undefined
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = undefined
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = undefined
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = undefined
                         }
                       }
                       if (cokIndx === 'OccurrenceStartDate') {
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
                         if (codata[cokey][cokIndx].Op !== 'undefined') {
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Extent
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Value
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = codata[cokey][cokIndx].Op
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = codata[cokey][cokIndx].Extent
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = codata[cokey][cokIndx].Value
                         } else {
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = undefined
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = undefined
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = undefined
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Op = undefined
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Value = undefined
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Extent = undefined
                         }
                       }
                       if (cokIndx === 'OccurrenceLimit') {
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].First = codata[cokey][cokIndx][cokIndx] ? '1' : undefined
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].First = codata[cokey][cokIndx][cokIndx] ? '1' : undefined
                       }
                       if (cokIndx === 'Gender' || cokIndx === 'DrugType' || cokIndx === 'ProviderSpecialty' || cokIndx === 'VisitType' || cokIndx === 'ProcedureType' || cokIndx === 'ConditionType') {
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][codata[cokey][cokIndx].name] = {}
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][codata[cokey][cokIndx].name] = {}
                         if (codata[cokey][cokIndx][codata[cokey][cokIndx].inputs[0].name] && codata[cokey][cokIndx][codata[cokey][cokIndx].inputs[0].name].length !== 0) {
-                          that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][[codata[cokey][cokIndx].name]] = []
+                          that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][[codata[cokey][cokIndx].name]] = []
                           codata[cokey][cokIndx][codata[cokey][cokIndx].inputs[0].name].forEach(function (v, k) {
-                            that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][[codata[cokey][cokIndx].name]].push(v.value)
+                            that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][[codata[cokey][cokIndx].name]].push(v.value)
                           })
                         }
                       }
                       if (cokIndx === 'listDiagnosis' || cokIndx === 'listProcedures' || cokIndx === 'listDrugs') {
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = []
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = (codata[cokey][cokIndx].codeset && codata[cokey][cokIndx].codeset.value) ? codata[cokey][cokIndx].codeset.value : ''
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = []
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].Codeset = (codata[cokey][cokIndx].codeset && codata[cokey][cokIndx].codeset.value) ? codata[cokey][cokIndx].codeset.value : ''
                       }
                       if (cokIndx === 'Occurrence') {
                         console.log('Inside child loop CorrelatedCriteria Object')
                         console.log('occurance data')
                         console.log(codata[cokey][cokIndx].count)
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Count = codata[cokey][cokIndx].count
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Type = codata[cokey][cokIndx].type
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].IsDistinct = false
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx] = {}
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Count = codata[cokey][cokIndx].count
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].Type = codata[cokey][cokIndx].type
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey][cokIndx].IsDistinct = false
                       }
                       if (cokIndx === 'OccurrenceIndexStartDate') {
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow = { 'Start': {}, 'End': {} }
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.Start.Coeff = (codata[cokey][cokIndx].data.stype === '1' ? 1 : -1)
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.Start.Days = (codata[cokey][cokIndx].data.sday === 'All' ? 'ALL' : codata[cokey][cokIndx].data.sday)
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.End.Coeff = (codata[cokey][cokIndx].data.etype === '1' ? 1 : -1)
-                        that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.End.Days = (codata[cokey][cokIndx].data.eday === 'All' ? 'ALL' : codata[cokey][cokIndx].data.eday)
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow = { 'Start': {}, 'End': {} }
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.Start.Coeff = (codata[cokey][cokIndx].data.stype === '1' ? 1 : -1)
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.Start.Days = (codata[cokey][cokIndx].data.sday === 'All' ? 'ALL' : codata[cokey][cokIndx].data.sday)
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.End.Coeff = (codata[cokey][cokIndx].data.etype === '1' ? 1 : -1)
+                        that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][coParentKey][key].CriteriaList[i][cokey].StartWindow.End.Days = (codata[cokey][cokIndx].data.eday === 'All' ? 'ALL' : codata[cokey][cokIndx].data.eday)
                       }
                     }
                   }
@@ -1512,215 +1501,215 @@ export default {
           }
         }
       })
-      that.baseObj.actual_JSON.PrimaryCriteria.PrimaryCriteriaLimit = that.baseObj.criteriaObj.PrimaryCriteria.PrimaryCriteriaLimit
-      that.baseObj.actual_JSON.PrimaryCriteria.ObservationWindow = that.baseObj.criteriaObj.PrimaryCriteria.ObservationWindow
       console.log('Result JSON with PrimaryCriteria')
-      console.log(that.baseObj.actual_JSON)
-      that.baseObj.actual_JSON.InclusionRules = []
-      that.baseObj.criteriaObj.InclusionRules.forEach(function (data, index) {
-        console.log('Inclusion start')
-        that.baseObj.actual_JSON.InclusionRules[index] = {}
-        that.baseObj.actual_JSON.InclusionRules[index].Name = data.ICriteriaSetName
-        that.baseObj.actual_JSON.InclusionRules[index].Desc = data.ICriteriaSetDesc
-        that.baseObj.actual_JSON.InclusionRules[index].expression = {}
-        that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList = []
-        console.log('count check')
-        console.log(that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList)
-        console.log(that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.length)
-        that.baseObj.actual_JSON.InclusionRules[index].expression.Type = {}
-        that.baseObj.actual_JSON.InclusionRules[index].expression.Type.op = data.type.op
-        that.baseObj.actual_JSON.InclusionRules[index].expression.Type.count = data.type.op === 'Any' ? 0 : (data.type.op === 'All' ? (that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.length + that.baseObj.criteriaObj.InclusionRules[index].Groups.length) : data.type.count)
-        that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.forEach(function (Idata, dindex) {
-          console.log('event loop')
-          console.log(Idata)
-          that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex] = {}
-          for (var key in Idata) {
-            console.log('Inside Idata loop')
-            console.log(key)
-            var resType = (typeof Idata[key])
-            if (resType === 'object') {
-              console.log('Inside Idata object condition')
-              console.log(key)
-              if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
-                if (!that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key]) {
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].Name = Idata.name
-                }
-              }
-              for (var kIndx in Idata[key]) {
-                console.log('Inside Idata key loop')
-                console.log(kIndx)
-                console.log(Idata[key][kIndx])
-                if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  if (Idata[key][kIndx].Op !== 'undefined') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
-                  } else {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = undefined
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = undefined
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = undefined
-                  }
-                }
-                if (kIndx === 'OccurrenceStartDate') {
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  if (Idata[key][kIndx].Op !== 'undefined') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
-                  } else {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = undefined
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = undefined
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = undefined
-                  }
-                }
-                if (kIndx === 'OccurrenceLimit') {
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].First = Idata[key][kIndx][kIndx] ? '1' : undefined
-                }
-                if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
-                  if (Idata[key][kIndx][Idata[key][kIndx].inputs[0].name] && Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].length !== 0) {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = []
-                    Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].forEach(function (v, k) {
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name].push(v.value)
-                    })
-                  }
-                }
-                if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].Codeset = []
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
-                }
-                if (kIndx === 'Occurrence') {
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].IsDistinct = false
-                }
-                if (kIndx === 'OccurrenceIndexStartDate') {
-                  console.log('Insile OccurrenceIndexStartDate')
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow = { 'Start': {}, 'End': {} }
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === '1' ? 1 : -1)
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.Start.Days = (Idata[key][kIndx].data.sday === 'All' ? 'ALL' : Idata[key][kIndx].data.sday)
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === '1' ? 1 : -1)
-                  that.baseObj.actual_JSON.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.End.Days = (Idata[key][kIndx].data.eday === 'All' ? 'ALL' : Idata[key][kIndx].data.eday)
-                }
-              }
-            }
-          }
-        })
-        that.baseObj.actual_JSON.InclusionRules[index].expression.Groups = []
-        console.log('Group Started')
-        console.log(that.baseObj.criteriaObj.InclusionRules[index])
-        that.baseObj.criteriaObj.InclusionRules[index].Groups.forEach(function (GrpData, Grpindex) {
-          console.log('Group 1st line')
-          console.log(GrpData)
-          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex] = {}
-          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Name = GrpData.Name
-          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type = {}
-          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type.op = GrpData.type.op
-          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].Type.count = GrpData.type.op === 'Any' ? 0 : (GrpData.type.op === 'All' ? GrpData.CriteriaList.length : GrpData.type.count)
-          console.log('Group 3st line')
-          console.log(GrpData)
-          that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = []
-          GrpData.CriteriaList.forEach(function (Idata, dindex) {
-            console.log('Groups loop')
-            console.log(Idata)
-            that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex] = {}
-            for (var key in Idata) {
-              console.log('Inside Idata loop')
-              console.log(key)
-              var resType = (typeof Idata[key])
-              if (resType === 'object') {
-                console.log('Inside Idata object condition')
-                console.log(key)
-                if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
-                  if (!that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key]) {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Name = Idata.name
-                  }
-                }
-                for (var kIndx in Idata[key]) {
-                  console.log('Inside Idata key loop')
-                  console.log(kIndx)
-                  console.log(Idata[key][kIndx])
-                  if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
-                    if (Idata[key][kIndx].Op !== 'undefined') {
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
-                    } else {
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = undefined
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = undefined
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = undefined
-                    }
-                  }
-                  if (kIndx === 'OccurrenceStartDate') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
-                    if (Idata[key][kIndx].Op !== 'undefined') {
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
-                    } else {
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = undefined
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = undefined
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = undefined
-                    }
-                  }
-                  if (kIndx === 'OccurrenceLimit') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].First = Idata[key][kIndx][kIndx] ? '1' : undefined
-                  }
-                  if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
-                    if (Idata[key][kIndx][Idata[key][kIndx].inputs[0].name] && Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].length !== 0) {
-                      that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name] = []
-                      Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].forEach(function (v, k) {
-                        that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name].push(v.value)
-                      })
-                    }
-                  }
-                  if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Codeset = []
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
-                  }
-                  if (kIndx === 'Occurrence') {
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].IsDistinct = false
-                  }
-                  if (kIndx === 'OccurrenceIndexStartDate') {
-                    console.log('Insile OccurrenceIndexStartDate')
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow = { 'Start': {}, 'End': {} }
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === '1' ? 1 : -1)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Days = (Idata[key][kIndx].data.sday === 'All' ? 'ALL' : Idata[key][kIndx].data.sday)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === '1' ? 1 : -1)
-                    that.baseObj.actual_JSON.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Days = (Idata[key][kIndx].data.eday === 'All' ? 'ALL' : Idata[key][kIndx].data.eday)
-                  }
-                }
-              }
-            }
-          })
-        })
-      })
+      console.log(that.baseObj.AnalysisCriteria)
+      // that.baseObj.AnalysisCriteria.InclusionRules = []
+      // that.baseObj.criteriaObj.InclusionRules.forEach(function (data, index) {
+      //   console.log('Inclusion start')
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index] = {}
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].Name = data.ICriteriaSetName
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].Desc = data.ICriteriaSetDesc
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].expression = {}
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList = []
+      //   console.log('count check')
+      //   console.log(that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList)
+      //   console.log(that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.length)
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Type = {}
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Type.op = data.type.op
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Type.count = data.type.op === 'Any' ? 0 : (data.type.op === 'All' ? (that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.length + that.baseObj.criteriaObj.InclusionRules[index].Groups.length) : data.type.count)
+      //   that.baseObj.criteriaObj.InclusionRules[index].expression.CriteriaList.forEach(function (Idata, dindex) {
+      //     console.log('event loop')
+      //     console.log(Idata)
+      //     that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex] = {}
+      //     for (var key in Idata) {
+      //       console.log('Inside Idata loop')
+      //       console.log(key)
+      //       var resType = (typeof Idata[key])
+      //       if (resType === 'object') {
+      //         console.log('Inside Idata object condition')
+      //         console.log(key)
+      //         if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
+      //           if (!that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key]) {
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key] = {}
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].Name = Idata.name
+      //           }
+      //         }
+      //         for (var kIndx in Idata[key]) {
+      //           console.log('Inside Idata key loop')
+      //           console.log(kIndx)
+      //           console.log(Idata[key][kIndx])
+      //           if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
+      //             if (Idata[key][kIndx].Op !== 'undefined') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
+      //             } else {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = undefined
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = undefined
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = undefined
+      //             }
+      //           }
+      //           if (kIndx === 'OccurrenceStartDate') {
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
+      //             if (Idata[key][kIndx].Op !== 'undefined') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
+      //             } else {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Op = undefined
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Value = undefined
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Extent = undefined
+      //             }
+      //           }
+      //           if (kIndx === 'OccurrenceLimit') {
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].First = Idata[key][kIndx][kIndx] ? '1' : undefined
+      //           }
+      //           if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
+      //             if (Idata[key][kIndx][Idata[key][kIndx].inputs[0].name] && Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].length !== 0) {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name] = []
+      //               Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].forEach(function (v, k) {
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][Idata[key][kIndx].name].push(v.value)
+      //               })
+      //             }
+      //           }
+      //           if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].Codeset = []
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
+      //           }
+      //           if (kIndx === 'Occurrence') {
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx] = {}
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key][kIndx].IsDistinct = false
+      //           }
+      //           if (kIndx === 'OccurrenceIndexStartDate') {
+      //             console.log('Insile OccurrenceIndexStartDate')
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow = { 'Start': {}, 'End': {} }
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === '1' ? 1 : -1)
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.Start.Days = (Idata[key][kIndx].data.sday === 'All' ? 'ALL' : Idata[key][kIndx].data.sday)
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === '1' ? 1 : -1)
+      //             that.baseObj.AnalysisCriteria.InclusionRules[index].expression.CriteriaList[dindex][key].StartWindow.End.Days = (Idata[key][kIndx].data.eday === 'All' ? 'ALL' : Idata[key][kIndx].data.eday)
+      //           }
+      //         }
+      //       }
+      //     }
+      //   })
+      //   that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups = []
+      //   console.log('Group Started')
+      //   console.log(that.baseObj.criteriaObj.InclusionRules[index])
+      //   that.baseObj.criteriaObj.InclusionRules[index].Groups.forEach(function (GrpData, Grpindex) {
+      //     console.log('Group 1st line')
+      //     console.log(GrpData)
+      //     that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex] = {}
+      //     that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].Name = GrpData.Name
+      //     that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].Type = {}
+      //     that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].Type.op = GrpData.type.op
+      //     that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].Type.count = GrpData.type.op === 'Any' ? 0 : (GrpData.type.op === 'All' ? GrpData.CriteriaList.length : GrpData.type.count)
+      //     console.log('Group 3st line')
+      //     console.log(GrpData)
+      //     that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList = []
+      //     GrpData.CriteriaList.forEach(function (Idata, dindex) {
+      //       console.log('Groups loop')
+      //       console.log(Idata)
+      //       that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex] = {}
+      //       for (var key in Idata) {
+      //         console.log('Inside Idata loop')
+      //         console.log(key)
+      //         var resType = (typeof Idata[key])
+      //         if (resType === 'object') {
+      //           console.log('Inside Idata object condition')
+      //           console.log(key)
+      //           if (key === 'ConditionOccurrence' || key === 'DrugExposure' || key === 'ProcedureOccurrence') {
+      //             if (!that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key]) {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key] = {}
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Name = Idata.name
+      //             }
+      //           }
+      //           for (var kIndx in Idata[key]) {
+      //             console.log('Inside Idata key loop')
+      //             console.log(kIndx)
+      //             console.log(Idata[key][kIndx])
+      //             if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
+      //               if (Idata[key][kIndx].Op !== 'undefined') {
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Value
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Extent
+      //               } else {
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = undefined
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = undefined
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = undefined
+      //               }
+      //             }
+      //             if (kIndx === 'OccurrenceStartDate') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
+      //               if (Idata[key][kIndx].Op !== 'undefined') {
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = Idata[key][kIndx].Op
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = Idata[key][kIndx].Extent
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = Idata[key][kIndx].Value
+      //               } else {
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Op = undefined
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Value = undefined
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Extent = undefined
+      //               }
+      //             }
+      //             if (kIndx === 'OccurrenceLimit') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].First = Idata[key][kIndx][kIndx] ? '1' : undefined
+      //             }
+      //             if (kIndx === 'Gender' || kIndx === 'DrugType' || kIndx === 'ProviderSpecialty' || kIndx === 'VisitType' || kIndx === 'ProcedureType' || kIndx === 'ConditionType') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name] = {}
+      //               if (Idata[key][kIndx][Idata[key][kIndx].inputs[0].name] && Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].length !== 0) {
+      //                 that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name] = []
+      //                 Idata[key][kIndx][Idata[key][kIndx].inputs[0].name].forEach(function (v, k) {
+      //                   that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][Idata[key][kIndx].name].push(v.value)
+      //                 })
+      //               }
+      //             }
+      //             if (kIndx === 'listDiagnosis' || kIndx === 'listProcedures' || kIndx === 'listDrugs') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Codeset = []
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].Codeset = (Idata[key][kIndx].codeset && Idata[key][kIndx].codeset.value) ? Idata[key][kIndx].codeset.value : ''
+      //             }
+      //             if (kIndx === 'Occurrence') {
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx] = {}
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Count = Idata[key][kIndx].count
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].Type = Idata[key][kIndx].type
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key][kIndx].IsDistinct = false
+      //             }
+      //             if (kIndx === 'OccurrenceIndexStartDate') {
+      //               console.log('Insile OccurrenceIndexStartDate')
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow = { 'Start': {}, 'End': {} }
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Coeff = (Idata[key][kIndx].data.stype === '1' ? 1 : -1)
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.Start.Days = (Idata[key][kIndx].data.sday === 'All' ? 'ALL' : Idata[key][kIndx].data.sday)
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Coeff = (Idata[key][kIndx].data.etype === '1' ? 1 : -1)
+      //               that.baseObj.AnalysisCriteria.InclusionRules[index].expression.Groups[Grpindex].CriteriaList[dindex][key].StartWindow.End.Days = (Idata[key][kIndx].data.eday === 'All' ? 'ALL' : Idata[key][kIndx].data.eday)
+      //             }
+      //           }
+      //         }
+      //       }
+      //     })
+      //   })
+      // })
 
       console.log('Result JSON with Inclusion criteria')
-      console.log(that.baseObj.actual_JSON)
-      var successStatement = 'Cohort  Defination Saved Successfully'
-      that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
+      console.log(that.baseObj.AnalysisCriteria)
+      var successStatement = 'Cohort Analysis Definition Saved Successfully'
+      // that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
+      // that.baseObj['run'] = false
+      delete that.baseObj.criteriaObj
+      console.log(that.baseObj)
       if (that.pagemethod === 'update') {
         url = process.env.API_URL + 'cohort/update/'
         successStatement = 'Cohort Definition Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {
-        that.baseObj.cohort_id = null
         method = axios.post(url, that.baseObj)
       }
       if (that.baseObj.run) {
-        successStatement = 'Cohort Definition Saved Successfully and Run Has Been Initiated. Please Switch to Summary For Details.'
+        successStatement = 'Cohort Analysis Definition Saved Successfully and Run Has Been Initiated. Please Switch to Summary For Details.'
       }
       method.then(function (response) {
         that.$q.notify({
@@ -1730,12 +1719,12 @@ export default {
           timeout: 3000
         })
         that.$q.loading.hide()
-        if (response.data.cohort_id) {
-          that.$router.push('/cohort/update/' + response.data.cohort_id)
-          that.cohort_id = response.data.cohort_id
-          that.pagemethod = 'update'
-          that.getCohortDict(that.cohort_id)
-        }
+        // if (response.data.cohort_id) {
+        //   that.$router.push('/cohort/update/' + response.data.cohort_id)
+        //   that.cohort_id = response.data.cohort_id
+        //   that.pagemethod = 'update'
+        //   that.getCohortDict(that.cohort_id)
+        // }
       }).catch(function (err) {
         that.$q.loading.hide()
         that.$q.notify({
@@ -1745,8 +1734,8 @@ export default {
           timeout: 3000
         })
       })
-      if (that.baseObj.run) {
-        this.$router.push('/cohort/summary/' + that.cohort_id)
+      if (that.baseObj['run']) {
+        this.$router.push('/cohort/summary/analysis/' + that.cohort_id)
       }
     },
     makeSelected (type, name) {

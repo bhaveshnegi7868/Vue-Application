@@ -12,7 +12,7 @@
           <div class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" v-on:click="doSomething()"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">Analysis Definition</label></div>
         </q-item>
         <q-item no-caps class="Rectangle-199 h35 q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'Analysis Summary'">
-          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id ?'':'/cohort/summary/' + cohort_name.cohort_id)"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
+          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id ?'':'/cohort/summary/analysis/' + cohort_name.cohort_id)"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
         </q-item>
       </div>
     </div>
@@ -34,7 +34,7 @@ export default {
     return {
       paths: () => {
         const path = this.$route.path
-        if (path.indexOf('/cohort/summary') !== -1) {
+        if (path.indexOf('/cohort/summary/analysis') !== -1) {
           return ['back', 'Analysis Summary']
         }
         return [
