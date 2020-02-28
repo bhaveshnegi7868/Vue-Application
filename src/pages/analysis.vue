@@ -4,19 +4,13 @@
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs" style="margin-top: 3px;">
-                <label class="full-width" style="font-style:bold !important;margin: 26px !important;margin-top: 10px !important;">
-                  {{baseObj.cohort_name}}
-                </label>
+                <input type="text" disabled v-model="baseObj.cohort_name" class="input-box full-width" >
             </div>
             <div class="col-7 q-px-sm q-py-xs" style="margin-top: 3px;">
-                <label class="full-width" style="margin: 26px !important;margin-top: 10px !important;">
-                  {{baseObj.cohort_desc}}
-                </label>
-              </div>
+                <input type="text" disabled v-model="baseObj.cohort_desc" class="input-box full-width" >
+            </div>
             <div class="col q-px-sm q-py-xs" style="margin-top: 3px;">
-              <label class="full-width" style="margin: 26px !important;margin-top: 10px !important;">
-                  {{baseObj.data_source}}
-                </label>
+                <input type="text" disabled v-model="baseObj.data_source" class="input-box full-width" >
             </div>
         </q-card>
         <q-card class="col row">
