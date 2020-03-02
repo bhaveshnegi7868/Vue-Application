@@ -7,7 +7,6 @@
       Name *
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>
-    {{event.event}}
     <div class="attributeDiv" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
             <!-- {{event[mappingDict[event.event]][key]}} -->
