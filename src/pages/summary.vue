@@ -306,6 +306,7 @@ export default {
       var url = process.env.API_URL + 'cohort/summary/status/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
+        console.log(response)
         that.baseObj = response.data
         that.baseObj.cohort_id = that.cohort_id
         that.getCohortReport()

@@ -22,13 +22,13 @@
             </q-btn>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod !== 'update'">
-            <q-btn outlined icon="save" :disable="!(baseObj.cohort_name && error_message)" label="Save" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-btn outlined icon="save" :disable="!((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Save" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
             <q-tooltip>
                 Save
               </q-tooltip>
           </div>
           <div class="col-5 createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" :disable="!(baseObj.cohort_name && error_message)" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-btn outlined icon="save" :disable="!((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
             <q-tooltip>
                 Update
               </q-tooltip>
@@ -1400,12 +1400,11 @@ export default {
                 that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].Codeset = (data[key][kIndx].codeset && data[key][kIndx].codeset.value) ? data[key][kIndx].codeset.value : ''
               }
               if (kIndx === 'OccurrenceIndexStartDate') {
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow = { 'Start': {}, 'End': {} }
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.Start.Coeff = (data[key][kIndx].data.stype === '1' ? 1 : -1)
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.Start.Days = (data[key][kIndx].data.sday === 'All' ? 'ALL' : data[key][kIndx].data.sday)
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.End.Coeff = (data[key][kIndx].data.etype === '1' ? 1 : -1)
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key][kIndx].StartWindow.End.Days = (data[key][kIndx].data.eday === 'All' ? 'ALL' : data[key][kIndx].data.eday)
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].StartWindow = { 'Start': {}, 'End': {} }
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].StartWindow.Start.Coeff = (data[key][kIndx].data.stype === '1' ? 1 : -1)
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].StartWindow.Start.Days = (data[key][kIndx].data.sday === 'All' ? 'ALL' : data[key][kIndx].data.sday)
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].StartWindow.End.Coeff = (data[key][kIndx].data.etype === '1' ? 1 : -1)
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].StartWindow.End.Days = (data[key][kIndx].data.eday === 'All' ? 'ALL' : data[key][kIndx].data.eday)
               }
             }
             if (key === 'CorrelatedCriteria') {

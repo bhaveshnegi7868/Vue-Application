@@ -7,6 +7,7 @@
       Name *
       <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
     </div>
+    {{event.event}}
     <div class="attributeDiv" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
             <!-- {{event[mappingDict[event.event]][key]}} -->
@@ -213,7 +214,7 @@
           </div>
         </div>
         </div>
-        <div class="row q-ml-sm q-mt-md col-12" v-if="event != ''">
+        <div class="row q-ml-sm q-mt-md col-12" v-if="event.event == 'Diagnosis'">
             <div class="col">
             Limit initial events to
             <select class="q-ml-sm criteria-box H25 w9R" v-model="event.limit" label="Select" v-on:change="sendName">

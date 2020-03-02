@@ -71,13 +71,50 @@
           </div>
           <div  v-if="arrtitionNdemoGraph" class="col-12 q-mt-sm   shadow-2 cohortSummaryText col5">
             <div class="row f12">
-              <div class="q-ma-sm col-7">
-                <div class="bgCgreen q-px-xs q-py-xs ">
+              <div class="q-ma-sm col-11" style="margin-left: 40px;">
+                <div class="row-inline bgCgreen q-px-xs q-py-xs ">
                   Patient Attrition Flow Summary
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
-                  <div class="q-mt-sm q-px-xs q-py-sm shadow-0 h40 col5">
-                      <summary-attrition v-if="summaryGraphRender" :attritionData="baseObj.report.patient_count"></summary-attrition>
+                    <div class="row col-12 justify-center full-height full-width text-center">
+                            <div class="col-5" style="padding-left:7em">
+                                <q-card class="summary-card my-card text-black" style="height: 100%;">
+                                <q-card-section>
+                                <div class="text-h6">Cohort Population</div>
+                                <div class="text-subtitle2">{{baseObj.result.Total}}&nbsp;M</div>
+                                </q-card-section>
+                                </q-card>
+                            </div>
+                        <div class="col-7" >
+                            <div class="row" style="height: 5em;">
+                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
+                                <q-card-section>
+                                <div class="text-h6">Diagnosis</div>
+                                <div class="text-subtitle2">{{baseObj.result.Diagnosis}}&nbsp;M</div>
+                                </q-card-section>
+                                </q-card>
+                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
+                                <q-card-section>
+                                <div class="text-h6">Procedures</div>
+                                <div class="text-subtitle2">{{baseObj.result.Procedure}}&nbsp;M</div>
+                                </q-card-section>
+                                </q-card>
+                            </div>
+                            <div class="row q-mt-md" style="margin-left: 11em;height: 5em;">
+                                <q-card class="summary-card my-card text-black" style="width: 19em">
+                                <q-card-section>
+                                <div class="text-h6">Treated</div>
+                                <div class="text-subtitle2">{{baseObj.result.Treatment}}&nbsp;M</div>
+                                </q-card-section>
+                                </q-card>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="bor1grey summeryBarGraph q-px-xs q-my-sm " >
+                        <summery-graph :reportData="baseObj.report.age"></summery-graph>
+                    </div> -->
+                  <!-- <div class="q-mt-sm q-px-xs q-py-sm shadow-0 h40 col5">
+                      <summary-attrition v-if="summaryGraphRender" :attritionData="baseObj.report.patient_count"></summary-attrition> -->
                       <!-- MI + UA only and age > 20
                       <q-icon class="float-right q-mx-xs q-my-xs" @click="openFstChild=!openFstChild;openScdChild=0;" name="img:statics/imgs/greenRightArrow.png" />
                       <div class="float-right q-mx-xl W200 ">
@@ -154,10 +191,10 @@
                           </div>
                         </div>
                     </div> -->
-                  </div>
+                  <!-- </div> -->
                 </div>
               </div>
-              <div class=" q-ma-sm   col  ">
+              <!-- <div class=" q-ma-sm   col  ">
                 <div class="bgCgreen q-px-xs q-py-xs ">
                   Patient Demographics Summary
                 </div>
@@ -171,24 +208,24 @@
                         <div class="By-GraphLbls_Underline"></div>
                       </div>
                       <div class="genderGraph w10R q-mx-auto">
-                        <q-icon class="bor1RlightGreygender q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/manImg.png" />
-                        <q-icon class=" q-my-xs" style="height: 20px; width: 20px;" name="img:statics/imgs/womanImg.png" />
+                        <q-icon class="bor1RlightGreygender q-my-xs" style="height: 20px;  20px;" name="img:statics/imgs/manImg.png" />
+                        <q-icon class=" q-my-xs" style="height: 20px;  20px;" name="img:statics/imgs/womanImg.png" />
                       </div>
                       <div class="row q-my-xs w10R q-mx-auto q-mt-lg">
                         <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.male}}</div>
                         <div class="genderGraph-Count col q-mx-sm q-my-sm q-py-sm q-px-sm">{{baseObj.report.gender.female}}</div>
                       </div>
                     </div>
-                    <!-- <div class="By-GraphLbls_devider"></div>
+                    <div class="By-GraphLbls_devider"></div>
                     <div class="col">
                       <div class="By-GraphLbls q-my-xs q-mx-xs">
                         By Race
                         <div class="By-GraphLbls_Underline"></div>
                       </div>
                       <summery-piegraph></summery-piegraph>
-                    </div> -->
+                    </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div  v-if="otherEvnt" class="col-12 q-mt-sm   shadow-2 cohortSummaryText col5">
@@ -234,18 +271,20 @@
 
 <script>
 import analysisheader from 'components/analysisheader'
-import summeryGraph from 'components/summeryGraph'
-import summeryAttritionFlow from 'components/arrtitionFlow'
+// import summeryGraph from 'components/summeryGraph'
+// import summeryAttritionFlow from 'components/arrtitionFlow'
 import axios from 'axios'
 import {
-  QSpinnerDots
+  QSpinnerDots,
+  QCard
 } from 'quasar'
 export default {
   name: 'createCohort',
   components: {
+    QCard,
     'analysis-header': analysisheader,
-    'summery-graph': summeryGraph,
-    'summary-attrition': summeryAttritionFlow,
+    // 'summery-graph': summeryGraph,
+    // 'summary-attrition': summeryAttritionFlow,
     QSpinnerDots
   },
   data () {
@@ -306,8 +345,10 @@ export default {
       var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/summary/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
+        console.log(response.data)
         that.baseObj = response.data
         that.baseObj.cohort_id = that.cohort_id
+        console.log(that.baseObj)
         // that.getCohortReport()
         that.$q.loading.hide()
       })
