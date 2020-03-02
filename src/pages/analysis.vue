@@ -159,7 +159,7 @@
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="">
-                          <q-btn v-if="index != 0" class="fCgreen q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"><q-tooltip anchor="top middle" self="center middle">Remove Analysis Criteria</q-tooltip></q-btn>
+                          <q-btn v-if="index != 0" class="fCgreen close-event q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"><q-tooltip anchor="top middle" self="center middle">Remove Analysis Criteria</q-tooltip></q-btn>
                         </div>
                       </q-card>
                     </div>
