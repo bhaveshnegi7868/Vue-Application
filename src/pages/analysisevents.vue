@@ -1,6 +1,6 @@
 <template>
   <div class="q-ma-sm ">
-    <div class="EventList_header f12">
+    <div class="EventList_header2 f12">
       Analysis Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
@@ -43,10 +43,10 @@
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
             /> -->
             <q-btn
-              color="theamGreen"
               rounded
               class="q-pa-xs q-ma-none importIcon"
               icon="add"
+              style="background-color: #1c464d !important; color: #ffffff"
               @click="openImportCodesetPopupFun(key,index)"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
               >

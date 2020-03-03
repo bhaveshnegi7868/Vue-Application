@@ -43,10 +43,10 @@
     </div>
     <q-card class="row createBoxHeight q-mx-sm" v-if="pagemethod != 'view'">
       <div class="leftForm q-px-sm q-py-xs">
-        <div class="categories_header">
+        <div class="categories_header2">
             Criteria Set
         </div>
-        <div class="header_Bor1"></div>
+        <div class="header_Bor2"></div>
         <q-list class="categoriesListitems">
           <q-item
             clickable
@@ -54,7 +54,7 @@
             class="categories_list"
             :active="link === 1"
             @click="markCriteriaAsSelected(baseObj.criteriaObj.PrimaryCriteria)"
-            active-class="categories_Selected"
+            active-class="categories_Selected2"
           >
             <q-item-section>
               <label>* Analysis Criteria</label>
@@ -107,10 +107,10 @@
         <div class="elements-block  h90 q-mt-sm">
             <q-card class="eventBox q-ma-sm shadow-2">
               <div class="eventList">
-                <div class="EventList_header">
+                <div class="EventList_header2">
                     Events
                 </div>
-                <div class="header_Bor1"></div>
+                <div class="header_Bor2"></div>
                 <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
                   <drag
                     :draggable="!(JSON.stringify(currentCriteria.CriteriaList).includes(element.name))"
@@ -338,7 +338,7 @@
         <div class="categories_header">
             Criteria Set
         </div>
-        <div class="header_Bor1"></div>
+        <div class="header_Bor2"></div>
         <q-list class="categoriesListitems">
           <q-item
             clickable
@@ -391,10 +391,10 @@
         <div class="elements-block  h90 q-mt-sm">
             <q-card class="eventBox q-ma-sm shadow-2">
               <div class="eventList">
-                <div class="EventList_header">
+                <div class="EventList_header2">
                     Events
                 </div>
-                <div class="header_Bor1"></div>
+                <div class="header_Bor2"></div>
                 <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
                   <drag
                     class="Events"
@@ -1059,7 +1059,7 @@ export default {
         if (row.id.toString() === event.id.toString()) {
           console.log('test Result')
           console.log(that.currentCriteria)
-          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 yesss7 row selected-criteria'
+          that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 yesss7 row selected-criteria2'
         } else {
           that.currentCriteria.CriteriaList[index].currentSelected = 'q-pa-sm q-ma-sm shadow-2 yesss9 row'
         }
@@ -1067,7 +1067,7 @@ export default {
           try {
             row.CorrelatedCriteria.CriteriaList.forEach(function (row, index) {
               if (row.id.toString() === event.id.toString()) {
-                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2  yess8 row selected-criteria'
+                row.currentSelected = 'q-pa-sm q-ma-sm shadow-2  yess8 row selected-criteria2'
               } else {
                 row.currentSelected = 'q-pa-sm q-ma-sm shadow-2 yess12 row'
               }
