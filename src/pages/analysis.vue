@@ -111,6 +111,7 @@
                     Events
                 </div>
                 <div class="header_Bor2"></div>
+                <!-- {{eventArray1}} -->
                 <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
                   <drag
                     :draggable="!(JSON.stringify(currentCriteria.CriteriaList).includes(element.name))"
@@ -123,6 +124,7 @@
                 </div>
               </div>
             </q-card>
+                <!-- {{currentCriteria.CriteriaList}} -->
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
                 <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
@@ -676,7 +678,7 @@ export default {
       ],
       eventArray1: [
         { 'id': 1, 'name': 'Diagnosis' },
-        { 'id': 2, 'name': 'Treatment' },
+        // { 'id': 2, 'name': 'Treatment' },
         { 'id': 3, 'name': 'Procedure' }
       ],
       cGrpOpts: [
@@ -925,6 +927,10 @@ export default {
         that.readonlyCriteriaSelect = false
       }
       that.selectedEvent = 'Select Event'
+      that.eventArray1 = that.eventArray1.filter(t => {
+        let event = that.currentCriteria.CriteriaList.map(t => t.event)
+        return !event.includes(t.name)
+      })
     },
     getNextDigit (key = null) {
       var that = this
@@ -994,22 +1000,11 @@ export default {
       } else {
         that.currentCriteria.CriteriaList.forEach(function (row, index) {
           if (row.id === id) {
+            that.eventArray1.push({ id: row.id, name: row.event })
             that.currentCriteria.CriteriaList.splice(index, 1)
             that.renderComponent = false
           }
         })
-        that.currentInclusionObj.Groups.forEach(function (row, index) {
-          if (row.id === id) {
-            that.currentInclusionObj.Groups.splice(index, 1)
-            that.renderComponent = false
-          }
-        })
-        if (that.currentInclusionObj.type.count !== undefined) {
-          if (that.currentInclusionObj.type.count > (that.currentCriteria.CriteriaList.length + that.currentInclusionObj.Groups.length)) {
-            that.currentInclusionObj.type.count = 0
-            that.$forceUpdate()
-          }
-        }
       }
       that.currentEvent = {}
       that.showAttributes('', null, null)
@@ -1019,6 +1014,14 @@ export default {
       //   that.readonlyCriteriaSelect = false
       // }
       that.renderComponent = false
+      // that.eventArray1 = that.eventArray1.filter(t => {
+      //   let event = that.currentCriteria.CriteriaList.map(t => t.event)
+      //   return !event.includes(t.name)
+      // })
+      // that.currentCriteria.CriteriaList = that.currentCriteria.CriteriaList.filter(t => {
+      //   let name = that.eventArray1.map(t => t.name)
+      //   return !name.includes(t.event)
+      // })
     },
     addCorelatedCriteria (elementObj) {
       var that = this
@@ -1100,6 +1103,10 @@ export default {
       } else {
         that.addEvent()
       }
+      that.eventArray1 = that.eventArray1.filter(t => {
+        let event = that.currentCriteria.CriteriaList.map(t => t.event)
+        return !event.includes(t.name)
+      })
     },
     handleDropWithId (elementObj, data = null, event = null) {
       var that = this
