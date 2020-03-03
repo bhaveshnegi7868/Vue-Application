@@ -209,7 +209,7 @@
                           <drop @drop="handleDrop" class="full-width" :id="'drop-zone-'+elementObj.id" >
                             <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent(elementObj.id)">
                                 <option disabled>Select Event</option>
-                                <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
+                                <option :disabled="(JSON.stringify(currentCriteria.CriteriaList).includes(opt.name))" v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
                                   {{opt.name}}
                                 </option>
                             </select>
@@ -218,11 +218,11 @@
                       </q-card>
                     </div>
                   </div>
-                <div class="row full-width">
+                <div class="row full-width" v-if="currentCriteria.CriteriaList.length < 3">
                   <drop @drop="handleDrop" class="full-width" >
                     <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="addEvent">
                         <option disabled>Select Event</option>
-                        <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
+                        <option :disabled="(JSON.stringify(currentCriteria.CriteriaList).includes(opt.name))" v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
                           {{opt.name}}
                         </option>
                     </select>
@@ -1307,6 +1307,9 @@ export default {
           newEventArray.push(eventArrayResData.OccurenceLimit)
         }
         that.currentEvent = Object.assign(that.currentEvent, response.data.data)
+        if (!that.currentEvent.analysislimit) {
+          that.currentEvent.analysislimit = 'First'
+        }
         console.log(that.currentEvent)
         that.renderComponent = false
         setTimeout(function () {
@@ -1369,8 +1372,8 @@ export default {
                 that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].Name = data.name
               }
               if (that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key]) {
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].EventLimit = {}
-                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].EventLimit.Type = data.limit
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].EventLimit = { 'value': 'First' }
+                that.baseObj.AnalysisCriteria.PrimaryCriteria.CriteriaList[index][key].EventLimit.Type = data.analysislimit
               }
             }
             for (var kIndx in data[key]) {

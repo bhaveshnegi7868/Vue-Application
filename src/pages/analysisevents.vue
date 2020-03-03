@@ -216,9 +216,10 @@
         <div class="row q-ml-sm q-mt-md col-12" v-if="event.event == 'Diagnosis'">
             <div class="col">
             Limit initial events to
-            <select class="q-ml-sm criteria-box H25 w9R" v-model="event.limit" label="Select" v-on:change="sendName">
+            <select class="q-ml-sm criteria-box H25 w9R" v-model="event.analysislimit" label="Select" v-on:change="sendName">
                 <option value=" " disabled>Select Initial event</option>
-                <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
+                <option  v-for="opt in dtSourceOpts2" :selected="opt.value === 'First'" v-bind:key="opt.value" :value="opt.value">
+                <!-- {{opt}} -->
                 {{opt.label}}
                 </option>
             </select>
