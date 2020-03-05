@@ -42,7 +42,7 @@
             <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px"  style="width: 72px;background: #3f868a !important;" text-color="white" no-caps >Create</q-btn>
             </router-link >
-            <router-link v-if="(row.row.status) && (row.row.an_status == 'Pending')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
+            <router-link v-if="(row.row.status) && (row.row.an_status == 'Pending')"  :to="'/cohort/update/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #b7a931 !important;" text-color="white" no-caps>Pending</q-btn>
             </router-link >
           </q-td>
