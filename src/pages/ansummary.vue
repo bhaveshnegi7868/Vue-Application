@@ -1,16 +1,16 @@
 <template>
   <q-page class="app-layout ">
     <analysis-header :selectedPage="selectedPage" :cohort_name="baseObj"></analysis-header>
-    <q-card class="row  q-mx-sm" v-if="baseObj.status==='Pending'">
+    <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status==='Pending'">
       <q-spinner-dots color="light-green" size="2.5rem" class="q-mx-auto" ></q-spinner-dots>
       <div class="col-12 text-center fc-theamGreen">
-      <div class="q-mx-auto ">The cohort status is pending</div>
+      <div class="q-mx-auto ">The cohort analysis status is pending</div>
       </div>
       <div class="col-12 text-center fc-theamGreen">
       <div class="q-mx-auto">Please visit this page after some time</div>
       </div>
     </q-card>
-    <q-card class="row  q-mx-sm" v-if="baseObj.status !='Pending'" >
+    <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status !='Pending'" >
       <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
             Criteria Set
@@ -81,7 +81,7 @@
                                 <q-card class="summary-card my-card text-black" style="height: 100%;">
                                 <q-card-section>
                                 <div class="text-h6">Cohort Population</div>
-                                <div class="text-subtitle2">{{baseObj.result.Total}}&nbsp;M</div>
+                                <!-- <div class="text-subtitle2">{{baseObj.result.Total}}&nbsp;M</div> -->
                                 </q-card-section>
                                 </q-card>
                             </div>
@@ -90,13 +90,13 @@
                                 <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
                                 <q-card-section>
                                 <div class="text-h6">Diagnosis</div>
-                                <div class="text-subtitle2">{{baseObj.result.Diagnosis}}&nbsp;M</div>
+                                <!-- <div class="text-subtitle2">{{baseObj.result.Diagnosis}}&nbsp;M</div> -->
                                 </q-card-section>
                                 </q-card>
                                 <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
                                 <q-card-section>
                                 <div class="text-h6">Procedures</div>
-                                <div class="text-subtitle2">{{baseObj.result.Procedure}}&nbsp;M</div>
+                                <!-- <div class="text-subtitle2">{{baseObj.result.Procedure}}&nbsp;M</div> -->
                                 </q-card-section>
                                 </q-card>
                             </div>
@@ -104,7 +104,7 @@
                                 <q-card class="summary-card my-card text-black" style="width: 19em">
                                 <q-card-section>
                                 <div class="text-h6">Treated</div>
-                                <div class="text-subtitle2">{{baseObj.result.Treatment}}&nbsp;M</div>
+                                <!-- <div class="text-subtitle2">{{baseObj.result.Treatment}}&nbsp;M</div> -->
                                 </q-card-section>
                                 </q-card>
                             </div>
@@ -342,12 +342,13 @@ export default {
     },
     getCohortDict () {
       var that = this
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/summary/' + that.cohort_id
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/status/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
-        console.log(response.data)
+        console.log(response)
         that.baseObj = response.data
         that.baseObj.cohort_id = that.cohort_id
+        console.log(that.baseObj.analysis_status)
         console.log(that.baseObj)
         // that.getCohortReport()
         that.$q.loading.hide()

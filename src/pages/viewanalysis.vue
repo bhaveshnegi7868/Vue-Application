@@ -149,6 +149,7 @@
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
                   </div>
                 </div>
+                <!-- {{currentCriteria.CriteriaList}} -->
                 <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
                   <div
                     class="list-group-item"
@@ -1059,6 +1060,7 @@ export default {
     },
     setQCardColor (event) {
       var that = this
+      console.log(that.currentCriteria.CriteriaList)
       that.currentCriteria.CriteriaList.forEach(function (row, index) {
         if (row.id.toString() === event.id.toString()) {
           console.log('test Result')
@@ -1248,16 +1250,17 @@ export default {
     getCohortDict () {
       var that = this
       console.log('check dict')
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/view/' + that.cohort_id
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
-        console.log(response.data)
+        console.log(response)
         console.log(that.baseObj)
-        if (!that.baseObj.cohort_name) {
-          that.baseObj.cohort_name = response.data.cohort_name
-          that.baseObj.cohort_desc = response.data.cohort_desc
-          that.baseObj.data_source = response.data.data_source
-        }
+        // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList = response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList
+        that.currentCriteria.CriteriaList = response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList
+        that.currentCriteria.CriteriaList[0].event = 'Treatment'
+        // that.baseObj.cohort_name = response.data.cohort_name
+        // that.baseObj.cohort_desc = response.data.cohort_desc
+        // that.baseObj.data_source = response.data.data_source
         // that.baseObj = response.data
         // that.criteriaArray = [
         //   {
@@ -1268,7 +1271,7 @@ export default {
         //   }
         // ]
         console.log(that.baseObj, that.criteriaArray)
-        that.markCriteriaAsSelected(that.criteriaArray[0])
+        that.markCriteriaAsSelected(that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0])
         that.dtSourceOpts = response.data.result
         that.loading = false
         that.$q.loading.hide()

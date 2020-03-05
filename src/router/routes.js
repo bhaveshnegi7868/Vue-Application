@@ -18,6 +18,7 @@ const routes = [
       { path: ':method/:cohort_id', component: () => import('pages/createCohort.vue') },
 
       { path: 'view/:cohort_id', component: () => import('pages/viewCohort.vue') },
+      { path: 'view/analysis/:cohort_id', component: () => import('pages/viewanalysis.vue') },
       { path: 'summerygraph', component: () => import('pages/summeryGraph.vue') },
       { path: 'list', component: () => import('pages/listCohort.vue') }
     ]
