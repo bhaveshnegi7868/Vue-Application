@@ -38,9 +38,12 @@
               {{row.row.cohort_name}}
             </router-link >
           </q-td>
-          <q-td slot="body-cell-analysis_data" slot-scope="row" :props="row" >
-            <router-link  :to="'/cohort/analysis/' + row.row.cohort_id" >
-              <q-btn color="green pull-left" text-color="white" label="Create" />
+          <q-td  slot="body-cell-analysis_data" slot-scope="row" :props="row" >
+            <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
+              <q-btn  size="10px"  style="width: 72px;background: #3f868a !important;" text-color="white" no-caps >Create</q-btn>
+            </router-link >
+            <router-link v-if="(row.row.status) && (row.row.an_status == 'Pending')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
+              <q-btn  size="10px" style="width: 72px;background: #b7a931 !important;" text-color="white" no-caps>Pending</q-btn>
             </router-link >
           </q-td>
           <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
@@ -82,9 +85,12 @@ export default {
   },
   data () {
     return {
+      sizes: [ 'xs', 'sm', 'md', 'lg', 'xl' ],
       searchModel: '',
       cohortToggle: 0,
       filter: '',
+      status: false,
+      an_status: '',
       loading: true,
       pagination: {
         rowsPerPage: 10
@@ -96,7 +102,7 @@ export default {
         { name: 'Createddate', label: 'Created date', field: 'cohort_created_at', sortable: true, align: 'left' },
         { name: 'Executeddate', label: 'Executed date', field: 'cohort_executed_at', sortable: true, align: 'left' },
         { name: 'Status', label: 'Status', field: 'cohort_status', sortable: true, align: 'left' },
-        { name: 'analysis_data', label: 'Analysis Data', field: 'analysis_data', sortable: true, align: 'left' },
+        { name: 'analysis_data', label: 'Analysis Data', field: 'analysis_data', sortable: true, align: 'center' },
         { name: 'Actions', label: 'Actions', field: 'Actions' }
       ],
       data: [],
@@ -149,7 +155,15 @@ export default {
         // url += '?username=' + that.$q.sessionStorage.getItem('username')
       }
       axios.get(url).then(function (response) {
+        // console.log(response)
         that.data = response.data.result
+        console.log(that.data)
+        that.data.forEach(function (el) {
+          el['status'] = el.cohort_status === 'SUCCESS'
+          if (el.analysis_status === 'Pending') {
+            el['an_status'] = 'Pending'
+          }
+        })
         that.loading = false
       }).catch(function () {
         that.data = []

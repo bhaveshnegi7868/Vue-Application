@@ -1248,10 +1248,11 @@ export default {
     getCohortDict () {
       var that = this
       console.log('check dict')
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/view/' + that.cohort_id
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
-        console.log(response.data)
+        console.log('test')
+        console.log(response)
         console.log(that.baseObj)
         if (!that.baseObj.cohort_name) {
           that.baseObj.cohort_name = response.data.cohort_name
@@ -1723,10 +1724,10 @@ export default {
         })
         that.$q.loading.hide()
         if (response.data.result === 'Analysis successfully created') {
-          that.$router.push('/cohort/view/analysis/' + that.baseObj.cohort_id)
+          that.$router.push('/cohort/update/analysis/' + that.baseObj.cohort_id)
           that.cohort_id = that.baseObj.cohort_id
-          // that.pagemethod = 'view'
-          // that.getCohortDict(that.cohort_id)
+          that.pagemethod = 'update'
+          that.getCohortDict(that.cohort_id)
         }
       }).catch(function (err) {
         that.$q.loading.hide()

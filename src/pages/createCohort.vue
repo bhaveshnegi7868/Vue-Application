@@ -397,7 +397,10 @@
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
-            <div class="col q-px-sm q-py-xs">
+            <div class="col-5 q-px-sm q-py-xs">
+                <input class="input-box full-width" readonly="true" v-model="baseObj.data_source" placeholder="Cohort Description" />
+            </div>
+            <!-- <div class="col q-px-sm q-py-xs"> -->
               <!-- <q-btn-dropdown
                   v-if="renderComponent1"
                   disabled
@@ -408,14 +411,14 @@
                   @click="getCohortGroupList"
                   auto-close
                 > -->
-                <q-btn
+                <!-- <q-btn
                   color="theamGreen"
                   class="full-width f12"
                   icon-right="add"
                   label="Add New Cohort Group"
                   @click="openCreateCohortGroupPopup"
                   v-close-popup
-                />
+                /> -->
                 <!-- <q-card  class="bg-secondary text-white selected-btn-dropdown">
                   {{baseObj.cohort_group}}
                 </q-card>
@@ -423,7 +426,7 @@
                   {{opt.name}}
                 </div>
               </q-btn-dropdown> -->
-            </div>
+            <!-- </div> -->
             <!-- <div class="col q-px-sm q-py-xs">
               <q-btn-dropdown
                   v-if="renderComponent1"
