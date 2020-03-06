@@ -157,7 +157,6 @@ export default {
       axios.get(url).then(function (response) {
         // console.log(response)
         that.data = response.data.result
-        console.log(that.data)
         that.data.forEach(function (el) {
           el['status'] = el.cohort_status === 'SUCCESS'
           if (el.analysis_status === 'Pending') {

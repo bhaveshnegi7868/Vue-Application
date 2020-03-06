@@ -312,7 +312,7 @@ export default {
       openScdChild2: 0,
       arrtitionNdemoGraph: 1,
       otherEvnt: 0,
-      selectedPage: 'Summary'
+      selectedPage: 'Analysis Summary'
     }
   },
   mounted () {

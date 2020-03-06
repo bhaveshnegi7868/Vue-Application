@@ -6,7 +6,7 @@
     <div class="" v-for="path in paths()" :key="path">
       <div class="col-4 q-px-auto">
         <q-item no-caps class="Rectangle-199 h35  q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'Analysis Definition'">
-          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id?'':'' + cohort_name.cohort_id)"><label class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
+          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id?'':'/cohort/update/analysis' + cohort_name.cohort_id)"><label class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
         </q-item>
         <q-item no-caps class="Rectangle-199 h35 q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'back'">
           <div class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" v-on:click="doSomething()"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">Analysis Definition</label></div>

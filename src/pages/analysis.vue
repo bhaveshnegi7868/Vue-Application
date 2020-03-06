@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout " >
-    <analysis-header :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
+    <analysis-header v-if="baseObj.cohort_id" :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs" style="margin-top: 3px;">
@@ -1258,6 +1258,7 @@ export default {
           that.baseObj.cohort_name = response.data.cohort_name
           that.baseObj.cohort_desc = response.data.cohort_desc
           that.baseObj.data_source = response.data.data_source
+          that.baseObj.cohort_id = response.data.cohort_id
         }
         // that.baseObj = response.data
         // that.criteriaArray = [
@@ -1724,7 +1725,7 @@ export default {
         })
         that.$q.loading.hide()
         if (response.data.result === 'Analysis successfully created') {
-          that.$router.push('/cohort/update/analysis/' + that.baseObj.cohort_id)
+          that.$router.push('/cohort/update/analysis/' + that.cohort_id)
           that.cohort_id = that.baseObj.cohort_id
           that.pagemethod = 'update'
           that.getCohortDict(that.cohort_id)
