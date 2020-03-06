@@ -1354,6 +1354,7 @@ export default {
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         that.baseObj = response.data
+        console.log(that.baseObj)
         that.criteriaArray = [
           {
             'id': 'PrimaryCriteria',

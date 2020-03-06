@@ -1253,12 +1253,45 @@ export default {
       axios.get(url).then(function (response) {
         console.log('test')
         console.log(response)
-        console.log(that.baseObj)
+        // console.log(that.baseObj)
         if (!that.baseObj.cohort_name) {
           that.baseObj.cohort_name = response.data.cohort_name
           that.baseObj.cohort_desc = response.data.cohort_desc
           that.baseObj.data_source = response.data.data_source
           that.baseObj.cohort_id = response.data.cohort_id
+        }
+        if (that.pagemethod === 'update') {
+          that.baseObj.cohort_name = response.data.cohort_name
+          that.baseObj.cohort_desc = response.data.cohort_desc
+          that.baseObj.data_source = response.data.data_source
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.splice(0, 1)
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList = response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList
+          response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList.forEach(function (value, key) {
+            that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.push(value)
+            if (value.DrugExposure) {
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.DrugExposure.Name
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDrugs = value.DrugExposure.Codeset
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Treatment'
+            }
+            if (value.ConditionOccurrence) {
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ConditionOccurrence.Name
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDiagnosis = value.ConditionOccurrence.Codeset
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Diagnosis'
+            }
+            if (value.ProcedureOccurrence) {
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ProcedureOccurrence.Name
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listProcedures = value.ProcedureOccurrence.Codeset
+              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Procedure'
+            }
+
+            // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+            // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.Name
+            // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList
+          })
+          that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.pop()
         }
         // that.baseObj = response.data
         // that.criteriaArray = [
