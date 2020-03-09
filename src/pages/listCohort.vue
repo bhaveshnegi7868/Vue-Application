@@ -39,11 +39,14 @@
             </router-link >
           </q-td>
           <q-td  slot="body-cell-analysis_data" slot-scope="row" :props="row" >
-            <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
+            <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending') && !(row.row.an_status == 'SUCCESS')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px"  style="width: 72px;background: #3f868a !important;" text-color="white" no-caps >Create</q-btn>
             </router-link >
             <router-link v-if="(row.row.status) && (row.row.an_status == 'Pending')"  :to="'/cohort/update/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #b7a931 !important;" text-color="white" no-caps>Pending</q-btn>
+            </router-link >
+            <router-link v-if="(row.row.status) && (row.row.an_status == 'SUCCESS')"  :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
+              <q-btn  size="10px" style="width: 72px;background: green !important;" text-color="white" no-caps>Success</q-btn>
             </router-link >
           </q-td>
           <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
@@ -155,12 +158,15 @@ export default {
         // url += '?username=' + that.$q.sessionStorage.getItem('username')
       }
       axios.get(url).then(function (response) {
-        // console.log(response)
+        console.log(response)
         that.data = response.data.result
         that.data.forEach(function (el) {
           el['status'] = el.cohort_status === 'SUCCESS'
           if (el.analysis_status === 'Pending') {
             el['an_status'] = 'Pending'
+          }
+          if (el.analysis_status === 'SUCCESS') {
+            el['an_status'] = 'SUCCESS'
           }
         })
         that.loading = false

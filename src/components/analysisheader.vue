@@ -55,7 +55,13 @@ export default {
   },
   methods: {
     doSomething () {
-      window.history.back()
+      var that = this
+      that.$router.push('/cohort/update/analysis/' + that.cohort_name.cohort_id)
+      return [
+        'Analysis Definition',
+        'Analysis Summary'
+      ]
+      // window.history.back()
     }
   }
 }

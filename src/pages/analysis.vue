@@ -1261,47 +1261,62 @@ export default {
           that.baseObj.cohort_id = response.data.cohort_id
         }
         if (that.pagemethod === 'update') {
+          that.baseObj = response.data.AnalysisCriteria
           that.baseObj.cohort_name = response.data.cohort_name
           that.baseObj.cohort_desc = response.data.cohort_desc
           that.baseObj.data_source = response.data.data_source
+          that.baseObj.cohort_id = response.data.cohort_id
+          that.eventArray1 = that.eventArray1.filter(t => {
+            let event = that.currentCriteria.CriteriaList.map(t => t.event)
+            return !event.includes(t.name)
+          })
+          console.log(that.baseObj)
+
+          // console.log(that.baseObj)
+          // if (that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length !== 0) {
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList = []
+          // }
           // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.splice(0, 1)
           // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList = response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList
-          response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList.forEach(function (value, key) {
-            that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.push(value)
-            if (value.DrugExposure) {
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.DrugExposure.Name
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDrugs = value.DrugExposure.Codeset
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Treatment'
-            }
-            if (value.ConditionOccurrence) {
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ConditionOccurrence.Name
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDiagnosis = value.ConditionOccurrence.Codeset
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Diagnosis'
-            }
-            if (value.ProcedureOccurrence) {
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ProcedureOccurrence.Name
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listProcedures = value.ProcedureOccurrence.Codeset
-              that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Procedure'
-            }
-
-            // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-            // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.Name
-            // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList
-          })
-          that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.pop()
+          // response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList.forEach(function (value, key) {
+          //   console.log(that.baseObj)
+          //   console.log(value)
+          // console.log(that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key])
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.push(value)
+          // if (value.DrugExposure) {
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.DrugExposure.Name
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDrugs = value.DrugExposure.Codeset
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Treatment'
+          // }
+          // if (value.ConditionOccurrence) {
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ConditionOccurrence.Name
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDiagnosis = value.ConditionOccurrence.Codeset
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].EventLimit.Type = value.ConditionOccurrence.EventLimit.Type
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Diagnosis'
+          // }
+          // if (value.ProcedureOccurrence) {
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ProcedureOccurrence.Name
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listProcedures = value.ProcedureOccurrence.Codeset
+          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Procedure'
+          // }
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDrugs = { 'Codeset': [], 'Label': 'List of drugs', 'inputs': [{ 'Type': 'multiple-select-dropdown', 'name': 'codeset', 'value': [] }], 'name': 'Codeset' }
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.Name
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList
+          // })
+          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.pop()
         }
-        // that.baseObj = response.data
-        // that.criteriaArray = [
-        //   {
-        //     'id': 'PrimaryCriteria',
-        //     'PCriteriaSetName': '',
-        //     'currentSelected': 1,
-        //     'PCriteriaSetDesc': ''
-        //   }
-        // ]
+        that.criteriaArray = [
+          {
+            'id': 'PrimaryCriteria',
+            'PCriteriaSetName': '',
+            'currentSelected': 1,
+            'PCriteriaSetDesc': ''
+          }
+        ]
         console.log(that.baseObj, that.criteriaArray)
         that.markCriteriaAsSelected(that.criteriaArray[0])
         that.dtSourceOpts = response.data.result
@@ -1539,7 +1554,6 @@ export default {
         }
       })
       console.log('Result JSON with PrimaryCriteria')
-      console.log(that.baseObj.AnalysisCriteria)
       // that.baseObj.AnalysisCriteria.InclusionRules = []
       // that.baseObj.criteriaObj.InclusionRules.forEach(function (data, index) {
       //   console.log('Inclusion start')
@@ -1736,10 +1750,12 @@ export default {
       var successStatement = 'Cohort Analysis Definition Saved Successfully'
       // that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       // that.baseObj['run'] = false
+      // delete that.baseObj.criteriaObj
+      that.baseObj.AnalysisCriteria['criteriaObj'] = that.baseObj.criteriaObj
       delete that.baseObj.criteriaObj
       console.log(that.baseObj)
       if (that.pagemethod === 'update') {
-        url = process.env.API_URL + 'cohort/update/'
+        url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/update/'
         successStatement = 'Cohort Definition Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {

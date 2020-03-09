@@ -10,7 +10,7 @@
       <div class="q-mx-auto">Please visit this page after some time</div>
       </div>
     </q-card>
-    <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status !='Pending'" >
+    <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status ==='SUCCESS'" >
       <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
             Criteria Set
@@ -18,7 +18,7 @@
         <div class="header_Bor1"></div>
         <div class="f12 q-mt-sm bor1grey" v-if="categories_header_render">
           <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey">
-          <!--<set>@click="(row.label === 'Attrition and Demographics' ? markSelected(row) : '')"</set>-->
+          <!-- <set>@click="(row.label === 'Attrition and Demographics' ? markSelected(row) : '')"</set> -->
               {{row.label}}
           </q-btn>
         </div>
@@ -48,7 +48,7 @@
                 Duration
               </div>
               <div class="q-mx-sm q-py-xs col">
-                Status
+                Analysis Status
               </div>
             </div>
             <div class="row H30 col5 text-center">
@@ -65,7 +65,7 @@
                 {{baseObj.cohort_executed_at}}
               </div>
               <div class="q-mx-sm q-py-xs col">
-                {{baseObj.status}}
+                {{baseObj.analysis_status}}
               </div>
             </div>
           </div>
@@ -76,12 +76,12 @@
                   Patient Attrition Flow Summary
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
-                    <div class="row col-12 justify-center full-height full-width text-center">
+                    <div v-if="report" class="row col-12 justify-center full-height full-width text-center">
                             <div class="col-5" style="padding-left:7em">
                                 <q-card class="summary-card my-card text-black" style="height: 100%;">
                                 <q-card-section>
                                 <div class="text-h6">Cohort Population</div>
-                                <!-- <div class="text-subtitle2">{{baseObj.result.Total}}&nbsp;M</div> -->
+                                <div class="text-subtitle2">{{baseObj.result.Total}}&nbsp;M</div>
                                 </q-card-section>
                                 </q-card>
                             </div>
@@ -90,13 +90,13 @@
                                 <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
                                 <q-card-section>
                                 <div class="text-h6">Diagnosis</div>
-                                <!-- <div class="text-subtitle2">{{baseObj.result.Diagnosis}}&nbsp;M</div> -->
+                                <div class="text-subtitle2">{{baseObj.result.Diagnosis}}&nbsp;M</div>
                                 </q-card-section>
                                 </q-card>
                                 <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
                                 <q-card-section>
                                 <div class="text-h6">Procedures</div>
-                                <!-- <div class="text-subtitle2">{{baseObj.result.Procedure}}&nbsp;M</div> -->
+                                <div class="text-subtitle2">{{baseObj.result.Procedure}}&nbsp;M</div>
                                 </q-card-section>
                                 </q-card>
                             </div>
@@ -104,10 +104,11 @@
                                 <q-card class="summary-card my-card text-black" style="width: 19em">
                                 <q-card-section>
                                 <div class="text-h6">Treated</div>
-                                <!-- <div class="text-subtitle2">{{baseObj.result.Treatment}}&nbsp;M</div> -->
+                                <div class="text-subtitle2">{{baseObj.result.Treatment}}&nbsp;M</div>
                                 </q-card-section>
                                 </q-card>
                             </div>
+                            <!-- {{baseObj}} -->
                         </div>
                     </div>
                     <!-- <div class="bor1grey summeryBarGraph q-px-xs q-my-sm " >
@@ -291,6 +292,7 @@ export default {
     return {
       summaryGraphRender: false,
       categories_header_render: true,
+      report: false,
       availableReports: [
         { apiKey: 'attrition', label: 'Attrition and Demographics', class: { 'bgCgreen': true }, divToShow: 'arrtitionNdemoGraph' },
         { apiKey: 'diagnosis', label: 'Diagnosis', divToShow: 'otherEvnt' },
@@ -301,7 +303,13 @@ export default {
         'cohort_name': '',
         'description': '',
         'group': '',
-        'datasource': ''
+        'datasource': '',
+        'result': {
+          'Diagnosis': 0,
+          'Procedure': 0,
+          'Total': 0,
+          'Treatment': 0
+        }
       },
       currentReportType: {
         apiKey: 'attrition'
@@ -348,24 +356,21 @@ export default {
         console.log(response)
         that.baseObj = response.data
         that.baseObj.cohort_id = that.cohort_id
-        console.log(that.baseObj.analysis_status)
-        console.log(that.baseObj)
-        // that.getCohortReport()
-        that.$q.loading.hide()
+        that.getCohortReport()
       })
     },
     getCohortReport () {
       console.log('inside GetReport')
       var that = this
+      console.log(that.baseObj)
       that.summaryGraphRender = false
-      var url = process.env.API_URL + 'cohort/summary/report/' + that.cohort_id + '/' + that.currentReportType.apiKey
+      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/summary/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
-        console.log(response.data.result)
-        console.log('Response GetReport')
-        that.baseObj.report = response.data.result
-        that.summaryGraphRender = true
-        that[that.currentReportType.divToShow] = true
+        console.log(response)
+        that.baseObj.result = response.data.result
+        that.report = true
+        console.log(that.baseObj)
         that.$q.loading.hide()
       })
     }

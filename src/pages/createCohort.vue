@@ -1353,8 +1353,9 @@ export default {
       var url = process.env.API_URL + 'cohort/get/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
+        console.log(response, 'fuyfutftu')
         that.baseObj = response.data
-        console.log(that.baseObj)
+        console.log(that.baseObj, 'futufuufuff')
         that.criteriaArray = [
           {
             'id': 'PrimaryCriteria',
