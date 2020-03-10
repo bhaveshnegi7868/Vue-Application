@@ -2,6 +2,8 @@
   <q-toolbar class="secondary-header row justify-between">
     <div class="col-4 q-pa-md Cohort-Name">
       {{cohort_name.cohort_name}}
+      {{cohort_name.cohort_status}}
+      {{cohort_name.analysis_status}}
     </div>
     <div class="" v-for="path in paths()" :key="path">
       <div class="col-4 q-px-auto">
@@ -15,6 +17,18 @@
           <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id ?'':'/cohort/summary/' + cohort_name.cohort_id)"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
         </q-item>
       </div>
+    </div>
+    <div v-if="cohort_name.cohort_status === 'SUCCESS'" class="col-4 Cohort-Name" style="margin-left: 6em;">
+      <q-item v-if="cohort_name.analysis_status === null" no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
+        <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/analysis/' + cohort_name.cohort_id)">
+          <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Definition</q-btn>
+        </router-link>
+      </q-item>
+      <q-item v-if="cohort_name.analysis_status !== null" no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
+        <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/update/analysis/' + cohort_name.cohort_id)">
+          <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Definition</q-btn>
+        </router-link>
+      </q-item>
     </div>
     <div class="col">
     </div>
