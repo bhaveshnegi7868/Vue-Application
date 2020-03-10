@@ -11,18 +11,18 @@
       </div>
     </q-card>
     <q-card class="row  q-mx-sm" v-if="baseObj.status !='Pending'" >
-      <div class="col-2 q-mt-sm pad0">
+      <!-- <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
             Criteria Set
         </div>
         <div class="header_Bor1"></div>
         <div class="f12 q-mt-sm bor1grey" v-if="categories_header_render">
-          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey">
+          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey"> -->
           <!--<set>@click="(row.label === 'Attrition and Demographics' ? markSelected(row) : '')"</set>-->
-              {{row.label}}
+              <!-- {{row.label}}
           </q-btn>
         </div>
-      </div>
+      </div> -->
       <div class="col q-pa-sm" >
         <q-card class="row q-mx-sm shadow-2">
           <div class="col-4 q-ma-sm">

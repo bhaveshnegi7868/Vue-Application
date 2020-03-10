@@ -11,18 +11,18 @@
       </div>
     </q-card>
     <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status ==='SUCCESS'" >
-      <div class="col-2 q-mt-sm pad0">
+      <!-- <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
             Criteria Set
         </div>
         <div class="header_Bor1"></div>
         <div class="f12 q-mt-sm bor1grey" v-if="categories_header_render">
-          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey">
+          <q-btn  class="f12 pad0 text-capitalize  full-width borderRad0" :class="row.class" v-for="row in availableReports" :key="row.apiKey"> -->
           <!-- <set>@click="(row.label === 'Attrition and Demographics' ? markSelected(row) : '')"</set> -->
-              {{row.label}}
+              <!-- {{row.label}}
           </q-btn>
         </div>
-      </div>
+      </div> -->
       <div class="col q-pa-sm" >
         <q-card class="row q-mx-sm shadow-2">
           <div class="col-4 q-ma-sm">
@@ -71,40 +71,43 @@
           </div>
           <div  v-if="arrtitionNdemoGraph" class="col-12 q-mt-sm   shadow-2 cohortSummaryText col5">
             <div class="row f12">
-              <div class="q-ma-sm col-11" style="margin-left: 40px;">
+              <div class="q-ma-sm col-11" style="margin-left: 50px;">
                 <div class="row-inline bgCgreen q-px-xs q-py-xs ">
                   Patient Attrition Flow Summary
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
-                    <div v-if="report" class="row col-12 justify-center full-height full-width text-center">
-                            <div class="col-5" style="padding-left:7em">
+                    <div v-if="report" class="row col-12 justify-center full-height full-width text-center" style="margin-left:11em !important">
+                            <div class="col-5" style="padding-left:15em">
                                 <q-card class="summary-card my-card text-black" style="height: 100%;">
                                 <q-card-section>
-                                <div class="text-h6">Cohort Population</div>
-                                <div class="text-subtitle2">{{baseObj.result.Total}}&nbsp;M</div>
+                                <div class="text-overline">&nbsp;&nbsp;&nbsp;</div>
+                                <div class="text-h6"><strong>Cohort Population</strong></div>
+                                <div class="text-subtitle2">{{baseObj.result.Total}}</div>
                                 </q-card-section>
                                 </q-card>
                             </div>
                         <div class="col-7" >
-                            <div class="row" style="height: 5em;">
-                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
+                            <div class="row" style="height: 3em;">
+                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 18em">
                                 <q-card-section>
-                                <div class="text-h6">Diagnosis</div>
-                                <div class="text-subtitle2">{{baseObj.result.Diagnosis}}&nbsp;M</div>
-                                </q-card-section>
-                                </q-card>
-                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 19em">
-                                <q-card-section>
-                                <div class="text-h6">Procedures</div>
-                                <div class="text-subtitle2">{{baseObj.result.Procedure}}&nbsp;M</div>
+                                <div class="col-4"><strong>Diagnosis</strong></div>
+                                <div class="col-4">{{baseObj.result.Diagnosis}}</div>
                                 </q-card-section>
                                 </q-card>
                             </div>
-                            <div class="row q-mt-md" style="margin-left: 11em;height: 5em;">
-                                <q-card class="summary-card my-card text-black" style="width: 19em">
+                            <div class="row q-mt-md" style="height: 3em;">
+                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 18em">
                                 <q-card-section>
-                                <div class="text-h6">Treated</div>
-                                <div class="text-subtitle2">{{baseObj.result.Treatment}}&nbsp;M</div>
+                                <div class="col-4"><strong>Procedures</strong></div>
+                                <div class="col-4">{{baseObj.result.Procedure}}</div>
+                                </q-card-section>
+                                </q-card>
+                            </div>
+                            <div class="row q-mt-md" style="margin-left: 17px;height: 3em;">
+                                <q-card class="summary-card my-card text-black" style="width: 18em">
+                                <q-card-section>
+                                <div class="col-4"><strong>Treated</strong></div>
+                                <div class="col-4">{{baseObj.result.Treatment}}</div>
                                 </q-card-section>
                                 </q-card>
                             </div>
@@ -293,12 +296,6 @@ export default {
       summaryGraphRender: false,
       categories_header_render: true,
       report: false,
-      availableReports: [
-        { apiKey: 'attrition', label: 'Attrition and Demographics', class: { 'bgCgreen': true }, divToShow: 'arrtitionNdemoGraph' },
-        { apiKey: 'diagnosis', label: 'Diagnosis', divToShow: 'otherEvnt' },
-        { apiKey: 'treatment', label: 'Treatment', divToShow: 'otherEvnt' },
-        { apiKey: 'procedure', label: 'Procedure', divToShow: 'otherEvnt' }
-      ],
       baseObj: {
         'cohort_name': '',
         'description': '',

@@ -46,7 +46,7 @@
               <q-btn  size="10px" style="width: 72px;background: #b7a931 !important;" text-color="white" no-caps>Pending</q-btn>
             </router-link >
             <router-link v-if="(row.row.status) && (row.row.an_status == 'SUCCESS')"  :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
-              <q-btn  size="10px" style="width: 72px;background: green !important;" text-color="white" no-caps>Success</q-btn>
+              <q-btn  size="10px" style="width: 72px;background: #6b9840 !important;" text-color="white" no-caps>Success</q-btn>
             </router-link >
           </q-td>
           <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">

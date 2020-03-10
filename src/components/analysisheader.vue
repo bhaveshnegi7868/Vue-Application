@@ -16,6 +16,13 @@
         </q-item>
       </div>
     </div>
+    <div class="col-4 Cohort-Name" style="margin-left: 3em;">
+      <q-item no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
+        <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/update/' + cohort_name.cohort_id)">
+          <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Cohort Definition</q-btn>
+        </router-link>
+      </q-item>
+    </div>
     <div class="col">
     </div>
   </q-toolbar>
