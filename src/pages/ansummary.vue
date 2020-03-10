@@ -76,43 +76,25 @@
                   Patient Attrition Flow Summary
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
-                    <div v-if="report" class="row col-12 justify-center full-height full-width text-center" style="margin-left:11em !important">
-                            <div class="col-5" style="padding-left:15em">
-                                <q-card class="summary-card my-card text-black" style="height: 100%;">
+                    <div v-if="report" class="row col-12 justify-center full-height full-width text-center" style="margin-left:0em !important">
+                            <div class="col-5" style="padding-left: 10em;padding-right: 0em;">
+                                <q-card class="summary-card my-card text-black" style="height: 10em;">
                                 <q-card-section>
-                                <div class="text-overline">&nbsp;&nbsp;&nbsp;</div>
-                                <div class="text-h6"><strong>Cohort Population</strong></div>
-                                <div class="text-subtitle2">{{baseObj.result.Total}}</div>
+                                <div class="text-h6" style="padding-top: 6%"><strong>Cohort Patient Count</strong></div>
+                                <!-- <div class="text-overline">&nbsp;&nbsp;&nbsp;</div> -->
+                                <div class="q-mt-sm text-subtitle2" style="font-size:3em;padding-top: 3%;"><strong>{{baseObj.result.Total}}</strong></div>
                                 </q-card-section>
                                 </q-card>
                             </div>
-                        <div class="col-7" >
-                            <div class="row" style="height: 3em;">
-                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 18em">
+                            <div class="col-5" style="padding-right: 8em;padding-left: 3em;">
+                                <q-card class="summary-card my-card text-black" style="height: 10em;">
                                 <q-card-section>
-                                <div class="col-4"><strong>Diagnosis</strong></div>
-                                <div class="col-4">{{baseObj.result.Diagnosis}}</div>
+                                <div class="text-h6" style="padding-top: 6%"><strong>Final Patient Count</strong></div>
+                                <div class="q-mb-sm" style="font-size:85%">(satisfying all Analysis Criteria)</div>
+                                <div class="text-subtitle2" style="font-size:3em"><strong></strong></div>
                                 </q-card-section>
                                 </q-card>
                             </div>
-                            <div class="row q-mt-md" style="height: 3em;">
-                                <q-card class="summary-card q-ml-md my-card text-black" style="width: 18em">
-                                <q-card-section>
-                                <div class="col-4"><strong>Procedures</strong></div>
-                                <div class="col-4">{{baseObj.result.Procedure}}</div>
-                                </q-card-section>
-                                </q-card>
-                            </div>
-                            <div class="row q-mt-md" style="margin-left: 17px;height: 3em;">
-                                <q-card class="summary-card my-card text-black" style="width: 18em">
-                                <q-card-section>
-                                <div class="col-4"><strong>Treated</strong></div>
-                                <div class="col-4">{{baseObj.result.Treatment}}</div>
-                                </q-card-section>
-                                </q-card>
-                            </div>
-                            <!-- {{baseObj}} -->
-                        </div>
                     </div>
                     <!-- <div class="bor1grey summeryBarGraph q-px-xs q-my-sm " >
                         <summery-graph :reportData="baseObj.report.age"></summery-graph>
