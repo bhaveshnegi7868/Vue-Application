@@ -48,6 +48,11 @@
             <router-link v-if="(row.row.status) && (row.row.an_status == 'SUCCESS')"  :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #6b9840 !important;" text-color="white" no-caps>Success</q-btn>
             </router-link >
+            <!-- <q-icon v-if="(row.row.status) && (row.row.an_status == 'Pending')" name="warning" class="text-red" style="font-size: 1.5rem;" />
+            <router-link v-if="(row.row.status) && (row.row.an_status == 'Pending')" :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
+              <q-btn  size="8px" round icon="play_circle_outline" style="background: #6b9840 !important;" text-color="white" no-caps></q-btn>
+              <q-tooltip>text to be decided</q-tooltip>
+            </router-link > -->
           </q-td>
           <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
               <q-btn v-if="!cohortToggle || superuser" round color="theamGreen" size="0.5rem" icon="edit" @click="editCohort(props.row.cohort_id)">
