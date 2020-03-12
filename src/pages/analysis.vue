@@ -1,6 +1,11 @@
 <template>
   <q-page class="app-layout " >
     <analysis-header v-if="baseObj.cohort_id" :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
+    <q-card class="row q-mx-sm q-mt-sm" v-if="(baseObj.analysis_status==='Warning') && (pagemethod === 'update')">
+      <div class="col-12 text-center" style="font-size: 15px;color: #f44e4e">
+      <div class="q-mx-auto ">Cohort definition got updated, but this analysis data result is w.r.t earlier definition. Please rerun to reflect the recent changes.</div>
+      </div>
+    </q-card>
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs" style="margin-top: 3px;">
@@ -111,11 +116,11 @@
                     Events
                 </div>
                 <div class="header_Bor2"></div>
-                <!-- {{eventArray1}} -->
                 <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
                   <drag
                     :draggable="!(JSON.stringify(currentCriteria.CriteriaList).includes(element.name))"
                     class="Events"
+                    v-bind:class="{ drag_removal: (JSON.stringify(currentCriteria.CriteriaList).includes(element.name)) }"
                     v-for="(element) in eventArray1"
                     :key="element.id"
                     :transfer-data="{ element }"
@@ -124,7 +129,8 @@
                 </div>
               </div>
             </q-card>
-                <!-- {{currentCriteria.CriteriaList}} -->
+                <!-- {{currentCriteria.CriteriaList[0].event}} -->
+                <!-- {{eventArray1}} -->
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
                 <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
@@ -679,7 +685,7 @@ export default {
       eventArray1: [
         { 'id': 1, 'name': 'Diagnosis' },
         // { 'id': 2, 'name': 'Treatment' },
-        { 'id': 3, 'name': 'Procedure' }
+        { 'id': 2, 'name': 'Procedure' }
       ],
       cGrpOpts: [
         { 'label': 'GRP1', 'value': 'GRP1' },
@@ -1266,10 +1272,8 @@ export default {
           that.baseObj.cohort_desc = response.data.cohort_desc
           that.baseObj.data_source = response.data.data_source
           that.baseObj.cohort_id = response.data.cohort_id
-          that.eventArray1 = that.eventArray1.filter(t => {
-            let event = that.currentCriteria.CriteriaList.map(t => t.event)
-            return !event.includes(t.name)
-          })
+          that.baseObj.analysis_status = response.data.analysis_status
+          that.eventArray1 = []
           console.log(that.baseObj)
 
           // console.log(that.baseObj)

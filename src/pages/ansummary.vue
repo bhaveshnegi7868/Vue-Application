@@ -10,6 +10,15 @@
       <div class="q-mx-auto">Please visit this page after some time</div>
       </div>
     </q-card>
+    <q-card class="row q-mx-sm q-mt-sm" v-if="baseObj.analysis_status==='Warning'">
+      <div class="col-12 text-center" style="font-size: 15px;color: #f44e4e">
+      <div class="q-mx-auto ">Cohort definition got updated, but this analysis data result is w.r.t earlier definition. Please rerun to reflect the recent changes.
+     </div>
+      </div>
+      <!-- <div class="col-12 text-center" style="font-size: 23px;color: #f44e4e">
+      <div class="q-mx-auto ">Cohort Definition got updated, so this Analysis Data is w.r.t earlier definition</div>
+      </div> -->
+    </q-card>
     <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status ==='SUCCESS'" >
       <!-- <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
