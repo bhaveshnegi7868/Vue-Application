@@ -129,8 +129,8 @@
                 </div>
               </div>
             </q-card>
-                <!-- {{currentCriteria.CriteriaList[0].event}} -->
-                <!-- {{eventArray1}} -->
+                <!-- {{currentCriteria.CriteriaList}}
+                {{eventArray1}} -->
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
                 <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
@@ -1273,45 +1273,11 @@ export default {
           that.baseObj.data_source = response.data.data_source
           that.baseObj.cohort_id = response.data.cohort_id
           that.baseObj.analysis_status = response.data.analysis_status
-          that.eventArray1 = []
           console.log(that.baseObj)
-
-          // console.log(that.baseObj)
-          // if (that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length !== 0) {
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList = []
-          // }
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.splice(0, 1)
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList = response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList
-          // response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList.forEach(function (value, key) {
-          //   console.log(that.baseObj)
-          //   console.log(value)
-          // console.log(that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key])
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.push(value)
-          // if (value.DrugExposure) {
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.DrugExposure.Name
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDrugs = value.DrugExposure.Codeset
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Treatment'
-          // }
-          // if (value.ConditionOccurrence) {
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ConditionOccurrence.Name
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDiagnosis = value.ConditionOccurrence.Codeset
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].EventLimit.Type = value.ConditionOccurrence.EventLimit.Type
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Diagnosis'
-          // }
-          // if (value.ProcedureOccurrence) {
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.ProcedureOccurrence.Name
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listProcedures = value.ProcedureOccurrence.Codeset
-          //   that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].event = 'Procedure'
-          // }
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].listDrugs = { 'Codeset': [], 'Label': 'List of drugs', 'inputs': [{ 'Type': 'multiple-select-dropdown', 'name': 'codeset', 'value': [] }], 'name': 'Codeset' }
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].id = key
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[key].name = value.Name
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList
-          // })
-          // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList.pop()
+          that.eventArray1 = that.eventArray1.filter(t => {
+            let event = that.currentCriteria.CriteriaList.map(t => t.event)
+            return !event.includes(t.name)
+          })
         }
         that.criteriaArray = [
           {
