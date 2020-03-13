@@ -129,8 +129,8 @@
                 </div>
               </div>
             </q-card>
-                <!-- {{currentCriteria.CriteriaList}}
-                {{eventArray1}} -->
+                <!-- {{currentCriteria.CriteriaList[1].event}} -->
+                {{eventArray1}}
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
                 <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
@@ -1273,11 +1273,15 @@ export default {
           that.baseObj.data_source = response.data.data_source
           that.baseObj.cohort_id = response.data.cohort_id
           that.baseObj.analysis_status = response.data.analysis_status
-          console.log(that.baseObj)
+          // console.log(that.baseObj)
+          // console.log(that.currentCriteria.CriteriaList)
           that.eventArray1 = that.eventArray1.filter(t => {
+            console.log(t)
             let event = that.currentCriteria.CriteriaList.map(t => t.event)
+            console.log(that.currentCriteria.CriteriaList)
             return !event.includes(t.name)
           })
+          // console.log(that.eventArray1)
         }
         that.criteriaArray = [
           {
@@ -1287,7 +1291,7 @@ export default {
             'PCriteriaSetDesc': ''
           }
         ]
-        console.log(that.baseObj, that.criteriaArray)
+        // console.log(that.baseObj, that.criteriaArray)
         that.markCriteriaAsSelected(that.criteriaArray[0])
         that.dtSourceOpts = response.data.result
         that.loading = false
