@@ -130,7 +130,7 @@
               </div>
             </q-card>
                 <!-- {{currentCriteria.CriteriaList[1].event}} -->
-                {{eventArray1}}
+                <!-- {{eventArray1}} -->
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
                 <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
