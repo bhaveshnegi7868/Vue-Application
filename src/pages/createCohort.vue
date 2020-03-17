@@ -1872,25 +1872,27 @@ export default {
     },
     cohortnamecheck (name) {
       var that = this
-      var cohortName = name
-      console.log(cohortName)
-      var url = process.env.API_URL + 'cohort/name/validation/?name=' + cohortName
-      var method = axios.get(url, cohortName)
-      method.then(function (response) {
-        that.error_message = true
-        console.log('error message')
-        console.log(response)
-      }).catch(function (err) {
-        that.error_message = false
-        console.log(that.error_message)
-        console.log(err.message)
-        that.$q.notify({
-          color: 'red',
-          textColor: 'white',
-          message: 'Cohort name already exists',
-          timeout: 1000
+      if (that.pagemethod !== 'update') {
+        var cohortName = name
+        console.log(cohortName)
+        var url = process.env.API_URL + 'cohort/name/validation/?name=' + cohortName
+        var method = axios.get(url, cohortName)
+        method.then(function (response) {
+          that.error_message = true
+          console.log('error message')
+          console.log(response)
+        }).catch(function (err) {
+          that.error_message = false
+          console.log(that.error_message)
+          console.log(err.message)
+          that.$q.notify({
+            color: 'red',
+            textColor: 'white',
+            message: 'Cohort name already exists',
+            timeout: 1000
+          })
         })
-      })
+      }
     },
     datasourcefilterFn (val, update, abort) {
       update(() => {

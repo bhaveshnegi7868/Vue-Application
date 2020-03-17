@@ -1,7 +1,7 @@
 <template>
   <q-page class="app-layout " >
     <analysis-header v-if="baseObj.cohort_id" :pagemethod="pagemethod" :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
-    <q-card class="row q-mx-sm q-mt-sm" v-if="(baseObj.analysis_status==='Warning') && (pagemethod === 'update')">
+    <q-card class="row q-mx-sm q-mt-sm" v-if="(baseObj.analysis_status==='Warning') && ((pagemethod === 'update') || (pagemethod === 'view') )">
       <div class="col-12 text-center" style="font-size: 15px;color: #f44e4e">
       <div class="q-mx-auto ">Cohort definition got updated, but this analysis data result is w.r.t earlier definition. Please rerun to reflect the recent changes.</div>
       </div>
@@ -296,8 +296,13 @@
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" disabled v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
-            <div class="col q-px-sm q-py-xs" style="margin-top: 3px;">
+            <div class="col-4 q-px-sm q-py-xs" >
                 <input type="text" disabled v-model="baseObj.data_source" class="input-box full-width" >
+            </div>
+            <div class="col q-px-sm q-py-xs" >
+              <q-btn outlined icon="edit" @click="toUpdate(baseObj.cohort_id)" style="margin-top:0px !important" label="Edit" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary">
+                </q-btn>
+              <q-tooltip>Edit Analysis</q-tooltip>
             </div>
             <!-- <div class="col q-px-sm q-py-xs"> -->
               <!-- <q-btn-dropdown
@@ -1210,6 +1215,10 @@ export default {
       // })
       that.$forceUpdate()
     },
+    toUpdate (id) {
+      this.$router.push('/cohort/update/analysis/' + id)
+      window.location.reload()
+    },
     addNewCriteria () {
       var that = this
       let criteriaObj = {
@@ -1726,14 +1735,12 @@ export default {
       console.log(that.baseObj.AnalysisCriteria)
       var successStatement = 'Cohort Analysis Definition Saved Successfully'
       // that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
-      // that.baseObj['run'] = false
-      // delete that.baseObj.criteriaObj
       that.baseObj.AnalysisCriteria['criteriaObj'] = that.baseObj.criteriaObj
       delete that.baseObj.criteriaObj
       console.log(that.baseObj)
       if (that.pagemethod === 'update') {
         url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/update/'
-        successStatement = 'Cohort Definition Saved Successfully'
+        successStatement = 'Cohort Analysis Definition Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {
         method = axios.post(url, that.baseObj)
@@ -1751,7 +1758,7 @@ export default {
         })
         that.$q.loading.hide()
         if (response.data.result === 'Analysis successfully created') {
-          that.$router.push('/cohort/update/analysis/' + that.cohort_id)
+          that.$router.push('/cohort/view/analysis/' + that.cohort_id)
           that.cohort_id = that.baseObj.cohort_id
           that.pagemethod = 'update'
           that.getCohortDict(that.cohort_id)

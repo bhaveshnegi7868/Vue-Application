@@ -91,7 +91,7 @@
                                 <q-card-section>
                                 <div class="text-h6" style="padding-top: 6%"><strong>Cohort Patient Count</strong></div>
                                 <!-- <div class="text-overline">&nbsp;&nbsp;&nbsp;</div> -->
-                                <div class="q-mt-sm text-subtitle2" style="font-size:3em;padding-top: 3%;"><strong>{{baseObj.result.Total}}</strong></div>
+                                <div class="q-mt-sm text-subtitle2" style="font-size:3em;padding-top: 4%;"><strong>{{baseObj.result.Total}}</strong></div>
                                 </q-card-section>
                                 </q-card>
                             </div>
@@ -100,7 +100,7 @@
                                 <q-card-section>
                                 <div class="text-h6" style="padding-top: 6%"><strong>Final Patient Count</strong></div>
                                 <div class="q-mb-sm" style="font-size:85%">(satisfying all Analysis Criteria)</div>
-                                <div class="text-subtitle2" style="font-size:3em"><strong></strong></div>
+                                <div class="text-subtitle2" style="font-size:3em"><strong>{{baseObj.result.Analysis_Total}}</strong></div>
                                 </q-card-section>
                                 </q-card>
                             </div>
