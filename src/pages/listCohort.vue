@@ -39,7 +39,7 @@
             </router-link >
           </q-td>
           <q-td  slot="body-cell-analysis_data" slot-scope="row" :props="row" >
-            <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending') && !(row.row.an_status == 'SUCCESS') && !(row.row.an_status == 'Warning')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
+            <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending') && !(row.row.an_status == 'SUCCESS') && !(row.row.an_status == 'Warning') && !(row.row.an_status == 'to_be_run')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px"  style="width: 72px;background: #3f868a !important;" text-color="white" no-caps >Create</q-btn>
             </router-link >
             <router-link v-if="(row.row.status) && (row.row.an_status == 'Pending')"  :to="'/cohort/update/analysis/' + row.row.cohort_id" >
@@ -48,8 +48,12 @@
             <router-link v-if="(row.row.status) && (row.row.an_status == 'SUCCESS')"  :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #6b9840 !important;" text-color="white" no-caps>Success</q-btn>
             </router-link >
+            <router-link v-if="(row.row.status) && (row.row.an_status == 'to_be_run')"  :to="'/cohort/update/analysis/' + row.row.cohort_id" >
+              <q-btn  size="10px" style="width: 72px;background: #3f868a !important;" text-color="white" no-caps>Saved</q-btn>
+              <q-tooltip>Analysis definition is Saved, Please run to generate the Summary</q-tooltip>
+            </router-link >
             <q-icon v-if="((row.row.cohort_status === 'SUCCESS') || ((row.row.cohort_status === 'Pending'))) && (row.row.analysis_status === 'Warning' )" name="warning" class="text-red" style="font-size: 20px;" >
-              <q-tooltip>text to be decided</q-tooltip>
+              <q-tooltip>Cohort definition got updated, please run again to reflect the recent changes.</q-tooltip>
             </q-icon>
             <router-link  v-if="((row.row.cohort_status === 'SUCCESS') || ((row.row.cohort_status === 'Pending'))) && (row.row.analysis_status === 'Warning')" :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
               <q-btn :disable="!(row.row.cohort_status === 'SUCCESS')" size="10px"  style="background: #6b9840 !important;margin-right:2em" text-color="white" no-caps>Success</q-btn>
@@ -76,6 +80,7 @@
         </div>
     </div>
   </template>
+
 <script>
 import axios from 'axios'
 import {
@@ -176,6 +181,9 @@ export default {
           }
           if (el.analysis_status === 'Warning') {
             el['an_status'] = 'Warning'
+          }
+          if (el.analysis_status === 'To be run') {
+            el['an_status'] = 'to_be_run'
           }
         })
         that.loading = false

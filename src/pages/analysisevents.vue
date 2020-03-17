@@ -3,9 +3,10 @@
     <div class="EventList_header2 f12">
       Analysis Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
+      <!-- {{pagemethod}} -->
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
       Name *
-      <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
+      <input class="input-box full-width" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
     </div>
     <div class="attributeDiv" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
@@ -18,6 +19,7 @@
             <multiselect
               v-model="event[mappingDict[event.event]][key][obj.name]"
               :options="obj.value"
+              :disabled="pagemethod === 'view'"
               :searchable="true"
               :close-on-select="false"
               :show-labels="false"
@@ -45,6 +47,7 @@
             <q-btn
               rounded
               class="q-pa-xs q-ma-none importIcon"
+              :disabled="pagemethod === 'view'"
               icon="add"
               style="background-color: #1c464d !important; color: #ffffff"
               @click="openImportCodesetPopupFun(key,index)"
@@ -142,7 +145,7 @@
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
-                  <input class="input-box text-center  w5R q-mr-xs" value="ALL" list="listday2" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
+                  <input :disabled="pagemethod === 'view'" class="input-box text-center  w5R q-mr-xs" value="ALL" list="listday2" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
                   <datalist id="listday2">
                      <option value="ALL"/>
                      <option value="0"/>
@@ -162,7 +165,7 @@
                  </div>
                  <div class=" q-mr-xs ">
                    <span class="q-mr-xs">day</span>
-                   <select class="criteria-box w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
+                   <select :disabled="pagemethod === 'view'" class="criteria-box w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
                      <option v-for="opt in indexloop" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
@@ -170,7 +173,7 @@
                  </div>
                  <div class=" q-mr-xs">
                    <span class="q-mr-xs"> and </span>
-                   <input class="input-box text-center  w5R q-mr-xs" list="listday1" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
+                   <input :disabled="pagemethod === 'view'" class="input-box text-center  w5R q-mr-xs" list="listday1" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
                    <datalist id="listday1">
                      <option value="ALL"/>
                      <option value="0"/>
@@ -190,7 +193,7 @@
                  </div>
                  <div class=" q-mr-xs">
                    <span class="q-mr-xs"> day</span>
-                   <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
+                   <select :disabled="pagemethod === 'view'" class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
                      <option v-for="opt in indexloop" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
@@ -216,7 +219,7 @@
         <div class="row q-ml-sm q-mt-md col-12" v-if="event.event == 'Diagnosis'">
             <div class="col">
             Limit initial events to
-            <select class="q-ml-sm criteria-box H25 w9R" v-model="event.analysislimit" label="Select" v-on:change="sendName">
+            <select :disabled="pagemethod === 'view'" class="q-ml-sm criteria-box H25 w9R" v-model="event.analysislimit" label="Select" v-on:change="sendName">
                 <option value=" " disabled>Select Initial event</option>
                 <option  v-for="opt in dtSourceOpts2" :selected="opt.value === 'First'" v-bind:key="opt.value" :value="opt.value">
                 <!-- {{opt}} -->
@@ -446,7 +449,8 @@ export default {
   },
   props: {
     'event': Object,
-    'mappingDict': Object
+    'mappingDict': Object,
+    'pagemethod': Object
   },
 
   computed: {

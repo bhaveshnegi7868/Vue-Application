@@ -1,6 +1,6 @@
 <template>
   <q-page class="app-layout " >
-    <analysis-header v-if="baseObj.cohort_id" :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
+    <analysis-header v-if="baseObj.cohort_id" :pagemethod="pagemethod" :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
     <q-card class="row q-mx-sm q-mt-sm" v-if="(baseObj.analysis_status==='Warning') && (pagemethod === 'update')">
       <div class="col-12 text-center" style="font-size: 15px;color: #f44e4e">
       <div class="q-mx-auto ">Cohort definition got updated, but this analysis data result is w.r.t earlier definition. Please rerun to reflect the recent changes.</div>
@@ -46,7 +46,7 @@
           </div>
         </q-card>
     </div>
-    <q-card class="row createBoxHeight q-mx-sm" v-if="pagemethod != 'view'">
+    <q-card class="row createBoxHeight q-mx-sm" v-if="pagemethod !== 'view'">
       <div class="leftForm q-px-sm q-py-xs">
         <div class="categories_header2">
             Criteria Set
@@ -263,7 +263,7 @@
               </q-card> -->
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
+              <event-attributes v-if="renderComponent" :pagemethod="pagemethod" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -291,10 +291,13 @@
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod === 'view'">
         <q-card class="row col-12 ">
             <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_name" placeholder="* View Name" />
+                <input class="input-box full-width" disabled v-model="baseObj.cohort_name" placeholder="* View Name" />
             </div>
             <div class="col-5 q-px-sm q-py-xs">
-                <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
+                <input class="input-box full-width" disabled v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
+            </div>
+            <div class="col q-px-sm q-py-xs" style="margin-top: 3px;">
+                <input type="text" disabled v-model="baseObj.data_source" class="input-box full-width" >
             </div>
             <!-- <div class="col q-px-sm q-py-xs"> -->
               <!-- <q-btn-dropdown
@@ -343,7 +346,7 @@
     </div>
     <q-card class="row createBoxHeight q-mx-sm" v-if="pagemethod === 'view'">
       <div class="leftForm q-px-sm q-py-xs">
-        <div class="categories_header">
+        <div class="categories_header2">
             Criteria Set
         </div>
         <div class="header_Bor2"></div>
@@ -354,10 +357,10 @@
             class="categories_list"
             :active="link === 1"
             @click="markCriteriaAsSelected(baseObj.criteriaObj.PrimaryCriteria)"
-            active-class="categories_Selected"
+            active-class="categories_Selected2"
           >
             <q-item-section>
-              <label>Primary Criteria</label>
+              <label>Analysis Criteria</label>
             </q-item-section>
           </q-item>
           <q-item
@@ -509,7 +512,7 @@
                     </div>
                   </div>
               </q-card>
-              <q-card class="q-pa-sm q-mt-lg f12 custom-card">
+              <!-- <q-card class="q-pa-sm q-mt-lg f12 custom-card">
                 <div class="row" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
                     Limit initial events to
@@ -532,10 +535,10 @@
                      days before and <input  readonly="true" class="input-box H25 w4R" v-model="currentCriteria.ObservationWindow.PostDays"/> days after
                   </div>
                 </div>
-              </q-card>
+              </q-card> -->
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
+              <event-attributes v-if="renderComponent" :pagemethod="pagemethod" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -736,6 +739,7 @@ export default {
     that.markCriteriaAsSelected(that.criteriaArray[0])
     that.cohort_id = that.$route.params.cohort_id
     that.pagemethod = that.$route.params.method
+    console.log(that.pagemethod)
     console.log(that.$route.params.method)
     if (that.cohort_id) {
       that.getCohortDict(that.cohort_id)
@@ -1257,7 +1261,6 @@ export default {
       var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
-        console.log('test')
         console.log(response)
         // console.log(that.baseObj)
         if (!that.baseObj.cohort_name) {
@@ -1266,7 +1269,7 @@ export default {
           that.baseObj.data_source = response.data.data_source
           that.baseObj.cohort_id = response.data.cohort_id
         }
-        if (that.pagemethod === 'update') {
+        if (that.pagemethod === 'update' || that.pagemethod === 'view') {
           that.baseObj = response.data.AnalysisCriteria
           that.baseObj.cohort_name = response.data.cohort_name
           that.baseObj.cohort_desc = response.data.cohort_desc
@@ -1276,12 +1279,12 @@ export default {
           // console.log(that.baseObj)
           // console.log(that.currentCriteria.CriteriaList)
           that.eventArray1 = that.eventArray1.filter(t => {
-            console.log(t)
             let event = that.currentCriteria.CriteriaList.map(t => t.event)
-            console.log(that.currentCriteria.CriteriaList)
             return !event.includes(t.name)
           })
-          // console.log(that.eventArray1)
+        }
+        if (that.pagemethod === 'view') {
+          that.eventArray1 = []
         }
         that.criteriaArray = [
           {

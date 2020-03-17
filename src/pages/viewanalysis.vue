@@ -1,6 +1,11 @@
 <template>
   <q-page class="app-layout " >
-    <analysis-header :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
+    <analysis-header v-if="baseObj.cohort_id" :selectedPage="selectedPage" :cohort_name="baseObj" ></analysis-header>
+    <q-card class="row q-mx-sm q-mt-sm" v-if="(baseObj.analysis_status==='Warning') && (pagemethod === 'update')">
+      <div class="col-12 text-center" style="font-size: 15px;color: #f44e4e">
+      <div class="q-mx-auto ">Cohort definition got updated, but this analysis data result is w.r.t earlier definition. Please rerun to reflect the recent changes.</div>
+      </div>
+    </q-card>
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs" style="margin-top: 3px;">
@@ -111,11 +116,11 @@
                     Events
                 </div>
                 <div class="header_Bor2"></div>
-                <!-- {{eventArray1}} -->
                 <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
                   <drag
                     :draggable="!(JSON.stringify(currentCriteria.CriteriaList).includes(element.name))"
                     class="Events"
+                    v-bind:class="{ drag_removal: (JSON.stringify(currentCriteria.CriteriaList).includes(element.name)) }"
                     v-for="(element) in eventArray1"
                     :key="element.id"
                     :transfer-data="{ element }"
@@ -124,7 +129,8 @@
                 </div>
               </div>
             </q-card>
-                <!-- {{currentCriteria.CriteriaList}} -->
+                <!-- {{currentCriteria.CriteriaList[1].event}} -->
+                <!-- {{eventArray1}} -->
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
                 <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
@@ -149,7 +155,6 @@
                     <q-btn no-caps class="add_group_bt float-right" label="Add Group" @click="addGroup"/>
                   </div>
                 </div>
-                <!-- {{currentCriteria.CriteriaList}} -->
                 <div class="list-group" id="list-group"  ref="test" group="people" v-if="renderComponent2">
                   <div
                     class="list-group-item"
@@ -680,7 +685,7 @@ export default {
       eventArray1: [
         { 'id': 1, 'name': 'Diagnosis' },
         // { 'id': 2, 'name': 'Treatment' },
-        { 'id': 3, 'name': 'Procedure' }
+        { 'id': 2, 'name': 'Procedure' }
       ],
       cGrpOpts: [
         { 'label': 'GRP1', 'value': 'GRP1' },
@@ -1060,7 +1065,6 @@ export default {
     },
     setQCardColor (event) {
       var that = this
-      console.log(that.currentCriteria.CriteriaList)
       that.currentCriteria.CriteriaList.forEach(function (row, index) {
         if (row.id.toString() === event.id.toString()) {
           console.log('test Result')
@@ -1253,25 +1257,39 @@ export default {
       var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
+        console.log('test')
         console.log(response)
-        console.log(that.baseObj)
-        // that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList = response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList
-        that.currentCriteria.CriteriaList = response.data.AnalysisCriteria.PrimaryCriteria.CriteriaList
-        that.currentCriteria.CriteriaList[0].event = 'Treatment'
-        // that.baseObj.cohort_name = response.data.cohort_name
-        // that.baseObj.cohort_desc = response.data.cohort_desc
-        // that.baseObj.data_source = response.data.data_source
-        // that.baseObj = response.data
-        // that.criteriaArray = [
-        //   {
-        //     'id': 'PrimaryCriteria',
-        //     'PCriteriaSetName': '',
-        //     'currentSelected': 1,
-        //     'PCriteriaSetDesc': ''
-        //   }
-        // ]
-        console.log(that.baseObj, that.criteriaArray)
-        that.markCriteriaAsSelected(that.baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0])
+        // console.log(that.baseObj)
+        // if (!that.baseObj.cohort_name) {
+        //   that.baseObj.cohort_name = response.data.cohort_name
+        //   that.baseObj.cohort_desc = response.data.cohort_desc
+        //   that.baseObj.data_source = response.data.data_source
+        //   that.baseObj.cohort_id = response.data.cohort_id
+        // }
+        that.baseObj = response.data.AnalysisCriteria
+        that.baseObj.cohort_name = response.data.cohort_name
+        that.baseObj.cohort_desc = response.data.cohort_desc
+        that.baseObj.data_source = response.data.data_source
+        that.baseObj.cohort_id = response.data.cohort_id
+        that.baseObj.analysis_status = response.data.analysis_status
+        // console.log(that.baseObj)
+        // console.log(that.currentCriteria.CriteriaList)
+        that.eventArray1 = that.eventArray1.filter(t => {
+          console.log(t)
+          let event = that.currentCriteria.CriteriaList.map(t => t.event)
+          console.log(that.currentCriteria.CriteriaList)
+          return !event.includes(t.name)
+        })
+        that.criteriaArray = [
+          {
+            'id': 'PrimaryCriteria',
+            'PCriteriaSetName': '',
+            'currentSelected': 1,
+            'PCriteriaSetDesc': ''
+          }
+        ]
+        // console.log(that.baseObj, that.criteriaArray)
+        that.markCriteriaAsSelected(that.criteriaArray[0])
         that.dtSourceOpts = response.data.result
         that.loading = false
         that.$q.loading.hide()
@@ -1507,7 +1525,6 @@ export default {
         }
       })
       console.log('Result JSON with PrimaryCriteria')
-      console.log(that.baseObj.AnalysisCriteria)
       // that.baseObj.AnalysisCriteria.InclusionRules = []
       // that.baseObj.criteriaObj.InclusionRules.forEach(function (data, index) {
       //   console.log('Inclusion start')
@@ -1704,10 +1721,12 @@ export default {
       var successStatement = 'Cohort Analysis Definition Saved Successfully'
       // that.baseObj['created_by'] = that.$q.sessionStorage.getItem('username')
       // that.baseObj['run'] = false
+      // delete that.baseObj.criteriaObj
+      that.baseObj.AnalysisCriteria['criteriaObj'] = that.baseObj.criteriaObj
       delete that.baseObj.criteriaObj
       console.log(that.baseObj)
       if (that.pagemethod === 'update') {
-        url = process.env.API_URL + 'cohort/update/'
+        url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/update/'
         successStatement = 'Cohort Definition Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {
@@ -1726,10 +1745,10 @@ export default {
         })
         that.$q.loading.hide()
         if (response.data.result === 'Analysis successfully created') {
-          that.$router.push('/cohort/view/analysis/' + that.baseObj.cohort_id)
+          that.$router.push('/cohort/update/analysis/' + that.cohort_id)
           that.cohort_id = that.baseObj.cohort_id
-          // that.pagemethod = 'view'
-          // that.getCohortDict(that.cohort_id)
+          that.pagemethod = 'update'
+          that.getCohortDict(that.cohort_id)
         }
       }).catch(function (err) {
         that.$q.loading.hide()

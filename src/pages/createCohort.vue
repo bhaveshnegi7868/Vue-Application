@@ -839,6 +839,7 @@ export default {
     var that = this
     that.cohort_id = that.$route.params.cohort_id
     that.pagemethod = that.$route.params.method
+    console.log(that.pagemethod)
     if (that.cohort_id) {
       that.getCohortDict(that.cohort_id)
     } else {

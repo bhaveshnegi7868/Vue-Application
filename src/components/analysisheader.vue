@@ -6,7 +6,7 @@
     <div class="" v-for="path in paths()" :key="path">
       <div class="col-4 q-px-auto">
         <q-item no-caps class="Rectangle-199 h35  q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'Analysis Definition'">
-          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id?'':'/cohort/update/analysis' + cohort_name.cohort_id)"><label class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
+          <router-link class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" :to="(!cohort_name.cohort_id?'':'/cohort/update/analysis/' + cohort_name.cohort_id)"><label class="sub-level-menus-labels" style="cursor: pointer !important">{{path}}</label></router-link>
         </q-item>
         <q-item no-caps class="Rectangle-199 h35 q-ml-lg" v-bind:class="{'selected': path == selectedPage}" v-if="path == 'back'">
           <div class="textDecorNone" v-bind:class="{'disabled': !cohort_name.cohort_id}" v-on:click="doSomething()"><label no-caps class="sub-level-menus-labels" style="cursor: pointer !important">Analysis Definition</label></div>
@@ -16,14 +16,19 @@
         </q-item>
       </div>
     </div>
-    <div class="col-4 Cohort-Name" style="margin-left: 3em;">
+    <div class="col-4">
+    <div v-if="pagemethod === 'update'" class="Cohort-Name" style="">
+      <q-item no-caps class="float-right Rectangle-199 h35" >
+          <q-btn outline rounded color="white" @click="viewAnalysis(cohort_name.cohort_id)" size="10px" text-color="white" no-caps>View Analysis</q-btn>
+      </q-item>
+    </div>
+    <div class="Cohort-Name" style="" >
       <q-item no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
         <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/update/' + cohort_name.cohort_id)">
           <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Cohort Definition</q-btn>
         </router-link>
       </q-item>
     </div>
-    <div class="col">
     </div>
   </q-toolbar>
 </template>
@@ -53,7 +58,8 @@ export default {
   },
   props: {
     'selectedPage': String,
-    'cohort_name': Object
+    'cohort_name': Object,
+    'pagemethod': Object
   },
   created () {
     console.log(this.selectedPage)
@@ -69,6 +75,10 @@ export default {
         'Analysis Summary'
       ]
       // window.history.back()
+    },
+    viewAnalysis (id) {
+      this.$router.push('/cohort/view/analysis/' + id)
+      window.location.reload()
     }
   }
 }
