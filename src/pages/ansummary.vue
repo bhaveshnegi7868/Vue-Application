@@ -57,7 +57,7 @@
                 Duration
               </div>
               <div class="q-mx-sm q-py-xs col">
-                Analysis Status
+                Analysis Data - Status
               </div>
             </div>
             <div class="row H30 col5 text-center">
