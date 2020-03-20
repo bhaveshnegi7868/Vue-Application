@@ -360,6 +360,7 @@
             clickable
             v-ripple
             class="categories_list"
+            :disable="pagemethod === 'view'"
             :active="link === 1"
             @click="markCriteriaAsSelected(baseObj.criteriaObj.PrimaryCriteria)"
             active-class="categories_Selected2"
