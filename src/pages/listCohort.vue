@@ -50,7 +50,7 @@
             </router-link >
             <router-link v-if="(row.row.status) && (row.row.an_status == 'to_be_run')"  :to="'/cohort/view/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #3f868a !important;" text-color="white" no-caps>Saved</q-btn>
-              <q-tooltip>Analysis definition is Saved, Please run to generate the Summary</q-tooltip>
+              <q-tooltip>Analysis Data Definition is Saved, Please run to generate the Summary</q-tooltip>
             </router-link >
             <q-icon v-if="((row.row.cohort_status === 'SUCCESS') || ((row.row.cohort_status === 'Pending'))) && (row.row.analysis_status === 'Warning' )" name="warning" class="text-red" style="font-size: 20px;" >
               <q-tooltip>Cohort definition got updated, please run again to reflect the recent changes.</q-tooltip>

@@ -62,7 +62,7 @@
             active-class="categories_Selected2"
           >
             <q-item-section>
-              <label>* Analysis Criteria</label>
+              <label>* Analysis Data Criteria</label>
             </q-item-section>
           </q-item>
           <!-- <q-item
@@ -167,7 +167,7 @@
                           <label class="text-h6 q-pa-xs">{{elementObj.event}} <span v-if="elementObj.name"> - {{elementObj.name}} </span></label>
                         </div>
                         <div class="">
-                          <q-btn v-if="index != 0" class="fCgreen close-event q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"><q-tooltip anchor="top middle" self="center middle">Remove Analysis Criteria</q-tooltip></q-btn>
+                          <q-btn v-if="index != 0" class="fCgreen close-event q-pl-none q-pr-xs float-right f12" icon="cancel" flat rounded @click.stop.prevent="showAttributes()"  @click="cancelEvent(elementObj.id,elementObj)"><q-tooltip anchor="top middle" self="center middle">Remove Analysis Data Criteria</q-tooltip></q-btn>
                         </div>
                       </q-card>
                     </div>
@@ -366,7 +366,7 @@
             active-class="categories_Selected2"
           >
             <q-item-section>
-              <label>Analysis Criteria</label>
+              <label>Analysis Data Criteria</label>
             </q-item-section>
           </q-item>
           <q-item
@@ -668,7 +668,7 @@ export default {
           'InclusionRules': []
         }
       },
-      selectedPage: 'Analysis Definition',
+      selectedPage: 'Definition',
       cname: '',
       cdesc: '',
       cgrp: '',

@@ -1,7 +1,7 @@
 <template>
   <div class="q-ma-sm ">
     <div class="EventList_header2 f12">
-      Analysis Event Attributes {{event.event?'-':''}} {{event.event}}
+      Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
       <!-- {{pagemethod}} -->
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">

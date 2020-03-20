@@ -659,7 +659,7 @@ export default {
           'InclusionRules': []
         }
       },
-      selectedPage: 'Analysis Definition',
+      selectedPage: 'Definition',
       cname: '',
       cdesc: '',
       cgrp: '',

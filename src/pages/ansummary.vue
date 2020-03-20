@@ -81,8 +81,8 @@
           <div  v-if="arrtitionNdemoGraph" class="col-12 q-mt-sm   shadow-2 cohortSummaryText col5">
             <div class="row f12">
               <div class="q-ma-sm col-11" style="margin-left: 50px;">
-                <div class="row-inline bgCgreen q-px-xs q-py-xs ">
-                  Patient Attrition Flow Summary
+                <div class="row-inline bgblue q-px-xs q-py-xs ">
+                  Analysis Data - Summary
                 </div>
                 <div class="q-my-sm q-px-xs q-py-sm bor1grey H450">
                     <div v-if="report" class="row col-12 justify-center full-height full-width text-center" style="margin-left:0em !important">
@@ -99,7 +99,7 @@
                                 <q-card class="summary-card my-card text-black" style="height: 10em;">
                                 <q-card-section>
                                 <div class="text-h6" style="padding-top: 6%"><strong>Final Patient Count</strong></div>
-                                <div class="q-mb-sm" style="font-size:85%">(satisfying all Analysis Criteria)</div>
+                                <div class="q-mb-sm" style="font-size:85%">(Satisfying all Analysis Data Criteria)</div>
                                 <div class="text-subtitle2" style="font-size:3em"><strong>{{baseObj.result.Analysis_Total}}</strong></div>
                                 </q-card-section>
                                 </q-card>
@@ -308,7 +308,7 @@ export default {
       openScdChild2: 0,
       arrtitionNdemoGraph: 1,
       otherEvnt: 0,
-      selectedPage: 'Analysis Summary'
+      selectedPage: 'Summary'
     }
   },
   mounted () {

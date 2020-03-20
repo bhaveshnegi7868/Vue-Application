@@ -19,12 +19,12 @@
     <div v-if="cohort_name.cohort_status === 'SUCCESS'" class="col-4 Cohort-Name" style="margin-left: 6em;">
       <q-item v-if="cohort_name.analysis_status === null" no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
         <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/analysis/' + cohort_name.cohort_id)">
-          <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Definition</q-btn>
+          <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Data Definition</q-btn>
         </router-link>
       </q-item>
       <q-item v-if="cohort_name.analysis_status !== null" no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
         <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/update/analysis/' + cohort_name.cohort_id)">
-          <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Definition</q-btn>
+          <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Data Definition</q-btn>
         </router-link>
       </q-item>
     </div>
