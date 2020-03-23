@@ -93,14 +93,6 @@
         </q-btn>-->
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
-        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
-          <div class="col-4 q-ma-sm" >
-            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaSetName" placeholder="Criteria Name" />
-          </div>
-          <div class="col q-ma-sm">
-            <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaSetDesc" placeholder="Criteria Description" />
-          </div>
-        </q-card>
         <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] !== undefined">
           <div class="col-4 q-ma-sm">
             <input class="input-box full-width" v-model="currentCriteria.PCriteriaSetName" placeholder="Criteria Name" />
@@ -743,6 +735,7 @@ export default {
   mounted () {
     var that = this
     that.markCriteriaAsSelected(that.criteriaArray[0])
+    // that.currentCriteria.PCriteriaSetName = 'bhavesh'
     that.cohort_id = that.$route.params.cohort_id
     that.pagemethod = that.$route.params.method
     console.log(that.pagemethod)
@@ -1159,8 +1152,8 @@ export default {
           if (row.PCriteriaSetName === criteria.PCriteriaSetName) {
             that.link = 1
             that.currentCriteria = that.baseObj['criteriaObj']['PrimaryCriteria']
-            that.currentCriteria.PCriteriaSetName = row.PCriteriaSetName
-            that.currentCriteria.PCriteriaSetDesc = row.PCriteriaSetDesc
+            // that.currentCriteria.PCriteriaSetName = row.PCriteriaSetName
+            // that.currentCriteria.PCriteriaSetDesc = row.PCriteriaSetDesc
             that.currentInclusionObj = {}
             row.currentSelected = 1
           } else {
