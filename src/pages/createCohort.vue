@@ -190,6 +190,7 @@
                 <div class="header_Bor1"></div>
                 <div :list="eventArray1" :group="{ name: 'people', pull: 'clone', put: false }">
                   <drag
+                    :draggable="!(viewDisabled)"
                     class="Events"
                     v-for="(element) in eventArray1"
                     :key="element.id"
@@ -245,6 +246,7 @@
                       <div v-if="elementObj.CorrelatedCriteria" class="corelated-criteria-block">
                         <input ref="textbox" v-on:keyup="corelatedname(elementObj)" class="input-box full-width q-mx-xs" v-model="elementObj.CorrelatedCriteria.Name" placeholder="Correlated Criteria Name" />
                         <div v-if="elementObj.CorrelatedCriteria.CriteriaList != ''" class="row full-width ">
+                          <!-- {{elementObj.CorrelatedCriteria.CriteriaList}} -->
                           <q-card
                           v-for="(elementObj1,index1) in elementObj.CorrelatedCriteria.CriteriaList"
                           :key="elementObj1.id"
@@ -364,7 +366,7 @@
               </q-card>
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
+              <event-attributes v-if="renderComponent" :pagemethod="pagemethod" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -397,8 +399,13 @@
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" readonly="true" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
-            <div class="col-5 q-px-sm q-py-xs">
+            <div class="col-4 q-px-sm q-py-xs">
                 <input class="input-box full-width" readonly="true" v-model="baseObj.data_source" placeholder="Cohort Description" />
+            </div>
+            <div class="col q-px-sm q-py-xs" >
+              <q-btn outlined icon="edit" @click="toUpdate(baseObj.cohort_id)" style="margin-top:0px !important" label="Edit" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary">
+                </q-btn>
+              <q-tooltip>Edit Cohort</q-tooltip>
             </div>
             <!-- <div class="col q-px-sm q-py-xs"> -->
               <!-- <q-btn-dropdown
@@ -558,13 +565,13 @@
                             <div class="col ellipsis w5R">
                               <label class="text-h6  q-pa-lg">{{elementObj1.event}} <span v-if="elementObj1.name"> - {{elementObj1.name}} </span></label>
                             </div>
-                            <div class="col-1">
+                            <!-- <div class="col-1">
                               <q-btn icon="cancel" class="fCgreen q-px-xs f12 float-right" flat rounded @click="cancelEvent1(elementObj1,elementObj)" @click.stop.prevent="showAttributes()"/>
-                            </div>
+                            </div> -->
                           </q-card>
                         </div>
                         <drop @drop="function(transferData, nativeEvent) { handleDropWithId(elementObj, transferData, nativeEvent) }" class="full-width" :id="'drop-zone-'+elementObj.id" >
-                          <select class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="handleDropWithId(elementObj)">
+                          <select v-if="pagemethod !== 'view'" class="categories_addNew text-h6 full-width" v-model="selectedEvent" label="Select Event" @change="handleDropWithId(elementObj)">
                               <option disabled>Select Event</option>
                               <option v-for="opt in eventArray1" v-bind:key="opt.value" :value="opt.name">
                                 {{opt.name}}
@@ -617,7 +624,7 @@
                 <div class="row" v-if="currentCriteria.ObservationWindow">
                   <div class="col">
                     Limit initial events to
-                    <option value="" selected disabled>Choose</option>
+                    <!-- <option value="" selected disabled>Choose</option> -->
                     <select class="criteria-box H25 w9R" disabled v-model="currentCriteria.PrimaryCriteriaLimit.Type">
                       <option v-for="opt in dtSourceOpts2" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
@@ -639,7 +646,7 @@
               </q-card>
             </q-card>
             <q-card class="attributeBox shadow-2 q-ma-xs">
-              <event-attributes v-if="renderComponent" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
+              <event-attributes v-if="renderComponent" :pagemethod="pagemethod" :mappingDict="mappingDict" :event="currentEvent" @inputChange="handleChange"></event-attributes>
             </q-card>
         </div>
       </div>
@@ -715,6 +722,7 @@ export default {
   },
   data () {
     return {
+      viewDisabled: false,
       renderComponent: false,
       renderComponent1: true,
       cohortGroupFilter: '',
@@ -1146,6 +1154,10 @@ export default {
         that.renderComponent2 = true
       })
     },
+    toUpdate (id) {
+      this.$router.push('/cohort/update/' + id)
+      window.location.reload()
+    },
     removeCorelatedCriteria (elementObj) {
       var that = this
       that.renderComponent2 = false
@@ -1373,6 +1385,9 @@ export default {
         })
         if (that.pagemethod === 'copy') {
           that.baseObj.cohort_name = ''
+        }
+        if (that.pagemethod === 'view') {
+          that.viewDisabled = true
         }
         that.markCriteriaAsSelected(that.criteriaArray[0])
         // that.dtSourceOpts = response.data.result

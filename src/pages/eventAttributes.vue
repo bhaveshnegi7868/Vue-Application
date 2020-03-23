@@ -5,9 +5,9 @@
     </div>
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
       Name *
-      <input class="input-box full-width" v-model="event.name" v-on:keyup="sendName" />
+      <input class="input-box full-width" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
     </div>
-    <div class="attributeDiv" v-if="event != ''">
+    <div class="attributeDiv" :disabled="pagemethod === 'view'" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key] != undefined">
             <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && (key!='OccurrenceIndexStartDate' || event.corelated != undefined)">
@@ -458,7 +458,8 @@ export default {
   },
   props: {
     'event': Object,
-    'mappingDict': Object
+    'mappingDict': Object,
+    'pagemethod': Object
   },
 
   computed: {
