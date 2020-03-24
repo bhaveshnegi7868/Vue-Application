@@ -73,14 +73,14 @@
             </q-tooltip>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod == 'copy'">
-          <q-btn outlined icon="update" label="Update" :disable="!(baseObj.codeset_name && error_message)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+          <q-btn outlined icon="update" label="Update" :disable="!(baseObj.codeset_name && error_message && tableflag)" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Update
             </q-tooltip>
           </q-btn>
         </div>
         <div class="col q-ml-xs q-mr-xs q-py-xs" v-if="pagemethod == 'update'">
-          <q-btn outlined icon="update" label="Update" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
+          <q-btn outlined icon="update" :disable="!(baseObj.codeset_name && error_message && baseObj.codeset_data.length !== 0)" label="Update" class="action-btns f10 full-width" text-color="primary" @click="saveCodeset">
             <q-tooltip>
               Update
             </q-tooltip>
