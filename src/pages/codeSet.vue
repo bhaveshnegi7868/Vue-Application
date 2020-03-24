@@ -770,24 +770,26 @@ export default {
     },
     codenamecheck (name) {
       var that = this
-      var codesetName = name
-      console.log(codesetName)
-      var url = process.env.API_URL + 'codeset/name/validation/?name=' + codesetName
-      var method = axios.get(url, codesetName)
-      method.then(function (response) {
-        that.error_message = true
-        console.log('error message')
-        console.log(response)
-      }).catch(function (err) {
-        that.error_message = false
-        console.log(err.message)
-        that.$q.notify({
-          color: 'red',
-          textColor: 'white',
-          message: 'Codeset name already exists',
-          timeout: 1000
+      if (that.pagemethod !== 'update') {
+        var codesetName = name
+        console.log(codesetName)
+        var url = process.env.API_URL + 'codeset/name/validation/?name=' + codesetName
+        var method = axios.get(url, codesetName)
+        method.then(function (response) {
+          that.error_message = true
+          console.log('error message')
+          console.log(response)
+        }).catch(function (err) {
+          that.error_message = false
+          console.log(err.message)
+          that.$q.notify({
+            color: 'red',
+            textColor: 'white',
+            message: 'Codeset name already exists',
+            timeout: 1000
+          })
         })
-      })
+      }
     },
     updateFile () {
       var that = this
