@@ -421,7 +421,6 @@ export default {
     },
     sendName (event) {
       var that = this
-      // console.log(that.event.name)
       if (/^\s*$/.test(that.event.name)) {
         that.nameflag = false
         console.log('yes')
