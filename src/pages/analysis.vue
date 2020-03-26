@@ -38,7 +38,7 @@
                 Update
               </q-tooltip>
               <q-tooltip v-if="analysis_stat === false">
-                Analysis data creation in progress, please wait
+                Analysis data creation is in progress, please wait
               </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
@@ -47,7 +47,7 @@
                 Run
               </q-tooltip>
               <q-tooltip v-if="analysis_stat === false">
-                Analysis data creation in progress, please wait
+                Analysis data creation is in progress, please wait
               </q-tooltip>
           </div>
         </q-card>
