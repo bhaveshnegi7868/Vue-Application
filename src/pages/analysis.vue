@@ -33,15 +33,21 @@
               </q-tooltip>
           </div>
           <div class="col-5 createCohortbtnGrp q-py-xs q-mx-xs" v-if="pagemethod === 'update'">
-            <q-btn outlined icon="save" :disable="!((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
+            <q-btn outlined icon="save" :disable="!(((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined)))) && (analysis_stat)) " label="Update" class="f10 action-btns borC2 q-mx-xs full-width" text-color="primary" @click="saveCohort"/>
             <q-tooltip>
                 Update
               </q-tooltip>
+              <q-tooltip v-if="analysis_stat === false">
+                Analysis data creation in progress, please wait
+              </q-tooltip>
           </div>
           <div class="col createCohortbtnGrp q-py-xs q-mx-xs">
-            <q-btn outlined icon="play_circle_filled" :disable="!((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined))))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
+            <q-btn outlined icon="play_circle_filled" :disable="!(((baseObj.cohort_name && (/\S/.test(baseObj.cohort_name) != '') && baseObj.data_source && baseObj.criteriaObj.PrimaryCriteria.CriteriaList.length >= 1 && baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name && (/\S/.test(baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].name) != '')) && (((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ConditionOccurrence.listDiagnosis.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].DrugExposure.listDrugs.codeset != undefined)) || ((baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures != undefined) && (baseObj.criteriaObj.PrimaryCriteria.CriteriaList[0].ProcedureOccurrence.listProcedures.codeset != undefined)))) && (analysis_stat))" label="Run" @click="runCohort()" class="f10  q-mx-xs action-btns borC3 full-width" text-color="positive"/>
               <q-tooltip>
                 Run
+              </q-tooltip>
+              <q-tooltip v-if="analysis_stat === false">
+                Analysis data creation in progress, please wait
               </q-tooltip>
           </div>
         </q-card>
@@ -617,6 +623,7 @@ export default {
       cohortGroupFilter: '',
       error_message: true,
       renderComponent2: true,
+      analysis_stat: true,
       dictPopup: false,
       corelatedflag: true,
       createCohortGroupPopup: false,
@@ -1261,7 +1268,7 @@ export default {
     getCohortDict () {
       var that = this
       console.log('check dict')
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/' + that.cohort_id
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         console.log(response)
@@ -1279,6 +1286,11 @@ export default {
           that.baseObj.data_source = response.data.data_source
           that.baseObj.cohort_id = response.data.cohort_id
           that.baseObj.analysis_status = response.data.analysis_status
+          console.log(that.baseObj.analysis_status)
+          if (that.baseObj.analysis_status === 'Pending') {
+            that.analysis_stat = false
+          }
+          console.log(that.analysis_stat)
           // console.log(that.baseObj)
           // console.log(that.currentCriteria.CriteriaList)
           that.eventArray1 = that.eventArray1.filter(t => {
@@ -1306,7 +1318,7 @@ export default {
     },
     getEventsDict () {
       var that = this
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/events/list/'
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/events/list/'
       axios.get(url).then(function (response) {
         that.eventArray1 = []
         let id = 0
@@ -1325,7 +1337,7 @@ export default {
       var that = this
       console.log(event)
       that.$q.loading.show()
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/attributes/' + that.capitalizeFirstLetter(event)
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/attributes/' + that.capitalizeFirstLetter(event)
       axios.get(url).then(function (response) {
         that.$q.loading.hide()
         console.log('eventResponse')
@@ -1385,7 +1397,7 @@ export default {
           timer: 2000
         })
       }
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/create/'
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/create/'
       var method
       console.log('save my obj Object')
       that.baseObj['cohort_id'] = that.cohort_id
@@ -1733,7 +1745,7 @@ export default {
       delete that.baseObj.criteriaObj
       console.log(that.baseObj)
       if (that.pagemethod === 'update') {
-        url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/update/'
+        url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/update/'
         successStatement = 'Cohort Analysis Definition Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {

@@ -338,7 +338,7 @@ export default {
     },
     getCohortDict () {
       var that = this
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/status/' + that.cohort_id
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/status/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         console.log(response)
@@ -352,7 +352,7 @@ export default {
       var that = this
       console.log(that.baseObj)
       that.summaryGraphRender = false
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/summary/' + that.cohort_id
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/summary/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         console.log(response)

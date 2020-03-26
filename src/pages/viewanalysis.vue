@@ -1254,7 +1254,7 @@ export default {
     getCohortDict () {
       var that = this
       console.log('check dict')
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/' + that.cohort_id
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/' + that.cohort_id
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         console.log('test')
@@ -1297,7 +1297,7 @@ export default {
     },
     getEventsDict () {
       var that = this
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/events/list/'
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/events/list/'
       axios.get(url).then(function (response) {
         that.eventArray1 = []
         let id = 0
@@ -1316,7 +1316,7 @@ export default {
       var that = this
       console.log(event)
       that.$q.loading.show()
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/attributes/' + that.capitalizeFirstLetter(event)
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/attributes/' + that.capitalizeFirstLetter(event)
       axios.get(url).then(function (response) {
         that.$q.loading.hide()
         console.log('eventResponse')
@@ -1376,7 +1376,7 @@ export default {
           timer: 2000
         })
       }
-      var url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/create/'
+      var url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/create/'
       var method
       console.log('save my obj Object')
       that.baseObj['cohort_id'] = that.cohort_id
@@ -1726,7 +1726,7 @@ export default {
       delete that.baseObj.criteriaObj
       console.log(that.baseObj)
       if (that.pagemethod === 'update') {
-        url = 'http://10.14.11.136:8003/api/v1/cohort/analysis/update/'
+        url = 'http://10.14.11.136:8006/api/v1/cohort/analysis/update/'
         successStatement = 'Cohort Definition Saved Successfully'
         method = axios.put(url, that.baseObj)
       } else {
