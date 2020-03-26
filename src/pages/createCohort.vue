@@ -1,7 +1,6 @@
 <template>
   <q-page class="app-layout " >
     <secondary-header :selectedPage="selectedPage" :cohort_name="baseObj" ></secondary-header>
-    {{cohort_stat}}
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
