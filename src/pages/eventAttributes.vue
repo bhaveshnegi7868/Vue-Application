@@ -7,7 +7,7 @@
       Name *
       <input class="input-box full-width" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
     </div>
-    <div class="attributeDiv" :disabled="pagemethod === 'view'" v-if="event != ''">
+    <div class="attributeDiv" :disabled="pagemethod === 'view' || !(nameflag)" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key] != undefined">
             <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && (key!='OccurrenceIndexStartDate' || event.corelated != undefined)">
@@ -316,6 +316,7 @@ export default {
       ],
       renderComponent1: true,
       renderComponent2: true,
+      nameflag: false,
       openImportCodesetPopup: false,
       excludeValues: ['bt', '!bt'],
       shape: 'include',
@@ -420,7 +421,15 @@ export default {
     },
     sendName (event) {
       var that = this
-      console.log(that.event)
+      // console.log(that.event.name)
+      if (/^\s*$/.test(that.event.name)) {
+        that.nameflag = false
+        console.log('yes')
+      }
+      if (!(/^\s*$/.test(that.event.name))) {
+        that.nameflag = true
+        console.log('no')
+      }
       that.$emit('inputChange', that.event)
       that.$forceUpdate()
     },
