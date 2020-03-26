@@ -47,7 +47,7 @@
                 Run
               </q-tooltip>
               <q-tooltip v-if="analysis_stat === false">
-                Analysis data creation is in progress, please wait
+                Analysis Data creation is in progress, Please wait
               </q-tooltip>
           </div>
         </q-card>
