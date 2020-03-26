@@ -7,7 +7,7 @@
       Name *
       <input class="input-box full-width" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
     </div>
-    <div class="attributeDiv" :disabled="pagemethod === 'view' || !(nameflag)" v-if="event != ''">
+    <div class="attributeDiv" :disabled="pagemethod === 'view'" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key] != undefined">
             <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && (key!='OccurrenceIndexStartDate' || event.corelated != undefined)">
@@ -20,6 +20,7 @@
               :searchable="true"
               :close-on-select="false"
               :show-labels="false"
+              :disabled="!(nameflag)"
               :placeholder="event[mappingDict[event.event]][key].Label"
               class="w12R mx-h25 q-mr-xs f12"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
@@ -46,6 +47,7 @@
               rounded
               class="q-pa-xs q-ma-none importIcon"
               icon="add"
+              :disabled="!(nameflag)"
               @click="openImportCodesetPopupFun(key,index)"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
               >
@@ -71,7 +73,7 @@
                   {{opt}}
                 </div>
             </q-btn-dropdown> -->
-            <div class="col full-width " v-if="obj.Type == 'multiple-select'">
+            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'multiple-select'">
               <div class="">
                 <div class="">
                    <multiselect
@@ -92,7 +94,7 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width q-mb-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
+            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="col dateInputBox q-mb-xs q-pr-xs" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !== 'undefined')">
                   <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
@@ -104,10 +106,10 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width " v-if="obj.Type == 'text'">
+            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'text'">
               <input class="input-box full-width" v-model="event[mappingDict[event.event]][key][obj.name]"/>
             </div>
-            <div class="col full-width q-mb-xs" v-if="obj.Type == 'count'">
+            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'count'">
               <div class="row q-mt-xs">
                 <div class="col ">
                   <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
@@ -121,7 +123,7 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width " v-if="obj.Type == 'count-select'">
+            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'count-select'">
               <div class="q-mt-xs">
                 <div class="col q-mr-xs  ">
                   <select class="criteria-box w9R "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
@@ -137,7 +139,7 @@
                 </div>
               </div>
             </div>
-            <div class="w30R full-width" v-if="obj.Type == 'day-between' && event.corelated == true">
+            <div class="w30R full-width" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'day-between' && event.corelated == true">
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
@@ -197,7 +199,7 @@
                  </div>
                </div>
              </div>
-            <div class="col full-width q-mb-xs" v-if="obj.Type == 'date-between' && event.corelated == true">
+            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'date-between' && event.corelated == true">
               <div class="q-mt-xs">
                 <div class="">
                 <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
@@ -209,11 +211,11 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width row"  v-if="obj.Type == 'checkbox'">
+            <div class="col full-width row" :disabled="!(codesetflag && nameflag)"  v-if="obj.Type == 'checkbox'">
             <div class="col q-my-sm">{{event[mappingDict[event.event]][key].Label}}</div>
             <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span></div>
             </div>
-            <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
+            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !=='undefined')">
                   <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
@@ -222,7 +224,7 @@
                 <q-btn v-if="key == 'Occurrence' && event.corelated == true " class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:click="sendName"></q-btn>
               </div>
             </div>
-            <div class="col full-width " v-if="key != 'Occurrence' && obj.Type == 'single-select'">
+            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="key != 'Occurrence' && obj.Type == 'single-select'">
               <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
@@ -237,7 +239,7 @@
               <!-- <q-select v-model="model" :options="obj.value" label="Standard" ></q-select> -->
               </div>
             </div>
-            <div class="col full-width " v-if="key == 'Occurrence' && obj.Type == 'single-select'">
+            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="key == 'Occurrence' && obj.Type == 'single-select'">
               <div class="row" >
                 <div class="">
                   <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
@@ -317,6 +319,7 @@ export default {
       renderComponent1: true,
       renderComponent2: true,
       nameflag: false,
+      codesetflag: false,
       openImportCodesetPopup: false,
       excludeValues: ['bt', '!bt'],
       shape: 'include',
@@ -419,6 +422,9 @@ export default {
       this.openImportCodesetPopup = false
       this.openImportCodesetPopup = true
     },
+    disablefield () {
+
+    },
     sendName (event) {
       var that = this
       if (/^\s*$/.test(that.event.name)) {
@@ -446,6 +452,16 @@ export default {
     makeSelected () {
       var that = this
       that.renderComponent1 = false
+      console.log(that.event)
+      if (that.event.event === 'Diagnosis' && that.event.ConditionOccurrence.listDiagnosis.codeset.label !== null) {
+        that.codesetflag = true
+      } else if (that.event.event === 'Treatment' && that.event.DrugExposure.listDrugs.codeset.label !== null) {
+        that.codesetflag = true
+      } else if (that.event.event === 'Procedure' && that.event.ProcedureOccurrence.listProcedures.codeset.label !== null) {
+        that.codesetflag = true
+      } else {
+        that.codesetflag = false
+      }
       that.$nextTick(() => {
         // Add the component back in
         that.renderComponent1 = true
