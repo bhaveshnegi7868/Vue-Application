@@ -119,7 +119,7 @@
                 Run
               </q-tooltip>
               <q-tooltip v-if="cohort_stat === false">
-                Cohort creation is in progress, please wait
+                Cohort Creation is in progress, Please wait
               </q-tooltip>
           </div>
         </q-card>
