@@ -31,9 +31,7 @@
               track-by="value"
               label="label">
             </multiselect>
-            <q-tooltip v-if="nameflag" anchor="top middle" self="center middle">
-              Mandatory Field
-            </q-tooltip>
+            <!-- {{event[mappingDict[event.event]][key].Label}} -->
             <!-- <q-select
               use-input
               hide-selected
