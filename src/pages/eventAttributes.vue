@@ -3,7 +3,6 @@
     <div class="EventList_header f12">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
-    {{nameflag}}
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
       Name *
       <input class="input-box full-width" v-bind:class="!(nameflag)?'event-name':''" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
@@ -25,6 +24,7 @@
               :close-on-select="false"
               :show-labels="false"
               :disabled="!(nameflag)"
+              v-bind:class="(codesetflag)?'code-name':''"
               :placeholder="event[mappingDict[event.event]][key].Label"
               class="w12R mx-h25 q-mr-xs f12"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
