@@ -31,7 +31,6 @@
               track-by="value"
               label="label">
             </multiselect>
-            <!-- {{event[mappingDict[event.event]][key].Label}} -->
             <!-- <q-select
               use-input
               hide-selected
