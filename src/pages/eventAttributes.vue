@@ -5,7 +5,10 @@
     </div>
     <div v-if="event != ''" class="row q-ml-sm q-my-xs">
       Name *
-      <input class="input-box full-width" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
+      <input class="input-box full-width event-name" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
+      <q-tooltip anchor="bottom right" self="center middle">
+        Mandatory Field
+      </q-tooltip>
     </div>
     <div class="attributeDiv" :disabled="pagemethod === 'view'" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
@@ -22,12 +25,15 @@
               :show-labels="false"
               :disabled="!(nameflag)"
               :placeholder="event[mappingDict[event.event]][key].Label"
-              class="w12R mx-h25 q-mr-xs f12"
+              class="w12R mx-h25 q-mr-xs f12 event-name"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
               @input="makeSelected"
               track-by="value"
               label="label">
             </multiselect>
+            <q-tooltip v-if="nameflag" anchor="top middle" self="center middle">
+              Mandatory Field
+            </q-tooltip>
             <!-- <q-select
               use-input
               hide-selected
