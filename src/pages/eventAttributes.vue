@@ -3,8 +3,7 @@
     <div class="EventList_header f12">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
-    <div v-if="event != ''" class="row q-ml-sm q-my-xs">
-      Name *
+    <div v-if="event != ''" class="row q-ml-sm q-my-xs"><div>Name <span class="asterix2">*</span></div>
       <input class="input-box full-width" v-bind:class="!(nameflag)?'event-name':''" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
       <q-tooltip anchor="bottom right" self="center middle">
         Mandatory Field
@@ -14,7 +13,7 @@
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key] != undefined">
             <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && (key!='OccurrenceIndexStartDate' || event.corelated != undefined)">
-            {{event[mappingDict[event.event]][key].Label}} <span v-if="key == 'listDiagnosis' || key == 'listProcedures' || key == 'listDrugs'"> *</span><br>
+            {{event[mappingDict[event.event]][key].Label}} <span v-if="key == 'listDiagnosis' || key == 'listProcedures' || key == 'listDrugs'"><span class="asterix2">*</span></span><br>
             </div>
           <div class="q-ml-sm " v-for="(obj,index) in event[mappingDict[event.event]][key].inputs" v-bind:key="index">
             <multiselect

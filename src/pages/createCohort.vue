@@ -4,13 +4,16 @@
     <div  class="row createcohortHeaderform q-px-sm q-py-sm" v-if="pagemethod != 'view'">
         <q-card class="row col-10 q-mr-xs">
             <div class="col-2 q-px-sm q-py-xs">
-                <input class="input-box full-width" v-model="baseObj.cohort_name" v-on:blur="cohortnamecheck(baseObj.cohort_name)" placeholder="* Cohort Name" />
+              <span id="input-name">
+                <input  class="input-box full-width" v-model="baseObj.cohort_name" v-on:blur="cohortnamecheck(baseObj.cohort_name)" placeholder=" Cohort Name" />
+              </span>
             </div>
             <div class="col-5 q-px-sm q-py-xs">
                 <input class="input-box full-width" v-model="baseObj.cohort_desc" placeholder="Cohort Description" />
             </div>
             <div class="col q-px-sm q-py-xs">
-              <q-select
+              <span id="input-group">
+                <q-select
                 use-input
                 hide-selected
                 fill-input
@@ -20,9 +23,11 @@
                 :options="cohortGroups"
                 @focus="getCohortGroupList"
                 class=" bor8R f12 select-box"
+                id ="req"
                 @filter="cohortGroupfilterFn"
-                placeholder="* Cohort Group"
+                placeholder="Cohort Group"
               />
+              </span>
               <!-- <q-btn-dropdown
                   v-if="renderComponent1"
                   flat
@@ -62,19 +67,21 @@
                 </q-btn>
             </div>
             <div class="col q-px-sm q-py-xs">
-              <q-select
-                use-input
-                hide-selected
-                fill-input
-                transition-show="jump-down"
-                transition-hide="jump-up"
-                v-model="baseObj.data_source"
-                :options="dataSources"
-                @focus="getDataSourceList"
-                class="bor8R f12 select-box"
-                @filter="datasourcefilterFn"
-                Placeholder="* Datasource"
-              />
+              <span id="input-group">
+                <q-select
+                  use-input
+                  hide-selected
+                  fill-input
+                  transition-show="jump-down"
+                  transition-hide="jump-up"
+                  v-model="baseObj.data_source"
+                  :options="dataSources"
+                  @focus="getDataSourceList"
+                  class="bor8R f12 select-box"
+                  @filter="datasourcefilterFn"
+                  Placeholder="Datasource"
+                />
+              </span>
               <!-- <q-btn-dropdown
                   v-if="renderComponent1"
                   no-caps
@@ -140,7 +147,7 @@
             active-class="categories_Selected"
           >
             <q-item-section>
-              <label>* Primary Criteria</label>
+              <div><span style="margin-right: 3px;font-size: 16px;">*</span><label>Primary Criteria</label></div>
             </q-item-section>
           </q-item>
           <q-item
@@ -208,7 +215,7 @@
             </q-card>
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
-                <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
+                <div v-if="!currentInclusionObj.type">Any of the following criteria<span class="asterix">*</span></div>
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col" v-if="currentInclusionObj.type">
                     <select class="criteria-box H25" v-model="currentInclusionObj.type.op">
