@@ -3,13 +3,14 @@
     <div class="EventList_header f12">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
+    {{nameflag}}
     <div v-if="event != ''" class="row q-ml-sm q-my-xs"><div>Name <span class="asterix2">*</span></div>
       <input class="input-box full-width" v-bind:class="!(nameflag)?'event-name':''" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
       <q-tooltip anchor="bottom right" self="center middle">
         Mandatory Field
       </q-tooltip>
     </div>
-    <div class="attributeDiv" :disabled="pagemethod === 'view'" v-if="event != ''">
+    <div class="attributeDiv" v-if="event != ''">
         <div class="row " v-for="(key,localObj) in orderToShow" v-bind:key="localObj" >
           <div class="row q-mt-sm col-12" v-if="event[mappingDict[event.event]][key] != undefined">
             <div class="col-11 q-ml-sm q-mt-sm q-mb-xs" v-if="key!='OccurrenceLimit' && (key!='OccurrenceIndexStartDate' || event.corelated != undefined)">
@@ -22,7 +23,7 @@
               :searchable="true"
               :close-on-select="false"
               :show-labels="false"
-              :disabled="!(nameflag)"
+              :disabled="!(nameflag) || pagemethod === 'view'"
               v-bind:class="(codesetflag)?'code-name':''"
               :placeholder="event[mappingDict[event.event]][key].Label"
               class="w12R mx-h25 q-mr-xs f12 code"
@@ -50,7 +51,7 @@
               rounded
               class="q-pa-xs q-ma-none importIcon"
               icon="add"
-              :disabled="!(nameflag)"
+              :disabled="!(nameflag) || pagemethod === 'view'"
               @click="openImportCodesetPopupFun(key,index)"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
               >
@@ -76,7 +77,7 @@
                   {{opt}}
                 </div>
             </q-btn-dropdown> -->
-            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'multiple-select'">
+            <div class="col full-width " v-if="obj.Type == 'multiple-select'">
               <div class="">
                 <div class="">
                    <multiselect
@@ -87,6 +88,7 @@
                       :show-labels="false"
                       :placeholder="event[mappingDict[event.event]][key].Label"
                       class="full-width eventDropdownAttr w13R f12"
+                      :disabled="!(codesetflag && nameflag) || pagemethod === 'view'"
                       v-if="renderComponent1"
                       @input="makeSelected"
                       :multiple="true"
@@ -97,25 +99,25 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
+            <div class="col full-width q-mb-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="col dateInputBox q-mb-xs q-pr-xs" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !== 'undefined')">
                   <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
-                    <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
+                    <q-popup-proxy :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" :ref="obj.name" transition-show="scale" transition-hide="scale">
+                      <q-date :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
                     </q-popup-proxy>
                   </q-icon>
                   {{event[mappingDict[event.event]][key][obj.name]?event[mappingDict[event.event]][key][obj.name]:'YYYY-MM-DD'}}
                 </div>
               </div>
             </div>
-            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'text'">
-              <input class="input-box full-width" v-model="event[mappingDict[event.event]][key][obj.name]"/>
+            <div class="col full-width " v-if="obj.Type == 'text'">
+              <input class="input-box full-width" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]"/>
             </div>
-            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'count'">
+            <div class="col full-width q-mb-xs" v-if="obj.Type == 'count'">
               <div class="row q-mt-xs">
                 <div class="col ">
-                  <select class="criteria-box  w9R" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <select class="criteria-box  w9R" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -126,10 +128,10 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'count-select'">
+            <div class="col full-width " v-if="obj.Type == 'count-select'">
               <div class="q-mt-xs">
                 <div class="col q-mr-xs  ">
-                  <select class="criteria-box w9R "  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <select class="criteria-box w9R " :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                       {{opt}}
                     </option>
@@ -142,11 +144,11 @@
                 </div>
               </div>
             </div>
-            <div class="w30R full-width" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'day-between' && event.corelated == true">
+            <div class="w30R full-width"  v-if="obj.Type == 'day-between' && event.corelated == true">
               <div class="row full-width col-12 q-mt-xs">
                 <div class=" q-mr-xs">
                   <span class="q-mr-xs"> Between </span>
-                  <input class="input-box text-center  w5R q-mr-xs" value="ALL" list="listday2" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
+                  <input :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" class="input-box text-center  w5R q-mr-xs" value="ALL" list="listday2" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57"  v-model="event[mappingDict[event.event]][key].data.sday">
                   <datalist id="listday2">
                      <option value="ALL"/>
                      <option value="0"/>
@@ -166,7 +168,7 @@
                  </div>
                  <div class=" q-mr-xs ">
                    <span class="q-mr-xs">day</span>
-                   <select class="criteria-box w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
+                   <select :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" class="criteria-box w4R" v-model="event[mappingDict[event.event]][key].data.stype" v-on:change="sendName">
                      <option v-for="opt in indexloop" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
@@ -174,7 +176,7 @@
                  </div>
                  <div class=" q-mr-xs">
                    <span class="q-mr-xs"> and </span>
-                   <input class="input-box text-center  w5R q-mr-xs" list="listday1" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
+                   <input :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" class="input-box text-center  w5R q-mr-xs" list="listday1" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="event[mappingDict[event.event]][key].data.eday">
                    <datalist id="listday1">
                      <option value="ALL"/>
                      <option value="0"/>
@@ -194,7 +196,7 @@
                  </div>
                  <div class=" q-mr-xs">
                    <span class="q-mr-xs"> day</span>
-                   <select class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
+                   <select :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" class="criteria-box  w4R" v-model="event[mappingDict[event.event]][key].data.etype" v-on:change="sendName">
                      <option v-for="opt in indexloop" v-bind:key="opt.value" :value="opt.value">
                         {{opt.label}}
                       </option>
@@ -202,10 +204,10 @@
                  </div>
                </div>
              </div>
-            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'date-between' && event.corelated == true">
+            <div class="col full-width q-mb-xs" v-if="obj.Type == 'date-between' && event.corelated == true">
               <div class="q-mt-xs">
                 <div class="">
-                <select class="criteria-box  w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
+                <select class="criteria-box  w9R" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName" >
                   <option disabled>select</option>
                   <option v-for="opt in obj.value" v-bind:key="opt" :value="opt">
                     {{opt}}
@@ -214,23 +216,23 @@
                 </div>
               </div>
             </div>
-            <div class="col full-width row" :disabled="!(codesetflag && nameflag)"  v-if="obj.Type == 'checkbox'">
+            <div class="col full-width row"  v-if="obj.Type == 'checkbox'">
             <div class="col q-my-sm">{{event[mappingDict[event.event]][key].Label}}</div>
-            <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span></div>
+            <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span></div>
             </div>
-            <div class="col full-width q-mb-xs" :disabled="!(codesetflag && nameflag)" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
+            <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !=='undefined')">
-                  <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
+                  <input type="text" maxlength="3" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
                 </div>
                 <q-btn v-if="key == 'Occurrence' && event.corelated !== true" disabled class="q-px-sm q-mx-sm" color="theamGreen" :label="('Using Distinct')" v-on:change="sendName"></q-btn>
                 <q-btn v-if="key == 'Occurrence' && event.corelated == true " class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:click="sendName"></q-btn>
               </div>
             </div>
-            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="key != 'Occurrence' && obj.Type == 'single-select'">
+            <div class="col full-width "  v-if="key != 'Occurrence' && obj.Type == 'single-select'">
               <div class="row" >
                 <div class="">
-                  <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <select class="criteria-box w9R" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option value=undefined>None</option>
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
@@ -242,10 +244,10 @@
               <!-- <q-select v-model="model" :options="obj.value" label="Standard" ></q-select> -->
               </div>
             </div>
-            <div class="col full-width " :disabled="!(codesetflag && nameflag)" v-if="key == 'Occurrence' && obj.Type == 'single-select'">
+            <div class="col full-width "  v-if="key == 'Occurrence' && obj.Type == 'single-select'">
               <div class="row" >
                 <div class="">
-                  <select class="criteria-box w9R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
+                  <select class="criteria-box w9R" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName">
                     <option  v-for="(opt,val) in obj.value" v-bind:key="val" :value="val">
                       {{opt}}
                     </option>
@@ -354,7 +356,6 @@ export default {
   },
   mounted () {
     var that = this
-    console.log(that.pagemethod)
     if (that.pagemethod === 'update' || that.pagemethod === 'view') {
       that.nameflag = true
       that.codesetflag = true
