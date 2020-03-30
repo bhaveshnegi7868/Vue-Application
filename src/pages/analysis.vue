@@ -68,7 +68,7 @@
             active-class="categories_Selected2"
           >
             <q-item-section>
-              <label>* Analysis Data Criteria</label>
+              <div><span style="margin-right: 3px;font-size: 15px;">*</span><label>Analysis Data Criteria</label></div>
             </q-item-section>
           </q-item>
           <!-- <q-item
@@ -131,7 +131,7 @@
                 <!-- {{eventArray1}} -->
             <q-card class="selectedEventBox q-ma-xs q-pa-md shadow-2 Rectangle-208">
               <q-card class="q-pa-sm f12 custom-card">
-                <div v-if="!currentInclusionObj.type">Any of the following criteria *</div>
+                <div v-if="!currentInclusionObj.type">Any of the following criteria<span class="asterix">*</span></div>
                 <div class="row" v-if="currentCriteria['PCriteriaSetName'] === undefined">
                   <div class="col" v-if="currentInclusionObj.type">
                     <select class="criteria-box H25" v-model="currentInclusionObj.type.op">

@@ -3,13 +3,16 @@
     <div class="row q-py-sm">
       <q-card class="row col q-mr-sm">
           <div class="col-2 q-pa-xs">
-              <input class="input-box full-width" v-model="baseObj.codeset_name" v-on:blur="codenamecheck(baseObj.codeset_name)" placeholder="* Codeset Name" />
+            <span id="input-name">
+              <input class="input-box full-width" v-model="baseObj.codeset_name" v-on:blur="codenamecheck(baseObj.codeset_name)" placeholder="Codeset Name" />
+            </span>
           </div>
           <!-- {{baseObj.codeset_data.length}} -->
-          <div class="col-5 q-pa-xs">
+          <div class="col-5 q-pa-xs" style="width: 45%;">
               <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
           </div>
           <div class="col-4 q-px-sm q-py-xs">
+            <span id="input-group">
               <q-select
                 use-input
                 hide-selected
@@ -21,8 +24,9 @@
                 @focus="getCodesetGroupList"
                 class="bor8R f12 select-box"
                 @filter="codesetGroupfilterFn"
-                Placeholder="* Codeset Group"
+                Placeholder="Codeset Group"
               />
+            </span>
           </div>
           <!-- <div class="col q-px-sm q-py-xs">
             <q-btn-dropdown
@@ -45,10 +49,10 @@
                   {{opt.name}}
                 </div>
             </q-btn-dropdown> -->
-              <div class="col-1 q-px-xs q-py-xs ">
+              <div class="q-px-xs q-py-xs ">
                 <q-btn
                   color="theamBlue"
-                  class="f10 full-width bor8R w2R q-pa-none q-ma-none"
+                  class="f10 bor8R w2R q-pa-none q-ma-none"
                   icon="add"
                   @click="openCreateCodesetGroupPopup"
                 >
