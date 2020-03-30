@@ -26,7 +26,7 @@
               :disabled="!(nameflag)"
               v-bind:class="(codesetflag)?'code-name':''"
               :placeholder="event[mappingDict[event.event]][key].Label"
-              class="w12R mx-h25 q-mr-xs f12"
+              class="w12R mx-h25 q-mr-xs f12 code"
               v-if="obj.Type == 'multiple-select-dropdown' && renderComponent1"
               @input="makeSelected"
               track-by="value"
@@ -351,6 +351,14 @@ export default {
         'VisitType',
         'timeStamp'
       ]
+    }
+  },
+  mounted () {
+    var that = this
+    console.log(that.pagemethod)
+    if (that.pagemethod === 'update' || that.pagemethod === 'view') {
+      that.nameflag = true
+      that.codesetflag = true
     }
   },
   methods: {
