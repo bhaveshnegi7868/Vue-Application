@@ -358,6 +358,9 @@ export default {
     if (that.pagemethod === 'update' || that.pagemethod === 'view') {
       that.nameflag = true
       that.codesetflag = true
+    } else {
+      that.nameflag = false
+      that.codesetflag = false
     }
   },
   methods: {
