@@ -3,7 +3,6 @@
     <div class="EventList_header f12">
       Event Attributes {{event.event?'-':''}} {{event.event}}
     </div>
-    {{nameflag}}
     <div v-if="event != ''" class="row q-ml-sm q-my-xs"><div>Name <span class="asterix2">*</span></div>
       <input class="input-box full-width" v-bind:class="!(nameflag)?'event-name':''" :disabled="pagemethod === 'view'" v-model="event.name" v-on:keyup="sendName" />
       <q-tooltip anchor="bottom right" self="center middle">
