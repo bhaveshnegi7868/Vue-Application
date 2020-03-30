@@ -52,11 +52,11 @@
               <q-btn  size="10px" style="width: 72px;background: #3f868a !important;" text-color="white" no-caps>Saved</q-btn>
               <q-tooltip>Analysis Data Definition is Saved, Please run to generate the Summary</q-tooltip>
             </router-link >
-            <q-icon v-if="((row.row.cohort_status === 'SUCCESS') || ((row.row.cohort_status === 'Pending'))) && (row.row.analysis_status === 'Warning' )" name="warning" class="text-red" style="font-size: 20px;" >
+            <q-icon v-if="((row.row.cohort_status === 'Success') || ((row.row.cohort_status === 'Pending'))) && (row.row.analysis_status === 'Warning' )" name="warning" class="text-red" style="font-size: 20px;" >
               <q-tooltip>Cohort definition got updated, please run again to reflect the recent changes.</q-tooltip>
             </q-icon>
-            <router-link  v-if="((row.row.cohort_status === 'SUCCESS') || ((row.row.cohort_status === 'Pending'))) && (row.row.analysis_status === 'Warning')" :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
-              <q-btn :disable="!(row.row.cohort_status === 'SUCCESS')" size="10px"  style="background: #6b9840 !important;margin-right:2em" text-color="white" no-caps>Success</q-btn>
+            <router-link  v-if="((row.row.cohort_status === 'Success') || ((row.row.cohort_status === 'Pending'))) && (row.row.analysis_status === 'Warning')" :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
+              <q-btn :disable="!(row.row.cohort_status === 'Success')" size="10px"  style="background: #6b9840 !important;margin-right:2em" text-color="white" no-caps>Success</q-btn>
             </router-link >
             <router-link v-if="(row.row.status) && (row.row.an_status == 'Failed')"  :to="'/cohort/view/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #f44336 !important;" text-color="white" no-caps>Failed</q-btn>
@@ -175,7 +175,7 @@ export default {
         console.log(response)
         that.data = response.data.result
         that.data.forEach(function (el) {
-          el['status'] = el.cohort_status === 'SUCCESS'
+          el['status'] = el.cohort_status === 'Success'
           if (el.analysis_status === 'Pending') {
             el['an_status'] = 'Pending'
           }
