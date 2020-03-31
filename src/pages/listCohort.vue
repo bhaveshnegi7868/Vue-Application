@@ -39,13 +39,13 @@
             </router-link >
           </q-td>
           <q-td  slot="body-cell-analysis_data" slot-scope="row" :props="row" >
-            <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending') && !(row.row.an_status == 'SUCCESS') && !(row.row.an_status == 'Warning') && !(row.row.an_status == 'to_be_run') && !(row.row.an_status == 'Failed')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
+            <router-link v-if="(row.row.status) && !(row.row.an_status == 'Pending') && !(row.row.an_status == 'Success') && !(row.row.an_status == 'Warning') && !(row.row.an_status == 'to_be_run') && !(row.row.an_status == 'Failed')"  :to="'/cohort/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px"  style="width: 72px;background: #3f868a !important;" text-color="white" no-caps >Create</q-btn>
             </router-link >
             <router-link v-if="(row.row.status) && (row.row.an_status == 'Pending')"  :to="'/cohort/view/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #b7a931 !important;" text-color="white" no-caps>Pending</q-btn>
             </router-link >
-            <router-link v-if="(row.row.status) && (row.row.an_status == 'SUCCESS')"  :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
+            <router-link v-if="(row.row.status) && (row.row.an_status == 'Success')"  :to="'/cohort/summary/analysis/' + row.row.cohort_id" >
               <q-btn  size="10px" style="width: 72px;background: #6b9840 !important;" text-color="white" no-caps>Success</q-btn>
             </router-link >
             <router-link v-if="(row.row.status) && (row.row.an_status == 'to_be_run')"  :to="'/cohort/view/analysis/' + row.row.cohort_id" >
@@ -179,8 +179,8 @@ export default {
           if (el.analysis_status === 'Pending') {
             el['an_status'] = 'Pending'
           }
-          if (el.analysis_status === 'SUCCESS') {
-            el['an_status'] = 'SUCCESS'
+          if (el.analysis_status === 'Success') {
+            el['an_status'] = 'Success'
           }
           if (el.analysis_status === 'Warning') {
             el['an_status'] = 'Warning'
