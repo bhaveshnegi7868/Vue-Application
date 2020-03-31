@@ -1381,7 +1381,7 @@ export default {
       that.$q.loading.show()
       axios.get(url).then(function (response) {
         that.baseObj = response.data
-        if (response.data.cohort_status) {
+        if (response.data.cohort_status === 'Pending') {
           that.cohort_stat = false
         }
         that.criteriaArray = [

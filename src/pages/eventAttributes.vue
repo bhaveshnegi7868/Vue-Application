@@ -100,9 +100,9 @@
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
-                <div class="col dateInputBox q-mb-xs q-pr-xs" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !== 'undefined')">
-                  <q-icon name="event"  class="cursor-pointer datePicker" v-if="renderComponent2">
-                    <q-popup-proxy :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" :ref="obj.name" transition-show="scale" transition-hide="scale">
+                <div class="col dateInputBox q-mb-xs q-pr-xs" v-bind:class="(pagemethod === 'view')?'datepicker-disabled':''" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !== 'undefined')">
+                  <q-icon name="event" class="cursor-pointer datePicker" v-if="pagemethod !== 'view'?renderComponent2:''">
+                    <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
                       <q-date :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
                     </q-popup-proxy>
                   </q-icon>

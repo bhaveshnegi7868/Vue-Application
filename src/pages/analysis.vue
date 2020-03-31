@@ -1290,9 +1290,6 @@ export default {
           if (that.baseObj.analysis_status === 'Pending') {
             that.analysis_stat = false
           }
-          console.log(that.analysis_stat)
-          // console.log(that.baseObj)
-          // console.log(that.currentCriteria.CriteriaList)
           that.eventArray1 = that.eventArray1.filter(t => {
             let event = that.currentCriteria.CriteriaList.map(t => t.event)
             return !event.includes(t.name)
