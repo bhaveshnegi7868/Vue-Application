@@ -7,7 +7,6 @@
               <input class="input-box full-width" v-model="baseObj.codeset_name" v-on:blur="codenamecheck(baseObj.codeset_name)" placeholder="Codeset Name" />
             </span>
           </div>
-          <!-- {{baseObj.codeset_data.length}} -->
           <div class="col-5 q-pa-xs" style="width: 45%;">
               <input class="input-box full-width" v-model="baseObj.codeset_desc" placeholder="Codeset Description" />
           </div>
@@ -442,7 +441,6 @@ export default {
     },
     removeAllCodesFromList () {
       var that = this
-      that.tableflag = false
       if ((this.baseObj.codeset_data).length > 0) {
         this.$swal({
           backdrop: true,
@@ -459,6 +457,7 @@ export default {
             setTimeout(function () {
               that.$nextTick(() => {
               // Add the component back in
+                that.tableflag = false
                 that.renderComponent = true
               })
             }, 100)
@@ -817,6 +816,7 @@ export default {
         setTimeout(function () {
           that.$nextTick(() => {
             that.renderComponent = true
+            that.tableflag = true
           })
         }, 100)
         that.$q.loading.hide()
