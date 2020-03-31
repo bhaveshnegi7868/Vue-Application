@@ -19,7 +19,7 @@
       <div class="q-mx-auto ">Cohort Definition got updated, so this Analysis Data is w.r.t earlier definition</div>
       </div> -->
     </q-card>
-    <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status ==='SUCCESS'" >
+    <q-card class="row  q-mx-sm" v-if="baseObj.analysis_status ==='Success'" >
       <!-- <div class="col-2 q-mt-sm pad0">
         <div class="categories_header ">
             Criteria Set
