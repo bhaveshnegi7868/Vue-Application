@@ -355,7 +355,7 @@ export default {
   },
   mounted () {
     var that = this
-    if (that.pagemethod === 'update' || that.pagemethod === 'view') {
+    if (that.pagemethod === 'update' || that.pagemethod === 'view' || that.pagemethod === 'copy') {
       that.nameflag = true
       that.codesetflag = true
     } else {

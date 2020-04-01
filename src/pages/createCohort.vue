@@ -178,7 +178,7 @@
         </q-btn>-->
       </div>
       <div class="rightForm q-pa-sm" v-if="currentCriteria">
-        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
+        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] !== undefined">
           <div class="col-4 q-ma-sm" >
             <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaSetName" placeholder="Criteria Name" />
           </div>
@@ -186,7 +186,7 @@
             <input class="input-box full-width" v-model="currentInclusionObj.ICriteriaSetDesc" placeholder="Criteria Description" />
           </div>
         </q-card>
-        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] !== undefined">
+        <q-card class="row q-mx-sm shadow-2" v-if="currentCriteria['PCriteriaSetName'] === undefined">
           <div class="col-4 q-ma-sm">
             <input class="input-box full-width" v-model="currentCriteria.PCriteriaSetName" placeholder="Criteria Name" />
           </div>
