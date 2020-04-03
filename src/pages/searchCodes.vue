@@ -299,6 +299,9 @@ export default {
               that.recentFilterData.value = value
             }
           }
+          // if (value === 'Gender' && key === 'vocabulary') {
+          //   console.log('====================' + that.selectedFilters[key][value])
+          // }
           if (that.selectedFilters[key][value]) {
             console.log('outside if selectedFilters')
             console.log(that.recentFilter)
@@ -309,6 +312,10 @@ export default {
             }
             that.setFiltrs = true
             url += '&' + key + '=' + value
+          } else {
+            console.log('%c  ' + key, 'background: #000; color: #fff; padding: "10px"')
+            console.log('%c  ' + value, 'background: #000; color: #fff; padding: "10px"')
+            that.setFiltrs = true
           }
         })
       })
@@ -348,6 +355,7 @@ export default {
           }
           console.log('final Res')
           console.log(that.selectedFilters)
+          console.log(that.filters)
         } else {
           that.getFilters()
         }
