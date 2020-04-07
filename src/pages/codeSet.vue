@@ -701,6 +701,9 @@ export default {
         that.$q.loading.hide()
         if (response.data.codeset_id) {
           that.$router.push('/codeset/update/' + response.data.codeset_id)
+          that.codeset_id = response.data.codeset_id
+          that.pagemethod = 'update'
+          that.getCodesetDict(that.codeset_id)
         }
       }).catch(function (err) {
         that.$q.loading.hide()
