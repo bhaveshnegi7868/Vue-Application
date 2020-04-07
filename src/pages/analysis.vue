@@ -1775,9 +1775,6 @@ export default {
           timeout: 3000
         })
       })
-      if (that.baseObj.run) {
-        this.$router.push('/cohort/summary/analysis/' + that.cohort_id)
-      }
     },
     makeSelected (type, name) {
       var that = this
