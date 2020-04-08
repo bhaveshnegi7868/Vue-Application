@@ -107,8 +107,10 @@
                     </q-popup-proxy>
                   </q-icon>
                   {{event[mappingDict[event.event]][key][obj.name]?event[mappingDict[event.event]][key][obj.name]:'YYYY-MM-DD'}}
+                  <span v-if="pagemethod === undefined && key !== 'Occurrence'" class="border-red">*</span>
+                  <q-tooltip v-if="pagemethod === undefined && key !== 'Occurrence'" anchor="bottom right" self="center middle">Mandatory Field</q-tooltip>
                 </div>
-              </div>
+                </div>
             </div>
             <div class="col full-width " v-if="obj.Type == 'text'">
               <input class="input-box full-width" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]"/>
@@ -219,10 +221,12 @@
             <div class="col q-my-sm">{{event[mappingDict[event.event]][key].Label}}</div>
             <div class="q-ma-xs "><span class="q-xt-sm"><input type="checkbox" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" v-on:change="sendName"/></span></div>
             </div>
+            <!-- {{event[mappingDict[event.event]][key][obj.name]}} -->
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !=='undefined')">
-                  <input type="text" maxlength="3" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/>
+                  <input type="text" maxlength="3" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/><span v-if="pagemethod === undefined && key !== 'Occurrence'" class="border-red">*</span>
+                  <q-tooltip v-if="pagemethod === undefined && key !== 'Occurrence'" anchor="bottom right" self="center middle">Mandatory Field</q-tooltip>
                 </div>
                 <q-btn v-if="key == 'Occurrence' && event.corelated !== true" disabled class="q-px-sm q-mx-sm" color="theamGreen" :label="('Using Distinct')" v-on:change="sendName"></q-btn>
                 <q-btn v-if="key == 'Occurrence' && event.corelated == true " class="q-px-sm q-mx-sm" color="theamGreen" :label="(event[mappingDict[event.event]][key][obj.IsDistinct]?'Using Distinct' : 'Using all')" @click="event[mappingDict[event.event]][key][obj.IsDistinct] = (!event[mappingDict[event.event]][key][obj.IsDistinct])" v-on:click="sendName"></q-btn>
