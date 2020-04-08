@@ -2,6 +2,7 @@
   <q-toolbar class="secondary-header row justify-between">
     <div class="col-4 q-pa-md Cohort-Name">
       {{cohort_name.cohort_name}}
+      {{cohort_name.cohort_status}}
     </div>
     <div class="" v-for="path in paths()" :key="path">
       <div class="col-4 q-px-auto">
@@ -16,14 +17,14 @@
         </q-item>
       </div>
     </div>
-    <div v-if="cohort_name.cohort_status === 'SUCCESS'" class="col-4 Cohort-Name" style="margin-left: 6em;">
+    <div v-if="cohort_name.cohort_status === 'Success' || cohort_name.status === 'Success'" class="col-4 Cohort-Name" style="margin-left: 6em;">
       <q-item v-if="cohort_name.analysis_status === null" no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
         <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/analysis/' + cohort_name.cohort_id)">
           <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Data Definition</q-btn>
         </router-link>
       </q-item>
       <q-item v-if="cohort_name.analysis_status !== null" no-caps class="float-right Rectangle-199 h35 q-ml-lg" >
-        <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/update/analysis/' + cohort_name.cohort_id)">
+        <router-link class="textDecorNone"  :to="(!cohort_name.cohort_id ?'':'/cohort/view/analysis/' + cohort_name.cohort_id)">
           <q-btn outline rounded color="white"  size="10px" text-color="white" no-caps>Analysis Data Definition</q-btn>
         </router-link>
       </q-item>
