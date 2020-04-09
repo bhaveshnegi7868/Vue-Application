@@ -2,7 +2,6 @@
   <q-toolbar class="secondary-header row justify-between">
     <div class="col-4 q-pa-md Cohort-Name">
       {{cohort_name.cohort_name}}
-      {{cohort_name.cohort_status}}
     </div>
     <div class="" v-for="path in paths()" :key="path">
       <div class="col-4 q-px-auto">
