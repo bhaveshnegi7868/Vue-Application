@@ -185,7 +185,7 @@
     </q-table>
     </div>
     <q-dialog
-    class="searchcodePopup"
+      class="searchcodePopup"
       v-model="codesPopup"
       full-width
       full-height
@@ -260,6 +260,7 @@ export default {
   },
   data () {
     return {
+      pagemethod: '',
       ticked: [],
       baseObj: {},
       pagination: {

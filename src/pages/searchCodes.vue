@@ -58,7 +58,7 @@
                   class="selected_events1"
                   :data="data"
                   :columns="columns"
-                  row-key="concept_code"
+                  row-key="concept_id"
                   :pagination.sync="pagination"
                   :loading="loading"
                   :filter="filter"
@@ -162,18 +162,28 @@ export default {
       ],
       columns: [
         {
+          name: 'concept_id',
+          required: true,
+          field: row => row.concept_id,
+          format: val => `${val}`,
+          label: 'ID',
+          align: 'left',
+          sortable: true,
+          style: 'max-width: 150px'
+        },
+        {
           name: 'concept_code',
           required: true,
           field: row => row.concept_code,
           format: val => `${val}`,
-          label: 'Code                 ',
-          align: 'left',
+          label: 'Code',
+          align: 'center',
           sortable: true,
           classes: 'w25R ellipsis',
           style: 'max-width: 50px'
         },
-        { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'w25R ellipsis', style: 'max-width: 150px' },
-        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, classes: 'w25R ellipsis', align: 'left', style: 'max-width: 50px' },
+        { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'w20R ellipsis', style: 'max-width: 100px' },
+        { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, classes: 'w25R ellipsis', align: 'center', style: 'max-width: 50px' },
         { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', classes: 'ellipsis', align: 'left', sortable: true, style: 'max-width: 100px' },
         { name: 'Actions', label: 'Actions', field: 'Actions', style: 'max-width: 150px' }
       ],
@@ -196,7 +206,7 @@ export default {
     }
   },
   mounted () {
-    this.getFilters()
+    // this.getFilters()
     this.onRequest({
       pagination: this.pagination,
       filter: undefined
@@ -204,6 +214,7 @@ export default {
   },
   methods: {
     applyFilterChange (selFil) {
+      debugger
       this.selectedFilters = selFil
       this.refreshAppliedFilters()
     },
@@ -213,15 +224,15 @@ export default {
     refreshAppliedFilters () {
       var that = this
       setTimeout(function () {
-        that.showFilters = false
-        that.$nextTick().then(() => {
-          that.showFilters = true
-        })
+        that.showFilters = true
+        // that.$nextTick().then(() => {
+        //   that.showFilters = true
+        // })
         that.onRequest({
           pagination: that.pagination,
           filter: undefined
         })
-      }, 200)
+      }, 100)
     },
     getSelectedString () {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
@@ -243,20 +254,22 @@ export default {
     },
     getFilters () {
       var that = this
+      console.log('%c  ============= came here', 'background: #000; color: #fff; padding: "10px"')
       axios({
         method: 'get',
         url: process.env['API_URL'] + 'codeset/codes/filters/'
       }).then(function (response) {
-        console.log(response.data)
         that.filters = response.data
         delete that.filters.success
         Object.keys(response.data).forEach(function (row) {
-          that.selectedFilters[row] = {}
+          // that.selectedFilters[row] = {}
+          let initialData = {}
           if (Array.isArray(response.data[row])) {
             response.data[row].forEach(function (child) {
-              that.selectedFilters[row][child] = false
+              initialData.child = false
             })
           }
+          that.$set(that.selectedFilters, row, initialData)
         })
       }).catch(function (err) {
         alert(err.message)
@@ -289,12 +302,7 @@ export default {
       Object.keys(that.selectedFilters).forEach(function (key) {
         Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
           if (that.recentFilter[key]) {
-            console.log('inside if recent selected data')
-            console.log(that.selectedFilters)
-            console.log('inside if recent recent Data')
-            console.log(that.recentFilter)
             if (that.selectedFilters[key][value] !== that.recentFilter[key][value]) {
-              console.log('inside if recent added')
               that.recentFilterData.key = key
               that.recentFilterData.value = value
             }
@@ -303,37 +311,27 @@ export default {
           //   console.log('====================' + that.selectedFilters[key][value])
           // }
           if (that.selectedFilters[key][value]) {
-            console.log('outside if selectedFilters')
-            console.log(that.recentFilter)
             if (!that.recentFilter[key]) {
-              console.log('outside if recentFilter')
               that.recentFilterData.key = key
               that.recentFilterData.value = value
             }
             that.setFiltrs = true
             url += '&' + key + '=' + value
-          } else {
-            console.log('%c  ' + key, 'background: #000; color: #fff; padding: "10px"')
-            console.log('%c  ' + value, 'background: #000; color: #fff; padding: "10px"')
-            that.setFiltrs = true
           }
+          // else {
+          // }
         })
       })
       if (that.recentFilterData.key) {
         url += '&recent_filter=' + that.recentFilterData.key + '_' + that.recentFilterData.value
-        Object.keys(that.selectedFilters).forEach(function (key) {
-          that.recentFilter[key] = {}
-          Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
-            console.log('recentFilter Key')
-            console.log(key)
-            console.log(value)
-            that.recentFilter[key][value] = that.selectedFilters[key][value]
-          })
-        })
+        // Object.keys(that.selectedFilters).forEach(function (key) {
+        //   that.recentFilter[key] = {}
+        //   Object.keys(that.selectedFilters[key]).forEach(function (value, r, data) {
+        //     that.recentFilter[key][value] = that.selectedFilters[key][value]
+        //   })
+        // })
       }
-      console.log('recentFilterData')
-      console.log(that.recentFilterData)
-      console.log(that.recentFilter)
+
       axios({
         method: 'get',
         url: url
@@ -350,14 +348,18 @@ export default {
         if (that.setFiltrs) {
           for (var key in response.data.distinct_filters) {
             if (!that.recentFilterData[key]) {
-              that.filters[key] = response.data.distinct_filters[key]
+              // that.filters[key] = response.data.distinct_filters[key]
+              that.$set(that.filters, key, response.data.distinct_filters[key])
             }
           }
-          console.log('final Res')
-          console.log(that.selectedFilters)
-          console.log(that.filters)
         } else {
-          that.getFilters()
+          let filterValues = []
+          Object.keys(that.selectedFilters).forEach(function (value, key) {
+            filterValues = filterValues.concat(Object.values(that.selectedFilters[value]))
+          })
+          if (filterValues.indexOf(true) === -1) {
+            that.getFilters()
+          }
         }
       }).catch(function (err) {
         alert(err.message)
