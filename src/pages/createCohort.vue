@@ -1515,7 +1515,7 @@ export default {
             for (var kIndx in data[key]) {
               if (kIndx === 'OccurrenceStartDate' || kIndx === 'Age' || kIndx === 'Refills' || kIndx === 'Quantity' || kIndx === 'DaysSupply') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                if (data[key][kIndx].Op !== 'undefined') {
+                if (data[key][kIndx].Op !== undefined && data[key][kIndx].Value !== undefined) {
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Value
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Extent
@@ -1524,14 +1524,24 @@ export default {
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
                 }
+                if (data[key][kIndx].Op === 'bt' && (data[key][kIndx].Value === undefined || data[key][kIndx].Extent === undefined)) {
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
+                }
               }
               if (kIndx === 'OccurrenceStartDate') {
                 that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx] = {}
-                if (data[key][kIndx].Op !== 'undefined') {
+                if (data[key][kIndx].Op !== undefined && data[key][kIndx].Value !== undefined) {
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = data[key][kIndx].Op
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = data[key][kIndx].Extent
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = data[key][kIndx].Value
                 } else {
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
+                  that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined
+                }
+                if (data[key][kIndx].Op === 'bt' && (data[key][kIndx].Value === undefined || data[key][kIndx].Extent === undefined)) {
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Op = undefined
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Value = undefined
                   that.baseObj.actual_JSON.PrimaryCriteria.CriteriaList[index][key][kIndx].Extent = undefined

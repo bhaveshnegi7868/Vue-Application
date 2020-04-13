@@ -100,7 +100,7 @@
             </div>
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'date' && (index === 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
-                <div class="col dateInputBox q-mb-xs q-pr-xs"  v-bind:class="[(pagemethod === 'view')?'datepicker-disabled':'',!(event[mappingDict[event.event]][key][obj.name])?'input-border-red':'']" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !== 'undefined')">
+                <div class="col dateInputBox q-mb-xs q-pr-xs"  v-bind:class="[(pagemethod === 'view')?'datepicker-disabled':'',(!(event[mappingDict[event.event]][key][obj.name])) && (pagemethod !== 'view')?'input-border-red':'']" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !== 'undefined')">
                   <q-icon name="event" class="cursor-pointer datePicker" v-if="pagemethod !== 'view'?renderComponent2:''">
                     <q-popup-proxy :ref="obj.name" transition-show="scale" transition-hide="scale">
                       <q-date :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" v-model="event[mappingDict[event.event]][key][obj.name]" @input="hideProxy(obj.name)"></q-date>
@@ -224,7 +224,7 @@
             <div class="col full-width q-mb-xs" v-if="obj.Type == 'number' && (index !== 2 || excludeValues.indexOf(event[mappingDict[event.event]][key][event[mappingDict[event.event]][key].inputs[0].name]) !== -1)">
               <div class="row">
                 <div class="" v-if="key == 'Occurrence' || (event[mappingDict[event.event]][key].Op && event[mappingDict[event.event]][key].Op !=='undefined')">
-                  <input type="text" maxlength="3" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R" v-bind:class="!(event[mappingDict[event.event]][key][obj.name])?'input-border-red':''"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/><span v-if="!(event[mappingDict[event.event]][key][obj.name]) && key !== 'Occurrence'" class="border-red">*</span>
+                  <input type="text" maxlength="3" :disabled="!(codesetflag && nameflag) || pagemethod === 'view'" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class=" text-center input-box w4R" v-bind:class="(!(event[mappingDict[event.event]][key][obj.name])) && (pagemethod !== 'view')?'input-border-red':''"  v-model="event[mappingDict[event.event]][key][obj.name]" v-on:keyup="sendName"/><span v-if="(pagemethod !== 'view') && !(event[mappingDict[event.event]][key][obj.name]) && key !== 'Occurrence'" class="border-red">*</span>
                   <q-tooltip v-if="pagemethod !== 'view' && key !== 'Occurrence'" anchor="bottom right" self="center middle">Mandatory Field</q-tooltip>
                 </div>
                 <q-btn v-if="key == 'Occurrence' && event.corelated !== true" disabled class="q-px-sm q-mx-sm" color="theamGreen" :label="('Using Distinct')" v-on:change="sendName"></q-btn>
