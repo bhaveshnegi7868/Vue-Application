@@ -744,6 +744,7 @@ export default {
       renderComponent2: true,
       dictPopup: false,
       corelatedflag: true,
+      emptycurrentCriteria: {},
       createCohortGroupPopup: false,
       // swal2-popup = false
       apiData: {
@@ -785,6 +786,24 @@ export default {
           'InclusionRules': []
         }
       },
+      defaultObj: {
+        'criteriaObj': {
+          'PrimaryCriteria': {
+            'PCriteriaSetName': '',
+            'PCriteriaSetDesc': '',
+            'displayName': 'Initial Criteria',
+            'CriteriaList': [],
+            'ObservationWindow': {
+              'PriorDays': '0',
+              'PostDays': '0'
+            },
+            'PrimaryCriteriaLimit': {
+              'Type': 'First'
+            }
+          },
+          'InclusionRules': []
+        }
+      },
       selectedPage: 'Cohort Definition',
       cname: '',
       cdesc: '',
@@ -797,8 +816,7 @@ export default {
       readonlyCriteriaSelect: false,
       eventArray: {},
       currentInclusionObj: {},
-      currentCriteria: {
-      },
+      currentCriteria: {},
       criteriaArray: [
         {
           'id': 'PrimaryCriteria',
@@ -868,10 +886,23 @@ export default {
       that.markCriteriaAsSelected(that.criteriaArray[0])
     }
     that.getEventsDict()
+    that.emptycurrentCriteria = Object.assign({}, that.currentCriteria)
   },
   methods: {
     reset () {
-      window.location.reload()
+      var that = this
+      if (that.cohort_id) {
+        that.getCohortDict()
+      } else {
+        that.baseObj = { ...that.defaultObj }
+        that.baseObj.InclusionRules = []
+        that.currentCriteria.ObservationWindow.PriorDays = '0'
+        that.currentCriteria.ObservationWindow.PostDays = '0'
+        that.currentCriteria.PrimaryCriteriaLimit.Type = 'First'
+        that.currentInclusionObj = {}
+        that.currentCriteria = { ...that.emptycurrentCriteria }
+        that.currentCriteria.CriteriaList = []
+      }
     },
     openCreateCohortGroupPopup () {
       this.createCohortGroupPopup = false
