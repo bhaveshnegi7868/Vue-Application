@@ -50,9 +50,6 @@
                     </q-expansion-item>
                   </q-list>
                 </div>
-              </div>
-                  <!-- @request="onRequest" -->
-                  <!-- :pagination.sync="pagination" -->
               <div class="w80P">
                 <div id="scroll">
                 <q-table
@@ -339,10 +336,6 @@ export default {
         url: url
       }).then(function (response) {
         that.data = response.data.result
-        // setTimeout(() => {
-        //   let link = document.getElementsByClassName('sortable_class')[0]
-        //   link.click()
-        // }, 2000)
         that.pagination.page = page
         that.pagination.rowsPerPage = rowsPerPage
         that.pagination.sortBy = sortBy
