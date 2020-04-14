@@ -50,6 +50,7 @@
                     </q-expansion-item>
                   </q-list>
                 </div>
+              </div>
               <div class="w80P">
                 <div id="scroll">
                 <q-table
