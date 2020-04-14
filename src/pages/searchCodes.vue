@@ -51,6 +51,8 @@
                   </q-list>
                 </div>
               </div>
+                  <!-- @request="onRequest" -->
+                  <!-- :pagination.sync="pagination" -->
               <div class="w80P">
                 <div id="scroll">
                 <q-table
@@ -59,10 +61,10 @@
                   :data="data"
                   :columns="columns"
                   row-key="concept_id"
-                  :pagination.sync="pagination"
                   :loading="loading"
                   :filter="filter"
                   @request="onRequest"
+                  :pagination.sync="pagination"
                   :selected-rows-label="getSelectedString"
                   selection="multiple"
                   :selected.sync="selected"
@@ -71,7 +73,7 @@
                 >
                   <q-td class="tabledataEditbtn" slot="body-cell-Actions" slot-scope="props" :props="props">
                     <div class="col dependentsIcon">
-                      <q-btn outline no-caps class="" @click="openDependentpopup(props.row)" >
+                      <q-btn v-if="props.row.vocabulary_id === 'ICD10CM'" outline no-caps class="" @click="openDependentpopup(props.row)" >
                         <q-icon name="img:/statics/imgs/group-519.png" size="16px"/>
                       </q-btn>
                     </div>
@@ -179,16 +181,16 @@ export default {
           label: 'Code',
           align: 'center',
           sortable: true,
-          classes: 'w25R ellipsis',
+          classes: 'w25R ellipsis sortable_class',
           style: 'max-width: 50px'
         },
         { name: 'concept_name', label: 'Name', field: 'concept_name', align: 'left', sortable: true, classes: 'w20R ellipsis', style: 'max-width: 100px' },
         { name: 'domain_id', label: 'Domain', field: 'domain_id', sortable: true, classes: 'w25R ellipsis', align: 'center', style: 'max-width: 50px' },
         { name: 'vocabulary_id', label: 'Vocabulary', field: 'vocabulary_id', classes: 'ellipsis', align: 'left', sortable: true, style: 'max-width: 100px' },
-        { name: 'Actions', label: 'Actions', field: 'Actions', style: 'max-width: 150px' }
+        { name: 'Actions', label: '', field: 'Actions', style: 'max-width: 150px' }
       ],
       pagination: {
-        sortBy: 'domain_id',
+        sortBy: 'concept_code',
         descending: false,
         page: 1,
         rowsPerPage: 10,
@@ -209,7 +211,8 @@ export default {
     // this.getFilters()
     this.onRequest({
       pagination: this.pagination,
-      filter: undefined
+      filter: undefined,
+      sortBy: 'concept_code'
     })
   },
   methods: {
@@ -230,7 +233,8 @@ export default {
         // })
         that.onRequest({
           pagination: that.pagination,
-          filter: undefined
+          filter: undefined,
+          sortBy: 'concept_code'
         })
       }, 100)
     },
@@ -254,7 +258,6 @@ export default {
     },
     getFilters () {
       var that = this
-      console.log('%c  ============= came here', 'background: #000; color: #fff; padding: "10px"')
       axios({
         method: 'get',
         url: process.env['API_URL'] + 'codeset/codes/filters/'
@@ -331,12 +334,15 @@ export default {
         //   })
         // })
       }
-
       axios({
         method: 'get',
         url: url
       }).then(function (response) {
         that.data = response.data.result
+        // setTimeout(() => {
+        //   let link = document.getElementsByClassName('sortable_class')[0]
+        //   link.click()
+        // }, 2000)
         that.pagination.page = page
         that.pagination.rowsPerPage = rowsPerPage
         that.pagination.sortBy = sortBy
