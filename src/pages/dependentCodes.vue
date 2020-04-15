@@ -9,9 +9,11 @@
         <q-tree
           :nodes="desendents"
           node-key="Code"
-          tick-strategy="leaf"
+          tick-strategy="strict"
+          tick-sub-strategy="leaf"
           :ticked.sync="tickedValues"
           :expanded.sync="expandedValues"
+          :selected.sync="selectedValues"
           default-expand-all
         >
           <template v-slot:default-header="prop">
@@ -30,37 +32,92 @@
 </template>
 
 <script>
-import {
-  QCard,
-  QTree
-} from 'quasar'
+
+const { QTree: QTreeBase } = 'quasar'
+const QTree = {
+  mixins: [ QTreeBase ],
+  props: {
+    tickSubStrategy: {
+      type: String,
+      default: 'none',
+      validator: v => ['leaf'].includes(v)
+    }
+  },
+  methods: {
+    __onTickedClick (meta, state) {
+      if (meta.indeterminate === true) {
+        state = meta.indeterminateNextState
+      }
+      if (meta.strictTicking) {
+        const keys = []
+        if (this.tickSubStrategy === 'leaf') {
+          const travel = meta => {
+            if (meta.isParent) {
+              keys.push(meta.key)
+              meta.children.forEach(travel)
+            } else if (
+              meta.noTick !== true &&
+              meta.tickable === true &&
+              (meta.leafFilteredTicking !== true || meta.matchesFilter === true)
+            ) {
+              keys.push(meta.key)
+            }
+          }
+          travel(meta)
+        } else {
+          keys.push(meta.key)
+        }
+        this.setTicked(keys, state)
+      } else if (meta.leafTicking) {
+        const keys = []
+        const travel = meta => {
+          if (meta.isParent) {
+            if (state !== true && meta.noTick !== true && meta.tickable === true) {
+              keys.push(meta.key)
+            }
+            if (meta.leafTicking === true) {
+              meta.children.forEach(travel)
+            }
+          } else if (
+            meta.noTick !== true &&
+            meta.tickable === true &&
+            (meta.leafFilteredTicking !== true || meta.matchesFilter === true)
+          ) {
+            keys.push(meta.key)
+          }
+        }
+        travel(meta)
+        this.setTicked(keys, state)
+      }
+    }
+  }
+}
+
 export default {
   name: 'dependentsCodes',
   components: {
-    QCard,
     QTree
   },
   props: {
     'desendents': Array,
     'ticked': Array,
-    'expanded': Array
+    'expanded': Array,
+    'selected': Array
   },
   data () {
     return {
-      tickedValues: [],
+      tickedValues: this.ticked,
       expandedValues: [],
+      selectedValues: [],
       finalValues: []
     }
   },
   methods: {
     sendName (event) {
       var that = this
-      that.expanded = that.expandedValues
       that.ticked = that.tickedValues
-      console.log(that.expandedValues)
       console.log(that.tickedValues)
-      that.finalValues = that.tickedValues.concat(that.expandedValues)
-      console.log(that.finalValues)
+      debugger
       this.$emit('updateDependents', that.finalValues)
     }
   }
