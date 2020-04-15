@@ -748,6 +748,7 @@ export default {
       console.log('ticked adat')
       console.log(response)
       that.currentSelected = response
+      that.currentSelected = [...new Set(that.currentSelected)]
       if (that.currentSelected.length === 0) {
         that.currentRow.dependents = false
       } else {
@@ -761,7 +762,7 @@ export default {
       }
       console.log(JSON.stringify(that.dependents))
       that.currentSelected.push(that.currentRow.target_concept_id)
-      that.concept_id_check[that.currentRow.target_concept_id] = [...new Set(that.currentSelected)]
+      that.concept_id_check[that.currentRow.target_concept_id] = that.currentSelected
       console.log(that.concept_id_check, 'popup save')
       // if (response.length === 0) {
       //   console.log('Inside If')
