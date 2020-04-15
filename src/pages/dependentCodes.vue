@@ -10,7 +10,9 @@
           :nodes="desendents"
           node-key="Code"
           tick-strategy="leaf"
-          :ticked.sync="ticked"
+          :ticked.sync="tickedValues"
+          :expanded.sync="expandedValues"
+          default-expand-all
         >
           <template v-slot:default-header="prop">
             <q-card class="q-pa-md unselected-card">
@@ -40,12 +42,26 @@ export default {
   },
   props: {
     'desendents': Array,
-    'ticked': Array
+    'ticked': Array,
+    'expanded': Array
+  },
+  data () {
+    return {
+      tickedValues: [],
+      expandedValues: [],
+      finalValues: []
+    }
   },
   methods: {
     sendName (event) {
       var that = this
-      this.$emit('updateDependents', that.ticked)
+      that.expanded = that.expandedValues
+      that.ticked = that.tickedValues
+      console.log(that.expandedValues)
+      console.log(that.tickedValues)
+      that.finalValues = that.tickedValues.concat(that.expandedValues)
+      console.log(that.finalValues)
+      this.$emit('updateDependents', that.finalValues)
     }
   }
 }

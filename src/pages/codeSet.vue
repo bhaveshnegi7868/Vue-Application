@@ -761,7 +761,7 @@ export default {
       }
       console.log(JSON.stringify(that.dependents))
       that.currentSelected.push(that.currentRow.target_concept_id)
-      that.concept_id_check[that.currentRow.target_concept_id] = that.currentSelected
+      that.concept_id_check[that.currentRow.target_concept_id] = [...new Set(that.currentSelected)]
       console.log(that.concept_id_check, 'popup save')
       // if (response.length === 0) {
       //   console.log('Inside If')
