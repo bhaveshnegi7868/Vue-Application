@@ -33,7 +33,8 @@
 
 <script>
 
-const { QTree: QTreeBase } = 'quasar'
+import { QTree as QTreeBase } from 'quasar'
+
 const QTree = {
   mixins: [ QTreeBase ],
   props: {
@@ -108,17 +109,13 @@ export default {
     return {
       tickedValues: this.ticked,
       expandedValues: [],
-      selectedValues: [],
-      finalValues: []
+      selectedValues: []
     }
   },
   methods: {
-    sendName (event) {
+    sendName () {
       var that = this
-      that.ticked = that.tickedValues
-      console.log(that.tickedValues)
-      debugger
-      this.$emit('updateDependents', that.finalValues)
+      this.$emit('updateDependents', that.tickedValues)
     }
   }
 }
