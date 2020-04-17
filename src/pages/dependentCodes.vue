@@ -14,7 +14,6 @@
           :ticked.sync="tickedValues"
           :expanded.sync="expandedValues"
           :selected.sync="selectedValues"
-          default-expand-all
         >
           <template v-slot:default-header="prop">
             <q-card class="q-pa-md unselected-card">

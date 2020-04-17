@@ -357,7 +357,6 @@ export default {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
     },
     removeFromList: function (id) {
-      console.log('removeFromList… id:')
       console.log(id)
       this.data.splice(id, 1)
     },
@@ -422,7 +421,6 @@ export default {
     },
     handleChange: function (value) {
       this.addToList(value)
-      console.log('ddsf')
       console.log(value)
       this.table_list = value
       if (value[0].tabledata === false) {
@@ -467,7 +465,6 @@ export default {
       }
     },
     removeAllCodesFromList2 () {
-      console.log('checkall')
     },
     checkAll (event) {
       var that = this
@@ -563,7 +560,6 @@ export default {
         that.currentDependentsList = response.data.result.code_list
         if (that.currentDependents[0] !== undefined) {
           that.currentDependentsList.push(that.currentRow.target_concept_id)
-          console.log(that.currentDependents[0])
           that.dependentsPopup = true
         } else {
           that.$q.notify({
@@ -581,7 +577,6 @@ export default {
     },
     getDependents (row, event) {
       var that = this
-      console.log(event)
       that.currentRow = row
       console.log(that.currentRow.dependents)
       // if (that.currentRow.dependents) {
@@ -621,9 +616,7 @@ export default {
           }
         })
       }
-      console.log(that.table_list)
       let checkData = that.table_list.filter(data => { return data.tabledata === true })
-      console.log(checkData)
       if (checkData.length !== that.table_list.length) {
         that.allDependents = null
       } else if (checkData.length === 0) {
@@ -745,8 +738,6 @@ export default {
     },
     updateDependents (response) {
       var that = this
-      console.log('ticked adat')
-      console.log(response)
       that.currentSelected = response
       that.currentSelected = [...new Set(that.currentSelected)]
       if (that.currentSelected.length === 0) {
@@ -763,7 +754,6 @@ export default {
       console.log(JSON.stringify(that.dependents))
       that.currentSelected.push(that.currentRow.target_concept_id)
       that.concept_id_check[that.currentRow.target_concept_id] = that.currentSelected
-      console.log(that.concept_id_check, 'popup save')
       // if (response.length === 0) {
       //   console.log('Inside If')
       //   that.currentRow.dependents = false
@@ -780,16 +770,12 @@ export default {
       var that = this
       if (that.pagemethod !== 'update') {
         var codesetName = name
-        console.log(codesetName)
         var url = process.env.API_URL + 'codeset/name/validation/?name=' + codesetName
         var method = axios.get(url, codesetName)
         method.then(function (response) {
           that.error_message = true
-          console.log('error message')
-          console.log(response)
         }).catch(function (err) {
           that.error_message = false
-          console.log(err.message)
           that.$q.notify({
             color: 'red',
             textColor: 'white',
