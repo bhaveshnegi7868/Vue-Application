@@ -774,8 +774,11 @@ export default {
         var method = axios.get(url, codesetName)
         method.then(function (response) {
           that.error_message = true
+          console.log('error message')
+          console.log(response)
         }).catch(function (err) {
           that.error_message = false
+          console.log(err.message)
           that.$q.notify({
             color: 'red',
             textColor: 'white',
