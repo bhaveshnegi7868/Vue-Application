@@ -357,7 +357,6 @@ export default {
       return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
     },
     removeFromList: function (id) {
-      console.log(id)
       this.data.splice(id, 1)
     },
     addToList (value) {
@@ -421,7 +420,6 @@ export default {
     },
     handleChange: function (value) {
       this.addToList(value)
-      console.log(value)
       this.table_list = value
       if (value[0].tabledata === false) {
         this.tableflag = true
@@ -492,7 +490,6 @@ export default {
           that.concept_id_check[value.hierarchy.Code] = value.code_list
           that.currentSelected = value.code_list
         })
-        console.log(that.concept_id_check, 'checkall')
       }).catch(function () {
 
       })
@@ -530,25 +527,25 @@ export default {
         }
       })
     },
-    checkDpendanceAll (row) {
-      var that = this
-      that.currentRow = row
-      that.currentDependents = []
-      that.currentSelected = row.dependentsCodes || []
-      var selectedCodes = ['35622281', '35622307', '35622308', '35622310', '35622286', '73574']
-      var checkall = true
-      var url = process.env.API_URL + 'codeset/descendents/?checkall=' + checkall
-      selectedCodes.forEach(function (value) {
-        url += '&codes=' + value
-      })
-      axios.get(url).then(function (response) {
-        that.currentDependents[0] = response.data.result
-        that.currentDependentsList = response.data.result.codes_list
-        that.dependentsPopup = true
-      }).catch(function () {
+    // checkDpendanceAll (row) {
+    //   var that = this
+    //   that.currentRow = row
+    //   that.currentDependents = []
+    //   that.currentSelected = row.dependentsCodes || []
+    //   var selectedCodes = ['35622281', '35622307', '35622308', '35622310', '35622286', '73574']
+    //   var checkall = true
+    //   var url = process.env.API_URL + 'codeset/descendents/?checkall=' + checkall
+    //   selectedCodes.forEach(function (value) {
+    //     url += '&codes=' + value
+    //   })
+    //   axios.get(url).then(function (response) {
+    //     that.currentDependents[0] = response.data.result
+    //     that.currentDependentsList = response.data.result.codes_list
+    //     that.dependentsPopup = true
+    //   }).catch(function () {
 
-      })
-    },
+    //   })
+    // },
     openDependentpopup (row) {
       var that = this
       that.currentRow = row
@@ -578,14 +575,6 @@ export default {
     getDependents (row, event) {
       var that = this
       that.currentRow = row
-      console.log(that.currentRow.dependents)
-      // if (that.currentRow.dependents) {
-      //   that.currentRow.dependents = true
-      // } else if (!that.currentRow.dependents) {
-      //   that.currentRow.dependents = false
-      // } else {
-      //   that.currentRow.dependents = false
-      // }
       var checkall = false
       if (event) {
         var url = process.env.API_URL + 'codeset/descendents/?codes=' + that.currentRow.target_concept_id + '&checkall=' + checkall
@@ -595,7 +584,6 @@ export default {
             that.codes_list.push(that.currentRow.target_concept_id)
             that.concept_id_check[that.currentRow.target_concept_id] = that.codes_list
             that.currentSelected = that.codes_list
-            console.log(that.concept_id_check, 'single check')
           } else {
             that.codes_list = []
           }
@@ -609,21 +597,21 @@ export default {
       } else {
         that.currentSelected = []
         that.concept_id_check[that.currentRow.target_concept_id] = []
-        console.log(that.concept_id_check, 'single check untick')
         that.table_list.forEach(function (value, key) {
           if (that.currentRow.target_concept_id === that.table_list[key].concept_id) {
             that.table_list[key].tabledata = false
           }
         })
       }
-      let checkData = that.table_list.filter(data => { return data.tabledata === true })
-      if (checkData.length !== that.table_list.length) {
-        that.allDependents = null
-      } else if (checkData.length === 0) {
-        that.allDependents = false
-      } else {
-        that.allDependents = true
-      }
+      that.isAllDescendantsSelected()
+      // let checkData = that.table_list.filter(data => { return data.tabledata === true })
+      // if (checkData.length !== that.table_list.length) {
+      //   that.allDependents = null
+      // } else if (checkData.length === 0) {
+      //   that.allDependents = false
+      // } else {
+      //   that.allDependents = true
+      // }
       that.$forceUpdate()
     },
     openCreateCodesetGroupPopup () {
@@ -736,24 +724,38 @@ export default {
         })
       })
     },
+    isAllDescendantsSelected () {
+      let flag = this.baseObj.codeset_data.map(el => {
+        return el.dependents
+      })
+      if (flag.indexOf(null) === -1 && flag.indexOf(false) === -1) {
+        this.allDependents = true
+      } else if (flag.indexOf(null) === -1 && flag.indexOf(true) === -1) {
+        this.allDependents = false
+      } else {
+        this.allDependents = null
+      }
+    },
+
     updateDependents (response) {
       var that = this
       that.currentSelected = response
+      debugger
       that.currentSelected = [...new Set(that.currentSelected)]
       if (that.currentSelected.length === 0) {
         that.currentRow.dependents = false
       } else {
         if (that.currentSelected.length === that.currentDependentsList.length) {
           that.currentRow.dependents = true
-          that.allDependents = null
+          // that.allDependents = null
         } else {
           that.currentRow.dependents = null
-          that.allDependents = null
+          // that.allDependents = null
         }
       }
-      console.log(JSON.stringify(that.dependents))
-      that.currentSelected.push(that.currentRow.target_concept_id)
-      that.concept_id_check[that.currentRow.target_concept_id] = that.currentSelected
+      that.isAllDescendantsSelected()
+      // that.currentSelected.push(that.currentRow.target_concept_id)
+      // that.concept_id_check[that.currentRow.target_concept_id] = that.currentSelected
       // if (response.length === 0) {
       //   console.log('Inside If')
       //   that.currentRow.dependents = false
@@ -774,11 +776,8 @@ export default {
         var method = axios.get(url, codesetName)
         method.then(function (response) {
           that.error_message = true
-          console.log('error message')
-          console.log(response)
         }).catch(function (err) {
           that.error_message = false
-          console.log(err.message)
           that.$q.notify({
             color: 'red',
             textColor: 'white',
