@@ -740,7 +740,6 @@ export default {
     updateDependents (response) {
       var that = this
       that.currentSelected = response
-      debugger
       that.currentSelected = [...new Set(that.currentSelected)]
       if (that.currentSelected.length === 0) {
         that.currentRow.dependents = false

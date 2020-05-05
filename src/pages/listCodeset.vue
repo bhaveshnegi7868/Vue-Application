@@ -160,7 +160,6 @@ export default {
       })
     },
     copyCodeset (id) {
-      debugger
       this.$router.push('/codeset/copy/' + id)
     },
     editCodeset (id) {

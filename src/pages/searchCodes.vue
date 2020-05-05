@@ -215,7 +215,6 @@ export default {
   },
   methods: {
     applyFilterChange (selFil) {
-      debugger
       this.selectedFilters = selFil
       this.refreshAppliedFilters()
     },

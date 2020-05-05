@@ -435,7 +435,6 @@ export default {
       this.$emit('inputChange', this.event)
     },
     commonFilter (val, data, data1, data2) {
-      debugger
       const needle = val.toLowerCase()
       this.cohortGroups = this.cohortGroups.filter(v => v.toLowerCase().indexOf(needle) > -1)
     }

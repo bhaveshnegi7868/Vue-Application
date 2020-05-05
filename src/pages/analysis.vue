@@ -1202,7 +1202,6 @@ export default {
     handleChange (event) {
       var that = this
       // that.renderComponent = false
-      // debugger
       if (that.currentEvent.mainIndex != null) {
         if (that.currentEvent.subIndex != null) {
           that.currentInclusionObj.Groups[event.mainIndex].CriteriaList[event.subIndex] = event
