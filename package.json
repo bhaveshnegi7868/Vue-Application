@@ -29,16 +29,17 @@
   "devDependencies": {
     "@quasar/app": "^1.0.0-beta.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "axios": "",
     "babel-eslint": "^10.0.1",
+    "element-ui": "",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-drag-drop": "^1.1.3",
+    "moment": "",
+    "strip-ansi": "^3.0.1",
     "vue-chartjs": "",
     "vue-data-tables": "",
-    "element-ui": "",
-    "axios": "",
-    "moment": "",
+    "vue-drag-drop": "^1.1.3",
     "vue-sweetalert2": ""
   },
   "engines": {

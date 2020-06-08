@@ -1,6 +1,6 @@
 <template>
   <div>
-    <select class="select-box" v-model="selectedCriteria">
+    <select class="select-box class_change" v-model="selectedCriteria">
       <option disabled>Select</option>
         <option v-for="opt in criteriaArray" v-bind:key="opt.value" :value="opt">
           {{opt}}
